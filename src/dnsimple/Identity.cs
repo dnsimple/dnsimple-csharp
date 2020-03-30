@@ -1,6 +1,8 @@
+using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
+using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 
 namespace dnsimple
 {
@@ -25,46 +27,70 @@ namespace dnsimple
 
         public WhoamiResponse(JToken response)
         {
-            Data = new WhoamiData(response);
+            Data = new WhoamiData(response, InitializeSerializer());
+        }
+
+        // TODO: This wants to get out of there; soon...
+        private static JsonSerializer InitializeSerializer()
+        {
+            JsonSerializer serializer = new JsonSerializer
+            {
+                DateFormatHandling = DateFormatHandling.IsoDateFormat,
+                DateTimeZoneHandling = DateTimeZoneHandling.Local,
+                DateParseHandling = DateParseHandling.DateTimeOffset
+            };
+            return serializer;
         }
     }
 
     public struct WhoamiData
     {
+        private JsonSerializer Serializer { get; }
         public Account Account { get; }
+        public User User { get; }
 
-        public WhoamiData(JToken json)
+        public WhoamiData(JToken json, JsonSerializer serializer) : this()
         {
-            Account = JsonConvert.DeserializeObject<Account>(AccountPart(json));
+            Serializer = serializer;
+            Account = AccountPart(json);
+            User = UserPart(json);
         }
 
-        private static string AccountPart(JToken json)
+        private Account AccountPart(JToken json)
         {
-            return json.SelectToken("data.account").ToString();
+            try
+            {
+                return json.SelectToken("data.account").ToObject<Account>(Serializer);
+            }
+            catch (JsonSerializationException) { return new Account(); }
         }
+
+        private User UserPart(JToken json)
+        {
+            try
+            {
+                return json.SelectToken("data.user").ToObject<User>(Serializer);
+            }
+            catch (JsonSerializationException) { return new User(); }
+        }
+    }
+
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    public struct User
+    {
+        public long Id { get; set; }
+        public string Email { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public struct Account
     {
         public long Id { get; set; }
-
         public string Email { get; set; }
-
         public string PlanIdentifier { get; set; }
-
-        public string CreatedAt { get; set; }
-
-        public string UpdatedAt { get; set; }
-
-        public Account(long id, string email, string planIdentifier,
-            string createdAt, string updatedAt)
-        {
-            Id = id;
-            Email = email;
-            PlanIdentifier = planIdentifier;
-            CreatedAt = createdAt;
-            UpdatedAt = updatedAt;
-        }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 }

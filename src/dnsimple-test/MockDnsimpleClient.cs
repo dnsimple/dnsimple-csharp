@@ -7,33 +7,32 @@ using Newtonsoft.Json.Linq;
 
 namespace dnsimple_test
 {
-    //TODO: Define a way to load the fixture file we actually want
     public class MockDnsimpleClient : IClient
     {
         public IdentityService Identity { get; }
+        public string Fixture { get; set; }
+        private string Version { get; } = "v2";
 
         public MockDnsimpleClient()
         {
             Identity = new IdentityService(this);
         }
-
-        //TODO: Cleanup
+        
         public JToken Get(string path)
         {
-            var split = path.Split('/');
-            
-            var rawResponse = LoadFixture(split.Last(), "success.http" );
-            
-            var data = rawResponse.Split(new[] { "\r\n\r\n" },
-                StringSplitOptions.RemoveEmptyEntries);
-            
-            return JObject.Parse(data.Last());
+            return JObject.Parse(JsonPartFrom(LoadFixture()));
         }
 
-        private static string LoadFixture(string pathSuffix, string fileName)
+        private static string JsonPartFrom(string fixture)
         {
-            var path =
-                Path.Combine(Environment.CurrentDirectory, @"src/dnsimple-test/fixtures/v2/api/" + pathSuffix, fileName);
+            return fixture.Split(new[] { "\r\n\r\n" }, 
+                StringSplitOptions.RemoveEmptyEntries).Last();
+        }
+
+        private string LoadFixture()
+        {
+            var path = Path.Combine(Environment.CurrentDirectory,
+                $"src/dnsimple-test/fixtures/{Version}/api/" + Fixture);
             
             return File.ReadAllText(path);
         }
