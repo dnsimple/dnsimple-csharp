@@ -1,40 +1,67 @@
 using dnsimple;
-
-using System;
-using System.IO;
-using System.Linq;
+using dnsimple.Services;
 using Newtonsoft.Json.Linq;
+using RestSharp;
 
 namespace dnsimple_test
 {
     public class MockDnsimpleClient : IClient
     {
+        public string BaseUrl { get; } = "https://api.sandbox.dnsimple.com";
+        public string Version { get; } = "v2";
         public IdentityService Identity { get; }
-        public string Fixture { get; set; }
-        private string Version { get; } = "v2";
 
-        public MockDnsimpleClient()
+        private string Fixture { get; }
+        public HttpService Http { get; }
+        public OAuth2Service OAuth { get; }
+
+        public MockDnsimpleClient(string fixture)
         {
+            Fixture = fixture;
+
             Identity = new IdentityService(this);
-        }
-        
-        public JToken Get(string path)
-        {
-            return JObject.Parse(JsonPartFrom(LoadFixture()));
+            Http = new MockHttpService("v2", Fixture);
+            OAuth = new OAuth2Service(Http);
         }
 
-        private static string JsonPartFrom(string fixture)
+
+        public void ChangeBaseUrlTo(string baseUrl)
         {
-            return fixture.Split(new[] { "\r\n\r\n" }, 
-                StringSplitOptions.RemoveEmptyEntries).Last();
+            // Not needed at the moment, but having to implement...
         }
 
-        private string LoadFixture()
+        public string VersionedBaseUrl()
         {
-            var path = Path.Combine(Environment.CurrentDirectory,
-                $"src/dnsimple-test/fixtures/{Version}/api/" + Fixture);
-            
-            return File.ReadAllText(path);
+            // Not needed at the moment, but having to implement...
+            return "";
+        }
+
+        public void AddCredentials(ICredentials credentials)
+        {
+            // Not needed at the moment, but having to implement...
+        }
+    }
+
+    public class MockHttpService : HttpService
+    {
+        private readonly FixtureLoader _fixtureLoader;
+
+        public MockHttpService(string version, string fixture)
+        {
+            _fixtureLoader = new FixtureLoader(version);
+            Fixture = fixture;
+        }
+
+        private string Fixture { get; }
+
+        public override RequestBuilder RequestBuilder(string path)
+        {
+            return new RequestBuilder(path);
+        }
+
+        public override JToken Execute(RestRequest request)
+        {
+            return JObject.Parse(_fixtureLoader.JsonPartFrom(Fixture));
         }
     }
 }

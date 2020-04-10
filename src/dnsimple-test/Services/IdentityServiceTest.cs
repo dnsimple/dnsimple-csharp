@@ -1,26 +1,25 @@
 using System;
+using System.Globalization;
 using NUnit.Framework;
 
-namespace dnsimple_test
+namespace dnsimple_test.Services
 {
     [TestFixture]
     public class IdentityServiceTest
     {
         private DateTime CreatedAt { get; } = DateTime.ParseExact(
             "2015-09-18T23:04:37Z", "yyyy-MM-ddTHH:mm:ssZ",
-            System.Globalization.CultureInfo.CurrentCulture);
+            CultureInfo.CurrentCulture);
 
         private DateTime UpdatedAt { get; } = DateTime.ParseExact(
             "2016-06-09T20:03:39Z", "yyyy-MM-ddTHH:mm:ssZ",
-            System.Globalization.CultureInfo.CurrentCulture);
+            CultureInfo.CurrentCulture);
 
         [Test]
         public void WhoamiAccountSuccessTest()
         {
-            var client = new MockDnsimpleClient
-            {
-                Fixture = "whoami/success-account.http"
-            };
+            var client = new MockDnsimpleClient(
+                "whoami/success-account.http");
 
             var response = client.Identity.Whoami();
             var account = response.Data.Account;
@@ -39,14 +38,11 @@ namespace dnsimple_test
         [Test]
         public void WhoamiUserSuccessTest()
         {
-            var client = new MockDnsimpleClient
-            {
-                Fixture = "whoami/success-user.http"
-            };
+            var client = new MockDnsimpleClient("whoami/success-user.http");
 
             var response = client.Identity.Whoami();
             var user = response.Data.User;
-            
+
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(1, user.Id);
