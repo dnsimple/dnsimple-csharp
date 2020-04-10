@@ -2,11 +2,14 @@
 
 A C# client for the [DNSimple API v2](https://developer.dnsimple.com/v2/).
 
+**IMPORTANT** This API is currently under development and should not be used (until you don't see this warning)!
+
 [DNSimple](https://dnsimple.com/) provides DNS hosting and domain registration that is simple and friendly.
 We provide a full API and an easy-to-use web interface so you can get your domain registered and set up with a minimal amount of effort.
 
-
 ## Installation
+
+** **COMING SOON** **
 
 ## Usage
 
@@ -36,8 +39,7 @@ var accountId = whoami.Account.Id;
 
 # Get a domain
 
-For the full library documentation visit FILL THIS WITH THE PLACE TO GO ONCE THERE IS ONE
-
+For the full library documentation visit: **COMING SOON**
 
 ## Sandbox Environment
 
