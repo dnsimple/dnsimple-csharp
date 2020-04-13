@@ -18,11 +18,10 @@ namespace dnsimple.Services
         /// Creates a new instance of a <c>IdentityService</c> by passing an
         /// instance of the DNSimple <c>IClient</c>.
         /// </summary>
-        /// <param name="client"></param>
+        /// <param name="client">An instance of the <c>IClient</c></param>
+        /// <see cref="IClient"/>
         public IdentityService(IClient client)
-        {
-            Client = client;
-        }
+            => Client = client;
 
         /// <summary>
         /// Sends a request to the DNSimple API <c>/whoami</c> endpoint.

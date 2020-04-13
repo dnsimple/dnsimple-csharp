@@ -69,6 +69,7 @@
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="RequestBuilder.cs" />
         <Compile Include="RestClientWrapper.cs" />
+        <Compile Include="Services\Accounts.cs" />
         <Compile Include="Services\Http.cs" />
         <Compile Include="Services\Identity.cs" />
         <Compile Include="Services\OAuth2.cs" />

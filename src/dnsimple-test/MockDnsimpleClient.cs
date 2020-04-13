@@ -14,6 +14,7 @@ namespace dnsimple_test
         private string Fixture { get; }
         public HttpService Http { get; }
         public OAuth2Service OAuth { get; }
+        public AccountsService Accounts { get; }
 
         public MockDnsimpleClient(string fixture)
         {
@@ -22,6 +23,7 @@ namespace dnsimple_test
             Identity = new IdentityService(this);
             Http = new MockHttpService("v2", Fixture);
             OAuth = new OAuth2Service(Http);
+            Accounts = new AccountsService(this);
         }
 
 

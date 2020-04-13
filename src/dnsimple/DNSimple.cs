@@ -52,6 +52,13 @@ namespace dnsimple
         string Version { get; }
 
         /// <summary>
+        /// Instance of the <c>AccountsService</c>
+        /// </summary>
+        /// <see cref="AccountsService"/>
+        /// /// <see>https://developer.dnsimple.com/v2/accounts/</see>
+        AccountsService Accounts { get; }
+        
+        /// <summary>
         /// Instance of the <c>IdentityService</c>
         /// </summary>
         /// <see cref="IdentityService"/>
@@ -151,29 +158,23 @@ namespace dnsimple
         /// </summary>
         public string Version { get; } = "v2";
 
+
         /// <summary>
         /// Instance of the <c>RestClientWrapper</c>
         /// </summary>
         /// <see cref="RestClientWrapper"/>
         private RestClientWrapper RestClientWrapper { get; }
 
-        /// <summary>
-        /// Instance of the <c>IdentityService</c>
-        /// </summary>
-        /// <see cref="IdentityService"/>
-        /// <see>https://developer.dnsimple.com/v2/identity/</see>
+        /// <inheritdoc />
+        public AccountsService Accounts { get; private set; }
+
+        /// <inheritdoc />
         public IdentityService Identity { get; private set; }
 
-        /// <summary>
-        /// Instance of the <c>OAuth2Service</c>
-        /// </summary>
-        /// <see cref="OAuth2Service"/>
+        /// <inheritdoc />
         public OAuth2Service OAuth { get; private set; }
 
-        /// <summary>
-        /// Instance of the <c>HttpService</c>
-        /// </summary>
-        /// <see cref="HttpService"/>
+        /// <inheritdoc />
         public HttpService Http { get; private set; }
 
         /// <summary>
@@ -259,6 +260,7 @@ namespace dnsimple
         /// <see cref="OAuth2Service"/>
         private void InitializeServices()
         {
+            Accounts = new AccountsService(this);
             Identity = new IdentityService(this);
             Http = new HttpService(RestClientWrapper.RestClient,
                 new RequestBuilder());
