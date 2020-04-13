@@ -55,7 +55,7 @@ namespace dnsimple
         /// Instance of the <c>AccountsService</c>
         /// </summary>
         /// <see cref="AccountsService"/>
-        /// /// <see>https://developer.dnsimple.com/v2/accounts/</see>
+        /// <see>https://developer.dnsimple.com/v2/accounts/</see>
         AccountsService Accounts { get; }
         
         /// <summary>
@@ -64,11 +64,13 @@ namespace dnsimple
         /// <see cref="IdentityService"/>
         /// <see>https://developer.dnsimple.com/v2/identity/</see>
         IdentityService Identity { get; }
+        
         /// <summary>
         /// Instance of the <c>HttpService</c>
         /// </summary>
         /// <see cref="HttpService"/>
         HttpService Http { get; }
+        
         /// <summary>
         /// Instance of the <c>OAuth2Service</c>
         /// </summary>
@@ -158,16 +160,16 @@ namespace dnsimple
         /// </summary>
         public string Version { get; } = "v2";
 
-
         /// <summary>
         /// Instance of the <c>RestClientWrapper</c>
         /// </summary>
         /// <see cref="RestClientWrapper"/>
         private RestClientWrapper RestClientWrapper { get; }
 
+
         /// <inheritdoc />
         public AccountsService Accounts { get; private set; }
-
+        
         /// <inheritdoc />
         public IdentityService Identity { get; private set; }
 

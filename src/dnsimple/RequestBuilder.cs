@@ -5,7 +5,7 @@ using RestSharp;
 namespace dnsimple
 {
     /// <summary>
-    /// The <c>RequestBuilder</c> helps building the <c>RestRequst</c> instances
+    /// The <c>RequestBuilder</c> helps building the <c>RestRequest</c> instances
     /// used to issue commands to the the DNSimple API.
     /// </summary>
     public class RequestBuilder

@@ -50,20 +50,17 @@ namespace dnsimple_test
 
         public MockHttpService(string version, string fixture)
         {
-            _fixtureLoader = new FixtureLoader(version);
-            Fixture = fixture;
+            _fixtureLoader = new FixtureLoader(version, fixture);
         }
-
-        private string Fixture { get; }
-
+        
         public override RequestBuilder RequestBuilder(string path)
         {
             return new RequestBuilder(path);
         }
 
-        public override JToken Execute(RestRequest request)
+        public override JToken Execute(IRestRequest request)
         {
-            return JObject.Parse(_fixtureLoader.JsonPartFrom(Fixture));
+            return JObject.Parse(_fixtureLoader.ExtractJsonPayload());
         }
     }
 }

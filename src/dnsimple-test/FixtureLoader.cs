@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -6,23 +7,39 @@ namespace dnsimple_test
 {
     public class FixtureLoader
     {
-        public FixtureLoader(string version)
+        private string Fixture { get; set; }
+        private string Version { get; }
+
+
+        public FixtureLoader(string version, string fixture)
         {
             Version = version;
+            Fixture = fixture;
         }
-
-        private string Version { get; }
 
         public string JsonPartFrom(string fixture)
         {
-            return LoadFixture(fixture).Split(new[] {"\r\n\r\n"},
-                StringSplitOptions.RemoveEmptyEntries).Last();
+            Fixture = fixture;
+            LoadFixture(); 
+            return GetLines(true).Last();
         }
 
-        private string LoadFixture(string fixture)
+        public string ExtractJsonPayload()
+        {
+            return JsonPartFrom(Fixture);
+        }
+
+        private IEnumerable<string> GetLines(bool removeEmptyLines = false)
+        {
+            return LoadFixture().Split(new[] { "\r\n", "\r", "\n" },
+                removeEmptyLines ? StringSplitOptions.RemoveEmptyEntries : StringSplitOptions.None);
+        }
+        
+
+        private string LoadFixture()
         {
             var path = Path.Combine(Environment.CurrentDirectory,
-                $"src/dnsimple-test/fixtures/{Version}/api/" + fixture);
+                $"src/dnsimple-test/fixtures/{Version}/api/" + Fixture);
 
             return File.ReadAllText(path);
         }

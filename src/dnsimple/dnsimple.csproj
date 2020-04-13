@@ -66,6 +66,7 @@
     <ItemGroup>
         <Compile Include="Credentials.cs" />
         <Compile Include="DNSimple.cs" />
+        <Compile Include="DNSimpleException.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="RequestBuilder.cs" />
         <Compile Include="RestClientWrapper.cs" />

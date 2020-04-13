@@ -1,3 +1,4 @@
+using System.Net;
 using Newtonsoft.Json.Linq;
 using RestSharp;
 
@@ -62,12 +63,83 @@ namespace dnsimple.Services
         /// A <c>JToken</c> object representing the JSON payload returned
         /// by the API call.
         /// </returns>
+        /// <exception cref="DNSimpleException"></exception>
         /// <see cref="JToken"/>
-        public virtual JToken Execute(RestRequest request)
+        public virtual JToken Execute(IRestRequest request)
         {
-            // TODO: Proper Exception handling has to happen here (we are currently swallowing every issue and would not know what's going on unless we debug)
-            // Basically introducing a DNSimpleException object with it's inheritors if needed.
-            return JObject.Parse(RestClient.Execute(request).Content);
+            var restResponse = RestClient.Execute(request);
+
+            if (!restResponse.IsSuccessful) HandleExceptions(restResponse);
+
+            return JObject.Parse(restResponse.Content);
+        }
+
+        private static void HandleExceptions(IRestResponse restResponse)
+        {
+            var message = JObject.Parse(restResponse.Content)["message"].ToString();
+            switch (restResponse.StatusCode)
+            {
+                case HttpStatusCode.BadGateway:
+                    break;
+                case HttpStatusCode.BadRequest:
+                    break;
+                case HttpStatusCode.Conflict:
+                    break;
+                case HttpStatusCode.ExpectationFailed:
+                    break;
+                case HttpStatusCode.Forbidden:
+                    break;
+                case HttpStatusCode.GatewayTimeout:
+                    break;
+                case HttpStatusCode.Gone:
+                    break;
+                case HttpStatusCode.HttpVersionNotSupported:
+                    break;
+                case HttpStatusCode.InternalServerError:
+                    break;
+                case HttpStatusCode.LengthRequired:
+                    break;
+                case HttpStatusCode.MethodNotAllowed:
+                    break;
+                case HttpStatusCode.NoContent:
+                    break;
+                case HttpStatusCode.NonAuthoritativeInformation:
+                    break;
+                case HttpStatusCode.NotAcceptable:
+                    break;
+                case HttpStatusCode.NotFound:
+                    throw new NotFoundException(message);
+                case HttpStatusCode.NotImplemented:
+                    break;
+                case HttpStatusCode.PaymentRequired:
+                    break;
+                case HttpStatusCode.PreconditionFailed:
+                    break;
+                case HttpStatusCode.ProxyAuthenticationRequired:
+                    break;
+                case HttpStatusCode.RequestedRangeNotSatisfiable:
+                    break;
+                case HttpStatusCode.RequestEntityTooLarge:
+                    break;
+                case HttpStatusCode.RequestTimeout:
+                    break;
+                case HttpStatusCode.RequestUriTooLong:
+                    break;
+                case HttpStatusCode.ServiceUnavailable:
+                    throw new DNSimpleException(message);
+                case HttpStatusCode.Unauthorized:
+                    throw new AuthenticationException(message);
+                case HttpStatusCode.UnsupportedMediaType:
+                    break;
+                case HttpStatusCode.Unused:
+                    break;
+                case HttpStatusCode.UpgradeRequired:
+                    break;
+                case HttpStatusCode.UseProxy:
+                    break;
+                default:
+                    throw new DNSimpleException(message);
+            }
         }
     }
 }

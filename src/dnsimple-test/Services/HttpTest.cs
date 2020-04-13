@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Net;
 using dnsimple;
 using dnsimple.Services;
+using Moq;
 using NUnit.Framework;
 using RestSharp;
 
@@ -16,6 +18,27 @@ namespace dnsimple_test.Services
             var http = new HttpService(null, new RequestBuilder());
             Assert.IsInstanceOf(typeof(RequestBuilder),
                 http.RequestBuilder(""));
+        }
+        
+        [Test]
+        public void InvalidRequest()
+        {
+            var client = new Mock<IRestClient>();
+            var response = new Mock<IRestResponse>();
+            var request = new Mock<IRestRequest>();
+            var http = new HttpService(client.Object, new RequestBuilder());
+            
+            response.SetupProperty(mock => mock.StatusCode,
+                HttpStatusCode.Unauthorized);
+            response.Setup(mock => mock.IsSuccessful).Returns(false);
+            response.Setup(mock => mock.Content)
+                .Returns("{\"message\": \"Authentication failed\"}");
+            
+            client.Setup(mock => mock.Execute(request.Object)).Returns(response.Object);
+            
+            Assert.Throws(Is.TypeOf<AuthenticationException>()
+                    .And.Message.EqualTo("Authentication failed"),
+                delegate { http.Execute(request.Object); });
         }
     }
 

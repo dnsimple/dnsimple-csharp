@@ -11,6 +11,8 @@ namespace dnsimple_test.Services
     [TestFixture]
     public class OAuth2Test
     {
+        private Dictionary<OAuthParams, string> _authArguments;
+
         private static void SetupMockHttpService(Mock<HttpService> http,
             IMock<RestResponse> mockRestResponse)
         {
@@ -33,12 +35,12 @@ namespace dnsimple_test.Services
             var oauthService = new OAuth2Service(http.Object);
 
             mockRestResponse.Object.Content =
-                new FixtureLoader("v2").JsonPartFrom(
-                    "oauthAccessToken/success.http");
+                new FixtureLoader("v2", "oauthAccessToken/success.http")
+                    .ExtractJsonPayload();
 
             SetupMockHttpService(http, mockRestResponse);
 
-            var authArguments = new Dictionary<OAuthParams, string>
+            _authArguments = new Dictionary<OAuthParams, string>
             {
                 {OAuthParams.ClientId, "id"},
                 {OAuthParams.ClientSecret, "secret"},
@@ -47,26 +49,9 @@ namespace dnsimple_test.Services
                 {OAuthParams.RedirectUri, "/redirectUri"}
             };
             var accessTokenData =
-                oauthService.ExchangeAuthorizationForToken(authArguments);
+                oauthService.ExchangeAuthorizationForToken(_authArguments);
             Assert.AreEqual("zKQ7OLqF5N1gylcJweA9WodA000BUNJD",
                 accessTokenData.AccessToken);
         }
-
-        // [Test]
-        // [TestCase("810910769e5c42e5", "fSreUjaffm07A5nPlVpXuMtYgRbIbSO6", "sEu5zlQ550Fz4Qu1Fg98QQ0V9JdyAw7A", "covid19", "/callback")]
-        // public void RealExchange(string id, string secret, string code, string state, string redirectUri)
-        // {
-        //     var client = new Client("https://api.sandbox.dnsimple.com");
-        //     var authArguments = new Dictionary<OAuthParams, string>
-        //     {
-        //         {OAuthParams.ClientId, id},
-        //         {OAuthParams.ClientSecret, secret},
-        //         {OAuthParams.Code, code},
-        //         {OAuthParams.State, state},
-        //         {OAuthParams.RedirectUri, redirectUri}
-        //     };
-        //     var accessTokenData =
-        //         client.OAuth.ExchangeAuthorizationForToken(authArguments);
-        // }
     }
 }

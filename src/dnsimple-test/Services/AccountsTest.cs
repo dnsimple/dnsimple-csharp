@@ -13,10 +13,10 @@ namespace dnsimple_test.Services
         [SetUp]
         public void Initialize()
         {
-            var fixture =
-                new FixtureLoader("v2").JsonPartFrom(
-                    "accounts/success-user.http");
-            _jToken = JObject.Parse(fixture);
+            var loader =
+                new FixtureLoader("v2", "accounts/success-user.http");
+                
+            _jToken = JObject.Parse(loader.ExtractJsonPayload());
         }
 
         [Test]
