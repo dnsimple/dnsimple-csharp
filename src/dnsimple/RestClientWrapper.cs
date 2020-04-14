@@ -36,5 +36,10 @@ namespace dnsimple
 
         private RestClientWrapper(RestClient restClient)
             => RestClient = restClient;
+
+        public static RestClientWrapper Default()
+        {
+            return new RestClientWrapper();
+        }
     }
 }

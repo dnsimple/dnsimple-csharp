@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Newtonsoft.Json.Linq;
 
 namespace dnsimple.Services
@@ -83,15 +82,10 @@ namespace dnsimple.Services
         public AccountsData(JToken json)
         {
             Accounts = new List<Account>();
-            foreach (var accountData in ExtractListOfRawAccounts(json))
+            foreach (var accountData in DataTools.ExtractList(json))
             {
                 Accounts.Add(accountData.ToObject<Account>());
             }
-        }
-
-        private static IEnumerable<JToken> ExtractListOfRawAccounts(JToken json)
-        {
-            return JArray.FromObject(json["data"]).ToList();
         }
     }
 }

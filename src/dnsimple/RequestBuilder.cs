@@ -83,5 +83,15 @@ namespace dnsimple
             Request = null;
             return this;
         }
+
+        public void Pagination(int perPage, int page)
+        {
+            var pagination = new Collection<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("per_page", perPage.ToString()),
+                new KeyValuePair<string, string>("page", page.ToString())
+            };
+            AddParameters(pagination);
+        }
     }
 }

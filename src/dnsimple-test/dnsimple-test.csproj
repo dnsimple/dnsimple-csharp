@@ -78,6 +78,7 @@
         <Compile Include="MockDnsimpleClient.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Services\AccountsTest.cs" />
+        <Compile Include="Services\DomainsTest.cs" />
         <Compile Include="Services\HttpTest.cs" />
         <Compile Include="Services\IdentityServiceTest.cs" />
         <Compile Include="Services\OAuth2Test.cs" />

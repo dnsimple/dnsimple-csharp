@@ -9,6 +9,7 @@ namespace dnsimple_test
     {
         public string BaseUrl { get; } = "https://api.sandbox.dnsimple.com";
         public string Version { get; } = "v2";
+        public DomainsService Domains { get; }
         public IdentityService Identity { get; }
 
         private string Fixture { get; }
@@ -20,10 +21,11 @@ namespace dnsimple_test
         {
             Fixture = fixture;
 
-            Identity = new IdentityService(this);
-            Http = new MockHttpService("v2", Fixture);
-            OAuth = new OAuth2Service(Http);
             Accounts = new AccountsService(this);
+            Domains = new DomainsService(this);
+            Http = new MockHttpService("v2", Fixture);
+            Identity = new IdentityService(this);
+            OAuth = new OAuth2Service(Http);
         }
 
 
@@ -60,7 +62,8 @@ namespace dnsimple_test
 
         public override JToken Execute(IRestRequest request)
         {
-            return JObject.Parse(_fixtureLoader.ExtractJsonPayload());
+            var payload = _fixtureLoader.ExtractJsonPayload();
+            return !string.IsNullOrEmpty(payload) ? JObject.Parse(payload) : null;
         }
     }
 }

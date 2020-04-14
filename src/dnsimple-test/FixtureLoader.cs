@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace dnsimple_test
 {
@@ -17,11 +20,26 @@ namespace dnsimple_test
             Fixture = fixture;
         }
 
-        public string JsonPartFrom(string fixture)
+        private string JsonPartFrom(string fixture)
         {
             Fixture = fixture;
             LoadFixture(); 
-            return GetLines(true).Last();
+            var lastLine = GetLines(true).Last();
+            return IsValidJson(lastLine) ? lastLine : "";
+        }
+
+        private static bool IsValidJson(string lastLine)
+        {
+            try
+            {
+                    JToken.Parse(lastLine);
+                    return true;
+            }
+            catch (JsonReaderException ex)
+            {
+                Trace.WriteLine(ex);
+                return false;
+            }
         }
 
         public string ExtractJsonPayload()
