@@ -1,5 +1,7 @@
 using System.Net;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 using RestSharp;
 
 namespace dnsimple.Services
@@ -71,12 +73,15 @@ namespace dnsimple.Services
 
             if (!restResponse.IsSuccessful) HandleExceptions(restResponse);
 
-            return JObject.Parse(restResponse.Content);
+            return !string.IsNullOrEmpty(restResponse.Content)
+                ? JObject.Parse(restResponse.Content)
+                : null;
         }
 
         private static void HandleExceptions(IRestResponse restResponse)
         {
-            var message = JObject.Parse(restResponse.Content)["message"].ToString();
+            var message = JObject.Parse(restResponse.Content)["message"]
+                .ToString();
             switch (restResponse.StatusCode)
             {
                 case HttpStatusCode.BadGateway:
@@ -141,5 +146,28 @@ namespace dnsimple.Services
                     throw new DNSimpleException(message);
             }
         }
+    }
+
+    /// <summary>
+    /// Represents a <c>Pagination</c> object
+    /// </summary>
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    public struct Pagination
+    {
+        /// <summary>
+        /// Extracts the <c>Pagination struct</c> from the <c>JToken</c>.
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns>A <c>Pagination</c> object</returns>
+        /// <see cref="JToken"/>
+        public static Pagination From(JToken json)
+        {
+            return json.SelectToken("pagination").ToObject<Pagination>();
+        }
+
+        public long CurrentPage { get; set; }
+        public long PerPage { get; set; }
+        public long TotalEntries { get; set; }
+        public long TotalPages { get; set; }
     }
 }

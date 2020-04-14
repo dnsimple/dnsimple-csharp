@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Net;
 using dnsimple;
 using dnsimple.Services;
 using Moq;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using RestSharp;
 
@@ -19,7 +21,7 @@ namespace dnsimple_test.Services
             Assert.IsInstanceOf(typeof(RequestBuilder),
                 http.RequestBuilder(""));
         }
-        
+
         [Test]
         public void InvalidRequest()
         {
@@ -27,15 +29,16 @@ namespace dnsimple_test.Services
             var response = new Mock<IRestResponse>();
             var request = new Mock<IRestRequest>();
             var http = new HttpService(client.Object, new RequestBuilder());
-            
+
             response.SetupProperty(mock => mock.StatusCode,
                 HttpStatusCode.Unauthorized);
             response.Setup(mock => mock.IsSuccessful).Returns(false);
             response.Setup(mock => mock.Content)
                 .Returns("{\"message\": \"Authentication failed\"}");
-            
-            client.Setup(mock => mock.Execute(request.Object)).Returns(response.Object);
-            
+
+            client.Setup(mock => mock.Execute(request.Object))
+                .Returns(response.Object);
+
             Assert.Throws(Is.TypeOf<AuthenticationException>()
                     .And.Message.EqualTo("Authentication failed"),
                 delegate { http.Execute(request.Object); });
@@ -119,6 +122,48 @@ namespace dnsimple_test.Services
             var request = _builder.Request;
 
             Assert.AreEqual(Method.POST, request.Method);
+        }
+
+        [Test]
+        public void AddPagination()
+        {
+            _builder.Pagination(42, 3);
+            var request = _builder.Request;
+
+            Assert.Multiple(() =>
+            {
+                Assert.AreEqual("42",
+                    request.Parameters.First(thing => thing.Name == "per_page").Value);
+                Assert.AreEqual("3",
+                    request.Parameters.First(thing => thing.Name == "page").Value);
+            });
+        }
+    }
+
+    [TestFixture]
+    public class PaginationTest
+    {
+        private JToken _jToken;
+
+        [SetUp]
+        public void Initialize()
+        {
+            var loader = new FixtureLoader("v2", "pages-1of3.http");
+            _jToken = JObject.Parse(loader.ExtractJsonPayload());
+        }
+
+        [Test]
+        public void ReturnsAPaginationStruct()
+        {
+            var pagination = Pagination.From(_jToken);
+
+            Assert.Multiple(() =>
+            {
+                Assert.AreEqual(1, pagination.CurrentPage);
+                Assert.AreEqual(2, pagination.PerPage);
+                Assert.AreEqual(5, pagination.TotalEntries);
+                Assert.AreEqual(3, pagination.TotalPages);
+            });
         }
     }
 }

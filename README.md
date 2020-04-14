@@ -35,9 +35,41 @@ var accountId = whoami.Account.Id;
 
 # List your domains
 
+```c#
+using dnsimple;
+
+var client = new Client();
+client.AddCredentials(new OAuth2Credentials("..."));
+
+var accountId = client.Identity.Whoami().Data.Account.Id;
+var domains = client.Domains.ListDomains(accountId).Data.Domains;
+
+```
+
 # Create a domain
 
+```c#
+using dnsimple;
+
+var client = new Client();
+client.AddCredentials(new OAuth2Credentials("..."));
+
+var accountId = client.Identity.Whoami().Data.Account.Id;
+var domain = client.Domains.CreateDomain(accountId, "example.com").Data;
+```
+
 # Get a domain
+
+```c#
+using dnsimple;
+
+var client = new Client();
+client.AddCredentials(new OAuth2Credentials("..."));
+
+var accountId = client.Identity.Whoami().Data.Account.Id;
+var domainId = client.Domains.ListDomains(accountId).Data.Domains.First().Id;
+var domain = client.Domains.GetDomain(accountId, domainId).Data;
+```
 
 For the full library documentation visit: **COMING SOON**
 

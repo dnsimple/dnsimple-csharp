@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using dnsimple.Services;
+using Newtonsoft.Json.Linq;
 using RestSharp;
 
 namespace dnsimple
@@ -59,18 +62,25 @@ namespace dnsimple
         AccountsService Accounts { get; }
         
         /// <summary>
-        /// Instance of the <c>IdentityService</c>
+        /// Instance of the <c>DomainsService</c>
+        /// <see cref="DomainsService"/>
+        /// <see>https://developer.dnsimple.com/v2/domains/</see>
         /// </summary>
-        /// <see cref="IdentityService"/>
-        /// <see>https://developer.dnsimple.com/v2/identity/</see>
-        IdentityService Identity { get; }
-        
+        DomainsService Domains { get; }
+
         /// <summary>
         /// Instance of the <c>HttpService</c>
         /// </summary>
         /// <see cref="HttpService"/>
         HttpService Http { get; }
-        
+
+        /// <summary>
+        /// Instance of the <c>IdentityService</c>
+        /// </summary>
+        /// <see cref="IdentityService"/>
+        /// <see>https://developer.dnsimple.com/v2/identity/</see>
+        IdentityService Identity { get; }
+
         /// <summary>
         /// Instance of the <c>OAuth2Service</c>
         /// </summary>
@@ -166,18 +176,20 @@ namespace dnsimple
         /// <see cref="RestClientWrapper"/>
         private RestClientWrapper RestClientWrapper { get; }
 
-
         /// <inheritdoc />
         public AccountsService Accounts { get; private set; }
         
+        /// <inheritdoc/>
+        public DomainsService Domains { get; private set; }
+
+        /// <inheritdoc />
+        public HttpService Http { get; private set; }
+
         /// <inheritdoc />
         public IdentityService Identity { get; private set; }
 
         /// <inheritdoc />
         public OAuth2Service OAuth { get; private set; }
-
-        /// <inheritdoc />
-        public HttpService Http { get; private set; }
 
         /// <summary>
         /// Constructs a new Client initializing a new (default)
@@ -263,10 +275,19 @@ namespace dnsimple
         private void InitializeServices()
         {
             Accounts = new AccountsService(this);
-            Identity = new IdentityService(this);
+            Domains = new DomainsService(this);
             Http = new HttpService(RestClientWrapper.RestClient,
                 new RequestBuilder());
+            Identity = new IdentityService(this);
             OAuth = new OAuth2Service(Http);
+        }
+    }
+
+    public static class DataTools
+    {
+        public static IEnumerable<JToken> ExtractList(JToken json)
+        {
+            return JArray.FromObject(json["data"]).ToList();
         }
     }
 }
