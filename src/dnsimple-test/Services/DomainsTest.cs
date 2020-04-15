@@ -55,9 +55,9 @@ namespace dnsimple_test.Services
         [Test]
         public void DomainsResponse()
         {
-            var domainsResponse = new DomainsResponse(_jToken);
+            var response = new DomainsResponse(_jToken);
             
-            Assert.AreEqual(2, domainsResponse.Data.Domains.Count);
+            Assert.AreEqual(2, response.Data.Domains.Count);
         }
 
         [Test]

@@ -13,7 +13,7 @@ namespace dnsimple.Services
     /// methods of the DNSimple API.
     /// </summary>
     /// <see>https://developer.dnsimple.com/v2/domains/</see>
-    public class DomainsService
+    public partial class DomainsService
     {
         private IClient Client { get; }
 
@@ -127,21 +127,11 @@ namespace dnsimple.Services
     /// Represents the response from the API call containing one <c>Domain</c>
     /// </summary>
     /// <see cref="Domain"/>
-    public class DomainResponse
+    public class DomainResponse : SimpleDnsimpleResponse<Domain>
     {
-        /// <summary>
-        /// Represents the <c>struct</c> containing the <c>Domain</c>.
-        /// </summary>
-        public Domain Data { get; }
-
-        /// <summary>
-        /// Constructs a new <c>DomainResponse</c> object with <c>JToken</c> object
-        /// returned from the API call.
-        /// </summary>
-        /// <param name="json"></param>
-        /// <see cref="JToken"/>
-        public DomainResponse(JToken json)
-            => Data = json["data"].ToObject<Domain>();
+        public DomainResponse(JToken json) : base(json)
+        {
+        }
     }
 
     /// <summary>
@@ -150,15 +140,11 @@ namespace dnsimple.Services
     /// </summary>
     /// <see cref="Domain"/>
     /// <see cref="Pagination"/>
-    public class DomainsResponse
+    public class DomainsResponse : PaginatedDnsimpleResponse<DomainsData>
     {
-        public DomainsData Data { get; }
-        public Pagination Pagination { get; }
-
-        public DomainsResponse(JToken response)
+        public DomainsResponse(JToken response) : base(response)
         {
             Data = new DomainsData(response);
-            Pagination = Pagination.From(response);
         }
     }
 

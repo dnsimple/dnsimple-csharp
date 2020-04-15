@@ -43,22 +43,15 @@ namespace dnsimple.Services
     /// Represents the response from the API call as an object.
     /// </summary>
     /// <see>http://developer.dnsimple.com/v2/accounts</see>
-    public class AccountsResponse
+    public class AccountsResponse : ListDnsimpleResponse<AccountsData>
     {
-        /// <summary>
-        /// The <c>AccountData</c> instance.
-        /// </summary>
-        /// <see cref="AccountsData"/>
-        public AccountsData Data { get; }
-        
         /// <summary>
         /// Creates a new instance of the <c>AccountsResponse</c> by passing a
         /// <c>JToken</c> representation of the response from the API call.
         /// </summary>
-        /// <param name="response"><c>JToken</c> containing the data</param>
+        /// <param name="json"><c>JToken</c> containing the data</param>
         /// <see cref="JToken"/>
-        public AccountsResponse(JToken response)
-            => Data = new AccountsData(response);
+        public AccountsResponse(JToken json) => Data = new AccountsData(json);
     }
 
     /// <summary>

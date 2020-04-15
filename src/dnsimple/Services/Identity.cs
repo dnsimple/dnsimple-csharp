@@ -43,32 +43,16 @@ namespace dnsimple.Services
     /// Represents the <c>WhoamiResponse</c> containing the <c>WhoamiData</c>
     /// <c>struct</c>.
     /// </summary>
-    public class WhoamiResponse
+    public class WhoamiResponse : SimpleDnsimpleResponse<WhoamiData>
     {
-        /// <summary>
-        /// Represents the <c>struct</c> containing the data.
-        /// </summary>
-        public WhoamiData Data { get; }
-
+        
         /// <summary>
         /// Constructs a new <c>WhoamiResponse</c> object with the
         /// <c>JToken</c> object returned from the API call.
         /// </summary>
-        /// <param name="response"></param>
-        public WhoamiResponse(JToken response)
-            => Data = new WhoamiData(response, InitializeSerializer());
-
-        // TODO: This wants to get out of there; soon...
-        private static JsonSerializer InitializeSerializer()
-        {
-            var serializer = new JsonSerializer
-            {
-                DateFormatHandling = DateFormatHandling.IsoDateFormat,
-                DateTimeZoneHandling = DateTimeZoneHandling.Local,
-                DateParseHandling = DateParseHandling.DateTimeOffset
-            };
-            return serializer;
-        }
+        /// <param name="json"></param>
+        public WhoamiResponse(JToken json) : base(json) 
+            => Data = new WhoamiData(json);
     }
 
     /// <summary>
@@ -89,8 +73,6 @@ namespace dnsimple.Services
         /// </summary>
         public User User { get; }
         
-        private JsonSerializer Serializer { get; }
-
         /// <summary>
         /// Constructs a new <c>WhoamiData</c> object by passing the
         /// <c>JToken</c> and <c>JsonSerializer</c>.
@@ -107,10 +89,8 @@ namespace dnsimple.Services
         /// </para>
         /// </remarks>
         /// <param name="json"></param>
-        /// <param name="serializer"></param>
-        public WhoamiData(JToken json, JsonSerializer serializer) : this()
+        public WhoamiData(JToken json) : this()
         {
-            Serializer = serializer;
             Account = AccountPart(json);
             User = UserPart(json);
         }
@@ -120,7 +100,7 @@ namespace dnsimple.Services
             try
             {
                 return json.SelectToken("data.account")
-                    .ToObject<Account>(Serializer);
+                    .ToObject<Account>(InitializeSerializer());
             }
             catch (Exception)
             {
@@ -133,13 +113,24 @@ namespace dnsimple.Services
         {
             try
             {
-                return json.SelectToken("data.user").ToObject<User>(Serializer);
+                return json.SelectToken("data.user").ToObject<User>(InitializeSerializer());
             }
             catch (Exception)
             {
                 //TODO: Handle these Exceptions properly
                 return new User();
             }
+        }
+        
+        private static JsonSerializer InitializeSerializer()
+        {
+            var serializer = new JsonSerializer
+            {
+                DateFormatHandling = DateFormatHandling.IsoDateFormat,
+                DateTimeZoneHandling = DateTimeZoneHandling.Local,
+                DateParseHandling = DateParseHandling.DateTimeOffset
+            };
+            return serializer;
         }
     }
 

@@ -1,11 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using dnsimple.Services;
-using Newtonsoft.Json.Linq;
 using RestSharp;
 
-namespace dnsimple
+namespace dnsimple.Services
 {
     /// <summary>
     /// Client for the DNSimple API.
@@ -280,14 +276,6 @@ namespace dnsimple
                 new RequestBuilder());
             Identity = new IdentityService(this);
             OAuth = new OAuth2Service(Http);
-        }
-    }
-
-    public static class DataTools
-    {
-        public static IEnumerable<JToken> ExtractList(JToken json)
-        {
-            return JArray.FromObject(json["data"]).ToList();
         }
     }
 }

@@ -65,16 +65,19 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Credentials.cs" />
-        <Compile Include="DNSimple.cs" />
+        <Compile Include="DataTools.cs" />
         <Compile Include="DNSimpleException.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="RequestBuilder.cs" />
         <Compile Include="RestClientWrapper.cs" />
         <Compile Include="Services\Accounts.cs" />
+        <Compile Include="Services\DNSimple.cs" />
+        <Compile Include="Services\DomainsCollaborators.cs" />
         <Compile Include="Services\Domains.cs" />
         <Compile Include="Services\Http.cs" />
         <Compile Include="Services\Identity.cs" />
         <Compile Include="Services\OAuth2.cs" />
+        <Compile Include="Services\Services.cs" />
     </ItemGroup>
     <ItemGroup>
       <None Include="packages.config" />
