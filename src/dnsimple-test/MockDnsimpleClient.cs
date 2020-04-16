@@ -1,7 +1,9 @@
+using System.Net;
 using dnsimple;
 using dnsimple.Services;
 using Newtonsoft.Json.Linq;
 using RestSharp;
+using ICredentials = dnsimple.ICredentials;
 
 namespace dnsimple_test
 {
@@ -29,6 +31,11 @@ namespace dnsimple_test
         }
 
 
+        public void StatusCode(HttpStatusCode statusCode)
+        {
+            ((MockHttpService)Http).StatusCode = statusCode;
+        }
+        
         public void ChangeBaseUrlTo(string baseUrl)
         {
             // Not needed at the moment, but having to implement...
@@ -49,6 +56,7 @@ namespace dnsimple_test
     public class MockHttpService : HttpService
     {
         private readonly FixtureLoader _fixtureLoader;
+        public HttpStatusCode StatusCode { get; set; }
 
         public MockHttpService(string version, string fixture)
         {
@@ -63,7 +71,13 @@ namespace dnsimple_test
         public override JToken Execute(IRestRequest request)
         {
             var payload = _fixtureLoader.ExtractJsonPayload();
-            return !string.IsNullOrEmpty(payload) ? JObject.Parse(payload) : null;
+
+            if (StatusCode != HttpStatusCode.NotImplemented)
+                return !string.IsNullOrEmpty(payload)
+                    ? JObject.Parse(payload)
+                    : null;
+            var message = JObject.Parse(payload)["message"].ToString();
+            throw new DnSimpleException(message);
         }
     }
 }

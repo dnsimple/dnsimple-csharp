@@ -18,7 +18,8 @@ namespace dnsimple.Services
         /// </summary>
         /// <param name="accountId">The account id</param>
         /// <param name="domainIdentifier">The domain name or id</param>
-        /// <returns></returns>
+        /// <returns>A list of collaborators wrapped in a response</returns>
+        /// <see>https://developer.dnsimple.com/v2/domains/collaborators/#listDomainCollaborators</see>
         public CollaboratorsResponse ListCollaborators(long accountId,
             string domainIdentifier)
         {
@@ -43,7 +44,8 @@ namespace dnsimple.Services
         /// <param name="accountId">The account id</param>
         /// <param name="domainIdentifier">The domain name or id</param>
         /// <param name="email">The email of the collaborator to be added/invited</param>
-        /// <returns></returns>
+        /// <returns>The collaborator wrapped in a response.</returns>
+        /// <see>https://developer.dnsimple.com/v2/domains/collaborators/#addDomainCollaborator</see>
         public CollaboratorResponse AddCollaborator(long accountId,
             string domainIdentifier, string email)
         {
@@ -68,6 +70,7 @@ namespace dnsimple.Services
         /// <param name="accountId">The account id</param>
         /// <param name="domainIdentifier">The domain name or id</param>
         /// <param name="collaboratorId">The collaborator id</param>
+        /// <see>https://developer.dnsimple.com/v2/domains/collaborators/#removeDomainCollaborator</see>
         public void RemoveCollaborator(long accountId, string domainIdentifier,
             long collaboratorId)
         {

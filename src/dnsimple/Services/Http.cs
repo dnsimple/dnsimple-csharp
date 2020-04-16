@@ -115,7 +115,7 @@ namespace dnsimple.Services
                 case HttpStatusCode.NotFound:
                     throw new NotFoundException(message);
                 case HttpStatusCode.NotImplemented:
-                    break;
+                    throw new DnSimpleException(message);
                 case HttpStatusCode.PaymentRequired:
                     break;
                 case HttpStatusCode.PreconditionFailed:
