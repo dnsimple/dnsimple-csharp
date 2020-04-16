@@ -13,8 +13,8 @@ namespace dnsimple.Services
         /// </summary>
         public T Data { get; protected set; }
 
-        protected SimpleDnsimpleResponse(JToken json)
-            => Data = json["data"].ToObject<T>();
+        protected SimpleDnsimpleResponse(JToken json) => 
+            Data = JsonTools<T>.DeserializeObject("data", json);
     }
 
 
@@ -30,10 +30,8 @@ namespace dnsimple.Services
         /// </summary>
         public T Data { get; protected set; }
 
-        protected ListDnsimpleResponse()
-        {
+        protected ListDnsimpleResponse() =>
             Data = new T();
-        }
     }
 
     /// <summary>

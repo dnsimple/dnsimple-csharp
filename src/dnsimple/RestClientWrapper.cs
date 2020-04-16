@@ -31,15 +31,10 @@ namespace dnsimple
         /// <param name="credentials">The credentials containing the authenticator to be used</param>
         /// <see cref="ICredentials"/>
         /// <see cref="RestSharp.Authenticators.IAuthenticator"/>
-        public virtual void AddAuthenticator(ICredentials credentials)
-            => RestClient.Authenticator = credentials.Authenticator;
+        public virtual void AddAuthenticator(ICredentials credentials) => 
+            RestClient.Authenticator = credentials.Authenticator;
 
-        private RestClientWrapper(RestClient restClient)
-            => RestClient = restClient;
-
-        public static RestClientWrapper Default()
-        {
-            return new RestClientWrapper();
-        }
+        private RestClientWrapper(RestClient restClient) => 
+            RestClient = restClient;
     }
 }

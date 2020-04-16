@@ -20,8 +20,8 @@ namespace dnsimple.Services
         /// </summary>
         /// <param name="client">An instance of the <c>IClient</c></param>
         /// <see cref="IClient"/>
-        public IdentityService(IClient client)
-            => Client = client;
+        public IdentityService(IClient client) => 
+            Client = client;
 
         /// <summary>
         /// Sends a request to the DNSimple API <c>/whoami</c> endpoint.
@@ -51,8 +51,8 @@ namespace dnsimple.Services
         /// <c>JToken</c> object returned from the API call.
         /// </summary>
         /// <param name="json"></param>
-        public WhoamiResponse(JToken json) : base(json) 
-            => Data = new WhoamiData(json);
+        public WhoamiResponse(JToken json) : base(json) => 
+            Data = new WhoamiData(json);
     }
 
     /// <summary>
@@ -95,12 +95,12 @@ namespace dnsimple.Services
             User = UserPart(json);
         }
 
-        private Account AccountPart(JToken json)
+        private static Account AccountPart(JToken json)
         {
             try
             {
-                return json.SelectToken("data.account")
-                    .ToObject<Account>(InitializeSerializer());
+                return JsonTools<Account>.DeserializeObject("data.account",
+                    json);
             }
             catch (Exception)
             {
@@ -109,28 +109,17 @@ namespace dnsimple.Services
             }
         }
 
-        private User UserPart(JToken json)
+        private static User UserPart(JToken json)
         {
             try
             {
-                return json.SelectToken("data.user").ToObject<User>(InitializeSerializer());
+                return JsonTools<User>.DeserializeObject("data.user", json);
             }
             catch (Exception)
             {
                 //TODO: Handle these Exceptions properly
                 return new User();
             }
-        }
-        
-        private static JsonSerializer InitializeSerializer()
-        {
-            var serializer = new JsonSerializer
-            {
-                DateFormatHandling = DateFormatHandling.IsoDateFormat,
-                DateTimeZoneHandling = DateTimeZoneHandling.Local,
-                DateParseHandling = DateParseHandling.DateTimeOffset
-            };
-            return serializer;
         }
     }
 

@@ -1,7 +1,8 @@
 using System;
+using dnsimple.Services;
 using RestSharp;
 
-namespace dnsimple.Services
+namespace dnsimple
 {
     /// <summary>
     /// Client for the DNSimple API.
@@ -246,8 +247,8 @@ namespace dnsimple.Services
         /// </param>
         /// <seealso cref="BasicHttpCredentials"/>
         /// <seealso cref="OAuth2Credentials"/>
-        public void AddCredentials(ICredentials credentials)
-            => RestClientWrapper.AddAuthenticator(credentials);
+        public void AddCredentials(ICredentials credentials) => 
+            RestClientWrapper.AddAuthenticator(credentials);
 
         /// <summary>
         /// Initializes the <c>RestClient</c> contained in the

@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using RestSharp;
+using static dnsimple.JsonTools<dnsimple.Services.Collaborator>;
 
 namespace dnsimple.Services
 {
@@ -109,10 +110,8 @@ namespace dnsimple.Services
     /// </summary>
     public class CollaboratorsResponse : PaginatedDnsimpleResponse<CollaboratorsData>
     {
-        public CollaboratorsResponse(JToken json) : base(json)
-        {
+        public CollaboratorsResponse(JToken json) : base(json) =>
             Data = new CollaboratorsData(json);
-        }
     }
 
     /// <summary>
@@ -125,14 +124,8 @@ namespace dnsimple.Services
     {
         public List<Collaborator> Collaborators { get; }
 
-        public CollaboratorsData(JToken response)
-        {
-            Collaborators = new List<Collaborator>();
-            foreach (var collaborator in DataTools.ExtractList(response))
-            {
-                Collaborators.Add(collaborator.ToObject<Collaborator>());
-            }
-        }
+        public CollaboratorsData(JToken json) =>
+            Collaborators = DeserializeList(json);
     }
 
     /// <summary>

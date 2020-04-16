@@ -65,7 +65,7 @@ namespace dnsimple.Services
         /// A <c>JToken</c> object representing the JSON payload returned
         /// by the API call.
         /// </returns>
-        /// <exception cref="DNSimpleException"></exception>
+        /// <exception cref="DnSimpleException"></exception>
         /// <see cref="JToken"/>
         public virtual JToken Execute(IRestRequest request)
         {
@@ -131,7 +131,7 @@ namespace dnsimple.Services
                 case HttpStatusCode.RequestUriTooLong:
                     break;
                 case HttpStatusCode.ServiceUnavailable:
-                    throw new DNSimpleException(message);
+                    throw new DnSimpleException(message);
                 case HttpStatusCode.Unauthorized:
                     throw new AuthenticationException(message);
                 case HttpStatusCode.UnsupportedMediaType:
@@ -143,7 +143,7 @@ namespace dnsimple.Services
                 case HttpStatusCode.UseProxy:
                     break;
                 default:
-                    throw new DNSimpleException(message);
+                    throw new DnSimpleException(message);
             }
         }
     }

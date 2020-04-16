@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using static dnsimple.JsonTools<dnsimple.Services.Account>;
 
 namespace dnsimple.Services
 {
@@ -22,8 +23,8 @@ namespace dnsimple.Services
         /// </summary>
         /// <param name="client">An instance of the <c>IClient</c></param>
         /// <see cref="IClient"/>
-        public AccountsService(IClient client)
-            => Client = client;
+        public AccountsService(IClient client) => 
+            Client = client;
 
         /// <summary>
         /// Returns a <c>AccountsResponse</c> containing a list of the accounts
@@ -72,13 +73,7 @@ namespace dnsimple.Services
         /// </summary>
         /// <param name="json"><c>JToken</c> representing the JSON returned</param>
         /// <see cref="JToken"/>
-        public AccountsData(JToken json)
-        {
-            Accounts = new List<Account>();
-            foreach (var accountData in DataTools.ExtractList(json))
-            {
-                Accounts.Add(accountData.ToObject<Account>());
-            }
-        }
+        public AccountsData(JToken json) => 
+            Accounts = DeserializeList(json);
     }
 }

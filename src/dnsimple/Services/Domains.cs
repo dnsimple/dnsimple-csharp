@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using RestSharp;
+using static dnsimple.JsonTools<dnsimple.Services.Domain>;
 
 namespace dnsimple.Services
 {
@@ -23,8 +24,8 @@ namespace dnsimple.Services
         /// </summary>
         /// <param name="client">An instance of the <c>IClient</c></param>
         /// <see cref="IClient"/>
-        public DomainsService(IClient client)
-            => Client = client;
+        public DomainsService(IClient client) => 
+            Client = client;
 
         /// <summary>
         /// Retrieves the details of an existing domain.
@@ -36,7 +37,8 @@ namespace dnsimple.Services
         public DomainResponse GetDomain(long accountId, string domainIdentifier)
         {
             return new DomainResponse(Client.Http.Execute(Client.Http
-                .RequestBuilder(DomainPath(accountId, domainIdentifier)).Request));
+                .RequestBuilder(DomainPath(accountId, domainIdentifier))
+                .Request));
         }
 
         /// <summary>
@@ -107,12 +109,14 @@ namespace dnsimple.Services
             Client.Http.Execute(request.Request);
         }
 
-        private static string DeleteDomainPath(long accountId, string domainIdentifier)
+        private static string DeleteDomainPath(long accountId,
+            string domainIdentifier)
         {
             return $"{DomainsPath(accountId)}/{domainIdentifier}";
         }
 
-        private static string DomainPath(long accountId, string domainIdentifier)
+        private static string DomainPath(long accountId,
+            string domainIdentifier)
         {
             return $"/{accountId}/domains/{domainIdentifier}";
         }
@@ -142,10 +146,8 @@ namespace dnsimple.Services
     /// <see cref="Pagination"/>
     public class DomainsResponse : PaginatedDnsimpleResponse<DomainsData>
     {
-        public DomainsResponse(JToken response) : base(response)
-        {
+        public DomainsResponse(JToken response) : base(response) =>
             Data = new DomainsData(response);
-        }
     }
 
     /// <summary>
@@ -166,14 +168,8 @@ namespace dnsimple.Services
         /// <c>JToken</c>.
         /// </summary>
         /// <param name="json"></param>
-        public DomainsData(JToken json)
-        {
-            Domains = new List<Domain>();
-            foreach (var domainData in DataTools.ExtractList(json))
-            {
-                Domains.Add(domainData.ToObject<Domain>());
-            }
-        }
+        public DomainsData(JToken json) => 
+            Domains = DeserializeList(json);
     }
 
     /// <summary>

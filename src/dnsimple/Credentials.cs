@@ -25,8 +25,8 @@ namespace dnsimple
     {
         public AuthenticatorBase Authenticator { get; }
 
-        public BasicHttpCredentials(string name, string password)
-            => Authenticator = new HttpBasicAuthenticator(name, password);
+        public BasicHttpCredentials(string name, string password) =>
+            Authenticator = new HttpBasicAuthenticator(name, password);
     }
 
     /// <summary>
@@ -40,8 +40,8 @@ namespace dnsimple
     {
         public AuthenticatorBase Authenticator { get; }
 
-        public OAuth2Credentials(string token)
-            => Authenticator =
+        public OAuth2Credentials(string token) =>
+            Authenticator =
                 new OAuth2AuthorizationRequestHeaderAuthenticator(token,
                     "Bearer");
     }

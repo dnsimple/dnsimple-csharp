@@ -20,8 +20,8 @@ namespace dnsimple.Services
         /// instance of <c>HttpService</c>.
         /// </summary>
         /// <param name="http"></param>
-        public OAuth2Service(HttpService http)
-            => Http = http;
+        public OAuth2Service(HttpService http) => 
+            Http = http;
 
         /// <summary>
         /// This method is to be called when you want to get a <c>TOKEN</c> to
