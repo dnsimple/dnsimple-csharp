@@ -76,6 +76,7 @@
         <Compile Include="Services\Domains.cs" />
         <Compile Include="Services\DomainsDnssec.cs" />
         <Compile Include="Services\DomainsDelegationSignerRecords.cs" />
+        <Compile Include="Services\DomainsEmailForwards.cs" />
         <Compile Include="Services\Http.cs" />
         <Compile Include="Services\Identity.cs" />
         <Compile Include="Services\OAuth2.cs" />

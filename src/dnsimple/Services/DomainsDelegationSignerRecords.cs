@@ -37,7 +37,7 @@ namespace dnsimple.Services
         /// </summary>
         /// <param name="accountId">The account id</param>
         /// <param name="domainIdentifier">The domain name or id</param>
-        /// <param name="record">The record to be added</param>
+        /// <param name="record">The delegation signer record to be added</param>
         /// <see cref="DelegationSignerRecord"/>
         /// <returns>The newly created delegation signer record.</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/dnssec/#createDomainDelegationSignerRecord</see>
@@ -50,7 +50,6 @@ namespace dnsimple.Services
                 Client.Http.RequestBuilder(DsRecordsPath(accountId,
                     domainIdentifier));
             request.Method(Method.POST);
-
             request.AddJsonPayload(record);
 
             return new DelegationSignerRecordResponse(
@@ -105,7 +104,8 @@ namespace dnsimple.Services
     }
 
     /// <summary>
-    /// Represents the response from the API call containing one <c>DelegationSignerRecord</c>
+    /// Represents the response from the API call containing one
+    /// <c>DelegationSignerRecord</c>.
     /// </summary>
     public class DelegationSignerRecordResponse : 
         SimpleDnsimpleResponse<DelegationSignerRecord>
@@ -129,7 +129,7 @@ namespace dnsimple.Services
     }
 
     /// <summary>
-    /// Represens the <c>struct</c> containing a <c>List</c> of
+    /// Represents the <c>struct</c> containing a <c>List</c> of
     /// <c>DelegationSignerRecord</c> objects.
     /// </summary>
     /// <see cref="List{T}"/>
