@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace dnsimple_test.Services
 {
     [TestFixture]
-    public class DomainCollaboratorsTest
+    public class DomainsCollaboratorsTest
     {
         private JToken _jToken;
 

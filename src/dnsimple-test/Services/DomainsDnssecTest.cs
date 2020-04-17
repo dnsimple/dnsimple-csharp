@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace dnsimple_test.Services
 {
     [TestFixture]
-    public class DomainDnssecTest
+    public class DomainsDnssecTest
     {
         private DateTime CreatedAt { get; } = DateTime.ParseExact(
                     "2017-03-03T13:49:58Z", "yyyy-MM-ddTHH:mm:ssZ",

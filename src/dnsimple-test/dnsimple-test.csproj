@@ -79,10 +79,11 @@
         <Compile Include="MockDnsimpleClient.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Services\AccountsTest.cs" />
-        <Compile Include="Services\DomainCollaboratorsTest.cs" />
-        <Compile Include="Services\DomainDnssecTest.cs" />
+        <Compile Include="Services\DomainsCollaboratorsTest.cs" />
+        <Compile Include="Services\DomainsDnssecTest.cs" />
         <Compile Include="Services\DomainsDelegationSignerRecordsTest.cs" />
         <Compile Include="Services\DomainsEmailForwardsTest.cs" />
+        <Compile Include="Services\DomainsPushesTest.cs" />
         <Compile Include="Services\DomainsTest.cs" />
         <Compile Include="Services\HttpTest.cs" />
         <Compile Include="Services\IdentityServiceTest.cs" />
