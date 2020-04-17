@@ -5,6 +5,7 @@ using System.Net;
 using dnsimple;
 using dnsimple.Services;
 using Moq;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using RestSharp;
@@ -133,10 +134,27 @@ namespace dnsimple_test.Services
             Assert.Multiple(() =>
             {
                 Assert.AreEqual("42",
-                    request.Parameters.First(thing => thing.Name == "per_page").Value);
+                    request.Parameters.First(thing => thing.Name == "per_page")
+                        .Value);
                 Assert.AreEqual("3",
-                    request.Parameters.First(thing => thing.Name == "page").Value);
+                    request.Parameters.First(thing => thing.Name == "page")
+                        .Value);
             });
+        }
+
+        [Test]
+        public void AddsJsonPayloadToTheBody()
+        {
+            var record = new DelegationSignerRecord();
+            record.Algorithm = "superMemo";
+
+            _builder.AddJsonPayload(record);
+            var request = _builder.Request;
+
+            Assert.AreEqual(record,
+                JsonConvert
+                    .DeserializeObject<DelegationSignerRecord>(
+                        request.Parameters.First().Value.ToString()));
         }
     }
 

@@ -3,6 +3,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
+//TODO: Look into the suggestions... ;)
 namespace dnsimple
 {
     /// <summary>

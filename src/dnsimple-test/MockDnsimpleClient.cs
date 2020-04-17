@@ -70,14 +70,19 @@ namespace dnsimple_test
 
         public override JToken Execute(IRestRequest request)
         {
-            var payload = _fixtureLoader.ExtractJsonPayload();
+            var rawPayload = _fixtureLoader.ExtractJsonPayload();
 
-            if (StatusCode != HttpStatusCode.NotImplemented)
-                return !string.IsNullOrEmpty(payload)
-                    ? JObject.Parse(payload)
-                    : null;
-            var message = JObject.Parse(payload)["message"].ToString();
-            throw new DnSimpleException(message);
+            switch (StatusCode)
+            {
+                case HttpStatusCode.BadRequest:
+                    throw new DnSimpleValidationException(JObject.Parse(rawPayload));
+                case HttpStatusCode.NotImplemented:
+                    var message = JObject.Parse(rawPayload)["message"]?.ToString();
+                    throw new DnSimpleException(message);
+            }
+            return !string.IsNullOrEmpty(rawPayload)
+                ? JObject.Parse(rawPayload)
+                : null;
         }
     }
 }

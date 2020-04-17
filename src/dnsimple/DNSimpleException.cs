@@ -1,4 +1,5 @@
 using System;
+using Newtonsoft.Json.Linq;
 
 namespace dnsimple
 {
@@ -21,7 +22,7 @@ namespace dnsimple
     /// <c>Exception</c> thrown when the resource is not found.
     /// </summary>
     /// <see cref="DnSimpleException"/>
-    class NotFoundException : DnSimpleException
+    public class NotFoundException : DnSimpleException
     {
         /// <inheritdoc />
         public NotFoundException(string message) : base(message)
@@ -40,5 +41,18 @@ namespace dnsimple
         public AuthenticationException(string message) : base(message)
         {
         }
+    }
+    
+    /// <summary>
+    /// <c>Exception</c> thrown when there are validation errors.
+    /// </summary>
+    public class DnSimpleValidationException : DnSimpleException
+    {
+        public JObject Validation { get; }
+
+        public DnSimpleValidationException(JToken error) : base(error["message"]?.ToString()) =>
+            //TODO: Need to find a better way to return the errors...
+            Validation = (JObject) error["errors"];
+        
     }
 }

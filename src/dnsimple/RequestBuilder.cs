@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Newtonsoft.Json;
 using RestSharp;
 
 namespace dnsimple
@@ -52,6 +53,16 @@ namespace dnsimple
             {
                 Request.AddParameter(pair.Key, pair.Value);
             }
+        }
+
+        /// <summary>
+        /// Adds a JSON payload to the body of the request.
+        /// </summary>
+        /// <param name="payload">The object to be serialized and send in the
+        /// body of the request.</param>
+        public void AddJsonPayload(object payload)
+        {
+            Request.AddJsonBody(JsonConvert.SerializeObject(payload));
         }
 
         /// <summary>

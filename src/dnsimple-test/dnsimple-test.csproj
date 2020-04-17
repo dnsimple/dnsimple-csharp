@@ -73,6 +73,7 @@
         <ProjectReference Include="..\dnsimple\dnsimple.csproj" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="DnsimpleTest.cs" />
         <Compile Include="FixtureLoader.cs" />
         <Compile Include="ClientTest.cs" />
         <Compile Include="MockDnsimpleClient.cs" />
@@ -80,6 +81,7 @@
         <Compile Include="Services\AccountsTest.cs" />
         <Compile Include="Services\DomainCollaboratorsTest.cs" />
         <Compile Include="Services\DomainDnssecTest.cs" />
+        <Compile Include="Services\DomainsDelegationSignerRecordsTest.cs" />
         <Compile Include="Services\DomainsTest.cs" />
         <Compile Include="Services\HttpTest.cs" />
         <Compile Include="Services\IdentityServiceTest.cs" />

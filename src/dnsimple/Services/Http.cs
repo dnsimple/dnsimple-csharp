@@ -80,14 +80,15 @@ namespace dnsimple.Services
 
         private static void HandleExceptions(IRestResponse restResponse)
         {
-            var message = JObject.Parse(restResponse.Content)["message"]
-                .ToString();
+            var error = JObject.Parse(restResponse.Content);
+            var message = error["message"]?.ToString();
+            
             switch (restResponse.StatusCode)
             {
                 case HttpStatusCode.BadGateway:
                     break;
                 case HttpStatusCode.BadRequest:
-                    break;
+                    throw new DnSimpleValidationException(error);
                 case HttpStatusCode.Conflict:
                     break;
                 case HttpStatusCode.ExpectationFailed:

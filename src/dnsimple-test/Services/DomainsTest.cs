@@ -10,7 +10,7 @@ namespace dnsimple_test.Services
     [TestFixture]
     public class DomainsTest
     {
-        private JObject _jToken;
+        private JToken _jToken;
         private const string ListDomainsFixture = "listDomains/success.http";
         private const string GetDomainFixture = "getDomain/success.http";
         private const string CreateDomainFixture = "createDomain/created.http";
@@ -66,6 +66,15 @@ namespace dnsimple_test.Services
             var client = new MockDnsimpleClient(ListDomainsFixture);
             var domains = client.Domains.ListDomains(1010);
             
+            Assert.AreEqual(2, domains.Data.Domains.Count);
+        }
+
+        [Test]
+        public void ListDomainsWithPagination()
+        {
+            var client = new MockDnsimpleClient(ListDomainsFixture);
+            var domains = client.Domains.ListDomains(1010, 1, 1);
+            
             var lastDomain = domains.Data.Domains.Last();
             var pagination = domains.Pagination;
 
@@ -80,15 +89,6 @@ namespace dnsimple_test.Services
                 Assert.AreEqual(2, pagination.TotalEntries);
                 Assert.AreEqual(1, pagination.TotalPages);
             });
-        }
-
-        [Test]
-        public void ListDomainsWithPagination()
-        {
-            var client = new MockDnsimpleClient(ListDomainsFixture);
-            var domains = client.Domains.ListDomains(1010, 1, 1);
-            
-            Assert.AreEqual(2, domains.Data.Domains.Count);
         }
 
         [Test]

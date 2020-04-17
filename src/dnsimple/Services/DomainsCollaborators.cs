@@ -119,7 +119,7 @@ namespace dnsimple.Services
 
     /// <summary>
     /// Represents the <c>struct</c> containing a <c>List</c> of <c>Collaborator</c>
-    /// objects
+    /// objects.
     /// </summary>
     /// <see cref="List{T}"/>
     /// <see cref="Collaborator"/>
