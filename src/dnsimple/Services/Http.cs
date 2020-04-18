@@ -96,7 +96,7 @@ namespace dnsimple.Services
                 case HttpStatusCode.Forbidden:
                     break;
                 case HttpStatusCode.GatewayTimeout:
-                    break;
+                    throw new DnSimpleException(message);
                 case HttpStatusCode.Gone:
                     break;
                 case HttpStatusCode.HttpVersionNotSupported:

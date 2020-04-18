@@ -82,6 +82,7 @@
         <Compile Include="Services\Identity.cs" />
         <Compile Include="Services\OAuth2.cs" />
         <Compile Include="Services\Services.cs" />
+        <Compile Include="Services\Zones.cs" />
     </ItemGroup>
     <ItemGroup>
       <None Include="packages.config" />

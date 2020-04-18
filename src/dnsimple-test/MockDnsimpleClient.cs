@@ -17,6 +17,7 @@ namespace dnsimple_test
         private string Fixture { get; }
         public HttpService Http { get; }
         public OAuth2Service OAuth { get; }
+        public ZonesService Zones { get; }
         public AccountsService Accounts { get; }
 
         public MockDnsimpleClient(string fixture)
@@ -28,6 +29,7 @@ namespace dnsimple_test
             Http = new MockHttpService("v2", Fixture);
             Identity = new IdentityService(this);
             OAuth = new OAuth2Service(Http);
+            Zones = new ZonesService(this);
         }
 
 
@@ -72,12 +74,16 @@ namespace dnsimple_test
         {
             var rawPayload = _fixtureLoader.ExtractJsonPayload();
 
+            string message;
             switch (StatusCode)
             {
                 case HttpStatusCode.BadRequest:
                     throw new DnSimpleValidationException(JObject.Parse(rawPayload));
                 case HttpStatusCode.NotImplemented:
-                    var message = JObject.Parse(rawPayload)["message"]?.ToString();
+                    message = JObject.Parse(rawPayload)["message"]?.ToString();
+                    throw new DnSimpleException(message);
+                case HttpStatusCode.GatewayTimeout:
+                    message = JObject.Parse(rawPayload)["message"]?.ToString();
                     throw new DnSimpleException(message);
             }
             return !string.IsNullOrEmpty(rawPayload)

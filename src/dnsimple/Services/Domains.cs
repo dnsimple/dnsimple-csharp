@@ -142,7 +142,7 @@ namespace dnsimple.Services
     /// Represents the response from the API call containing (potentially)
     /// multiple <c>Domain</c> objects and a <c>Pagination</c> object.
     /// </summary>
-    /// <see cref="Domain"/>
+    /// <see cref="DomainsData"/>
     /// <see cref="Pagination"/>
     public class DomainsResponse : PaginatedDnsimpleResponse<DomainsData>
     {

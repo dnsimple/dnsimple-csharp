@@ -83,6 +83,13 @@ namespace dnsimple
         /// </summary>
         /// <see cref="OAuth2Service"/>
         OAuth2Service OAuth { get; }
+        
+        /// <summary>
+        /// Instance of the <c>ZonesService</c>
+        /// <see cref="ZonesService"/>
+        /// <see>https://developer.dnsimple.com/v2/zones/</see>
+        /// </summary>
+        ZonesService Zones { get; }
 
         /// <summary>
         /// Changes the base URL to be used (i.e. to the sandbox environment).
@@ -188,6 +195,8 @@ namespace dnsimple
         /// <inheritdoc />
         public OAuth2Service OAuth { get; private set; }
 
+        public ZonesService Zones { get; private set; }
+
         /// <summary>
         /// Constructs a new Client initializing a new (default)
         /// <c>RestClientWrapper</c>.
@@ -277,6 +286,7 @@ namespace dnsimple
                 new RequestBuilder());
             Identity = new IdentityService(this);
             OAuth = new OAuth2Service(Http);
+            Zones = new ZonesService(this);
         }
     }
 }
