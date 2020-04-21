@@ -29,6 +29,30 @@ namespace dnsimple.Services
         }
 
         /// <summary>
+        /// List email forwards for the domain in the account.
+        /// </summary>
+        /// <param name="accountId">The account id</param>
+        /// <param name="domainIdentifier">The domain name or id</param>
+        /// <param name="options">Options passed to the list (sorting, pagination)</param>
+        /// <returns>A list of all email forwards for the domain</returns>
+        /// <see>https://developer.dnsimple.com/v2/domains/email-forwards/#listEmailForwards</see>
+        public EmailForwardsResponse ListEmailForwards(long accountId,
+            string domainIdentifier, DomainEmailForwardsListOptions options)
+        {
+            var requestBuilder = Client.Http
+                .RequestBuilder(EmailForwardsPath(accountId, domainIdentifier));
+            requestBuilder.AddParameter(options.UnpackSorting());
+            
+            if (!options.Pagination.IsDefault())
+            {
+                requestBuilder.AddParameters(options.UnpackPagination());
+            }
+            
+            return new EmailForwardsResponse(Client.Http.Execute(requestBuilder
+                .Request));
+        }
+
+        /// <summary>
         /// Creates a email forward for the domain
         /// </summary>
         /// <param name="accountId">The account id</param>
@@ -144,5 +168,56 @@ namespace dnsimple.Services
         public string To { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+    }
+    
+    /// <summary>
+    /// Defines the options you may want to send to list domain email forwards,
+    /// such as pagination and sorting.
+    /// </summary>
+    /// <see cref="ListOptions"/>
+    public class DomainEmailForwardsListOptions : ListOptions
+    {
+        private const string IdSort = "id";
+        private const string FromSort = "from";
+        private const string ToSort = "to";
+
+        /// <summary>
+        /// Creates a new instance of <c>DomainEmailForwardsListOptions</c>
+        /// </summary>
+        public DomainEmailForwardsListOptions() =>
+            Pagination = new Pagination();
+        
+        /// <summary>
+        /// Sets the order by which to sort by id.
+        /// </summary>
+        /// <param name="order">The order in which we want to sort (asc or desc)</param>
+        /// <returns>The instance of the <c>DomainEmailForwardsListOptions</c></returns>
+        public DomainEmailForwardsListOptions SortById(Order order)
+        {
+            AddSortCriteria(new Sort { Field = IdSort, Order = order});
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the order by which to sort by from.
+        /// </summary>
+        /// <param name="order">The order in which we want to sort (asc or desc)</param>
+        /// <returns>The instance of the <c>DomainEmailForwardsListOptions</c></returns>
+        public DomainEmailForwardsListOptions SortByFrom(Order order)
+        {
+            AddSortCriteria(new Sort{Field = FromSort, Order = order});
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the order by which to sort by to.
+        /// </summary>
+        /// <param name="order">The order in which we want to sort (asc or desc)</param>
+        /// <returns>The instance of the <c>DomainEmailForwardsListOptions</c></returns>
+        public DomainEmailForwardsListOptions SortByTo(Order order)
+        {
+            AddSortCriteria(new Sort{Field = ToSort, Order = order});
+            return this;
+        }
     }
 }

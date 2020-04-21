@@ -18,9 +18,9 @@ namespace dnsimple_test.Services
                     CultureInfo.CurrentCulture);
 
         [Test]
-        [TestCase(1010, "100")]
-        [TestCase(1010, "example.com")]
-        public void EnableDnssec(long accountId, string domainIdentifier)
+        [TestCase(1010, "100", "https://api.sandbox.dnsimple.com/v2/1010/domains/100/dnssec")]
+        [TestCase(1010, "example.com", "https://api.sandbox.dnsimple.com/v2/1010/domains/example.com/dnssec")]
+        public void EnableDnssec(long accountId, string domainIdentifier, string expectedUrl)
         {
             var client =
                 new MockDnsimpleClient("enableDnssec/success.http");
@@ -31,19 +31,28 @@ namespace dnsimple_test.Services
                 Assert.IsTrue(response.Data.Enabled);
                 Assert.AreEqual(CreatedAt, response.Data.CreatedAt);
                 Assert.AreEqual(UpdatedAt, response.Data.UpdatedAt);
+
+                Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
 
         [Test]
-        [TestCase(1010, "100")]
-        [TestCase(1010, "example.com")]
-        public void DisableDnssec(long accountId, string domainIdentifier)
+        [TestCase(1010, "100", "https://api.sandbox.dnsimple.com/v2/1010/domains/100/dnssec")]
+        [TestCase(1010, "example.com", "https://api.sandbox.dnsimple.com/v2/1010/domains/example.com/dnssec")]
+        public void DisableDnssec(long accountId, string domainIdentifier, string expectedUrl)
         {
             var client = new MockDnsimpleClient("disableDnssec/success.http");
-            Assert.DoesNotThrow(delegate
+            
+            Assert.Multiple(() =>
             {
-                client.Domains.DisableDnssec(accountId, domainIdentifier);
+                Assert.DoesNotThrow(delegate
+                {
+                    client.Domains.DisableDnssec(accountId, domainIdentifier);
+                });
+                
+                Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
+            
         }
         
         [Test]
@@ -62,9 +71,9 @@ namespace dnsimple_test.Services
         }
 
         [Test]
-        [TestCase(1010, "100")]
-        [TestCase(1010, "example.com")]
-        public void GetDnssec(long accountId, string domainIdentifier)
+        [TestCase(1010, "100", "https://api.sandbox.dnsimple.com/v2/1010/domains/100/dnssec")]
+        [TestCase(1010, "example.com", "https://api.sandbox.dnsimple.com/v2/1010/domains/example.com/dnssec")]
+        public void GetDnssec(long accountId, string domainIdentifier, string expectedUrl)
         {
             var dateTime = DateTime.ParseExact(
                 "2017-02-03T17:43:22Z", "yyyy-MM-ddTHH:mm:ssZ",
@@ -78,6 +87,8 @@ namespace dnsimple_test.Services
                 Assert.IsTrue(response.Data.Enabled);
                 Assert.AreEqual(dateTime, response.Data.CreatedAt);
                 Assert.AreEqual(dateTime, response.Data.UpdatedAt);
+                
+                Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
     }

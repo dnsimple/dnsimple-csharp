@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using dnsimple.Services;
@@ -65,9 +66,9 @@ namespace dnsimple_test.Services
         }
 
         [Test]
-        [TestCase(1010, "100")]
-        [TestCase(1010, "example.com")]
-        public void ListEmailForwards(long accountId, string domainIdentifier)
+        [TestCase(1010, "100", "https://api.sandbox.dnsimple.com/v2/1010/domains/100/email_forwards")]
+        [TestCase(1010, "example.com", "https://api.sandbox.dnsimple.com/v2/1010/domains/example.com/email_forwards")]
+        public void ListEmailForwards(long accountId, string domainIdentifier, string expectedUrl)
         {
             var client = new MockDnsimpleClient(ListEmailForwardsFixture);
             var emailForwards =
@@ -76,14 +77,37 @@ namespace dnsimple_test.Services
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(2, emailForwards.Data.EmailForwards.Count);
-                Assert.AreEqual(1, emailForwards.Pagination.CurrentPage);
+                Assert.AreEqual(1, emailForwards.PaginationData.CurrentPage);
+                
+                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+            });
+        }
+        
+        [Test]
+        [TestCase(1010, "100", "https://api.sandbox.dnsimple.com/v2/1010/domains/100/email_forwards?sort=from:asc")]
+        [TestCase(1010, "example.com", "https://api.sandbox.dnsimple.com/v2/1010/domains/example.com/email_forwards?sort=from:asc")]
+        public void ListEmailForwardsWithOptions(long accountId, string domainIdentifier, string expectedUrl)
+        {
+            var client = new MockDnsimpleClient(ListEmailForwardsFixture);
+            var options = new DomainEmailForwardsListOptions();
+            options.SortByFrom(Order.asc);
+            
+            var emailForwards =
+                client.Domains.ListEmailForwards(accountId, domainIdentifier, options);
+
+            Assert.Multiple(() =>
+            {
+                Assert.AreEqual(2, emailForwards.Data.EmailForwards.Count);
+                Assert.AreEqual(1, emailForwards.PaginationData.CurrentPage);
+                
+                Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
 
         [Test]
-        [TestCase(1010, "228963")]
-        [TestCase(1010, "example.com")]
-        public void CreateEmailForward(long accountId, string domainIdentifier)
+        [TestCase(1010, "228963", "https://api.sandbox.dnsimple.com/v2/1010/domains/228963/email_forwards")]
+        [TestCase(1010, "example.com", "https://api.sandbox.dnsimple.com/v2/1010/domains/example.com/email_forwards")]
+        public void CreateEmailForward(long accountId, string domainIdentifier, string expectedUrl)
         {
             var client = new MockDnsimpleClient(CreateEmailForwardFixture);
             var record = new EmailForward
@@ -103,13 +127,15 @@ namespace dnsimple_test.Services
                 Assert.AreEqual(record.DomainId, created.Data.DomainId);
                 Assert.AreEqual(record.From, created.Data.From);
                 Assert.AreEqual(record.To, created.Data.To);
+                
+                Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
 
         [Test]
-        [TestCase(1010, "228963")]
-        [TestCase(1010, "example.com")]
-        public void GetEmailForward(long accountId, string domainIdentifier)
+        [TestCase(1010, "228963","https://api.sandbox.dnsimple.com/v2/1010/domains/228963/email_forwards/17706")]
+        [TestCase(1010, "example.com","https://api.sandbox.dnsimple.com/v2/1010/domains/example.com/email_forwards/17706")]
+        public void GetEmailForward(long accountId, string domainIdentifier, string expectedUrl)
         {
             var client = new MockDnsimpleClient(GetEmailForwardFixture);
             var emailForward =
@@ -120,20 +146,56 @@ namespace dnsimple_test.Services
             {
                 Assert.AreEqual(17706, emailForward.Id);
                 Assert.AreEqual(228963, emailForward.DomainId);
+                
+                Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
 
         [Test]
-        [TestCase(1010, "228963")]
-        [TestCase(1010, "example.com")]
-        public void DeleteEmailForward(long accountId, string domainIdentifier)
+        [TestCase(1010, "100", "https://api.sandbox.dnsimple.com/v2/1010/domains/100/email_forwards/228963")]
+        [TestCase(1010, "example.com", "https://api.sandbox.dnsimple.com/v2/1010/domains/example.com/email_forwards/228963")]
+        public void DeleteEmailForward(long accountId, string domainIdentifier, string expectedUrl)
         {
             var client = new MockDnsimpleClient(DeleteEmailForwardFixture);
 
-            Assert.DoesNotThrow(() =>
+            Assert.Multiple(() =>
             {
-                client.Domains.DeleteEmailForward(accountId, domainIdentifier,
-                    228963);
+                Assert.DoesNotThrow(() =>
+                {
+                    client.Domains.DeleteEmailForward(accountId, domainIdentifier,
+                        228963);
+                });
+                
+                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+            });
+            
+        }
+
+        [Test]
+        public void DomainEmailForwardsListOptions()
+        {
+            var sorting = new KeyValuePair<string, string>("sort", "id:asc,from:asc,to:desc");
+            var pagination = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("per_page", "42"),
+                new KeyValuePair<string, string>("page", "7")
+            };
+
+            var options = new DomainEmailForwardsListOptions
+            {
+                Pagination = new Pagination
+                {
+                    Page = 7,
+                    PerPage = 42
+                }
+            };
+            options.SortById(Order.asc).SortByFrom(Order.asc)
+                .SortByTo(Order.desc);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.AreEqual(sorting, options.UnpackSorting());
+                Assert.AreEqual(pagination, options.UnpackPagination());
             });
         }
     }

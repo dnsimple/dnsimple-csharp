@@ -43,27 +43,37 @@ namespace dnsimple
             Request.AddHeaders(headers);
 
         /// <summary>
-        /// Adds parameters to the request.
+        /// Adds multiple parameters to the request.
         /// </summary>
         /// <param name="parameters">The parameters we want to add to the request.</param>
         public void AddParameters(
             IEnumerable<KeyValuePair<string, string>> parameters)
         {
-            foreach (var pair in parameters)
+            foreach (var parameter in parameters)
             {
-                Request.AddParameter(pair.Key, pair.Value);
+                AddParameter(parameter);
             }
         }
-
+        
+        /// <summary>
+        /// Adds a parameter to the request.
+        /// </summary>
+        /// <param name="parameter">The parameter we want to add to the request.</param>
+        public void AddParameter(KeyValuePair<string,string> parameter)
+        {
+            if(parameter.Value != null)
+            {
+                Request.AddParameter(parameter.Key, parameter.Value);
+            }
+        }
+        
         /// <summary>
         /// Adds a JSON payload to the body of the request.
         /// </summary>
         /// <param name="payload">The object to be serialized and send in the
         /// body of the request.</param>
         public void AddJsonPayload(object payload)
-        {
-            Request.AddJsonBody(JsonConvert.SerializeObject(payload));
-        }
+            => Request.AddJsonBody(JsonConvert.SerializeObject(payload));
 
         /// <summary>
         /// Sets the HTTP method to be used.
@@ -95,16 +105,6 @@ namespace dnsimple
         {
             Request = null;
             return this;
-        }
-
-        public void Pagination(int perPage, int page)
-        {
-            var pagination = new Collection<KeyValuePair<string, string>>
-            {
-                new KeyValuePair<string, string>("per_page", perPage.ToString()),
-                new KeyValuePair<string, string>("page", page.ToString())
-            };
-            AddParameters(pagination);
         }
     }
 }

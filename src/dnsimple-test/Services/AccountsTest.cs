@@ -41,9 +41,9 @@ namespace dnsimple_test.Services
 
             Assert.AreEqual(2, accountsResponse.Data.Accounts.Count);
         }
-
         [Test]
-        public void ReturnsAListOfAccountsForUser()
+        [TestCase("https://api.sandbox.dnsimple.com/v2/accounts")]
+        public void ReturnsAListOfAccountsForUser(string expectedUrl)
         {
             var client = new MockDnsimpleClient("accounts/success-user.http");
 
@@ -56,6 +56,8 @@ namespace dnsimple_test.Services
                 Assert.AreEqual("ops@company.com", lastAccount.Email);
                 Assert.AreEqual("dnsimple-professional",
                     lastAccount.PlanIdentifier);
+                
+                Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
     }

@@ -16,8 +16,7 @@ namespace dnsimple.Services
         protected SimpleDnsimpleResponse(JToken json) => 
             Data = JsonTools<T>.DeserializeObject("data", json);
     }
-
-
+    
     /// <summary>
     /// Represents a response from a call to the DNSimple API containing a list
     /// of objects.
@@ -39,7 +38,7 @@ namespace dnsimple.Services
     /// and a pagination.
     /// </summary>
     /// <typeparam name="T">The Data object type contained in the response</typeparam>
-    /// <see cref="Pagination"/>
+    /// <see cref="PaginationData"/>
     public class PaginatedDnsimpleResponse<T> where T : new()
     {
         /// <summary>
@@ -50,13 +49,13 @@ namespace dnsimple.Services
         /// <summary>
         /// The <c>Pagination</c> object containing the pagination data
         /// </summary>
-        /// <see cref="Pagination"/>
-        public Pagination Pagination { get; }
+        /// <see cref="PaginationData"/>
+        public PaginationData PaginationData { get; }
 
         protected PaginatedDnsimpleResponse(JToken response)
         {
             Data = new T();
-            Pagination = Pagination.From(response);
+            PaginationData = PaginationData.From(response);
         }
     }
 }

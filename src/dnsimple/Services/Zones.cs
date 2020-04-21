@@ -39,6 +39,30 @@ namespace dnsimple.Services
         }
 
         /// <summary>
+        /// Lists the zones in the account.
+        /// </summary>
+        /// <param name="accountId">The account id</param>
+        /// <param name="options">Options passed to the list (sorting, filtering, pagination)</param>
+        /// <returns>A <c>ZonesResponse</c> containing a list of zones for the account.</returns>
+        /// <see cref="ZonesResponse"/>
+        /// <see>https://developer.dnsimple.com/v2/zones/#listZones</see>
+        public ZonesResponse ListZones(long accountId, ZonesListOptions options)
+        {
+            var requestBuilder = Client.Http
+                .RequestBuilder(ZonesPath(accountId));
+            
+            requestBuilder.AddParameter(options.UnpackSorting());
+            requestBuilder.AddParameters(options.UnpackFilters());
+            
+            if (!options.Pagination.IsDefault())
+            {
+                requestBuilder.AddParameters(options.UnpackPagination());
+            }
+            
+            return new ZonesResponse(Client.Http.Execute(requestBuilder.Request));
+        }
+
+        /// <summary>
         /// Retrieves a zone.
         /// </summary>
         /// <param name="accountId">The account id</param>
@@ -141,7 +165,7 @@ namespace dnsimple.Services
     /// multiple <c>ZonesData</c> objects and a <c>Pagination</c> object.
     /// </summary>
     /// <see cref="ZonesData"/>
-    /// <see cref="Pagination"/>
+    /// <see cref="PaginationData"/>
     public class ZonesResponse : PaginatedDnsimpleResponse<ZonesData>
     {
         public ZonesResponse(JToken response) : base(response) =>
@@ -195,5 +219,57 @@ namespace dnsimple.Services
     public struct ZoneDistribution
     {
         public bool Distributed { get; set; }
+    }
+    
+    /// <summary>
+    /// Defines the options you may want to send to list zones, such as
+    /// pagination, sorting and filtering.
+    /// </summary>
+    /// <see cref="ListOptionsWithFiltering"/>
+    public class ZonesListOptions : ListOptionsWithFiltering
+    {
+        private const string NameLikeFilter = "name_like";
+        
+        private const string IdSort = "id";
+        private const string NameSort = "name";
+
+        /// <summary>
+        /// Creates a new instance of <c>ZonesListOptions</c>.
+        /// </summary>
+        public ZonesListOptions()
+            => Pagination = new Pagination();
+        
+        /// <summary>
+        /// Sets the name to be filtered by.
+        /// </summary>
+        /// <param name="name">The name we want to filter by.</param>
+        /// <returns>The instance of the <c>ZonesListOptions</c></returns>
+        public ZonesListOptions FilterByName(string name)
+        {
+            AddFilter(new Filter { Field = NameLikeFilter, Value = name });
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the order by which to sort by id.
+        /// </summary>
+        /// <param name="order">The order in which we want to sort (asc or desc)</param>
+        /// <returns>The instance of the <c>ZonesListOptions</c></returns>
+        public ZonesListOptions SortById(Order order)
+        {
+            AddSortCriteria(new Sort { Field = IdSort, Order = order });
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the order by which to sort by name.
+        /// </summary>
+        /// <param name="order">The order in which we want to sort (asc or desc)</param>
+        /// <returns>The instance of the <c>ZonesListOptions</c></returns>
+        public ZonesListOptions SortByName(Order order)
+        {
+            AddSortCriteria(new Sort { Field = NameSort, Order = order});
+            return this;
+        }
     }
 }

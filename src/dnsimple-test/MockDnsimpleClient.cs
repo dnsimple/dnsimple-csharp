@@ -26,13 +26,12 @@ namespace dnsimple_test
 
             Accounts = new AccountsService(this);
             Domains = new DomainsService(this);
-            Http = new MockHttpService("v2", Fixture);
+            Http = new MockHttpService("v2", Fixture, BaseUrl);
             Identity = new IdentityService(this);
             OAuth = new OAuth2Service(Http);
             Zones = new ZonesService(this);
         }
-
-
+        
         public void StatusCode(HttpStatusCode statusCode)
         {
             ((MockHttpService)Http).StatusCode = statusCode;
@@ -53,15 +52,24 @@ namespace dnsimple_test
         {
             // Not needed at the moment, but having to implement...
         }
+
+        public string RequestSentTo()
+        {
+            return ((MockHttpService) Http).RequestUrlSent;
+        }
     }
 
     public class MockHttpService : HttpService
     {
         private readonly FixtureLoader _fixtureLoader;
+        private readonly string _baseUrl;
+        
         public HttpStatusCode StatusCode { get; set; }
+        public string RequestUrlSent { get; set; }
 
-        public MockHttpService(string version, string fixture)
+        public MockHttpService(string version, string fixture, string baseUrl)
         {
+            _baseUrl = baseUrl;
             _fixtureLoader = new FixtureLoader(version, fixture);
         }
         
@@ -72,6 +80,8 @@ namespace dnsimple_test
 
         public override JToken Execute(IRestRequest request)
         {
+            RequestUrlSent = new RestClient($"{_baseUrl}/v2/").BuildUri(request).ToString();
+            
             var rawPayload = _fixtureLoader.ExtractJsonPayload();
 
             string message;
@@ -85,6 +95,9 @@ namespace dnsimple_test
                 case HttpStatusCode.GatewayTimeout:
                     message = JObject.Parse(rawPayload)["message"]?.ToString();
                     throw new DnSimpleException(message);
+                case HttpStatusCode.NotFound:
+                    message = JObject.Parse(rawPayload)["message"]?.ToString();
+                    throw new NotFoundException(message);
             }
             return !string.IsNullOrEmpty(rawPayload)
                 ? JObject.Parse(rawPayload)

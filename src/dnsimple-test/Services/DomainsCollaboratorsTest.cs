@@ -12,13 +12,10 @@ namespace dnsimple_test.Services
 
         private const string ListCollaboratorsFixture =
             "listCollaborators/success.http";
-
         private const string AddCollaboratorFixture =
             "addCollaborator/success.http";
-
         private const string AddCollaboratorInviteFixture =
             "addCollaborator/invite-success.http";
-
         private const string RemoveCollaboratorFixture =
             "removeCollaborator/success.http";
 
@@ -60,9 +57,9 @@ namespace dnsimple_test.Services
         }
 
         [Test]
-        [TestCase(1010, "100")]
-        [TestCase(1010, "example.com")]
-        public void ListCollaborators(long accountId, string domainIdentifier)
+        [TestCase(1010, "100", "https://api.sandbox.dnsimple.com/v2/1010/domains/100/collaborators")]
+        [TestCase(1010, "example.com", "https://api.sandbox.dnsimple.com/v2/1010/domains/example.com/collaborators")]
+        public void ListCollaborators(long accountId, string domainIdentifier, string expectedUrl)
         {
             var client = new MockDnsimpleClient(ListCollaboratorsFixture);
             var collaborators =
@@ -72,13 +69,14 @@ namespace dnsimple_test.Services
             {
                 Assert.AreEqual(101,
                     collaborators.Data.Collaborators.Last().Id);
+                Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
 
         [Test]
-        [TestCase("1")]
-        [TestCase("example.com")]
-        public void AddCollaborator(string domainIdentifier)
+        [TestCase("1", "https://api.sandbox.dnsimple.com/v2/1010/domains/1/collaborators")]
+        [TestCase("example.com", "https://api.sandbox.dnsimple.com/v2/1010/domains/example.com/collaborators")]
+        public void AddCollaborator(string domainIdentifier, string expectedUrl)
         {
             var client = new MockDnsimpleClient(AddCollaboratorFixture);
             var collaborator =
@@ -91,13 +89,15 @@ namespace dnsimple_test.Services
                 Assert.AreEqual("existing-user@example.com",
                     collaborator.UserEmail);
                 Assert.IsFalse(collaborator.Invitation);
+                
+                Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
 
         [Test]
-        [TestCase("1")]
-        [TestCase("example.com")]
-        public void InviteCollaborator(string domainIdentifier)
+        [TestCase("1", "https://api.sandbox.dnsimple.com/v2/1010/domains/1/collaborators")]
+        [TestCase("example.com", "https://api.sandbox.dnsimple.com/v2/1010/domains/example.com/collaborators")]
+        public void InviteCollaborator(string domainIdentifier, string expectedUrl)
         {
             var client = new MockDnsimpleClient(AddCollaboratorInviteFixture);
             var collaborator = client.Domains.AddCollaborator(AccountId,
@@ -109,19 +109,29 @@ namespace dnsimple_test.Services
                     collaborator.Data.UserEmail);
                 Assert.IsNull(collaborator.Data.UserId);
                 Assert.IsTrue(collaborator.Data.Invitation);
+                
+                Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
 
         [Test]
-        public void RemoveCollaborator()
+        [TestCase("example.com", 100,"https://api.sandbox.dnsimple.com/v2/1010/domains/example.com/collaborators/100")]
+        public void RemoveCollaborator(string domainIdentifier, long collaboratorId, string expectedUrl)
         {
             var client = new MockDnsimpleClient(RemoveCollaboratorFixture);
 
-            Assert.DoesNotThrow(delegate
+            Assert.Multiple(() =>
             {
-                client.Domains.RemoveCollaborator(AccountId, "example.com",
-                    100);
+                Assert.DoesNotThrow(delegate
+                {
+                    client.Domains.RemoveCollaborator(AccountId,
+                        domainIdentifier,
+                        collaboratorId);
+                });
+                
+                Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
+            
         }
     }
 }

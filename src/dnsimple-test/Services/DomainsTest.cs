@@ -1,6 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
+using dnsimple;
 using dnsimple.Services;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
@@ -15,6 +18,7 @@ namespace dnsimple_test.Services
         private const string GetDomainFixture = "getDomain/success.http";
         private const string CreateDomainFixture = "createDomain/created.http";
         private const string DeleteDomainFixture = "deleteDomain/success.http";
+        private const string GetDomainNotFoundFixture = "notfound-domain.http";
 
         private DateTime CreatedAt { get; } = DateTime.ParseExact(
             "2014-12-06T15:56:55Z", "yyyy-MM-ddTHH:mm:ssZ",
@@ -35,14 +39,15 @@ namespace dnsimple_test.Services
         public void DomainsData()
         {
             var domains = new DomainsData(_jToken).Domains;
-            
+
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(1, domains.First().Id);
                 Assert.AreEqual(1010, domains.First().AccountId);
                 Assert.IsNull(domains.First().RegistrantId);
                 Assert.AreEqual("example-alpha.com", domains.First().Name);
-                Assert.AreEqual("example-alpha.com", domains.First().UnicodeName);
+                Assert.AreEqual("example-alpha.com",
+                    domains.First().UnicodeName);
                 Assert.AreEqual("hosted", domains.First().State);
                 Assert.IsFalse(domains.First().AutoRenew);
                 Assert.IsFalse(domains.First().PrivateWhois);
@@ -51,54 +56,50 @@ namespace dnsimple_test.Services
                 Assert.AreEqual(UpdatedAt, domains.First().UpdatedAt);
             });
         }
-        
+
         [Test]
         public void DomainsResponse()
         {
             var response = new DomainsResponse(_jToken);
-            
+
             Assert.AreEqual(2, response.Data.Domains.Count);
         }
 
         [Test]
-        public void ListDomains()
+        [TestCase("https://api.sandbox.dnsimple.com/v2/1010/domains")]
+        public void ListDomains(string expectedUrl)
         {
             var client = new MockDnsimpleClient(ListDomainsFixture);
             var domains = client.Domains.ListDomains(1010);
-            
-            Assert.AreEqual(2, domains.Data.Domains.Count);
-        }
 
-        [Test]
-        public void ListDomainsWithPagination()
-        {
-            var client = new MockDnsimpleClient(ListDomainsFixture);
-            var domains = client.Domains.ListDomains(1010, 1, 1);
-            
-            var lastDomain = domains.Data.Domains.Last();
-            var pagination = domains.Pagination;
-
-            Assert.Multiple(()=>
+            Assert.Multiple(() =>
             {
-                Assert.AreEqual(2, lastDomain.Id);
-                Assert.AreEqual(1010, lastDomain.AccountId);
-                Assert.AreEqual(21, lastDomain.RegistrantId);
-                
-                Assert.AreEqual(1, pagination.CurrentPage);
-                Assert.AreEqual(30, pagination.PerPage);
-                Assert.AreEqual(2, pagination.TotalEntries);
-                Assert.AreEqual(1, pagination.TotalPages);
+                Assert.AreEqual(2, domains.Data.Domains.Count);
+                Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
 
         [Test]
-        [TestCase("1")]
-        [TestCase("example-alpha.com")]
-        public void GetDomain(string domainIdentifier)
+        [TestCase("https://api.sandbox.dnsimple.com/v2/1010/domains?sort=id:asc&name_like=example.com")]
+        public void ListDomainsWithOptions(string expectedUrl)
+        {
+            var client = new MockDnsimpleClient(ListDomainsFixture);
+            var listOptions = new DomainListOptions();
+            listOptions.FilterByName("example.com");
+            listOptions.SortById(Order.asc);
+            client.Domains.ListDomains(1010, listOptions);
+
+            Assert.AreEqual(expectedUrl, client.RequestSentTo());
+        }
+
+        [Test]
+        [TestCase("1", "https://api.sandbox.dnsimple.com/v2/1010/domains/1")]
+        [TestCase("example-alpha.com", "https://api.sandbox.dnsimple.com/v2/1010/domains/example-alpha.com")]
+        public void GetDomain(string domainIdentifier, string expectedUrl)
         {
             var client = new MockDnsimpleClient(GetDomainFixture);
             var domain = client.Domains.GetDomain(1010, domainIdentifier).Data;
-            
+
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(1, domain.Id);
@@ -112,15 +113,32 @@ namespace dnsimple_test.Services
                 Assert.IsNull(domain.ExpiresOn);
                 Assert.AreEqual(CreatedAt, domain.CreatedAt);
                 Assert.AreEqual(UpdatedAt, domain.UpdatedAt);
+                
+                Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
 
         [Test]
-        public void CreateDomain()
+        [TestCase("0")]
+        public void GetDomainNotFound(string domainIdentifier)
+        {
+            var client = new MockDnsimpleClient(GetDomainNotFoundFixture);
+            client.StatusCode(HttpStatusCode.NotFound);
+
+            Assert.Throws(
+                Is.TypeOf<NotFoundException>().And.Message
+                    .EqualTo("Domain `0` not found"),
+                delegate { client.Domains.GetDomain(1010, domainIdentifier); });
+        }
+
+        [Test]
+        [TestCase("https://api.sandbox.dnsimple.com/v2/1010/domains")]
+        public void CreateDomain(string expectedUrl)
         {
             var client = new MockDnsimpleClient(CreateDomainFixture);
-            var domain = client.Domains.CreateDomain(1010, "example-alpha.com").Data;
-            
+            var domain = client.Domains.CreateDomain(1010, "example-alpha.com")
+                .Data;
+
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(1, domain.Id);
@@ -134,19 +152,64 @@ namespace dnsimple_test.Services
                 Assert.IsNull(domain.ExpiresOn);
                 Assert.AreEqual(CreatedAt, domain.CreatedAt);
                 Assert.AreEqual(UpdatedAt, domain.UpdatedAt);
+                
+                Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
 
         [Test]
-        [TestCase(1010,"example-alpha.com")]
-        [TestCase(1010, "1")]
-        public void DeleteDomain(long accountId,string domainIdentifier)
+        [TestCase(1010,"1", "https://api.sandbox.dnsimple.com/v2/1010/domains/1")]
+        [TestCase(1010,"example-alpha.com", "https://api.sandbox.dnsimple.com/v2/1010/domains/example-alpha.com")]
+        public void DeleteDomain(long accountId, string domainIdentifier, string expectedUrl)
         {
             var client = new MockDnsimpleClient(DeleteDomainFixture);
-            
-            Assert.DoesNotThrow(delegate
+
+            Assert.Multiple(() =>
             {
-                client.Domains.DeleteDomain(accountId, domainIdentifier);
+                Assert.DoesNotThrow(delegate
+                {
+                    client.Domains.DeleteDomain(accountId, domainIdentifier);
+                });
+                
+                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+            });
+            
+        }
+
+        [Test]
+        public void DomainListOptions()
+        {
+            var filters = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("name_like", "example.com"),
+                new KeyValuePair<string, string>("registrant_id", "89")
+            };
+            var sorting = new KeyValuePair<string, string>("sort", "id:asc,name:asc,expires_on:desc");
+            var pagination = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("per_page", "42"),
+                new KeyValuePair<string, string>("page", "7")
+            };
+
+            var options = new DomainListOptions
+                {
+                    Pagination = new Pagination
+                    {
+                        PerPage = 42,
+                        Page = 7
+                    }
+                }.FilterByName("example.com")
+                .FilterByRegistrantId(89)
+                .SortById(Order.asc)
+                .SortByName(Order.asc)
+                .SortByExpiresOn(Order.desc);
+
+
+            Assert.Multiple(() =>
+            {
+                Assert.AreEqual(filters, options.UnpackFilters());
+                Assert.AreEqual(sorting, options.UnpackSorting());
+                Assert.AreEqual(pagination, options.UnpackPagination());
             });
         }
     }

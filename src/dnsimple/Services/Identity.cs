@@ -104,7 +104,6 @@ namespace dnsimple.Services
             }
             catch (Exception)
             {
-                //TODO: Handle these Exceptions properly
                 return new Account();
             }
         }
@@ -117,7 +116,6 @@ namespace dnsimple.Services
             }
             catch (Exception)
             {
-                //TODO: Handle these Exceptions properly
                 return new User();
             }
         }

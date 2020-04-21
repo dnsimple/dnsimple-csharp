@@ -21,9 +21,9 @@ namespace dnsimple_test.Services
             CultureInfo.CurrentCulture);
         
         [Test]
-        [TestCase(1010, "100")]
-        [TestCase(1010, "example.com")]
-        public void InitiatePush(long accountId, string domainIdentifier)
+        [TestCase(1010, "100", "https://api.sandbox.dnsimple.com/v2/1010/domains/100/pushes")]
+        [TestCase(1010, "example.com", "https://api.sandbox.dnsimple.com/v2/1010/domains/example.com/pushes")]
+        public void InitiatePush(long accountId, string domainIdentifier, string expectedUrl)
         {
             var client = new MockDnsimpleClient(InitiatePushFixture);
             var push = client.Domains.InitiatePush(accountId, domainIdentifier,
@@ -37,13 +37,15 @@ namespace dnsimple_test.Services
                 Assert.AreEqual(2020, push.Data.AccountId);
                 Assert.AreEqual(CreatedAt, push.Data.CreatedAt);
                 Assert.AreEqual(UpdatedAt, push.Data.UpdatedAt);
+                
+                Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
 
         [Test]
-        [TestCase(1010)]
-        [TestCase(1010)]
-        public void ListPushes(long accountId)
+        [TestCase(1010, "https://api.sandbox.dnsimple.com/v2/1010/pushes")]
+        [TestCase(1010, "https://api.sandbox.dnsimple.com/v2/1010/pushes")]
+        public void ListPushes(long accountId, string expectedUrl)
         {
             var client = new MockDnsimpleClient(ListPushesFixture);
             var pushes = client.Domains.ListPushes(accountId);
@@ -51,30 +53,43 @@ namespace dnsimple_test.Services
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(2, pushes.Data.Pushes.Count);
-                Assert.AreEqual(1, pushes.Pagination.CurrentPage);
+                Assert.AreEqual(1, pushes.PaginationData.CurrentPage);
+                
+                Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
 
         [Test]
-        [TestCase(1010, 208, 3)]
-        public void AcceptPush(long accountId, long pushId, long contactId)
+        [TestCase(1010, 208, 3, "https://api.sandbox.dnsimple.com/v2/1010/pushes/208")]
+        public void AcceptPush(long accountId, long pushId, long contactId, string expectedUrl)
         {
             var client = new MockDnsimpleClient(AcceptPushFixture);
             
-            Assert.DoesNotThrow(() =>
+            Assert.Multiple(() =>
             {
-                client.Domains.AcceptPush(accountId, pushId, contactId);
+                Assert.DoesNotThrow(() =>
+                {
+                    client.Domains.AcceptPush(accountId, pushId, contactId);
+                });
+                
+                Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
 
         [Test]
-        public void RejectPush()
+        [TestCase("https://api.sandbox.dnsimple.com/v2/1010/pushes/2")]
+        public void RejectPush(string expectedUrl)
         {
             var client = new MockDnsimpleClient(RejectPushFixture);
             
-            Assert.DoesNotThrow(() =>
+            Assert.Multiple(() =>
             {
-                client.Domains.RejectPush(1010, 2);
+                Assert.DoesNotThrow(() =>
+                {
+                    client.Domains.RejectPush(1010, 2);
+                });
+                
+                Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
     }

@@ -45,32 +45,40 @@ namespace dnsimple.Services
         /// Lists the domains in the account.
         /// </summary>
         /// <param name="accountId">The account ID</param>
+        /// <param name="options">Options passed to the list (sorting, filtering, pagination)</param>
         /// <returns>A <c>DomainResponse</c> containing a list of domains.</returns>
-        public DomainsResponse ListDomains(long accountId)
-        {
-            return new DomainsResponse(
-                Client.Http.Execute(Client.Http
-                    .RequestBuilder(DomainsPath(accountId)).Request));
-        }
-
-        /// <summary>
-        /// Lists the domains in the account allowing to use pagination.
-        /// </summary>
-        /// <param name="accountId">The account ID</param>
-        /// <param name="perPage">The amount of items per page to be returned</param>
-        /// <param name="page">The page number</param>
-        /// <returns>A <c>DomainResponse</c> containing a list of domains.</returns>
-        public DomainsResponse ListDomains(long accountId, int perPage,
-            int page)
+        /// <see cref="DomainListOptions"/>
+        public DomainsResponse ListDomains(long accountId, ListOptionsWithFiltering options)
         {
             var requestBuilder =
                 Client.Http.RequestBuilder(DomainsPath(accountId));
-            requestBuilder.Pagination(perPage, page);
+            requestBuilder.AddParameter(options.UnpackSorting());
+            requestBuilder.AddParameters(options.UnpackFilters());
+            
+            if (!options.Pagination.IsDefault())
+            {
+                requestBuilder.AddParameters(options.UnpackPagination());
+            }
+            
 
             return new DomainsResponse(
                 Client.Http.Execute(requestBuilder.Request));
         }
+        
+        /// <summary>
+        /// Lists the domains in the account.
+        /// </summary>
+        /// <param name="accountId">The account ID</param>
+        /// <returns>A <c>DomainResponse</c> containing a list of domains.</returns>
+        public DomainsResponse ListDomains(long accountId)
+        {
+            var requestBuilder =
+                Client.Http.RequestBuilder(DomainsPath(accountId));
 
+            return new DomainsResponse(
+                Client.Http.Execute(requestBuilder.Request));
+        }
+        
         /// <summary>
         /// Adds a domain to the account.
         /// </summary>
@@ -143,7 +151,7 @@ namespace dnsimple.Services
     /// multiple <c>Domain</c> objects and a <c>Pagination</c> object.
     /// </summary>
     /// <see cref="DomainsData"/>
-    /// <see cref="Pagination"/>
+    /// <see cref="PaginationData"/>
     public class DomainsResponse : PaginatedDnsimpleResponse<DomainsData>
     {
         public DomainsResponse(JToken response) : base(response) =>
@@ -190,5 +198,83 @@ namespace dnsimple.Services
         public string ExpiresOn { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+    }
+    
+    /// <summary>
+    /// Defines the options you may want to send to list domains, such as
+    /// pagination, sorting and filtering.
+    /// </summary>
+    /// <see cref="ListOptionsWithFiltering"/>
+    public class DomainListOptions : ListOptionsWithFiltering
+    {
+        private const string NameLikeFilter = "name_like";
+        private const string RegistrantIdFilter = "registrant_id";
+
+        private const string IdSort = "id";
+        private const string NameSort = "name";
+        private const string ExpiresOnSort = "expires_on";
+
+        /// <summary>
+        /// Creates a new instance of <c>DomainListOptions</c>.
+        /// </summary>
+        public DomainListOptions()
+           => Pagination = new Pagination();
+        
+        /// <summary>
+        /// Sets the order by which to sort by id.
+        /// </summary>
+        /// <param name="order">The order in which we want to sort (asc or desc)</param>
+        /// <returns>The instance of the <c>DomainListOptions</c></returns>
+        public DomainListOptions SortById(Order order)
+        {
+            AddSortCriteria(new Sort { Field = IdSort, Order = order });
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the order by which to sort by name.
+        /// </summary>
+        /// <param name="order">The order in which we want to sort (asc or desc)</param>
+        /// <returns>The instance of the <c>DomainListOptions</c></returns>
+        public DomainListOptions SortByName(Order order)
+        {
+            AddSortCriteria(new Sort { Field = NameSort, Order = order });
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the order by which to sort by expires on.
+        /// </summary>
+        /// <param name="order">The order in which we want to sort (asc or desc)</param>
+        /// <returns>The instance of the <c>DomainListOptions</c></returns>
+        public DomainListOptions SortByExpiresOn(Order order)
+        {
+            AddSortCriteria(new Sort { Field = ExpiresOnSort, Order = order });
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the name to be filtered by.
+        /// </summary>
+        /// <param name="name">The name we want to filter by.</param>
+        /// <returns>The instance of the <c>DomainListOptions</c></returns>
+        public DomainListOptions FilterByName(string name)
+        {
+            AddFilter(new Filter { Field = NameLikeFilter, Value = name });
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the registrant id to be filtered by.
+        /// </summary>
+        /// <param name="registrantId">The registrant id we want to filter by.</param>
+        /// <returns>The instance of the <c>DomainListOptions</c></returns>
+        public DomainListOptions FilterByRegistrantId(long registrantId)
+        {
+            AddFilter(new Filter { Field = RegistrantIdFilter, 
+                Value = registrantId.ToString() });
+            
+            return this;
+        }
     }
 }

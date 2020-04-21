@@ -81,6 +81,18 @@ namespace dnsimple_test.Services
         }
 
         [Test]
+        public void BuildsRequestWithOneParameter()
+        {
+            var parameter = new KeyValuePair<string, string>("sort", "name:desc");
+            
+            _builder.AddParameter(parameter);
+
+            var request = _builder.Request;
+
+            Assert.AreEqual(1, request.Parameters.Count);
+        }
+        
+        [Test]
         public void BuildsRequestWithParameters()
         {
             var parameters = new Collection<KeyValuePair<string, string>>
@@ -97,6 +109,14 @@ namespace dnsimple_test.Services
             var request = _builder.Request;
 
             Assert.AreEqual(4, request.Parameters.Count);
+        }
+        
+        [Test]
+        public void WhenThereAreNoOptions()
+        {
+            var parameters = new List<KeyValuePair<string, string>>();
+            _builder.AddParameters(parameters);
+            Assert.AreEqual(0, _builder.Request.Parameters.Count);
         }
 
         [Test]
@@ -123,23 +143,6 @@ namespace dnsimple_test.Services
             var request = _builder.Request;
 
             Assert.AreEqual(Method.POST, request.Method);
-        }
-
-        [Test]
-        public void AddPagination()
-        {
-            _builder.Pagination(42, 3);
-            var request = _builder.Request;
-
-            Assert.Multiple(() =>
-            {
-                Assert.AreEqual("42",
-                    request.Parameters.First(thing => thing.Name == "per_page")
-                        .Value);
-                Assert.AreEqual("3",
-                    request.Parameters.First(thing => thing.Name == "page")
-                        .Value);
-            });
         }
 
         [Test]
@@ -173,7 +176,7 @@ namespace dnsimple_test.Services
         [Test]
         public void ReturnsAPaginationStruct()
         {
-            var pagination = Pagination.From(_jToken);
+            var pagination = PaginationData.From(_jToken);
 
             Assert.Multiple(() =>
             {

@@ -30,6 +30,32 @@ namespace dnsimple.Services
         }
 
         /// <summary>
+        /// List delegation signer records for the domain in the account.
+        /// </summary>
+        /// <param name="accountId">The account id</param>
+        /// <param name="domainIdentifier">The domain name or id</param>
+        /// <param name="options">Options passed to the list (sorting, pagination)</param>
+        /// <returns>A list of delegation signer records wrapped in a response</returns>
+        /// <see>https://developer.dnsimple.com/v2/domains/dnssec/#listDomainDelegationSignerRecords</see>
+        public DelegationSignerRecordsResponse ListDelegationSignerRecords(
+            long accountId, string domainIdentifier, ListDomainDelegationSignerRecordsOptions options)
+        {
+            var requestBuilder =
+                Client.Http.RequestBuilder(DsRecordsPath(accountId,
+                    domainIdentifier));
+            
+            requestBuilder.AddParameter(options.UnpackSorting());
+            
+            if (!options.Pagination.IsDefault())
+            {
+                requestBuilder.AddParameters(options.UnpackPagination());
+            }
+            
+            return new DelegationSignerRecordsResponse(
+                Client.Http.Execute(requestBuilder.Request));
+        }
+
+        /// <summary>
         /// You only need to create a delegation signer record manually if your
         /// domain is registered with DNSimple but hosted with another DNS
         /// provider that is signing your zone. To enable DNSSEC on a domain
@@ -99,7 +125,7 @@ namespace dnsimple.Services
         private static string DsRecordPath(long accountId,
             string domainIdentifier, long recordId)
         {
-            return $"{DsRecordsPath(accountId, domainIdentifier)}/ds_records/{recordId}";
+            return $"{DsRecordsPath(accountId, domainIdentifier)}/{recordId}";
         }
     }
 
@@ -156,5 +182,44 @@ namespace dnsimple.Services
         public string Keytag { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+    }
+    
+    /// <summary>
+    /// Defines the options you may want to send to list domain delegation
+    /// signer records, such as pagination and sorting.
+    /// </summary>
+    /// <see cref="ListOptions"/>
+    public class ListDomainDelegationSignerRecordsOptions : ListOptions {
+        private const string IdSort = "id";
+        private const string CreatedAtSort = "created_at";
+
+        /// <summary>
+        /// Creates a new instance of <c>ListDomainDelegationSignerRecordsOptions</c>
+        /// </summary>
+        public ListDomainDelegationSignerRecordsOptions() =>
+            Pagination = new Pagination();
+        
+        /// <summary>
+        /// Sets the order by which to sort by id.
+        /// </summary>
+        /// <param name="order">The order in which we want to sort (asc or desc)</param>
+        /// <returns>The instance of the <c>ListDomainDelegationSignerRecordsOptions</c></returns>
+        public ListDomainDelegationSignerRecordsOptions SortById(Order order)
+        {
+            AddSortCriteria(new Sort {Field = IdSort, Order = order });
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the order by which to sort by created at.
+        /// </summary>
+        /// <param name="order">The order in which we want to sort (asc or desc)</param>
+        /// <returns>The instance of the <c>ListDomainDelegationSignerRecordsOptions</c></returns>
+        public ListDomainDelegationSignerRecordsOptions SortByCreatedAt(
+            Order order)
+        {
+            AddSortCriteria(new Sort{Field = CreatedAtSort, Order = order });
+            return this;
+        }
     }
 }

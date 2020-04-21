@@ -16,7 +16,8 @@ namespace dnsimple_test.Services
             CultureInfo.CurrentCulture);
 
         [Test]
-        public void WhoamiAccountSuccessTest()
+        [TestCase("https://api.sandbox.dnsimple.com/v2/whoami")]
+        public void WhoamiAccountSuccessTest(string expectedUrl)
         {
             var client = new MockDnsimpleClient(
                 "whoami/success-account.http");
@@ -32,6 +33,8 @@ namespace dnsimple_test.Services
                     account.PlanIdentifier);
                 Assert.AreEqual(CreatedAt, account.CreatedAt);
                 Assert.AreEqual(UpdatedAt, account.UpdatedAt);
+                
+                Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
 

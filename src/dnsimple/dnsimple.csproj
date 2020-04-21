@@ -80,6 +80,7 @@
         <Compile Include="Services\DomainsPushes.cs" />
         <Compile Include="Services\Http.cs" />
         <Compile Include="Services\Identity.cs" />
+        <Compile Include="Services\ListOptions.cs" />
         <Compile Include="Services\OAuth2.cs" />
         <Compile Include="Services\Services.cs" />
         <Compile Include="Services\Zones.cs" />
