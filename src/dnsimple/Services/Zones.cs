@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
-using static dnsimple.JsonTools<dnsimple.Services.ZoneData>;
+using static dnsimple.Services.JsonTools<dnsimple.Services.ZoneData>;
 
 namespace dnsimple.Services
 {
@@ -12,7 +12,7 @@ namespace dnsimple.Services
     /// methods of the DNSimple API
     /// </summary>
     /// <see>https://developer.dnsimple.com/v2/zones/</see>
-    public class ZonesService
+    public partial class ZonesService
     {
         private IClient Client { get; }
 
@@ -29,7 +29,8 @@ namespace dnsimple.Services
         /// Lists the zones in the account.
         /// </summary>
         /// <param name="accountId">The account id</param>
-        /// <returns>A <c>ZonesResponse</c> containing a list of zones for the account.</returns>
+        /// <returns>A <c>ZonesResponse</c> containing a list of zones for the
+        /// account.</returns>
         /// <see cref="ZonesResponse"/>
         /// <see>https://developer.dnsimple.com/v2/zones/#listZones</see>
         public ZonesResponse ListZones(long accountId)
@@ -42,8 +43,10 @@ namespace dnsimple.Services
         /// Lists the zones in the account.
         /// </summary>
         /// <param name="accountId">The account id</param>
-        /// <param name="options">Options passed to the list (sorting, filtering, pagination)</param>
-        /// <returns>A <c>ZonesResponse</c> containing a list of zones for the account.</returns>
+        /// <param name="options">Options passed to the list (sorting,
+        /// filtering, pagination)</param>
+        /// <returns>A <c>ZonesResponse</c> containing a list of zones for
+        /// the account.</returns>
         /// <see cref="ZonesResponse"/>
         /// <see>https://developer.dnsimple.com/v2/zones/#listZones</see>
         public ZonesResponse ListZones(long accountId, ZonesListOptions options)
@@ -96,6 +99,7 @@ namespace dnsimple.Services
         /// <param name="accountId">The account id</param>
         /// <param name="zoneName">The zone name</param>
         /// <returns>A <c>ZoneDistributionResponse</c>.</returns>
+        /// <see cref="ZoneDistributionResponse"/>
         /// <see>https://developer.dnsimple.com/v2/zones/#checkZoneDistribution</see>
         public ZoneDistributionResponse CheckZoneDistribution(long accountId,
             string zoneName)
@@ -162,7 +166,7 @@ namespace dnsimple.Services
 
     /// <summary>
     /// Represents the response from the API call containing (potentially)
-    /// multiple <c>ZonesData</c> objects and a <c>Pagination</c> object.
+    /// multiple <c>ZonesData</c> objects and a <c>PaginationData</c> object.
     /// </summary>
     /// <see cref="ZonesData"/>
     /// <see cref="PaginationData"/>
@@ -236,8 +240,8 @@ namespace dnsimple.Services
         /// <summary>
         /// Creates a new instance of <c>ZonesListOptions</c>.
         /// </summary>
-        public ZonesListOptions()
-            => Pagination = new Pagination();
+        public ZonesListOptions() =>
+            Pagination = new Pagination();
         
         /// <summary>
         /// Sets the name to be filtered by.
@@ -255,6 +259,7 @@ namespace dnsimple.Services
         /// </summary>
         /// <param name="order">The order in which we want to sort (asc or desc)</param>
         /// <returns>The instance of the <c>ZonesListOptions</c></returns>
+        /// <see cref="Order"/>
         public ZonesListOptions SortById(Order order)
         {
             AddSortCriteria(new Sort { Field = IdSort, Order = order });
@@ -266,6 +271,7 @@ namespace dnsimple.Services
         /// </summary>
         /// <param name="order">The order in which we want to sort (asc or desc)</param>
         /// <returns>The instance of the <c>ZonesListOptions</c></returns>
+        /// <see cref="Order"/>
         public ZonesListOptions SortByName(Order order)
         {
             AddSortCriteria(new Sort { Field = NameSort, Order = order});

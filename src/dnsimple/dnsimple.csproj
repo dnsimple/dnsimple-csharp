@@ -65,7 +65,6 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Credentials.cs" />
-        <Compile Include="JsonTools.cs" />
         <Compile Include="DNSimple.cs" />
         <Compile Include="DNSimpleException.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
@@ -80,9 +79,11 @@
         <Compile Include="Services\DomainsPushes.cs" />
         <Compile Include="Services\Http.cs" />
         <Compile Include="Services\Identity.cs" />
+        <Compile Include="Services\JsonTools.cs" />
         <Compile Include="Services\ListOptions.cs" />
         <Compile Include="Services\OAuth2.cs" />
         <Compile Include="Services\Services.cs" />
+        <Compile Include="Services\ZoneRecords.cs" />
         <Compile Include="Services\Zones.cs" />
     </ItemGroup>
     <ItemGroup>

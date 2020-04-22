@@ -57,6 +57,11 @@ namespace dnsimple_test
         {
             return ((MockHttpService) Http).RequestUrlSent;
         }
+
+        public Method MethodSent()
+        {
+            return ((MockHttpService) Http).MethodSent;
+        }
     }
 
     public class MockHttpService : HttpService
@@ -65,7 +70,8 @@ namespace dnsimple_test
         private readonly string _baseUrl;
         
         public HttpStatusCode StatusCode { get; set; }
-        public string RequestUrlSent { get; set; }
+        public string RequestUrlSent { get; private set; }
+        public Method MethodSent { get; private set; }
 
         public MockHttpService(string version, string fixture, string baseUrl)
         {
@@ -81,6 +87,7 @@ namespace dnsimple_test
         public override JToken Execute(IRestRequest request)
         {
             RequestUrlSent = new RestClient($"{_baseUrl}/v2/").BuildUri(request).ToString();
+            MethodSent = request.Method;
             
             var rawPayload = _fixtureLoader.ExtractJsonPayload();
 

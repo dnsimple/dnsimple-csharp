@@ -30,7 +30,7 @@ namespace dnsimple.Services
         /// <example>
         ///     <code>
         ///         var client = new Client();
-        ///         var authArguments = new Dictionary\<OAuthParams, string\>
+        ///         var authArguments = new Dictionary<!--<OAuthParams, string>-->
         ///         {
         ///             {OAuthParams.ClientId, "1"},
         ///             {OAuthParams.ClientSecret, "secret"},

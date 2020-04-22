@@ -52,7 +52,6 @@ namespace dnsimple_test.Services
                 
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
-            
         }
         
         [Test]

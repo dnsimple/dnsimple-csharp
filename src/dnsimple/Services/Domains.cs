@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using RestSharp;
-using static dnsimple.JsonTools<dnsimple.Services.Domain>;
+using static dnsimple.Services.JsonTools<dnsimple.Services.Domain>;
 
 namespace dnsimple.Services
 {

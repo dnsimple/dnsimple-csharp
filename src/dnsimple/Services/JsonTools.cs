@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 //TODO: Look into the suggestions... ;)
-namespace dnsimple
+namespace dnsimple.Services
 {
     /// <summary>
     /// Provides a set of methods to extract the data from the JSON payloads

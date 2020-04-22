@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
-using static dnsimple.JsonTools<dnsimple.Services.Account>;
+using static dnsimple.Services.JsonTools<dnsimple.Services.Account>;
 
 namespace dnsimple.Services
 {

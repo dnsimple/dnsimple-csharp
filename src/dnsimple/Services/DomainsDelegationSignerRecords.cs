@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using RestSharp;
-using static dnsimple.JsonTools<dnsimple.Services.DelegationSignerRecord>;
+using static dnsimple.Services.JsonTools<dnsimple.Services.DelegationSignerRecord>;
 
 namespace dnsimple.Services
 {

@@ -156,7 +156,6 @@ namespace dnsimple_test.Services
                 
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
-            
         }
 
         [Test]
@@ -214,7 +213,7 @@ namespace dnsimple_test.Services
         {
             var filters = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("name_like", "example.com"),
+                new KeyValuePair<string, string>("name_like", "example.com")
             };
             var sorting = new KeyValuePair<string, string>("sort", "id:asc,name:desc");
             var pagination = new List<KeyValuePair<string, string>>

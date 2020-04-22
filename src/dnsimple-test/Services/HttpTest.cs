@@ -114,8 +114,7 @@ namespace dnsimple_test.Services
         [Test]
         public void WhenThereAreNoOptions()
         {
-            var parameters = new List<KeyValuePair<string, string>>();
-            _builder.AddParameters(parameters);
+            _builder.AddParameters(new List<KeyValuePair<string, string>>());
             Assert.AreEqual(0, _builder.Request.Parameters.Count);
         }
 
