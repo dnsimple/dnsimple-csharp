@@ -85,6 +85,12 @@ namespace dnsimple
         OAuth2Service OAuth { get; }
         
         /// <summary>
+        /// Instance of the <c>RegistrarService</c>
+        /// </summary>
+        /// <see cref="RegistrarService"/>
+        RegistrarService Registrar { get; }
+        
+        /// <summary>
         /// Instance of the <c>ZonesService</c>
         /// <see cref="ZonesService"/>
         /// <see>https://developer.dnsimple.com/v2/zones/</see>
@@ -194,6 +200,8 @@ namespace dnsimple
 
         /// <inheritdoc />
         public OAuth2Service OAuth { get; private set; }
+        
+        public RegistrarService Registrar { get; private set; }
 
         public ZonesService Zones { get; private set; }
 
@@ -286,6 +294,7 @@ namespace dnsimple
                 new RequestBuilder());
             Identity = new IdentityService(this);
             OAuth = new OAuth2Service(Http);
+            Registrar = new RegistrarService(this);
             Zones = new ZonesService(this);
         }
     }
