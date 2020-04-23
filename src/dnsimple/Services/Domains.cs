@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using dnsimple.Services.ListOptions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
@@ -9,23 +10,12 @@ using static dnsimple.Services.JsonTools<dnsimple.Services.Domain>;
 
 namespace dnsimple.Services
 {
-    /// <summary>
-    /// The <c>DomainsService</c> handles communication with the domain related
-    /// methods of the DNSimple API.
-    /// </summary>
+    /// <inheritdoc cref="Service"/>
     /// <see>https://developer.dnsimple.com/v2/domains/</see>
-    public partial class DomainsService
+    public partial class DomainsService : Service
     {
-        private IClient Client { get; }
-
-        /// <summary>
-        /// Creates a new instance of a <c>DomainsService</c> by passing an
-        /// instance of the DNSimple <c>IClient</c>.
-        /// </summary>
-        /// <param name="client">An instance of the <c>IClient</c></param>
-        /// <see cref="IClient"/>
-        public DomainsService(IClient client) => 
-            Client = client;
+        /// <inheritdoc cref="Service"/>
+        public DomainsService(IClient client) : base(client) {} 
 
         /// <summary>
         /// Retrieves the details of an existing domain.
@@ -34,6 +24,7 @@ namespace dnsimple.Services
         /// <param name="domainIdentifier">The domain name or ID</param>
         /// <returns>A <c>DomainResponse</c> containing the data of the domain
         /// requested.</returns>
+        /// <see>https://developer.dnsimple.com/v2/domains/#getDomain</see>
         public DomainResponse GetDomain(long accountId, string domainIdentifier)
         {
             return new DomainResponse(Client.Http.Execute(Client.Http
@@ -45,9 +36,25 @@ namespace dnsimple.Services
         /// Lists the domains in the account.
         /// </summary>
         /// <param name="accountId">The account ID</param>
+        /// <returns>A <c>DomainResponse</c> containing a list of domains.</returns>
+        /// <see>https://developer.dnsimple.com/v2/domains/#listDomains</see>
+        public DomainsResponse ListDomains(long accountId)
+        {
+            var requestBuilder =
+                Client.Http.RequestBuilder(DomainsPath(accountId));
+
+            return new DomainsResponse(
+                Client.Http.Execute(requestBuilder.Request));
+        }
+
+        /// <summary>
+        /// Lists the domains in the account.
+        /// </summary>
+        /// <param name="accountId">The account ID</param>
         /// <param name="options">Options passed to the list (sorting, filtering, pagination)</param>
         /// <returns>A <c>DomainResponse</c> containing a list of domains.</returns>
         /// <see cref="DomainListOptions"/>
+        /// <see>https://developer.dnsimple.com/v2/domains/#listDomains</see>
         public DomainsResponse ListDomains(long accountId, ListOptionsWithFiltering options)
         {
             var requestBuilder =
@@ -64,21 +71,7 @@ namespace dnsimple.Services
             return new DomainsResponse(
                 Client.Http.Execute(requestBuilder.Request));
         }
-        
-        /// <summary>
-        /// Lists the domains in the account.
-        /// </summary>
-        /// <param name="accountId">The account ID</param>
-        /// <returns>A <c>DomainResponse</c> containing a list of domains.</returns>
-        public DomainsResponse ListDomains(long accountId)
-        {
-            var requestBuilder =
-                Client.Http.RequestBuilder(DomainsPath(accountId));
 
-            return new DomainsResponse(
-                Client.Http.Execute(requestBuilder.Request));
-        }
-        
         /// <summary>
         /// Adds a domain to the account.
         /// </summary>
@@ -86,6 +79,7 @@ namespace dnsimple.Services
         /// <param name="domainName">The name of the domain to be created</param>
         /// <returns>A <c>DomainResponse</c> containing the data of the newly
         /// created domain.</returns>
+        /// <see>https://developer.dnsimple.com/v2/domains/#createDomain</see>
         public DomainResponse CreateDomain(long accountId, string domainName)
         {
             var request =
@@ -107,6 +101,7 @@ namespace dnsimple.Services
         /// <remarks>It cannot be undone.</remarks>
         /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or id</param>
+        /// <see>https://developer.dnsimple.com/v2/domains/#deleteDomain</see>
         public void DeleteDomain(long accountId, string domainIdentifier)
         {
             var request =
@@ -198,83 +193,5 @@ namespace dnsimple.Services
         public string ExpiresOn { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-    }
-    
-    /// <summary>
-    /// Defines the options you may want to send to list domains, such as
-    /// pagination, sorting and filtering.
-    /// </summary>
-    /// <see cref="ListOptionsWithFiltering"/>
-    public class DomainListOptions : ListOptionsWithFiltering
-    {
-        private const string NameLikeFilter = "name_like";
-        private const string RegistrantIdFilter = "registrant_id";
-
-        private const string IdSort = "id";
-        private const string NameSort = "name";
-        private const string ExpiresOnSort = "expires_on";
-
-        /// <summary>
-        /// Creates a new instance of <c>DomainListOptions</c>.
-        /// </summary>
-        public DomainListOptions()
-           => Pagination = new Pagination();
-        
-        /// <summary>
-        /// Sets the order by which to sort by id.
-        /// </summary>
-        /// <param name="order">The order in which we want to sort (asc or desc)</param>
-        /// <returns>The instance of the <c>DomainListOptions</c></returns>
-        public DomainListOptions SortById(Order order)
-        {
-            AddSortCriteria(new Sort { Field = IdSort, Order = order });
-            return this;
-        }
-
-        /// <summary>
-        /// Sets the order by which to sort by name.
-        /// </summary>
-        /// <param name="order">The order in which we want to sort (asc or desc)</param>
-        /// <returns>The instance of the <c>DomainListOptions</c></returns>
-        public DomainListOptions SortByName(Order order)
-        {
-            AddSortCriteria(new Sort { Field = NameSort, Order = order });
-            return this;
-        }
-
-        /// <summary>
-        /// Sets the order by which to sort by expires on.
-        /// </summary>
-        /// <param name="order">The order in which we want to sort (asc or desc)</param>
-        /// <returns>The instance of the <c>DomainListOptions</c></returns>
-        public DomainListOptions SortByExpiresOn(Order order)
-        {
-            AddSortCriteria(new Sort { Field = ExpiresOnSort, Order = order });
-            return this;
-        }
-
-        /// <summary>
-        /// Sets the name to be filtered by.
-        /// </summary>
-        /// <param name="name">The name we want to filter by.</param>
-        /// <returns>The instance of the <c>DomainListOptions</c></returns>
-        public DomainListOptions FilterByName(string name)
-        {
-            AddFilter(new Filter { Field = NameLikeFilter, Value = name });
-            return this;
-        }
-
-        /// <summary>
-        /// Sets the registrant id to be filtered by.
-        /// </summary>
-        /// <param name="registrantId">The registrant id we want to filter by.</param>
-        /// <returns>The instance of the <c>DomainListOptions</c></returns>
-        public DomainListOptions FilterByRegistrantId(long registrantId)
-        {
-            AddFilter(new Filter { Field = RegistrantIdFilter, 
-                Value = registrantId.ToString() });
-            
-            return this;
-        }
     }
 }

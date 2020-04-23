@@ -13,18 +13,11 @@ namespace dnsimple.Services
     ///     var accounts = client.Accounts.List();
     /// </code>
     /// </example>
-    public class AccountsService
+    /// <see>https://developer.dnsimple.com/v2/accounts/</see>
+    public class AccountsService : Service
     {
-        private IClient Client { get; }
-
-        /// <summary>
-        /// Creates a new instance of the <c>AccountsService</c> by passing
-        /// an instance of the DNSimple <c>IClient</c>.
-        /// </summary>
-        /// <param name="client">An instance of the <c>IClient</c></param>
-        /// <see cref="IClient"/>
-        public AccountsService(IClient client) => 
-            Client = client;
+        /// <inheritdoc cref="Service"/>
+        public AccountsService(IClient client) : base(client) {}
 
         /// <summary>
         /// Returns a <c>AccountsResponse</c> containing a list of the accounts

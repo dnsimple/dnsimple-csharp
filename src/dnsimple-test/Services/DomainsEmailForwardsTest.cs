@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using dnsimple.Services;
+using dnsimple.Services.ListOptions;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 

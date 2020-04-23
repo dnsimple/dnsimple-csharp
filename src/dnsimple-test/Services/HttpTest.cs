@@ -147,8 +147,13 @@ namespace dnsimple_test.Services
         [Test]
         public void AddsJsonPayloadToTheBody()
         {
-            var record = new DelegationSignerRecord();
-            record.Algorithm = "superMemo";
+            var record = new DelegationSignerRecord
+            {
+                Algorithm = "superMemo",
+                Digest = "digest",
+                DigestType = "type",
+                Keytag = "keytag"
+            };
 
             _builder.AddJsonPayload(record);
             var request = _builder.Request;

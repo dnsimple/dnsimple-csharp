@@ -14,9 +14,7 @@ namespace dnsimple.Services
         private readonly RequestBuilder _builder;
         private IRestClient RestClient { get; }
 
-        protected HttpService()
-        {
-        }
+        protected HttpService() {}
 
         /// <summary>
         /// Constructs the HTTP service by passing an instance of a
@@ -102,7 +100,7 @@ namespace dnsimple.Services
                 case HttpStatusCode.HttpVersionNotSupported:
                     break;
                 case HttpStatusCode.InternalServerError:
-                    break;
+                    throw new DnSimpleException(message);
                 case HttpStatusCode.LengthRequired:
                     break;
                 case HttpStatusCode.MethodNotAllowed:

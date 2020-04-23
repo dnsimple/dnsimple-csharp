@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using dnsimple.Services.ListOptions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
@@ -12,18 +13,11 @@ namespace dnsimple.Services
     /// methods of the DNSimple API
     /// </summary>
     /// <see>https://developer.dnsimple.com/v2/zones/</see>
-    public partial class ZonesService
+    public partial class ZonesService : Service
     {
-        private IClient Client { get; }
 
-        /// <summary>
-        /// Creates a new instance of a <c>ZonesService</c> by passing an
-        /// instance of the DNSimple <c>IClient</c>
-        /// </summary>
-        /// <param name="client">An instance of the <c>IClient</c></param>
-        /// <see cref="IClient"/>
-        public ZonesService(IClient client) =>
-            Client = client;
+        /// <inheritdoc cref="Service"/>
+        public ZonesService(IClient client) : base(client) {}
 
         /// <summary>
         /// Lists the zones in the account.
@@ -223,59 +217,5 @@ namespace dnsimple.Services
     public struct ZoneDistribution
     {
         public bool Distributed { get; set; }
-    }
-    
-    /// <summary>
-    /// Defines the options you may want to send to list zones, such as
-    /// pagination, sorting and filtering.
-    /// </summary>
-    /// <see cref="ListOptionsWithFiltering"/>
-    public class ZonesListOptions : ListOptionsWithFiltering
-    {
-        private const string NameLikeFilter = "name_like";
-        
-        private const string IdSort = "id";
-        private const string NameSort = "name";
-
-        /// <summary>
-        /// Creates a new instance of <c>ZonesListOptions</c>.
-        /// </summary>
-        public ZonesListOptions() =>
-            Pagination = new Pagination();
-        
-        /// <summary>
-        /// Sets the name to be filtered by.
-        /// </summary>
-        /// <param name="name">The name we want to filter by.</param>
-        /// <returns>The instance of the <c>ZonesListOptions</c></returns>
-        public ZonesListOptions FilterByName(string name)
-        {
-            AddFilter(new Filter { Field = NameLikeFilter, Value = name });
-            return this;
-        }
-
-        /// <summary>
-        /// Sets the order by which to sort by id.
-        /// </summary>
-        /// <param name="order">The order in which we want to sort (asc or desc)</param>
-        /// <returns>The instance of the <c>ZonesListOptions</c></returns>
-        /// <see cref="Order"/>
-        public ZonesListOptions SortById(Order order)
-        {
-            AddSortCriteria(new Sort { Field = IdSort, Order = order });
-            return this;
-        }
-
-        /// <summary>
-        /// Sets the order by which to sort by name.
-        /// </summary>
-        /// <param name="order">The order in which we want to sort (asc or desc)</param>
-        /// <returns>The instance of the <c>ZonesListOptions</c></returns>
-        /// <see cref="Order"/>
-        public ZonesListOptions SortByName(Order order)
-        {
-            AddSortCriteria(new Sort { Field = NameSort, Order = order});
-            return this;
-        }
     }
 }

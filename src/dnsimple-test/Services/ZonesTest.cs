@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using dnsimple;
 using dnsimple.Services;
+using dnsimple.Services.ListOptions;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 

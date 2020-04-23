@@ -19,6 +19,7 @@ namespace dnsimple_test
         public OAuth2Service OAuth { get; }
         public ZonesService Zones { get; }
         public AccountsService Accounts { get; }
+        public RegistrarService Registrar { get; set; }
 
         public MockDnsimpleClient(string fixture)
         {
@@ -29,6 +30,7 @@ namespace dnsimple_test
             Http = new MockHttpService("v2", Fixture, BaseUrl);
             Identity = new IdentityService(this);
             OAuth = new OAuth2Service(Http);
+            Registrar = new RegistrarService(this);
             Zones = new ZonesService(this);
         }
         

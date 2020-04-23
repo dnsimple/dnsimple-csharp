@@ -2,6 +2,19 @@ using Newtonsoft.Json.Linq;
 
 namespace dnsimple.Services
 {
+    public abstract class Service
+    {
+        protected IClient Client { get; }
+
+        /// <summary>
+        /// Creates a new instance of a Service by passing an
+        /// instance of the DNSimple <c>IClient</c>
+        /// </summary>
+        /// <param name="client">An instance of the <c>IClient</c></param>
+        /// <see cref="IClient"/>
+        public Service(IClient client) =>
+            Client = client;
+    }
     /// <summary>
     /// Represents the most basic response from a call to the DNSimple API.
     /// </summary>
@@ -13,7 +26,7 @@ namespace dnsimple.Services
         /// </summary>
         public T Data { get; protected set; }
 
-        protected SimpleDnsimpleResponse(JToken json) => 
+        public SimpleDnsimpleResponse(JToken json) => 
             Data = JsonTools<T>.DeserializeObject("data", json);
     }
     
@@ -29,7 +42,7 @@ namespace dnsimple.Services
         /// </summary>
         public T Data { get; protected set; }
 
-        protected ListDnsimpleResponse() =>
+        public ListDnsimpleResponse() =>
             Data = new T();
     }
 
@@ -52,7 +65,7 @@ namespace dnsimple.Services
         /// <see cref="PaginationData"/>
         public PaginationData PaginationData { get; }
 
-        protected PaginatedDnsimpleResponse(JToken response)
+        public PaginatedDnsimpleResponse(JToken response)
         {
             Data = new T();
             PaginationData = PaginationData.From(response);

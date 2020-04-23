@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using dnsimple.Services.ListOptions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
@@ -65,6 +66,8 @@ namespace dnsimple.Services
         /// <param name="record">The zone record input</param>
         /// <returns>The newly created <c>ZoneRecord</c> wrapped inside a
         /// <c>ZoneRecordResponse</c></returns>
+        /// <exception cref="DnSimpleException">If Bad Request</exception>
+        /// <exception cref="DnSimpleValidationException">If the validation fails</exception>
         /// <see cref="ZoneRecordResponse"/>
         /// <see cref="ZoneRecord"/>
         /// <see>https://developer.dnsimple.com/v2/zones/records/#createZoneRecord</see>
@@ -74,10 +77,16 @@ namespace dnsimple.Services
             var requestBuilder =
                 Client.Http.RequestBuilder(ZoneRecordsPath(accountId, zoneId));
             requestBuilder.Method(Method.POST);
-            requestBuilder.AddJsonPayload(record);
+            requestBuilder.AddJsonPayload(PrepareRecord(record));
 
             return new ZoneRecordResponse(
                 Client.Http.Execute(requestBuilder.Request));
+        }
+
+        private static ZoneRecordToSend PrepareRecord(ZoneRecord record)
+        {
+            var newRecord = new ZoneRecordToSend(record);
+            return newRecord;
         }
 
         /// <summary>
@@ -107,6 +116,8 @@ namespace dnsimple.Services
         /// <param name="record">The zone record input</param>
         /// <returns>The newly updated <c>ZoneRecord</c> wrapped inside a
         /// <c>ZoneRecordResponse</c></returns>
+        /// <exception cref="DnSimpleException">If bad request</exception>
+        /// <exception cref="DnSimpleValidationException">If the validation fails</exception>
         /// <see cref="ZoneRecordResponse"/>
         /// <see cref="ZoneRecord"/>
         /// <see>https://developer.dnsimple.com/v2/zones/records/#updateZoneRecord</see>
@@ -215,26 +226,6 @@ namespace dnsimple.Services
     }
 
     /// <summary>
-    /// Represents a zone Record
-    /// </summary>
-    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public struct ZoneRecordData
-    {
-        public long Id { get; set; }
-        public string ZoneId { get; set; }
-        public long? ParentId { get; set; }
-        public string Name { get; set; }
-        public string Content { get; set; }
-        public long Ttl { get; set; }
-        public long? Priority { get; set; }
-        public ZoneRecordType Type { get; set; }
-        public List<string> Regions { get; set; }
-        public bool SystemRecord { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
-    }
-
-    /// <summary>
     /// Represents a zone record type.
     /// </summary>
     public enum ZoneRecordType
@@ -261,41 +252,6 @@ namespace dnsimple.Services
     }
 
     /// <summary>
-    /// Represents a zone record
-    /// </summary>
-    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class ZoneRecord
-    {
-        public string Name { get; set; }
-        public ZoneRecordType Type { get; set; }
-        public string Content { get; set; }
-        public long Ttl { get; set; }
-        public long? Priority { get; set; }
-        public List<string> Regions { get; private set; } = new List<string>();
-
-        /// <summary>
-        /// Replaces the regions list with a new list of regions.
-        /// </summary>
-        /// <param name="regions">The regions list we want</param>
-        /// <see cref="List{T}"/>
-        /// <see cref="Region"/>
-        public void AddRegions(List<Region> regions)
-        {
-            Regions = regions.Select(region => region.ToString()).ToList();
-        }
-
-        /// <summary>
-        /// Adds a region to the regions list.
-        /// </summary>
-        /// <param name="region">The region we want to add</param>
-        /// <see cref="Region"/>
-        public void AddRegion(Region region)
-        {
-            Regions.Add(region.ToString());
-        }
-    }
-
-    /// <summary>
     /// Represents a Region.
     ///
     /// Zone Record Regions lets you select geographical regions where you want
@@ -315,106 +271,64 @@ namespace dnsimple.Services
     }
 
     /// <summary>
-    /// Defines the options you may want to send to list zone records, such as
-    /// pagination, sorting and filtering.
+    /// Represents a zone Record
     /// </summary>
-    /// <see cref="ListOptionsWithFiltering"/>
-    public class ZoneRecordsListOptions : ListOptionsWithFiltering
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    public struct ZoneRecordData
     {
-        private const string NameLikeFilter = "name_like";
-        private const string NameExactFilter = "name";
-        private const string TypeFilter = "type";
+        public long Id { get; set; }
+        public string ZoneId { get; set; }
+        public long? ParentId { get; set; }
+        public string Name { get; set; }
+        public string Content { get; set; }
+        public long Ttl { get; set; }
+        public long? Priority { get; set; }
+        public ZoneRecordType Type { get; set; }
+        public List<string> Regions { get; set; }
+        public bool SystemRecord { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+    }
 
-        private const string IdSort = "id";
-        private const string NameSort = "name";
-        private const string ContentSort = "content";
-        private const string TypeSort = "type";
+    /// <summary>
+    /// Represents a zone record
+    /// </summary>
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    public class ZoneRecord
+    {
+        public string Name { get; set; }
+        public ZoneRecordType Type { get; set; }
+        public string Content { get; set; }
+        public long Ttl { get; set; }
+        public long? Priority { get; set; }
+        public List<Region> Regions { get; private set; } = new List<Region>();
+    }
 
-        /// <summary>
-        /// Creates a new instance of <c>ZoneRecordsListOptions</c>.
-        /// </summary>
-        public ZoneRecordsListOptions() =>
-            Pagination = new Pagination();
 
-        /// <summary>
-        /// Only include records containing given string.
-        /// </summary>
-        /// <param name="name">The name we want to filter by</param>
-        /// <returns>The instance of the <c>ZoneRecordsListOptions</c></returns>
-        public ZoneRecordsListOptions FilterByName(string name)
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy), ItemNullValueHandling = NullValueHandling.Ignore)]
+    internal class ZoneRecordToSend
+    {
+        [JsonProperty(Required = Required.Always)]
+        public string Name { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public string Type { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public string Content { get; set; }
+        public long Ttl { get; set; }
+        public long? Priority { get; set; }
+        public List<string> Regions { get; set; }
+
+        internal ZoneRecordToSend(ZoneRecord record)
         {
-            AddFilter(new Filter {Field = NameLikeFilter, Value = name});
-            return this;
-        }
-
-        /// <summary>
-        /// Only include records with name equal to given string.
-        /// </summary>
-        /// <param name="name">The name we want to filter by</param>
-        /// <returns>The instance of the <c>ZoneRecordsListOptions</c></returns>
-        public ZoneRecordsListOptions FilterByExactName(string name)
-        {
-            AddFilter(new Filter {Field = NameExactFilter, Value = name});
-            return this;
-        }
-        
-        /// <summary>
-        /// Only include records with record type equal to given string
-        /// </summary>
-        /// <param name="type">The record type we want to filter by</param>
-        /// <returns>The instance of the <c>ZoneRecordsListOptions</c></returns>
-        public ZoneRecordsListOptions FilterByType(ZoneRecordType type)
-        {
-            AddFilter(new Filter {Field = TypeFilter, Value = type.ToString()});
-            return this;
-        }
-
-        /// <summary>
-        /// Sort records by ID.
-        /// </summary>
-        /// <param name="order">The order in which we want to sort (asc or desc)</param>
-        /// <returns>The instance of the <c>ZoneRecordsListOptions</c></returns>
-        /// <see cref="Order"/>
-        public ZoneRecordsListOptions SortById(Order order)
-        {
-            AddSortCriteria(new Sort {Field = IdSort, Order = order});
-            return this;
-        }
-
-        /// <summary>
-        /// Sort records by name (alphabetical order).
-        /// </summary>
-        /// <param name="order">The order in which we want to sort (asc or desc)</param>
-        /// <returns>The instance of the <c>ZoneRecordsListOptions</c></returns>
-        /// <see cref="Order"/>
-        public ZoneRecordsListOptions SortByName(Order order)
-        {
-            AddSortCriteria(new Sort {Field = NameSort, Order = order});
-            return this;
-        }
-
-        /// <summary>
-        /// Sort records by content.
-        /// </summary>
-        /// <param name="order">The order in which we want to sort (asc or desc)</param>
-        /// <returns>The instance of the <c>ZoneRecordsListOptions</c></returns>
-        /// <see cref="Order"/>
-        public ZoneRecordsListOptions SortByContent(Order order)
-        {
-            AddSortCriteria(new Sort {Field = ContentSort, Order = order});
-            return this;
-        }
-
-        /// <summary>
-        /// Sort records by type.
-        /// </summary>
-        /// <param name="order">The order in which we want to sort (asc or desc)</param>
-        /// <returns>The instance of the <c>ZoneRecordsListOptions</c></returns>
-        /// <see cref="Order"/>
-        public ZoneRecordsListOptions SortByType(Order order)
-        {
-            AddSortCriteria(new Sort {Field = TypeSort, Order = order});
-            return this;
+            Name = record.Name;
+            Type = record.Type.ToString();
+            Content = record.Content;
+            Ttl = record.Ttl;
+            Priority = record.Priority;
+            if (record.Regions.Count > 0)
+            {
+                Regions = record.Regions.Select(region => region.ToString()).ToList();
+            }
         }
     }
 }

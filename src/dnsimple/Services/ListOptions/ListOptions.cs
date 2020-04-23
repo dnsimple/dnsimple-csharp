@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace dnsimple.Services
+namespace dnsimple.Services.ListOptions
 {
     /// <summary>
     /// Contains the common options you can pass to a "List" method in order
@@ -26,7 +26,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Unpacks the sorting into a <c>KeyValuePair</c>.
         /// </summary>
-        /// <returns>A <c>KeyVaulePair</c> with the sort options</returns>
+        /// <returns>A <c>KeyValuePair</c> with the sort options</returns>
         /// <see cref="KeyValuePair{TKey,TValue}"/>
         public KeyValuePair<string, string> UnpackSorting()
         {
@@ -46,6 +46,11 @@ namespace dnsimple.Services
 
         }
 
+        /// <summary>
+        /// Unpacks the Pagination into a <c>KeyValuePair</c>.
+        /// </summary>
+        /// <returns>A <c>KeyValuePair</c> with the pagination options</returns>
+        /// <see cref="KeyValuePair{TKey,TValue}"/>
         public List<KeyValuePair<string, string>> UnpackPagination()
         {
             return new List<KeyValuePair<string, string>>
@@ -145,22 +150,22 @@ namespace dnsimple.Services
     /// </summary>
     public class Pagination
     {
-        private const int _page = 1;
-        private const int _perPage = 30;
+        private const int DefaultPage = 1;
+        private const int DefaultPerPage = 30;
         
         /// <summary>
         /// The items to display per page (defaults to 30).
         /// </summary>
-        public int PerPage { get; set; } = _perPage;
+        public int PerPage { get; set; } = DefaultPerPage;
 
         /// <summary>
         /// The page number requested (defaults to 1).
         /// </summary>
-        public int Page { get; set; } = _page;
+        public int Page { get; set; } = DefaultPage;
 
         public bool IsDefault()
         {
-            return Page == _page && PerPage == _perPage;
+            return Page == DefaultPage && PerPage == DefaultPerPage;
         }
     }
 }
