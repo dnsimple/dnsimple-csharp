@@ -11,7 +11,7 @@ namespace dnsimple.Services
     /// Provides access to the DNSimple Registrar API.
     /// </summary>
     /// <see>https://developer.dnsimple.com/v2/registrar/</see>
-    public class RegistrarService : Service
+    public partial class RegistrarService : Service
     {
         /// <inheritdoc cref="Service"/>
         public RegistrarService(IClient client) : base(client)

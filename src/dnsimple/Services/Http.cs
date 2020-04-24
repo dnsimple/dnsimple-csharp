@@ -118,7 +118,7 @@ namespace dnsimple.Services
                 case HttpStatusCode.PaymentRequired:
                     break;
                 case HttpStatusCode.PreconditionFailed:
-                    break;
+                    throw new DnSimpleException(message);
                 case HttpStatusCode.ProxyAuthenticationRequired:
                     break;
                 case HttpStatusCode.RequestedRangeNotSatisfiable:

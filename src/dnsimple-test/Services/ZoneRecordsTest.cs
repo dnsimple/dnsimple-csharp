@@ -167,7 +167,7 @@ namespace dnsimple_test.Services
                 Assert.AreEqual(ZoneRecordType.A, created.Type);
                 Assert.Contains("global", created.Regions);
 
-                Assert.AreEqual(Method.POST, client.MethodSent());
+                Assert.AreEqual(Method.POST, client.HttpMethodUsed());
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
@@ -196,7 +196,7 @@ namespace dnsimple_test.Services
                 Assert.Contains("IAD", record.Regions);
                 Assert.IsFalse(record.SystemRecord);
 
-                Assert.AreEqual(Method.GET, client.MethodSent());
+                Assert.AreEqual(Method.GET, client.HttpMethodUsed());
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
@@ -234,7 +234,7 @@ namespace dnsimple_test.Services
                 Assert.IsFalse(record.SystemRecord);
 
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
-                Assert.AreEqual(Method.PATCH, client.MethodSent());
+                Assert.AreEqual(Method.PATCH, client.HttpMethodUsed());
             });
         }
 
@@ -253,7 +253,7 @@ namespace dnsimple_test.Services
                     client.Zones.DeleteRecord(accountId, zoneId, recordId);
                 });
                 
-                Assert.AreEqual(Method.DELETE, client.MethodSent());
+                Assert.AreEqual(Method.DELETE, client.HttpMethodUsed());
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }

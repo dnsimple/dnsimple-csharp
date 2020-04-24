@@ -88,7 +88,8 @@
         <Compile Include="Services\HttpTest.cs" />
         <Compile Include="Services\IdentityServiceTest.cs" />
         <Compile Include="Services\OAuth2Test.cs" />
-        <Compile Include="Services\RegistrarServicesTest.cs" />
+        <Compile Include="Services\RegistrarDelegationTest.cs" />
+        <Compile Include="Services\RegistrarTest.cs" />
         <Compile Include="Services\ZoneRecordsTest.cs" />
         <Compile Include="Services\ZonesTest.cs" />
         <Compile Include="TestingAll.cs" />

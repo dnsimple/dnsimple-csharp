@@ -60,7 +60,7 @@ namespace dnsimple_test
             return ((MockHttpService) Http).RequestUrlSent;
         }
 
-        public Method MethodSent()
+        public Method HttpMethodUsed()
         {
             return ((MockHttpService) Http).MethodSent;
         }
