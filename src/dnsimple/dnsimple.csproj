@@ -90,6 +90,7 @@
         <Compile Include="Services\Registrar.cs" />
         <Compile Include="Services\RegistrarAutoRenewal.cs" />
         <Compile Include="Services\RegistrarDelegation.cs" />
+        <Compile Include="Services\RegistrarWhoisPrivacy.cs" />
         <Compile Include="Services\Services.cs" />
         <Compile Include="Services\ZoneRecords.cs" />
         <Compile Include="Services\Zones.cs" />
