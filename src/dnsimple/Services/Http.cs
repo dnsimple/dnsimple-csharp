@@ -28,6 +28,7 @@ namespace dnsimple.Services
         public HttpService(IRestClient restClient, RequestBuilder builder)
         {
             RestClient = restClient;
+            RestClient.UserAgent = "dnsimple-csharp/0.8.0-alpha";
             _builder = builder;
         }
 
@@ -86,7 +87,9 @@ namespace dnsimple.Services
                 case HttpStatusCode.BadGateway:
                     break;
                 case HttpStatusCode.BadRequest:
-                    throw new DnSimpleValidationException(error);
+                    if(error["errors"] != null)
+                        throw new DnSimpleValidationException(error);
+                    break;
                 case HttpStatusCode.Conflict:
                     break;
                 case HttpStatusCode.ExpectationFailed:

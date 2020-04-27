@@ -5,5 +5,3 @@
 /src/dnsimple/obj/
 /src/dnsimple-test/bin/
 /src/dnsimple-test/obj/
-mono*.blob
-/dnsimple-csharp.sln.DotSettings.user

@@ -18,7 +18,7 @@ namespace dnsimple_test.Services
         [Test]
         public void ReturnsARequestBuilder()
         {
-            var http = new HttpService(null, new RequestBuilder());
+            var http = new HttpService(new RestClient(), new RequestBuilder());
             Assert.IsInstanceOf(typeof(RequestBuilder),
                 http.RequestBuilder(""));
         }

@@ -30,7 +30,7 @@ namespace dnsimple_test.Services
         [Test]
         public void ExchangeAuthorizationForToken()
         {
-            var http = new Mock<HttpService>(null, new RequestBuilder());
+            var http = new Mock<HttpService>(new RestClient(), new RequestBuilder());
             var mockRestResponse = new Mock<RestResponse>();
             var oauthService = new OAuth2Service(http.Object);
 
