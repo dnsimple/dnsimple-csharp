@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>DNSimple</id>
-    <version>0.8.0-alpha-27042002</version>
+    <version>0.8.0-alpha-27042020</version>
     <title>$title$</title>
     <authors>Enrique Comba Riepenhausen</authors>
     <owners>$company$</owners>
@@ -22,7 +22,6 @@
     <dependencies>
       <dependency id="RestSharp" version="106.10.1" />
       <dependency id="Newtonsoft.Json" version="12.0.3" />
-      <dependency id="RestSharp.Serializers.Newtonsoft.Json" version="106.10.1" />
     </dependencies>
   </metadata>
   <files>
