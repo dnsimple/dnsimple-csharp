@@ -37,9 +37,9 @@ namespace dnsimple_test.Services
         [Test]
         public void AccountsResponse()
         {
-            var accountsResponse = new AccountsResponse(_jToken);
+            var accountsResponse = new ListDnsimpleResponse<Account>(_jToken);
 
-            Assert.AreEqual(2, accountsResponse.Data.Accounts.Count);
+            Assert.AreEqual(2, accountsResponse.Data.Count);
         }
         [Test]
         [TestCase("https://api.sandbox.dnsimple.com/v2/accounts")]
@@ -48,7 +48,7 @@ namespace dnsimple_test.Services
             var client = new MockDnsimpleClient("accounts/success-user.http");
 
             var accounts = client.Accounts.List();
-            var lastAccount = accounts.Data.Accounts.Last();
+            var lastAccount = accounts.Data.Last();
 
             Assert.Multiple(() =>
             {

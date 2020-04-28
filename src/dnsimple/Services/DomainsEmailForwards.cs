@@ -1,11 +1,9 @@
 using System;
-using System.Collections.Generic;
 using dnsimple.Services.ListOptions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using RestSharp;
-using static dnsimple.Services.JsonTools<dnsimple.Services.EmailForward>;
+using static dnsimple.Services.Paths;
 
 namespace dnsimple.Services
 {
@@ -21,10 +19,10 @@ namespace dnsimple.Services
         /// <param name="domainIdentifier">The domain name or id</param>
         /// <returns>A list of all email forwards for the domain</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/email-forwards/#listEmailForwards</see>
-        public EmailForwardsResponse ListEmailForwards(long accountId,
+        public PaginatedDnsimpleResponse<EmailForward> ListEmailForwards(long accountId,
             string domainIdentifier)
         {
-            return new EmailForwardsResponse(Client.Http.Execute(Client.Http
+            return new PaginatedDnsimpleResponse<EmailForward>(Client.Http.Execute(Client.Http
                 .RequestBuilder(EmailForwardsPath(accountId, domainIdentifier))
                 .Request));
         }
@@ -37,7 +35,7 @@ namespace dnsimple.Services
         /// <param name="options">Options passed to the list (sorting, pagination)</param>
         /// <returns>A list of all email forwards for the domain</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/email-forwards/#listEmailForwards</see>
-        public EmailForwardsResponse ListEmailForwards(long accountId,
+        public PaginatedDnsimpleResponse<EmailForward> ListEmailForwards(long accountId,
             string domainIdentifier, DomainEmailForwardsListOptions options)
         {
             var requestBuilder = Client.Http
@@ -49,7 +47,7 @@ namespace dnsimple.Services
                 requestBuilder.AddParameters(options.UnpackPagination());
             }
             
-            return new EmailForwardsResponse(Client.Http.Execute(requestBuilder
+            return new PaginatedDnsimpleResponse<EmailForward>(Client.Http.Execute(requestBuilder
                 .Request));
         }
 
@@ -61,7 +59,7 @@ namespace dnsimple.Services
         /// <param name="record">The email forward to be added</param>
         /// <returns>The newly created email forward for the domain</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/email-forwards/#createEmailForward</see>
-        public EmailForwardResponse CreateEmailForward(long accountId,
+        public SimpleDnsimpleResponse<EmailForward> CreateEmailForward(long accountId,
             string domainIdentifier, EmailForward record)
         {
             var request =
@@ -70,7 +68,7 @@ namespace dnsimple.Services
             request.Method(Method.POST);
             request.AddJsonPayload(record);
 
-            return new EmailForwardResponse(
+            return new SimpleDnsimpleResponse<EmailForward>(
                 Client.Http.Execute(request.Request));
         }
 
@@ -82,10 +80,10 @@ namespace dnsimple.Services
         /// <param name="emailForwardId">The email forward id</param>
         /// <returns>The email forward</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/email-forwards/#getEmailForward</see>
-        public EmailForwardResponse GetEmailForward(long accountId,
+        public SimpleDnsimpleResponse<EmailForward> GetEmailForward(long accountId,
             string domainIdentifier, int emailForwardId)
         {
-            return new EmailForwardResponse(Client.Http.Execute(Client.Http
+            return new SimpleDnsimpleResponse<EmailForward>(Client.Http.Execute(Client.Http
                 .RequestBuilder(EmailForwardPath(accountId, domainIdentifier,
                     emailForwardId)).Request));
         }
@@ -106,55 +104,6 @@ namespace dnsimple.Services
 
             Client.Http.Execute(request.Request);
         }
-
-        private static string EmailForwardPath(long accountId, string domainIdentifier,
-            int emailForwardId)
-        {
-            return
-                $"{EmailForwardsPath(accountId, domainIdentifier)}/{emailForwardId}";
-        }
-
-        private static string EmailForwardsPath(long accountId,
-            string domainIdentifier)
-        {
-            return $"{DomainPath(accountId, domainIdentifier)}/email_forwards";
-        }
-    }
-
-    /// <summary>
-    /// Represents the response from the API call containing one
-    /// <c>EmailForward</c>.
-    /// </summary>
-    public class EmailForwardResponse : SimpleDnsimpleResponse<EmailForward>
-    {
-        public EmailForwardResponse(JToken json) : base(json)
-        {
-        }
-    }
-
-    /// <summary>
-    /// Represents the response from the API call containing (potentially)
-    /// multiple <c>EmailForward</c> objects inside a <c>EmailForwardsData</c>
-    /// object.
-    /// </summary>
-    public class EmailForwardsResponse : PaginatedDnsimpleResponse<EmailForwardsData>
-    {
-        public EmailForwardsResponse(JToken response) : base(response) =>
-            Data = new EmailForwardsData(response);
-    }
-
-    /// <summary>
-    /// Represents the <c>struct</c> containing a <c>List</c> of <c>EmailForward</c>
-    /// objects.
-    /// </summary>
-    /// <see cref="List{T}"/>
-    /// <see cref="EmailForward"/>
-    public readonly struct EmailForwardsData
-    {
-        public List<EmailForward> EmailForwards { get; }
-
-        public EmailForwardsData(JToken json) =>
-            EmailForwards = DeserializeList(json);
     }
 
     /// <summary>

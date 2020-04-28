@@ -7,6 +7,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using RestSharp;
 using static dnsimple.Services.JsonTools<dnsimple.Services.Domain>;
+using static dnsimple.Services.Paths;
 
 namespace dnsimple.Services
 {
@@ -22,12 +23,11 @@ namespace dnsimple.Services
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or ID</param>
-        /// <returns>A <c>DomainResponse</c> containing the data of the domain
-        /// requested.</returns>
+        /// <returns>The domain requested.</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/#getDomain</see>
-        public DomainResponse GetDomain(long accountId, string domainIdentifier)
+        public SimpleDnsimpleResponse<Domain> GetDomain(long accountId, string domainIdentifier)
         {
-            return new DomainResponse(Client.Http.Execute(Client.Http
+            return new SimpleDnsimpleResponse<Domain>(Client.Http.Execute(Client.Http
                 .RequestBuilder(DomainPath(accountId, domainIdentifier))
                 .Request));
         }
@@ -38,12 +38,12 @@ namespace dnsimple.Services
         /// <param name="accountId">The account ID</param>
         /// <returns>A <c>DomainResponse</c> containing a list of domains.</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/#listDomains</see>
-        public DomainsResponse ListDomains(long accountId)
+        public PaginatedDnsimpleResponse<Domain> ListDomains(long accountId)
         {
             var requestBuilder =
                 Client.Http.RequestBuilder(DomainsPath(accountId));
 
-            return new DomainsResponse(
+            return new PaginatedDnsimpleResponse<Domain>(
                 Client.Http.Execute(requestBuilder.Request));
         }
 
@@ -55,7 +55,7 @@ namespace dnsimple.Services
         /// <returns>A <c>DomainResponse</c> containing a list of domains.</returns>
         /// <see cref="DomainListOptions"/>
         /// <see>https://developer.dnsimple.com/v2/domains/#listDomains</see>
-        public DomainsResponse ListDomains(long accountId, ListOptionsWithFiltering options)
+        public PaginatedDnsimpleResponse<Domain> ListDomains(long accountId, ListOptionsWithFiltering options)
         {
             var requestBuilder =
                 Client.Http.RequestBuilder(DomainsPath(accountId));
@@ -68,7 +68,7 @@ namespace dnsimple.Services
             }
             
 
-            return new DomainsResponse(
+            return new PaginatedDnsimpleResponse<Domain>(
                 Client.Http.Execute(requestBuilder.Request));
         }
 
@@ -80,7 +80,7 @@ namespace dnsimple.Services
         /// <returns>A <c>DomainResponse</c> containing the data of the newly
         /// created domain.</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/#createDomain</see>
-        public DomainResponse CreateDomain(long accountId, string domainName)
+        public SimpleDnsimpleResponse<Domain> CreateDomain(long accountId, string domainName)
         {
             var request =
                 Client.Http.RequestBuilder(DomainsPath(accountId));
@@ -92,7 +92,7 @@ namespace dnsimple.Services
             };
             request.AddParameters(parameters);
 
-            return new DomainResponse(Client.Http.Execute(request.Request));
+            return new SimpleDnsimpleResponse<Domain>(Client.Http.Execute(request.Request));
         }
 
         /// <summary>
@@ -111,68 +111,6 @@ namespace dnsimple.Services
 
             Client.Http.Execute(request.Request);
         }
-
-        private static string DeleteDomainPath(long accountId,
-            string domainIdentifier)
-        {
-            return $"{DomainsPath(accountId)}/{domainIdentifier}";
-        }
-
-        private static string DomainPath(long accountId,
-            string domainIdentifier)
-        {
-            return $"/{accountId}/domains/{domainIdentifier}";
-        }
-
-        private static string DomainsPath(long accountId)
-        {
-            return $"/{accountId}/domains";
-        }
-    }
-
-    /// <summary>
-    /// Represents the response from the API call containing one <c>Domain</c>
-    /// </summary>
-    /// <see cref="Domain"/>
-    public class DomainResponse : SimpleDnsimpleResponse<Domain>
-    {
-        public DomainResponse(JToken json) : base(json)
-        {
-        }
-    }
-
-    /// <summary>
-    /// Represents the response from the API call containing (potentially)
-    /// multiple <c>Domain</c> objects and a <c>Pagination</c> object.
-    /// </summary>
-    /// <see cref="DomainsData"/>
-    /// <see cref="PaginationData"/>
-    public class DomainsResponse : PaginatedDnsimpleResponse<DomainsData>
-    {
-        public DomainsResponse(JToken response) : base(response) =>
-            Data = new DomainsData(response);
-    }
-
-    /// <summary>
-    /// Represents the <c>struct</c> containing a <c>List</c> of <c>Domain</c>
-    /// objects.
-    /// </summary>
-    /// <see cref="List{T}"/>
-    /// <see cref="Domain"/>
-    public readonly struct DomainsData
-    {
-        /// <summary>
-        /// The list of <c>Domain</c> objects
-        /// </summary>
-        public List<Domain> Domains { get; }
-
-        /// <summary>
-        /// Constructs a new <c>DomainsData</c> object by passing in the
-        /// <c>JToken</c>.
-        /// </summary>
-        /// <param name="json"></param>
-        public DomainsData(JToken json) => 
-            Domains = DeserializeList(json);
     }
 
     /// <summary>

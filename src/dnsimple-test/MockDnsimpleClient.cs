@@ -11,21 +11,23 @@ namespace dnsimple_test
     {
         public string BaseUrl { get; } = "https://api.sandbox.dnsimple.com";
         public string Version { get; } = "v2";
-        public DomainsService Domains { get; }
-        public IdentityService Identity { get; }
-
         private string Fixture { get; }
-        public HttpService Http { get; }
-        public OAuth2Service OAuth { get; }
-        public ZonesService Zones { get; }
+
         public AccountsService Accounts { get; }
+        public CertificatesService Certificates { get; }
+        public DomainsService Domains { get; }
+        public HttpService Http { get; }
+        public IdentityService Identity { get; }
+        public OAuth2Service OAuth { get; }
         public RegistrarService Registrar { get; set; }
+        public ZonesService Zones { get; }
 
         public MockDnsimpleClient(string fixture)
         {
             Fixture = fixture;
 
             Accounts = new AccountsService(this);
+            Certificates = new CertificatesService(this);
             Domains = new DomainsService(this);
             Http = new MockHttpService("v2", Fixture, BaseUrl);
             Identity = new IdentityService(this);

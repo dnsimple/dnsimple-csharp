@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using RestSharp;
-using static dnsimple.Services.JsonTools<dnsimple.Services.PushData>;
+using static dnsimple.Services.Paths;
 
 namespace dnsimple.Services
 {
@@ -20,7 +19,7 @@ namespace dnsimple.Services
         /// <param name="email">The email address of the target DNSimple account.</param>
         /// <returns>The newly created push.</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/pushes/#initiateDomainPush</see>
-        public PushResponse InitiatePush(long accountId,
+        public SimpleDnsimpleResponse<PushData> InitiatePush(long accountId,
             string domainIdentifier, string email)
         {
             var request =
@@ -30,7 +29,7 @@ namespace dnsimple.Services
 
             request.AddJsonPayload(PushPayload("new_account_email", email));
 
-            return new PushResponse(Client.Http.Execute(request.Request));
+            return new SimpleDnsimpleResponse<PushData>(Client.Http.Execute(request.Request));
         }
 
         /// <summary>
@@ -39,9 +38,9 @@ namespace dnsimple.Services
         /// <param name="accountId">The account id</param>
         /// <returns>A list of the pending pushes.</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/pushes/#listPushes</see>
-        public PushesResponse ListPushes(long accountId)
+        public PaginatedDnsimpleResponse<PushData> ListPushes(long accountId)
         {
-            return new PushesResponse(
+            return new PaginatedDnsimpleResponse<PushData>(
                 Client.Http.Execute(Client.Http
                     .RequestBuilder(PushPath(accountId))
                     .Request));
@@ -89,55 +88,6 @@ namespace dnsimple.Services
             };
             return payload;
         }
-
-        private static string PushPath(long accountId, long pushId)
-        {
-            return $"{PushPath(accountId)}/{pushId}";
-        }
-
-        private static string InitiatePushPath(long accountId,
-            string domainIdentifier)
-        {
-            return $"{DomainPath(accountId, domainIdentifier)}/pushes";
-        }
-
-        private static string PushPath(long accountId)
-        {
-            return $"{accountId}/pushes";
-        }
-    }
-
-    /// <summary>
-    /// Represents the response from the API call containing (potentially)
-    /// multiple <c>PushData</c> objects inside a <c>PushesData</c> object.
-    /// </summary>
-    public class PushesResponse : PaginatedDnsimpleResponse<PushesData>
-    {
-        public PushesResponse(JToken response) :base (response) =>
-            Data = new PushesData(response);
-    }
-
-    /// <summary>
-    /// Represents the response from the API call containing one <c>PushData</c>
-    /// object.
-    /// </summary>
-    public class PushResponse : SimpleDnsimpleResponse<PushData>
-    {
-        public PushResponse(JToken json) : base(json)
-        {
-        }
-    }
-
-    /// <summary>
-    /// Represents the <c>struct</c> containing a <c>List</c> of pending
-    /// pushes (<c>PushData</c>) for the account.
-    /// </summary>
-    public readonly struct PushesData
-    {
-        public List<PushData> Pushes { get; }
-
-        public PushesData(JToken json) =>
-            Pushes = DeserializeList(json);
     }
 
     /// <summary>

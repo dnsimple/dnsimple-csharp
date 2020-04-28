@@ -1,4 +1,5 @@
 using RestSharp;
+using static dnsimple.Services.Paths;
 
 namespace dnsimple.Services
 {
@@ -35,11 +36,6 @@ namespace dnsimple.Services
                 Client.Http.RequestBuilder(AutoRenewalPath(accountId, domain));
             requestBuilder.Method(method);
             Client.Http.Execute(requestBuilder.Request);
-        }
-
-        private string AutoRenewalPath(long accountId, string domain)
-        {
-            return $"{RegistrarPath(accountId, domain)}/auto_renewal";
         }
     }
 }

@@ -1,11 +1,9 @@
 using System;
-using System.Collections.Generic;
 using dnsimple.Services.ListOptions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using RestSharp;
-using static dnsimple.Services.JsonTools<dnsimple.Services.DelegationSignerRecord>;
+using static dnsimple.Services.Paths;
 
 namespace dnsimple.Services
 {
@@ -20,13 +18,13 @@ namespace dnsimple.Services
         /// <param name="domainIdentifier">The domain name or id</param>
         /// <returns>A list of delegation signer records wrapped in a response</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/dnssec/#listDomainDelegationSignerRecords</see>
-        public DelegationSignerRecordsResponse ListDelegationSignerRecords(
+        public PaginatedDnsimpleResponse<DelegationSignerRecord> ListDelegationSignerRecords(
             long accountId, string domainIdentifier)
         {
             var requestBuilder =
                 Client.Http.RequestBuilder(DsRecordsPath(accountId,
                     domainIdentifier));
-            return new DelegationSignerRecordsResponse(
+            return new PaginatedDnsimpleResponse<DelegationSignerRecord>(
                 Client.Http.Execute(requestBuilder.Request));
         }
 
@@ -38,7 +36,7 @@ namespace dnsimple.Services
         /// <param name="options">Options passed to the list (sorting, pagination)</param>
         /// <returns>A list of delegation signer records wrapped in a response</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/dnssec/#listDomainDelegationSignerRecords</see>
-        public DelegationSignerRecordsResponse ListDelegationSignerRecords(
+        public PaginatedDnsimpleResponse<DelegationSignerRecord> ListDelegationSignerRecords(
             long accountId, string domainIdentifier, ListDomainDelegationSignerRecordsOptions options)
         {
             var requestBuilder =
@@ -52,7 +50,7 @@ namespace dnsimple.Services
                 requestBuilder.AddParameters(options.UnpackPagination());
             }
             
-            return new DelegationSignerRecordsResponse(
+            return new PaginatedDnsimpleResponse<DelegationSignerRecord>(
                 Client.Http.Execute(requestBuilder.Request));
         }
 
@@ -69,7 +67,7 @@ namespace dnsimple.Services
         /// <returns>The newly created delegation signer record.</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/dnssec/#createDomainDelegationSignerRecord</see>
         /// <see>"https://tools.ietf.org/html/rfc4034"</see>
-        public DelegationSignerRecordResponse CreateDelegationSignerRecord(
+        public SimpleDnsimpleResponse<DelegationSignerRecord> CreateDelegationSignerRecord(
             long accountId, string domainIdentifier,
             DelegationSignerRecord record)
         {
@@ -79,7 +77,7 @@ namespace dnsimple.Services
             request.Method(Method.POST);
             request.AddJsonPayload(record);
 
-            return new DelegationSignerRecordResponse(
+            return new SimpleDnsimpleResponse<DelegationSignerRecord>(
                 Client.Http.Execute(request.Request));
         }
 
@@ -91,10 +89,10 @@ namespace dnsimple.Services
         /// <param name="recordId">The delegation signer record id</param>
         /// <returns>The delegation signer record</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/dnssec/#getDomainDelegationSignerRecord</see>
-        public DelegationSignerRecordResponse GetDelegationSignerRecord(
+        public SimpleDnsimpleResponse<DelegationSignerRecord> GetDelegationSignerRecord(
             long accountId, string domainIdentifier, long recordId)
         {
-            return new DelegationSignerRecordResponse(
+            return new SimpleDnsimpleResponse<DelegationSignerRecord>(
                 Client.Http.Execute(Client.Http
                     .RequestBuilder(DsRecordPath(accountId, domainIdentifier,
                         recordId)).Request));
@@ -116,57 +114,6 @@ namespace dnsimple.Services
 
             Client.Http.Execute(request.Request);
         }
-
-        private static string DsRecordsPath(long accountId,
-            string domainIdentifier)
-        {
-            return $"{DomainPath(accountId, domainIdentifier)}/ds_records";
-        }
-
-        private static string DsRecordPath(long accountId,
-            string domainIdentifier, long recordId)
-        {
-            return $"{DsRecordsPath(accountId, domainIdentifier)}/{recordId}";
-        }
-    }
-
-    /// <summary>
-    /// Represents the response from the API call containing one
-    /// <c>DelegationSignerRecord</c>.
-    /// </summary>
-    public class DelegationSignerRecordResponse : 
-        SimpleDnsimpleResponse<DelegationSignerRecord>
-    {
-        public DelegationSignerRecordResponse(JToken json) : base(json)
-        {
-        }
-    }
-
-    /// <summary>
-    /// Represents the response from the API call containing (potentially)
-    /// multiple <c>DelegationSignerRecord</c> objects inside a
-    /// <c>DelegationSignerRecordsData</c> object.
-    /// </summary>
-    public class DelegationSignerRecordsResponse : PaginatedDnsimpleResponse<
-        DelegationSignerRecordsData>
-    {
-        public DelegationSignerRecordsResponse(JToken response) :
-            base(response) =>
-            Data = new DelegationSignerRecordsData(response);
-    }
-
-    /// <summary>
-    /// Represents the <c>struct</c> containing a <c>List</c> of
-    /// <c>DelegationSignerRecord</c> objects.
-    /// </summary>
-    /// <see cref="List{T}"/>
-    /// <see cref="DelegationSignerRecord"/>
-    public readonly struct DelegationSignerRecordsData
-    {
-        public List<DelegationSignerRecord> DelegationSignerRecords { get; }
-
-        public DelegationSignerRecordsData(JToken json) =>
-            DelegationSignerRecords = DeserializeList(json);
     }
 
     /// <summary>

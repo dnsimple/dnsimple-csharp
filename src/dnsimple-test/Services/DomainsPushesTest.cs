@@ -52,7 +52,7 @@ namespace dnsimple_test.Services
             
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(2, pushes.Data.Pushes.Count);
+                Assert.AreEqual(2, pushes.Data.Count);
                 Assert.AreEqual(1, pushes.PaginationData.CurrentPage);
                 
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());

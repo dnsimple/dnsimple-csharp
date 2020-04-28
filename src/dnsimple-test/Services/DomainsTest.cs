@@ -37,12 +37,14 @@ namespace dnsimple_test.Services
         }
 
         [Test]
-        public void DomainsData()
+        public void DomainsResponse()
         {
-            var domains = new DomainsData(_jToken).Domains;
+            var domains = new PaginatedDnsimpleResponse<Domain>(_jToken).Data;
 
+            
             Assert.Multiple(() =>
             {
+                Assert.AreEqual(2, domains.Count);
                 Assert.AreEqual(1, domains.First().Id);
                 Assert.AreEqual(1010, domains.First().AccountId);
                 Assert.IsNull(domains.First().RegistrantId);
@@ -59,14 +61,6 @@ namespace dnsimple_test.Services
         }
 
         [Test]
-        public void DomainsResponse()
-        {
-            var response = new DomainsResponse(_jToken);
-
-            Assert.AreEqual(2, response.Data.Domains.Count);
-        }
-
-        [Test]
         [TestCase("https://api.sandbox.dnsimple.com/v2/1010/domains")]
         public void ListDomains(string expectedUrl)
         {
@@ -75,7 +69,7 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(2, domains.Data.Domains.Count);
+                Assert.AreEqual(2, domains.Data.Count);
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }

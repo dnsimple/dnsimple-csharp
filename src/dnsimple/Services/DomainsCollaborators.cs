@@ -2,10 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using RestSharp;
-using static dnsimple.Services.JsonTools<dnsimple.Services.Collaborator>;
+using static dnsimple.Services.Paths;
 
 namespace dnsimple.Services
 {
@@ -20,10 +19,10 @@ namespace dnsimple.Services
         /// <param name="domainIdentifier">The domain name or id</param>
         /// <returns>A list of collaborators wrapped in a response</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/collaborators/#listDomainCollaborators</see>
-        public CollaboratorsResponse ListCollaborators(long accountId,
+        public PaginatedDnsimpleResponse<Collaborator> ListCollaborators(long accountId,
             string domainIdentifier)
         {
-            return new CollaboratorsResponse(Client.Http.Execute(Client.Http
+            return new PaginatedDnsimpleResponse<Collaborator>(Client.Http.Execute(Client.Http
                 .RequestBuilder(CollaboratorsPath(accountId, domainIdentifier))
                 .Request));
         }
@@ -46,7 +45,7 @@ namespace dnsimple.Services
         /// <param name="email">The email of the collaborator to be added/invited</param>
         /// <returns>The collaborator wrapped in a response.</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/collaborators/#addDomainCollaborator</see>
-        public CollaboratorResponse AddCollaborator(long accountId,
+        public SimpleDnsimpleResponse<Collaborator> AddCollaborator(long accountId,
             string domainIdentifier, string email)
         {
             var request =
@@ -60,7 +59,8 @@ namespace dnsimple.Services
             };
 
             request.AddParameters(parameters);
-            return new CollaboratorResponse(
+            
+            return new SimpleDnsimpleResponse<Collaborator>(
                 Client.Http.Execute(request.Request));
         }
 
@@ -81,54 +81,6 @@ namespace dnsimple.Services
 
             Client.Http.Execute(request.Request);
         }
-
-        private static string RemoveCollaboratorPath(long accountId,
-            string domainIdentifier, long collaboratorId)
-        {
-            return
-                $"{CollaboratorsPath(accountId, domainIdentifier)}/{collaboratorId}";
-        }
-
-        private static string CollaboratorsPath(long accountId,
-            string domainIdentifier)
-        {
-            return $"{DomainPath(accountId, domainIdentifier)}/collaborators";
-        }
-    }
-
-    /// <summary>
-    /// Represents the response from the API call containing one <c>Collaborator</c>
-    /// </summary>
-    /// <see cref="Collaborator"/>
-    public class CollaboratorResponse : SimpleDnsimpleResponse<Collaborator>
-    {
-        public CollaboratorResponse(JToken json) : base(json)
-        {
-        }
-    }
-
-    /// <summary>
-    /// Represents the response from the API call containing (potentially)
-    /// multiple <c>Collaborator</c> objects.
-    /// </summary>
-    public class CollaboratorsResponse : PaginatedDnsimpleResponse<CollaboratorsData>
-    {
-        public CollaboratorsResponse(JToken json) : base(json) =>
-            Data = new CollaboratorsData(json);
-    }
-
-    /// <summary>
-    /// Represents the <c>struct</c> containing a <c>List</c> of <c>Collaborator</c>
-    /// objects.
-    /// </summary>
-    /// <see cref="List{T}"/>
-    /// <see cref="Collaborator"/>
-    public readonly struct CollaboratorsData
-    {
-        public List<Collaborator> Collaborators { get; }
-
-        public CollaboratorsData(JToken json) =>
-            Collaborators = DeserializeList(json);
     }
 
     /// <summary>

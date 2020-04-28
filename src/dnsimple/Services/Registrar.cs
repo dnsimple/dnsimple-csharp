@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using RestSharp;
+using static dnsimple.Services.Paths;
 
 namespace dnsimple.Services
 {
@@ -24,10 +24,10 @@ namespace dnsimple.Services
         /// <param name="accountId">The account Id</param>
         /// <param name="domainName">The domain name to check</param>
         /// <returns>The check domain response</returns>
-        public DomainCheckResponse CheckDomain(long accountId,
+        public SimpleDnsimpleResponse<DomainCheckData> CheckDomain(long accountId,
             string domainName)
         {
-            return new DomainCheckResponse(Client.Http.Execute(
+            return new SimpleDnsimpleResponse<DomainCheckData>(Client.Http.Execute(
                 Client.Http.RequestBuilder(DomainCheckPath(accountId,
                     domainName)).Request));
         }
@@ -47,7 +47,7 @@ namespace dnsimple.Services
         /// different price, you should specify it with the action
         /// param.</remarks>
         /// <see>https://developer.dnsimple.com/v2/registrar/#getDomainPremiumPrice</see>
-        public DomainPremiumPriceResponse GetDomainPremiumPrice(long accountId,
+        public SimpleDnsimpleResponse<DomainPremiumPriceData> GetDomainPremiumPrice(long accountId,
             string domainName, PremiumPriceCheckAction action)
         {
             var requestBuilder = Client
@@ -57,7 +57,7 @@ namespace dnsimple.Services
                 new KeyValuePair<string, string>("action",
                     action.ToString().ToLower()));
 
-            return new DomainPremiumPriceResponse(
+            return new SimpleDnsimpleResponse<DomainPremiumPriceData>(
                 Client.Http.Execute(requestBuilder.Request));
         }
 
@@ -74,7 +74,7 @@ namespace dnsimple.Services
         /// command.</remarks>
         /// <see cref="DomainRegistration"/>
         /// <see>https://developer.dnsimple.com/v2/registrar/#registerDomain</see>
-        public DomainRegistrationResponse RegisterDomain(long accountId,
+        public SimpleDnsimpleResponse<RegisteredDomain> RegisterDomain(long accountId,
             string domainName, DomainRegistration domain)
         {
             var requestBuilder =
@@ -83,7 +83,7 @@ namespace dnsimple.Services
             requestBuilder.Method(Method.POST);
             requestBuilder.AddJsonPayload(domain);
 
-            return new DomainRegistrationResponse(
+            return new SimpleDnsimpleResponse<RegisteredDomain>(
                 Client.Http.Execute(requestBuilder.Request));
         }
 
@@ -101,7 +101,7 @@ namespace dnsimple.Services
         /// 7 days.</remarks>
         /// <see cref="DomainTransfer"/>
         /// <see>https://developer.dnsimple.com/v2/registrar/#transferDomain</see>
-        public DomainRegistrationResponse TransferDomain(long accountId,
+        public SimpleDnsimpleResponse<RegisteredDomain> TransferDomain(long accountId,
             string domainName, DomainTransfer transfer)
         {
             var requestBuilder =
@@ -110,7 +110,7 @@ namespace dnsimple.Services
             requestBuilder.Method(Method.POST);
             requestBuilder.AddJsonPayload(transfer);
 
-            return new DomainRegistrationResponse(
+            return new SimpleDnsimpleResponse<RegisteredDomain>(
                 Client.Http.Execute(requestBuilder.Request));
         }
 
@@ -126,7 +126,7 @@ namespace dnsimple.Services
         /// upon successful renewal, so please be careful with this
         /// command.</remarks>
         /// <see>https://developer.dnsimple.com/v2/registrar/#renewDomain</see>
-        public DomainRegistrationResponse RenewDomain(long accountId,
+        public SimpleDnsimpleResponse<RegisteredDomain> RenewDomain(long accountId,
             string domainName, DomainRenewal renewal)
         {
             var requestBuilder =
@@ -135,7 +135,7 @@ namespace dnsimple.Services
             requestBuilder.Method(Method.POST);
             requestBuilder.AddJsonPayload(renewal);
 
-            return new DomainRegistrationResponse(
+            return new SimpleDnsimpleResponse<RegisteredDomain>(
                 Client.Http.Execute(requestBuilder.Request));
         }
 
@@ -155,81 +155,6 @@ namespace dnsimple.Services
             requestBuilder.Method(Method.POST);
 
             Client.Http.Execute(requestBuilder.Request);
-        }
-
-        private string DomainTransferOutPath(long accountId, string domainName)
-        {
-            return
-                $"{RegistrarPath(accountId, domainName)}/authorize_transfer_out";
-        }
-
-        private string DomainRenewalPath(long accountId, string domainName)
-        {
-            return $"{RegistrarPath(accountId, domainName)}/renewals";
-        }
-
-        private string DomainTransferPath(long accountId, string domainName)
-        {
-            return $"{RegistrarPath(accountId, domainName)}/transfers";
-        }
-
-        private static string DomainRegistrationPath(long accountId,
-            string domainName)
-        {
-            return $"{RegistrarPath(accountId, domainName)}/registrations";
-        }
-
-        private static string DomainCheckPath(long accountId, string domainName)
-        {
-            return $"{RegistrarPath(accountId, domainName)}/check";
-        }
-
-        private static string DomainPremiumPricePath(long accountId,
-            string domainName)
-        {
-            return $"{RegistrarPath(accountId, domainName)}/premium_price";
-        }
-
-        private static string RegistrarPath(long accountId, string domainName)
-        {
-            return $"{accountId}/registrar/domains/{domainName}";
-        }
-    }
-
-    /// <summary>
-    /// Represents the response from the API call containing the
-    /// <c>RegisteredDomain</c>.
-    /// </summary>
-    /// <see cref="RegisteredDomain"/>
-    public class DomainRegistrationResponse : SimpleDnsimpleResponse<RegisteredDomain>
-    {
-        public DomainRegistrationResponse(JToken json) : base(json)
-        {
-        }
-    }
-
-    /// <summary>
-    /// Represents the response from the API call containing the
-    /// <c>DomainCheckData</c>.
-    /// </summary>
-    /// <see cref="DomainCheckData"/>
-    public class DomainCheckResponse : SimpleDnsimpleResponse<DomainCheckData>
-    {
-        public DomainCheckResponse(JToken json) : base(json)
-        {
-        }
-    }
-
-    /// <summary>
-    /// Represents the response from the API call containing the
-    /// <c>DomainPremiumPriceData</c>.
-    /// </summary>
-    /// <see cref="DomainPremiumPriceData"/>
-    public class DomainPremiumPriceResponse : SimpleDnsimpleResponse<
-            DomainPremiumPriceData>
-    {
-        public DomainPremiumPriceResponse(JToken json) : base(json)
-        {
         }
     }
 

@@ -29,31 +29,22 @@ namespace dnsimple_test.Services
         }
 
         [Test]
-        public void CollaboratorsData()
-        {
-            var collaborators = new CollaboratorsData(_jToken);
-
-            Assert.Multiple(() =>
-            {
-                Assert.AreEqual(100, collaborators.Collaborators.First().Id);
-                Assert.AreEqual(1,
-                    collaborators.Collaborators.First().DomainId);
-                Assert.AreEqual("example.com",
-                    collaborators.Collaborators.First().DomainName);
-                Assert.AreEqual(999,
-                    collaborators.Collaborators.First().UserId);
-                Assert.AreEqual("existing-user@example.com",
-                    collaborators.Collaborators.First().UserEmail);
-                Assert.IsFalse(collaborators.Collaborators.First().Invitation);
-            });
-        }
-
-        [Test]
         public void CollaboratorsResponse()
         {
-            var response = new CollaboratorsResponse(_jToken);
+            var response = new PaginatedDnsimpleResponse<Collaborator>(_jToken);
+            
+            Assert.AreEqual(100, response.Data.First().Id);
+            Assert.AreEqual(1,
+                response.Data.First().DomainId);
+            Assert.AreEqual("example.com",
+                response.Data.First().DomainName);
+            Assert.AreEqual(999,
+                response.Data.First().UserId);
+            Assert.AreEqual("existing-user@example.com",
+                response.Data.First().UserEmail);
+            Assert.IsFalse(response.Data.First().Invitation);
 
-            Assert.AreEqual(2, response.Data.Collaborators.Count);
+            Assert.AreEqual(2, response.Data.Count);
         }
 
         [Test]
@@ -67,8 +58,8 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(101,
-                    collaborators.Data.Collaborators.Last().Id);
+                Assert.AreEqual(100,
+                    collaborators.Data.First().Id);
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }

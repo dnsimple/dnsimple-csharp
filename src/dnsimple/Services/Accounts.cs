@@ -24,30 +24,14 @@ namespace dnsimple.Services
         /// the authenticated entity has access to.
         /// </summary>
         /// <returns>An <c>AccountsResponse</c> object</returns>
-        /// <see cref="AccountsResponse"/>
-        public AccountsResponse List()
+        public ListDnsimpleResponse<Account> List()
         {
-            return new AccountsResponse(
+            return new ListDnsimpleResponse<Account>(
                 Client.Http.Execute(Client.Http.RequestBuilder("/accounts")
                     .Request));
         }
     }
-
-    /// <summary>
-    /// Represents the response from the API call as an object.
-    /// </summary>
-    /// <see>http://developer.dnsimple.com/v2/accounts</see>
-    public class AccountsResponse : ListDnsimpleResponse<AccountsData>
-    {
-        /// <summary>
-        /// Creates a new instance of the <c>AccountsResponse</c> by passing a
-        /// <c>JToken</c> representation of the response from the API call.
-        /// </summary>
-        /// <param name="json"><c>JToken</c> containing the data</param>
-        /// <see cref="JToken"/>
-        public AccountsResponse(JToken json) => Data = new AccountsData(json);
-    }
-
+    
     /// <summary>
     /// Represents the data returned from the API call by transforming the
     /// incoming JSON into a <c>List</c> of <c>Account</c> objects.

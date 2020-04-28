@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using static dnsimple.Services.JsonTools<dnsimple.Services.ZoneData>;
+using static dnsimple.Services.Paths;
 
 namespace dnsimple.Services
 {
@@ -25,11 +26,10 @@ namespace dnsimple.Services
         /// <param name="accountId">The account id</param>
         /// <returns>A <c>ZonesResponse</c> containing a list of zones for the
         /// account.</returns>
-        /// <see cref="ZonesResponse"/>
         /// <see>https://developer.dnsimple.com/v2/zones/#listZones</see>
-        public ZonesResponse ListZones(long accountId)
+        public PaginatedDnsimpleResponse<ZonesData> ListZones(long accountId)
         {
-            return new ZonesResponse(Client.Http.Execute(Client.Http
+            return new PaginatedDnsimpleResponse<ZonesData>(Client.Http.Execute(Client.Http
                 .RequestBuilder(ZonesPath(accountId)).Request));
         }
 
@@ -41,9 +41,8 @@ namespace dnsimple.Services
         /// filtering, pagination)</param>
         /// <returns>A <c>ZonesResponse</c> containing a list of zones for
         /// the account.</returns>
-        /// <see cref="ZonesResponse"/>
         /// <see>https://developer.dnsimple.com/v2/zones/#listZones</see>
-        public ZonesResponse ListZones(long accountId, ZonesListOptions options)
+        public PaginatedDnsimpleResponse<ZonesData> ListZones(long accountId, ZonesListOptions options)
         {
             var requestBuilder = Client.Http
                 .RequestBuilder(ZonesPath(accountId));
@@ -56,7 +55,7 @@ namespace dnsimple.Services
                 requestBuilder.AddParameters(options.UnpackPagination());
             }
             
-            return new ZonesResponse(Client.Http.Execute(requestBuilder.Request));
+            return new PaginatedDnsimpleResponse<ZonesData>(Client.Http.Execute(requestBuilder.Request));
         }
 
         /// <summary>
@@ -65,11 +64,10 @@ namespace dnsimple.Services
         /// <param name="accountId">The account id</param>
         /// <param name="zoneName">The zone name</param>
         /// <returns>A <c>ZoneResponse</c> containing the zone.</returns>
-        /// <see cref="ZoneResponse"/>
         /// <see>https://developer.dnsimple.com/v2/zones/#getZone</see>
-        public ZoneResponse GetZone(long accountId, string zoneName)
+        public SimpleDnsimpleResponse<ZoneData> GetZone(long accountId, string zoneName)
         {
-            return new ZoneResponse(Client.Http.Execute(Client.Http
+            return new SimpleDnsimpleResponse<ZoneData>(Client.Http.Execute(Client.Http
                 .RequestBuilder(ZonePath(accountId, zoneName)).Request));
         }
 
@@ -80,9 +78,9 @@ namespace dnsimple.Services
         /// <param name="zoneName">The zone name</param>
         /// <returns>A <c>ZoneFileResponse</c> containing the zone file content.</returns>
         /// <see>https://developer.dnsimple.com/v2/zones/#getZoneFile</see>
-        public ZoneFileResponse GetZoneFile(long accountId, string zoneName)
+        public SimpleDnsimpleResponse<ZoneFile> GetZoneFile(long accountId, string zoneName)
         {
-            return new ZoneFileResponse(Client.Http.Execute(Client.Http
+            return new SimpleDnsimpleResponse<ZoneFile>(Client.Http.Execute(Client.Http
                 .RequestBuilder(ZoneFilePath(accountId, zoneName)).Request));
         }
 
@@ -93,81 +91,14 @@ namespace dnsimple.Services
         /// <param name="accountId">The account id</param>
         /// <param name="zoneName">The zone name</param>
         /// <returns>A <c>ZoneDistributionResponse</c>.</returns>
-        /// <see cref="ZoneDistributionResponse"/>
         /// <see>https://developer.dnsimple.com/v2/zones/#checkZoneDistribution</see>
-        public ZoneDistributionResponse CheckZoneDistribution(long accountId,
+        public SimpleDnsimpleResponse<ZoneDistribution> CheckZoneDistribution(long accountId,
             string zoneName)
         {
-            return new ZoneDistributionResponse(Client.Http.Execute(Client.Http
+            return new SimpleDnsimpleResponse<ZoneDistribution>(Client.Http.Execute(Client.Http
                 .RequestBuilder(ZoneDistributionPath(accountId, zoneName))
                 .Request));
         }
-
-        private static string ZoneDistributionPath(long accountId,
-            string zoneName)
-        {
-            return $"{ZonePath(accountId, zoneName)}/distribution";
-        }
-
-        private static string ZoneFilePath(long accountId, string zoneName)
-        {
-            return $"{ZonePath(accountId, zoneName)}/file";
-        }
-
-        private static string ZonePath(long accountId, string zoneName)
-        {
-            return $"{ZonesPath(accountId)}/{zoneName}";
-        }
-
-        private static string ZonesPath(long accountId)
-        {
-            return $"/{accountId}/zones";
-        }
-    }
-
-    /// <summary>
-    /// Represents the response from the API call containing the <c>ZoneDistribution</c>.
-    /// </summary>
-    /// <see cref="ZoneDistribution"/>
-    public class ZoneDistributionResponse : SimpleDnsimpleResponse<ZoneDistribution>
-    {
-        public ZoneDistributionResponse(JToken json) : base(json)
-        {
-        }
-    }
-
-    /// <summary>
-    /// Represents the response from the API call containing the <c>ZoneFile</c>.
-    /// </summary>
-    /// <see cref="ZoneFile"/>
-    public class ZoneFileResponse : SimpleDnsimpleResponse<ZoneFile>
-    {
-        public ZoneFileResponse(JToken json) : base(json)
-        {
-        }
-    }
-
-    /// <summary>
-    /// Represents the response from the API call containing the <c>ZoneData</c>.
-    /// </summary>
-    /// <see cref="ZoneData"/>
-    public class ZoneResponse : SimpleDnsimpleResponse<ZoneData>
-    {
-        public ZoneResponse(JToken json) : base(json)
-        {
-        }
-    }
-
-    /// <summary>
-    /// Represents the response from the API call containing (potentially)
-    /// multiple <c>ZonesData</c> objects and a <c>PaginationData</c> object.
-    /// </summary>
-    /// <see cref="ZonesData"/>
-    /// <see cref="PaginationData"/>
-    public class ZonesResponse : PaginatedDnsimpleResponse<ZonesData>
-    {
-        public ZonesResponse(JToken response) : base(response) =>
-            Data = new ZonesData(response);
     }
 
     /// <summary>
@@ -176,10 +107,17 @@ namespace dnsimple.Services
     /// </summary>
     /// <see cref="List{T}"/>
     /// <see cref="ZoneData"/>
-    public readonly struct ZonesData
+    public struct ZonesData
     {
+        /// <summary>
+        /// The list of zones.
+        /// </summary>
         public List<ZoneData> Zones { get; }
 
+        /// <summary>
+        /// Creates a new <c>ZonesData</c> object.
+        /// </summary>
+        /// <param name="json">The json payload containing the raw data.</param>
         public ZonesData(JToken json) =>
             Zones = DeserializeList(json);
     }

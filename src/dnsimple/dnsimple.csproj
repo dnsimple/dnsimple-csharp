@@ -54,6 +54,7 @@
         <Compile Include="RequestBuilder.cs" />
         <Compile Include="RestClientWrapper.cs" />
         <Compile Include="Services\Accounts.cs" />
+        <Compile Include="Services\Certificates.cs" />
         <Compile Include="Services\DomainsCollaborators.cs" />
         <Compile Include="Services\Domains.cs" />
         <Compile Include="Services\DomainsDnssec.cs" />
@@ -63,6 +64,7 @@
         <Compile Include="Services\Http.cs" />
         <Compile Include="Services\Identity.cs" />
         <Compile Include="Services\JsonTools.cs" />
+        <Compile Include="Services\ListOptions\CertificatesListOptions.cs" />
         <Compile Include="Services\ListOptions\DomainEmailForwardsListOptions.cs" />
         <Compile Include="Services\ListOptions\DomainListOptions.cs" />
         <Compile Include="Services\ListOptions\ListDomainDelegationSignerRecordsOptions.cs" />
@@ -70,6 +72,7 @@
         <Compile Include="Services\ListOptions\ZoneRecordsListOptions.cs" />
         <Compile Include="Services\ListOptions\ZonesListOptions.cs" />
         <Compile Include="Services\OAuth2.cs" />
+        <Compile Include="Services\Paths.cs" />
         <Compile Include="Services\Registrar.cs" />
         <Compile Include="Services\RegistrarAutoRenewal.cs" />
         <Compile Include="Services\RegistrarDelegation.cs" />

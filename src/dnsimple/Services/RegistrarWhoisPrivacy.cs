@@ -1,8 +1,8 @@
 using System;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using RestSharp;
+using static dnsimple.Services.Paths;
 
 namespace dnsimple.Services
 {
@@ -19,12 +19,11 @@ namespace dnsimple.Services
         /// <param name="accountId">The account Id</param>
         /// <param name="domain">The domain name or id</param>
         /// <returns>The WHOIS privacy for the domain</returns>
-        /// <see cref="WhoisPrivacyResponse"/>
         /// <see>https://developer.dnsimple.com/v2/registrar/whois-privacy/#getWhoisPrivacy</see>
-        public WhoisPrivacyResponse GetWhoisPrivacy(long accountId,
+        public SimpleDnsimpleResponse<WhoisPrivacyData> GetWhoisPrivacy(long accountId,
             string domain)
         {
-            return new WhoisPrivacyResponse(Client.Http.Execute(Client.Http
+            return new SimpleDnsimpleResponse<WhoisPrivacyData>(Client.Http.Execute(Client.Http
                 .RequestBuilder(WhoisPrivacyPath(accountId, domain)).Request));
         }
 
@@ -43,14 +42,14 @@ namespace dnsimple.Services
         /// <param name="domain">The domain name or id</param>
         /// <returns>The WHOIS privacy for the domain</returns>
         /// <see>https://developer.dnsimple.com/v2/registrar/whois-privacy/#enableWhoisPrivacy</see>
-        public WhoisPrivacyResponse EnableWhoisPrivacy(long accountId,
+        public SimpleDnsimpleResponse<WhoisPrivacyData> EnableWhoisPrivacy(long accountId,
             string domain)
         {
             var requestBuilder =
                 Client.Http.RequestBuilder(WhoisPrivacyPath(accountId, domain));
             requestBuilder.Method(Method.PUT);
             
-            return new WhoisPrivacyResponse(Client.Http.Execute(requestBuilder.Request));
+            return new SimpleDnsimpleResponse<WhoisPrivacyData>(Client.Http.Execute(requestBuilder.Request));
         }
 
         /// <summary>
@@ -66,14 +65,14 @@ namespace dnsimple.Services
         /// <param name="domain">The domain name or id</param>
         /// <returns>The WHOIS privacy response for the domain</returns>
         /// <see>https://developer.dnsimple.com/v2/registrar/whois-privacy/#disableWhoisPrivacy</see>
-        public WhoisPrivacyResponse DisableWhoisPrivacy(long accountId,
+        public SimpleDnsimpleResponse<WhoisPrivacyData> DisableWhoisPrivacy(long accountId,
             string domain)
         {
             var requestBuilder =
                 Client.Http.RequestBuilder(WhoisPrivacyPath(accountId, domain));
             requestBuilder.Method(Method.DELETE);
             
-            return new WhoisPrivacyResponse(Client.Http.Execute(requestBuilder.Request));
+            return new SimpleDnsimpleResponse<WhoisPrivacyData>(Client.Http.Execute(requestBuilder.Request));
         }
 
         /// <summary>
@@ -82,49 +81,14 @@ namespace dnsimple.Services
         /// <param name="accountId">The account Id</param>
         /// <param name="domain">The domain name or id</param>
         /// <returns>A whois renewal response with the renewal information</returns>
-        /// <see cref="WhoisRenewalResponse"/>
         /// <see>https://developer.dnsimple.com/v2/registrar/whois-privacy/#renewWhoisPrivacy</see>
-        public WhoisRenewalResponse RenewWhoisPrivacy(long accountId,
+        public SimpleDnsimpleResponse<WhoisPrivacyRenewalData> RenewWhoisPrivacy(long accountId,
             string domain)
         {
             var requestBuilder = Client.Http.RequestBuilder(WhoisRenewalPath(accountId, domain));
             requestBuilder.Method(Method.POST);
             
-            return new WhoisRenewalResponse(Client.Http.Execute(requestBuilder.Request));
-        }
-
-        private string WhoisRenewalPath(long accountId, string domain)
-        {
-            return $"{WhoisPrivacyPath(accountId, domain)}/renewals";
-        }
-
-        private string WhoisPrivacyPath(long accountId, string domain)
-        {
-            return $"{RegistrarPath(accountId, domain)}/whois_privacy";
-        }
-    }
-
-    /// <summary>
-    /// Represents the response from the API call containing one
-    /// <c>WhoisPrivacyData</c> object.
-    /// </summary>
-    /// <see cref="WhoisPrivacyData"/>
-    public class WhoisPrivacyResponse : SimpleDnsimpleResponse<WhoisPrivacyData>
-    {
-        public WhoisPrivacyResponse(JToken json) : base(json)
-        {
-        }
-    }
-    
-    /// <summary>
-    /// Represents the response from the API call containing one
-    /// <c>WhoisPrivacyRenewalData</c> object.
-    /// </summary>
-    /// <see cref="WhoisPrivacyRenewalData"/>
-    public class WhoisRenewalResponse : SimpleDnsimpleResponse<WhoisPrivacyRenewalData>
-    {
-        public WhoisRenewalResponse(JToken json) : base(json)
-        {
+            return new SimpleDnsimpleResponse<WhoisPrivacyRenewalData>(Client.Http.Execute(requestBuilder.Request));
         }
     }
 

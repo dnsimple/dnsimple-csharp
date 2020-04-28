@@ -44,10 +44,11 @@ namespace dnsimple_test.Services
         [Test]
         public void EmailForwardsData()
         {
-            var emailForwards = new EmailForwardsData(_jToken).EmailForwards;
+            var emailForwards = new PaginatedDnsimpleResponse<EmailForward>(_jToken).Data;
 
             Assert.Multiple(() =>
             {
+                Assert.AreEqual(2, emailForwards.Count);
                 Assert.AreEqual(17702, emailForwards.First().Id);
                 Assert.AreEqual(228963, emailForwards.First().DomainId);
                 Assert.AreEqual(".*@a-domain.com", emailForwards.First().From);
@@ -56,14 +57,6 @@ namespace dnsimple_test.Services
                 Assert.AreEqual(CreatedAt, emailForwards.First().CreatedAt);
                 Assert.AreEqual(UpdatedAt, emailForwards.First().UpdatedAt);
             });
-        }
-
-        [Test]
-        public void EmailForwardsResponse()
-        {
-            var response = new EmailForwardsResponse(_jToken);
-
-            Assert.AreEqual(2, response.Data.EmailForwards.Count);
         }
 
         [Test]
@@ -77,7 +70,7 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(2, emailForwards.Data.EmailForwards.Count);
+                Assert.AreEqual(2, emailForwards.Data.Count);
                 Assert.AreEqual(1, emailForwards.PaginationData.CurrentPage);
                 
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
@@ -98,7 +91,7 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(2, emailForwards.Data.EmailForwards.Count);
+                Assert.AreEqual(2, emailForwards.Data.Count);
                 Assert.AreEqual(1, emailForwards.PaginationData.CurrentPage);
                 
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());

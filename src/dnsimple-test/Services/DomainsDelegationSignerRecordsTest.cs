@@ -47,10 +47,11 @@ namespace dnsimple_test.Services
         [Test]
         public void DelegationSignerRecordsData()
         {
-            var records = new DelegationSignerRecordsData(_jToken).DelegationSignerRecords;
+            var records = new PaginatedDnsimpleResponse<DelegationSignerRecord>(_jToken).Data;
             
             Assert.Multiple(() =>
             {
+                Assert.AreEqual(1, records.Count);
                 Assert.AreEqual(24, records.First().Id);
                 Assert.AreEqual(1010, records.First().DomainId);
                 Assert.AreEqual("8", records.First().Algorithm);
@@ -63,14 +64,6 @@ namespace dnsimple_test.Services
         }
 
         [Test]
-        public void DelegationSignerRecordsResponse()
-        {
-            var response = new DelegationSignerRecordsResponse(_jToken);
-            
-            Assert.AreEqual(1, response.Data.DelegationSignerRecords.Count);
-        }
-        
-        [Test]
         [TestCase(1010, "100", "https://api.sandbox.dnsimple.com/v2/1010/domains/100/ds_records")]
         [TestCase(1010, "example.com", "https://api.sandbox.dnsimple.com/v2/1010/domains/example.com/ds_records")]
         public void ListDelegationSignerRecords(long accountId, string domainIdentifier, string expectedUrl)
@@ -81,7 +74,7 @@ namespace dnsimple_test.Services
                     domainIdentifier);
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(1, records.Data.DelegationSignerRecords.Count);
+                Assert.AreEqual(1, records.Data.Count);
                 Assert.AreEqual(1, records.PaginationData.CurrentPage);
                 
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
@@ -106,7 +99,7 @@ namespace dnsimple_test.Services
             
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(1, records.Data.DelegationSignerRecords.Count);
+                Assert.AreEqual(1, records.Data.Count);
                 Assert.AreEqual(1, records.PaginationData.CurrentPage);
                 
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());

@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using RestSharp;
-using static dnsimple.Services.JsonTools<dnsimple.Services.VanityDelegation>;
+using static dnsimple.Services.Paths;
 
 namespace dnsimple.Services
 {
@@ -62,7 +62,7 @@ namespace dnsimple.Services
         /// <param name="delegation">A list of name servers as strings</param>
         /// <returns>The list of nameservers updated to vanity for the domain</returns>
         /// <see>https://developer.dnsimple.com/v2/registrar/delegation/#changeDomainDelegationToVanity</see>
-        public ToVanityDelegationResponse ChangeDomainDelegationToVanity(
+        public ListDnsimpleResponse<VanityDelegation> ChangeDomainDelegationToVanity(
             long accountId, string domain, List<string> delegation)
         {
             var requestBuilder =
@@ -71,7 +71,7 @@ namespace dnsimple.Services
             requestBuilder.Method(Method.PUT);
             requestBuilder.AddJsonPayload(delegation);
             
-            return new ToVanityDelegationResponse(Client.Http.Execute(requestBuilder.Request));
+            return new ListDnsimpleResponse<VanityDelegation>(Client.Http.Execute(requestBuilder.Request));
         }
 
         /// <summary>
@@ -94,27 +94,6 @@ namespace dnsimple.Services
 
             Client.Http.Execute(requestBuilder.Request);
         }
-
-        private string VanityDelegationPath(long accountId, string domain)
-        {
-            return $"{DelegationPath(accountId, domain)}/vanity";
-        }
-
-        private string DelegationPath(long accountId, string domain)
-        {
-            return $"{RegistrarPath(accountId, domain)}/delegation";
-        }
-    }
-
-    /// <summary>
-    /// Represents the response of the API call to the server containing a list
-    /// of <c>VanityDelegation</c> objects.
-    /// </summary>
-    /// <see cref="VanityDelegations"/>
-    /// <see cref="VanityDelegation"/>
-    public class ToVanityDelegationResponse : ListDnsimpleResponse<VanityDelegations>
-    {
-        public ToVanityDelegationResponse(JToken json) => Data = new VanityDelegations(json);
     }
 
     /// <summary>
@@ -128,24 +107,6 @@ namespace dnsimple.Services
         {
             Data = JsonTools<string>.DeserializeList(json);
         }
-    }
-
-    /// <summary>
-    /// Represents a <c>List</c> of <c>VanityDelegation</c> objects.
-    /// </summary>
-    /// <see cref="List{T}"/>
-    /// <see cref="VanityDelegation"/>
-    public readonly struct VanityDelegations
-    {
-        public List<VanityDelegation> Delegations { get; }
-
-        /// <summary>
-        /// Creates a new VanityDelegations with the json passed.
-        /// </summary>
-        /// <param name="json"></param>
-        /// <see cref="JsonTools{T}"/>
-        public VanityDelegations(JToken json) =>
-            Delegations = DeserializeList(json);
     }
 
     /// <summary>

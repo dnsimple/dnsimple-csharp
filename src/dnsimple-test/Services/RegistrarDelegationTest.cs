@@ -116,7 +116,7 @@ namespace dnsimple_test.Services
 
             var vanityDelegation =
                 client.Registrar.ChangeDomainDelegationToVanity(accountId,
-                    domain, delegation).Data.Delegations;    
+                    domain, delegation).Data;    
             
             Assert.Multiple(() =>
             {

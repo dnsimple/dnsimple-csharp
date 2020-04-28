@@ -1,8 +1,8 @@
 using System;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using RestSharp;
+using static dnsimple.Services.Paths;
 
 namespace dnsimple.Services
 {
@@ -17,10 +17,10 @@ namespace dnsimple.Services
         /// <param name="domainIdentifier">The domain name or id</param>
         /// <returns>The status of the DNSSEC wrapped in a response</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/dnssec/#getDomainDnssec</see>
-        public DnssecResponse GetDnssec(long accountId,
+        public SimpleDnsimpleResponse<DnssecStatus> GetDnssec(long accountId,
             string domainIdentifier)
         {
-            return new DnssecResponse(Client.Http.Execute(Client.Http
+            return new SimpleDnsimpleResponse<DnssecStatus>(Client.Http.Execute(Client.Http
                 .RequestBuilder(DnssecPath(accountId, domainIdentifier))
                 .Request));
         }
@@ -35,7 +35,7 @@ namespace dnsimple.Services
         /// <returns>The confirmation of the operation withe the status of the
         /// DNSSEC wrapped in a response</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/dnssec/#enableDomainDnssec</see>
-        public DnssecResponse EnableDnssec(long accountId,
+        public SimpleDnsimpleResponse<DnssecStatus> EnableDnssec(long accountId,
             string domainIdentifier)
         {
             var request =
@@ -43,7 +43,7 @@ namespace dnsimple.Services
                     DnssecPath(accountId, domainIdentifier));
             request.Method(Method.POST);
 
-            return new DnssecResponse(Client.Http.Execute(request.Request));
+            return new SimpleDnsimpleResponse<DnssecStatus>(Client.Http.Execute(request.Request));
         }
 
         /// <summary>
@@ -63,22 +63,6 @@ namespace dnsimple.Services
             request.Method(Method.DELETE);
             
             Client.Http.Execute(request.Request);
-        }
-
-        private static string DnssecPath(long accountId, string domainIdentifier)
-        {
-            return $"{DomainPath(accountId, domainIdentifier)}/dnssec";
-        }
-    }
-
-    /// <summary>
-    /// Represents the response from the API call containing the <c>DnssecStatus</c>
-    /// </summary>
-    /// <see cref="DnssecStatus"/>
-    public class DnssecResponse : SimpleDnsimpleResponse<DnssecStatus>
-    {
-        public DnssecResponse(JToken json) : base(json)
-        {
         }
     }
 

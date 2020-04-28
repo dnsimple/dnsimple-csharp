@@ -7,6 +7,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using RestSharp;
 using static dnsimple.Services.JsonTools<dnsimple.Services.ZoneRecordData>;
+using static dnsimple.Services.Paths;
 
 namespace dnsimple.Services
 {
@@ -20,11 +21,10 @@ namespace dnsimple.Services
         /// <param name="zoneId">The zone name</param>
         /// <returns>A <c>ZoneRecordsResponse</c> containing a list of zone
         /// records for the zone.</returns>
-        /// <see cref="ZoneRecordsResponse"/>
         /// <see>https://developer.dnsimple.com/v2/zones/records/#listZoneRecords</see>
-        public ZoneRecordsResponse ListRecords(long accountId, string zoneId)
+        public PaginatedDnsimpleResponse<ZoneRecordsData> ListRecords(long accountId, string zoneId)
         {
-            return new ZoneRecordsResponse(Client.Http.Execute(Client.Http
+            return new PaginatedDnsimpleResponse<ZoneRecordsData>(Client.Http.Execute(Client.Http
                 .RequestBuilder(ZoneRecordsPath(accountId, zoneId)).Request));
         }
 
@@ -37,10 +37,9 @@ namespace dnsimple.Services
         /// filtering, pagination)</param>
         /// <returns>A <c>ZoneRecordsResponse</c> containing a list of zone
         /// records for the zone.</returns>
-        /// <see cref="ZoneRecordsResponse"/>
         /// <see cref="ZoneRecordsListOptions"/>
         /// <see>https://developer.dnsimple.com/v2/zones/records/#listZoneRecords</see>
-        public ZoneRecordsResponse ListRecords(long accountId, string zoneId,
+        public PaginatedDnsimpleResponse<ZoneRecordsData> ListRecords(long accountId, string zoneId,
             ZoneRecordsListOptions options)
         {
             var requestBuilder = Client.Http
@@ -54,7 +53,7 @@ namespace dnsimple.Services
                 requestBuilder.AddParameters(options.UnpackPagination());
             }
 
-            return new ZoneRecordsResponse(
+            return new PaginatedDnsimpleResponse<ZoneRecordsData>(
                 Client.Http.Execute(requestBuilder.Request));
         }
 
@@ -68,10 +67,9 @@ namespace dnsimple.Services
         /// <c>ZoneRecordResponse</c></returns>
         /// <exception cref="DnSimpleException">If Bad Request</exception>
         /// <exception cref="DnSimpleValidationException">If the validation fails</exception>
-        /// <see cref="ZoneRecordResponse"/>
         /// <see cref="ZoneRecord"/>
         /// <see>https://developer.dnsimple.com/v2/zones/records/#createZoneRecord</see>
-        public ZoneRecordResponse CreateRecord(long accountId, string zoneId,
+        public SimpleDnsimpleResponse<ZoneRecordData> CreateRecord(long accountId, string zoneId,
             ZoneRecord record)
         {
             var requestBuilder =
@@ -79,7 +77,7 @@ namespace dnsimple.Services
             requestBuilder.Method(Method.POST);
             requestBuilder.AddJsonPayload(PrepareRecord(record));
 
-            return new ZoneRecordResponse(
+            return new SimpleDnsimpleResponse<ZoneRecordData>(
                 Client.Http.Execute(requestBuilder.Request));
         }
 
@@ -96,13 +94,12 @@ namespace dnsimple.Services
         /// <param name="zoneId">The zone name</param>
         /// <param name="recordId">The record id</param>
         /// <returns>A <c>ZoneRecordResponse</c> containing the zone record.</returns>
-        /// <see cref="ZoneRecordResponse"/>
         /// <see cref="ZoneRecord"/>
         /// <see>https://developer.dnsimple.com/v2/zones/records/#getZoneRecord</see>
-        public ZoneRecordResponse GetRecord(long accountId, string zoneId,
+        public SimpleDnsimpleResponse<ZoneRecordData>GetRecord(long accountId, string zoneId,
             long recordId)
         {
-            return new ZoneRecordResponse(Client.Http.Execute(Client.Http
+            return new SimpleDnsimpleResponse<ZoneRecordData>(Client.Http.Execute(Client.Http
                 .RequestBuilder(ZoneRecordPath(accountId, zoneId, recordId))
                 .Request));
         }
@@ -118,17 +115,16 @@ namespace dnsimple.Services
         /// <c>ZoneRecordResponse</c></returns>
         /// <exception cref="DnSimpleException">If bad request</exception>
         /// <exception cref="DnSimpleValidationException">If the validation fails</exception>
-        /// <see cref="ZoneRecordResponse"/>
         /// <see cref="ZoneRecord"/>
         /// <see>https://developer.dnsimple.com/v2/zones/records/#updateZoneRecord</see>
-        public ZoneRecordResponse UpdateRecord(long accountId, string zoneId, long recordId, ZoneRecord record)
+        public SimpleDnsimpleResponse<ZoneRecordData> UpdateRecord(long accountId, string zoneId, long recordId, ZoneRecord record)
         {
             var requestBuilder =
                 Client.Http.RequestBuilder(ZoneRecordPath(accountId, zoneId, recordId));
             requestBuilder.Method(Method.PATCH);
             requestBuilder.AddJsonPayload(recordId);
 
-            return new ZoneRecordResponse(
+            return new SimpleDnsimpleResponse<ZoneRecordData>(
                 Client.Http.Execute(requestBuilder.Request));
         }
 
@@ -158,57 +154,13 @@ namespace dnsimple.Services
         /// <param name="zoneId">The zone name</param>
         /// <param name="recordId">The record id</param>
         /// <returns>A <c>ZoneDistributionResponse</c>.</returns>
-        /// <see cref="ZoneDistributionResponse"/>
         /// <see>https://developer.dnsimple.com/v2/zones/records/#checkZoneRecordDistribution</see>
-        public ZoneDistributionResponse CheckRecordDistribution(long accountId, string zoneId, long recordId)
+        public SimpleDnsimpleResponse<ZoneDistribution> CheckRecordDistribution(long accountId, string zoneId, long recordId)
         {
-            return new ZoneDistributionResponse(Client.Http.Execute(Client.Http
+            return new SimpleDnsimpleResponse<ZoneDistribution>(Client.Http.Execute(Client.Http
                 .RequestBuilder(ZoneRecordDistributionPath(accountId, zoneId, recordId))
                 .Request));
         }
-
-        private static string ZoneRecordDistributionPath(long accountId,
-            string zoneId, long recordId)
-        {
-            return
-                $"{ZoneRecordPath(accountId, zoneId, recordId)}/distribution";
-        }
-
-        private static string ZoneRecordPath(long accountId, string zoneId,
-            long recordId)
-        {
-            return $"{ZoneRecordsPath(accountId, zoneId)}/{recordId}";
-        }
-
-        private static string ZoneRecordsPath(long accountId, string zoneId)
-        {
-            return $"{ZonePath(accountId, zoneId)}/records";
-        }
-    }
-    
-    /// <summary>
-    /// Represents the response from the API call containing the
-    /// <c>ZoneRecordResponse</c>.
-    /// </summary>
-    /// <see cref="ZoneRecordData"/>
-    public class ZoneRecordResponse : SimpleDnsimpleResponse<ZoneRecordData>
-    {
-        public ZoneRecordResponse(JToken json) : base(json)
-        {
-        }
-    }
-
-    /// <summary>
-    /// Represents the response from the API call containing the
-    /// <c>ZoneRecordsResponse</c> with (potentially) multiple <c>ZoneRecordData</c>
-    /// objects and a <c>PaginationData</c> object.
-    /// </summary>
-    /// <see cref="ZoneRecordsData"/>
-    /// <see cref="PaginationData"/>
-    public class ZoneRecordsResponse : PaginatedDnsimpleResponse<ZoneRecordsData>
-    {
-        public ZoneRecordsResponse(JToken response) : base(response) =>
-            Data = new ZoneRecordsData(response);
     }
 
     /// <summary>

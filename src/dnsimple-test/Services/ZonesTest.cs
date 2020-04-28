@@ -60,9 +60,9 @@ namespace dnsimple_test.Services
         [Test]
         public void ZonesResponse()
         {
-            var response = new ZonesResponse(_jToken);
+            var response = new PaginatedDnsimpleResponse<ZonesData>(_jToken);
 
-            Assert.AreEqual(2, response.Data.Zones.Count);
+            Assert.AreEqual(2, response.Data.Count);
         }
 
         [Test]
@@ -74,7 +74,7 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(2, response.Data.Zones.Count);
+                Assert.AreEqual(2, response.Data.Count);
                 Assert.AreEqual(1, response.PaginationData.CurrentPage);
                 
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
@@ -102,7 +102,7 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(2, response.Data.Zones.Count);
+                Assert.AreEqual(2, response.Data.Count);
                 Assert.AreEqual(1, response.PaginationData.CurrentPage);
                 
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());

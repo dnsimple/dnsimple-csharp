@@ -85,9 +85,9 @@ namespace dnsimple_test.Services
         [Test]
         public void ZoneRecordsResponse()
         {
-            var response = new ZoneRecordsResponse(_jToken);
+            var response = new PaginatedDnsimpleResponse<ZoneRecordsData>(_jToken);
 
-            Assert.AreEqual(5, response.Data.Records.Count);
+            Assert.AreEqual(5, response.Data.Count);
         }
 
         [Test]
@@ -100,7 +100,7 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(5, response.Data.Records.Count);
+                Assert.AreEqual(5, response.Data.Count);
                 Assert.AreEqual(1, response.PaginationData.CurrentPage);
 
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
