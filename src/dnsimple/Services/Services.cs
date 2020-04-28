@@ -14,7 +14,7 @@ namespace dnsimple.Services
         /// </summary>
         /// <param name="client">An instance of the <c>IClient</c></param>
         /// <see cref="IClient"/>
-        public Service(IClient client) =>
+        protected Service(IClient client) =>
             Client = client;
     }
     /// <summary>
@@ -43,7 +43,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Represents the <c>struct</c> containing the data.
         /// </summary>
-        public List<T> Data { get; protected set; }
+        public List<T> Data { get; }
 
         public ListDnsimpleResponse(JToken response) =>
             Data = JsonTools<T>.DeserializeList(response);
@@ -60,7 +60,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Represents the <c>struct</c> containing the data.
         /// </summary>
-        public List<T> Data { get; protected set; }
+        public List<T> Data { get; }
 
         /// <summary>
         /// The <c>Pagination</c> object containing the pagination data

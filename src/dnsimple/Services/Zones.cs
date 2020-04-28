@@ -107,7 +107,7 @@ namespace dnsimple.Services
     /// </summary>
     /// <see cref="List{T}"/>
     /// <see cref="ZoneData"/>
-    public struct ZonesData
+    public readonly struct ZonesData
     {
         /// <summary>
         /// The list of zones.

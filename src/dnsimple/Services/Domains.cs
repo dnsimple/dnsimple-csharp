@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using dnsimple.Services.ListOptions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using RestSharp;
-using static dnsimple.Services.JsonTools<dnsimple.Services.Domain>;
 using static dnsimple.Services.Paths;
 
 namespace dnsimple.Services
@@ -16,7 +14,9 @@ namespace dnsimple.Services
     public partial class DomainsService : Service
     {
         /// <inheritdoc cref="Service"/>
-        public DomainsService(IClient client) : base(client) {} 
+        public DomainsService(IClient client) : base(client)
+        {
+        }
 
         /// <summary>
         /// Retrieves the details of an existing domain.
@@ -25,9 +25,11 @@ namespace dnsimple.Services
         /// <param name="domainIdentifier">The domain name or ID</param>
         /// <returns>The domain requested.</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/#getDomain</see>
-        public SimpleDnsimpleResponse<Domain> GetDomain(long accountId, string domainIdentifier)
+        public SimpleDnsimpleResponse<Domain> GetDomain(long accountId,
+            string domainIdentifier)
         {
-            return new SimpleDnsimpleResponse<Domain>(Client.Http.Execute(Client.Http
+            return new SimpleDnsimpleResponse<Domain>(Client.Http.Execute(Client
+                .Http
                 .RequestBuilder(DomainPath(accountId, domainIdentifier))
                 .Request));
         }
@@ -55,18 +57,19 @@ namespace dnsimple.Services
         /// <returns>A <c>DomainResponse</c> containing a list of domains.</returns>
         /// <see cref="DomainListOptions"/>
         /// <see>https://developer.dnsimple.com/v2/domains/#listDomains</see>
-        public PaginatedDnsimpleResponse<Domain> ListDomains(long accountId, ListOptionsWithFiltering options)
+        public PaginatedDnsimpleResponse<Domain> ListDomains(long accountId,
+            ListOptionsWithFiltering options)
         {
             var requestBuilder =
                 Client.Http.RequestBuilder(DomainsPath(accountId));
             requestBuilder.AddParameter(options.UnpackSorting());
             requestBuilder.AddParameters(options.UnpackFilters());
-            
+
             if (!options.Pagination.IsDefault())
             {
                 requestBuilder.AddParameters(options.UnpackPagination());
             }
-            
+
 
             return new PaginatedDnsimpleResponse<Domain>(
                 Client.Http.Execute(requestBuilder.Request));
@@ -80,7 +83,8 @@ namespace dnsimple.Services
         /// <returns>A <c>DomainResponse</c> containing the data of the newly
         /// created domain.</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/#createDomain</see>
-        public SimpleDnsimpleResponse<Domain> CreateDomain(long accountId, string domainName)
+        public SimpleDnsimpleResponse<Domain> CreateDomain(long accountId,
+            string domainName)
         {
             var request =
                 Client.Http.RequestBuilder(DomainsPath(accountId));
@@ -92,7 +96,8 @@ namespace dnsimple.Services
             };
             request.AddParameters(parameters);
 
-            return new SimpleDnsimpleResponse<Domain>(Client.Http.Execute(request.Request));
+            return new SimpleDnsimpleResponse<Domain>(
+                Client.Http.Execute(request.Request));
         }
 
         /// <summary>

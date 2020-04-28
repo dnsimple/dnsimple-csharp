@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>DNSimple</id>
-    <version>0.8.1-alpha-27042020</version>
+    <version>0.8.2-alpha-27042020</version>
     <title>$title$</title>
     <authors>Enrique Comba Riepenhausen</authors>
     <owners>$company$</owners>
@@ -14,8 +14,8 @@
     <description>The DNSimple API client for the .NET platform.</description>
     <summary>The DNSimple API client for C#.</summary>
     <releaseNotes>Currently the following services are available on this client: Accounts, 
-      Identity, Domains (Collaborators, DNSSEC, Email Forwards, Pushes),
-      Registration (Delegation, Auto Renewal, Whois Privacy) and Zones (Records).
+      Identity, Certificates, Domains (Collaborators, DNSSEC, Email Forwards, Pushes),
+      Registration (Delegation, Auto Renewal, Whois Privacy), Tlds and Zones (Records).
     </releaseNotes>
     <copyright>Copyright 2020</copyright>
     <tags>dnsimple dns api</tags>

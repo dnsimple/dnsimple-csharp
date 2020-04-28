@@ -93,9 +93,9 @@
         <Compile Include="Services\RegistrarDelegationTest.cs" />
         <Compile Include="Services\RegistrarTest.cs" />
         <Compile Include="Services\RegistrarWhoisPrivacyTest.cs" />
+        <Compile Include="Services\TldsTest.cs" />
         <Compile Include="Services\ZoneRecordsTest.cs" />
         <Compile Include="Services\ZonesTest.cs" />
-        <Compile Include="IntegrationTest.cs" />
     </ItemGroup>
     <ItemGroup>
       <None Include="packages.config" />

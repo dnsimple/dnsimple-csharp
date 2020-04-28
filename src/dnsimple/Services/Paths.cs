@@ -169,6 +169,21 @@ namespace dnsimple.Services
         {
             return $"{accountId}/registrar/domains/{domainName}";
         }
+
+        public static string TldsPath()
+        {
+            return "/tlds";
+        }
+
+        public static string GetTldPath(string tld)
+        {
+            return $"{TldsPath()}/{tld}";
+        }
+        
+        public static string GetTldExtendedAttributesPath(string tld)
+        {
+            return $"{GetTldPath(tld)}/extended_attributes";
+        }
         
         public static string AutoRenewalPath(long accountId, string domain)
         {

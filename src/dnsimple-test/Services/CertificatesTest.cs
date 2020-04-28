@@ -92,36 +92,28 @@ namespace dnsimple_test.Services
         }
 
         [Test]
-        public void CertificatesData()
+        public void CertificatesResponse()
         {
-            var certificates = new CertificatesData(_jToken);
-            var certificate = certificates.Certificates.First();
+            var certificate = new PaginatedDnsimpleResponse<Certificate>(_jToken).Data;
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(1, certificate.Id);
-                Assert.AreEqual(10, certificate.DomainId);
-                Assert.AreEqual(3, certificate.ContactId);
-                Assert.AreEqual("www", certificate.Name);
-                Assert.AreEqual("www.weppos.net", certificate.CommonName);
-                Assert.AreEqual(1, certificate.Years);
-                Assert.AreEqual(CertificateContent, certificate.Csr);
-                Assert.AreEqual("issued", certificate.State);
-                Assert.IsFalse(certificate.AutoRenew);
-                Assert.IsEmpty(certificate.AlternateNames);
-                Assert.AreEqual("letsencrypt", certificate.AuthorityIdentifier);
-                Assert.AreEqual(CreatedAt, certificate.CreatedAt);
-                Assert.AreEqual(UpdatedAt, certificate.UpdatedAt);
-                Assert.AreEqual(ExpiresOn, certificate.ExpiresOn);
+                Assert.AreEqual(2, certificate.Count);
+                Assert.AreEqual(1, certificate.First().Id);
+                Assert.AreEqual(10, certificate.First().DomainId);
+                Assert.AreEqual(3, certificate.First().ContactId);
+                Assert.AreEqual("www", certificate.First().Name);
+                Assert.AreEqual("www.weppos.net", certificate.First().CommonName);
+                Assert.AreEqual(1, certificate.First().Years);
+                Assert.AreEqual(CertificateContent, certificate.First().Csr);
+                Assert.AreEqual("issued", certificate.First().State);
+                Assert.IsFalse(certificate.First().AutoRenew);
+                Assert.IsEmpty(certificate.First().AlternateNames);
+                Assert.AreEqual("letsencrypt", certificate.First().AuthorityIdentifier);
+                Assert.AreEqual(CreatedAt, certificate.First().CreatedAt);
+                Assert.AreEqual(UpdatedAt, certificate.First().UpdatedAt);
+                Assert.AreEqual(ExpiresOn, certificate.First().ExpiresOn);
             });
-        }
-
-        [Test]
-        public void CertificatesResponse()
-        {
-            var response = new PaginatedDnsimpleResponse<CertificatesData>(_jToken);
-
-            Assert.AreEqual(2, response.Data.Count);
         }
 
         [Test]

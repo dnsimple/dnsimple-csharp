@@ -101,7 +101,7 @@ namespace dnsimple.Services
     /// </summary>
     public class DelegationResponse
     {
-        public List<string> Data { get; private set; }
+        public List<string> Data { get; }
 
         public DelegationResponse(JToken json)
         {

@@ -2,10 +2,8 @@ using System;
 using System.Collections.Generic;
 using dnsimple.Services.ListOptions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using RestSharp;
-using static dnsimple.Services.JsonTools<dnsimple.Services.Certificate>;
 using static dnsimple.Services.Paths;
 
 namespace dnsimple.Services
@@ -27,11 +25,11 @@ namespace dnsimple.Services
         /// <returns>A <c>CertificatesResponse</c> containing a list of zones for the
         /// account.</returns>
         /// <see>https://developer.dnsimple.com/v2/certificates/#listCertificates</see>
-        public PaginatedDnsimpleResponse<CertificatesData> ListCertificates(
+        public PaginatedDnsimpleResponse<Certificate> ListCertificates(
             long accountId,
             string domainName)
         {
-            return new PaginatedDnsimpleResponse<CertificatesData>(
+            return new PaginatedDnsimpleResponse<Certificate>(
                 Client.Http.Execute(
                     Client.Http
                         .RequestBuilder(CertificatesPath(accountId, domainName))
@@ -47,7 +45,7 @@ namespace dnsimple.Services
         ///  pagination)</param>
         /// <returns>A <c>CertificatesResponse</c> containing a list of zones for the
         /// account.</returns>
-        public PaginatedDnsimpleResponse<CertificatesData> ListCertificates(
+        public PaginatedDnsimpleResponse<Certificate> ListCertificates(
             long accountId,
             string domainName, CertificatesListOptions options)
         {
@@ -61,7 +59,7 @@ namespace dnsimple.Services
                 requestBuilder.AddParameters(options.UnpackPagination());
             }
 
-            return new PaginatedDnsimpleResponse<CertificatesData>(
+            return new PaginatedDnsimpleResponse<Certificate>(
                 Client.Http.Execute(requestBuilder.Request));
         }
 
@@ -310,28 +308,6 @@ namespace dnsimple.Services
     public struct PrivateKeyData
     {
         public string PrivateKey { get; set; }
-    }
-
-    /// <summary>
-    /// Represents the <c>struct</c> containing a <c>List</c> of
-    /// <c>CertificateData</c> objects.
-    /// </summary>
-    /// <see cref="List{T}"/>
-    /// <see cref="CertificatesData"/>
-    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public struct CertificatesData
-    {
-        /// <summary>
-        /// The list of certificates.
-        /// </summary>
-        public List<Certificate> Certificates { get; }
-
-        /// <summary>
-        /// Creates a new <c>CertificatesData</c> object.
-        /// </summary>
-        /// <param name="json">The json payload containing the raw data.</param>
-        public CertificatesData(JToken json) =>
-            Certificates = DeserializeList(json);
     }
 
     /// <summary>

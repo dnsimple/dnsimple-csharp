@@ -69,6 +69,7 @@
         <Compile Include="Services\ListOptions\DomainListOptions.cs" />
         <Compile Include="Services\ListOptions\ListDomainDelegationSignerRecordsOptions.cs" />
         <Compile Include="Services\ListOptions\ListOptions.cs" />
+        <Compile Include="Services\ListOptions\TldListOptions.cs" />
         <Compile Include="Services\ListOptions\ZoneRecordsListOptions.cs" />
         <Compile Include="Services\ListOptions\ZonesListOptions.cs" />
         <Compile Include="Services\OAuth2.cs" />
@@ -78,6 +79,7 @@
         <Compile Include="Services\RegistrarDelegation.cs" />
         <Compile Include="Services\RegistrarWhoisPrivacy.cs" />
         <Compile Include="Services\Services.cs" />
+        <Compile Include="Services\Tlds.cs" />
         <Compile Include="Services\ZoneRecords.cs" />
         <Compile Include="Services\Zones.cs" />
     </ItemGroup>
