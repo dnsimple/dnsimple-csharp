@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>DNSimple</id>
-    <version>0.8.3-alpha-29042020</version>
+    <version>$version$-alpha</version>
     <title>$title$</title>
     <authors>Enrique Comba Riepenhausen</authors>
     <owners>$company$</owners>

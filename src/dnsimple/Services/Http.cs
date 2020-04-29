@@ -28,7 +28,8 @@ namespace dnsimple.Services
         public HttpService(IRestClient restClient, RequestBuilder builder)
         {
             RestClient = restClient;
-            RestClient.UserAgent = "dnsimple-csharp/0.8.0-alpha";
+            RestClient.UserAgent =
+                $"dnsimple-csharp/{typeof(HttpService).Assembly.GetName().Version}-alpha";
             _builder = builder;
         }
 
@@ -73,9 +74,6 @@ namespace dnsimple.Services
             if (!response.IsSuccessful) HandleExceptions(response);
 
             return response;
-            // return !string.IsNullOrEmpty(restResponse.Content)
-            //     ? JObject.Parse(restResponse.Content)
-            //     : null;
         }
 
         private static void HandleExceptions(IRestResponse restResponse)
