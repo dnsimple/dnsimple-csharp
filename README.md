@@ -72,7 +72,7 @@ var client = new Client();
 client.AddCredentials(new OAuth2Credentials("..."));
 
 var accountId = client.Identity.Whoami().Data.Account.Id;
-var domainId = client.Domains.ListDomains(accountId).Data.Domains.First().Id;
+var domainId = client.Domains.ListDomains(accountId).Data.First().Id;
 var domain = client.Domains.GetDomain(accountId, domainId).Data;
 ```
 
