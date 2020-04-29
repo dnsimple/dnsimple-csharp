@@ -7,21 +7,6 @@ namespace dnsimple.Services.ListOptions
     /// <see cref="ListOptionsWithFiltering"/>
     public class ZoneRecordsListOptions : ListOptionsWithFiltering
     {
-        private const string NameLikeFilter = "name_like";
-        private const string NameExactFilter = "name";
-        private const string TypeFilter = "type";
-
-        private const string IdSort = "id";
-        private const string NameSort = "name";
-        private const string ContentSort = "content";
-        private const string TypeSort = "type";
-
-        /// <summary>
-        /// Creates a new instance of <c>ZoneRecordsListOptions</c>.
-        /// </summary>
-        public ZoneRecordsListOptions() =>
-            Pagination = new Pagination();
-
         /// <summary>
         /// Only include records containing given string.
         /// </summary>
@@ -29,7 +14,7 @@ namespace dnsimple.Services.ListOptions
         /// <returns>The instance of the <c>ZoneRecordsListOptions</c></returns>
         public ZoneRecordsListOptions FilterByName(string name)
         {
-            AddFilter(new Filter {Field = NameLikeFilter, Value = name});
+            AddFilter(new Filter {Field = "name_like", Value = name});
             return this;
         }
 
@@ -40,7 +25,7 @@ namespace dnsimple.Services.ListOptions
         /// <returns>The instance of the <c>ZoneRecordsListOptions</c></returns>
         public ZoneRecordsListOptions FilterByExactName(string name)
         {
-            AddFilter(new Filter {Field = NameExactFilter, Value = name});
+            AddFilter(new Filter {Field = "name", Value = name});
             return this;
         }
         
@@ -51,7 +36,7 @@ namespace dnsimple.Services.ListOptions
         /// <returns>The instance of the <c>ZoneRecordsListOptions</c></returns>
         public ZoneRecordsListOptions FilterByType(ZoneRecordType type)
         {
-            AddFilter(new Filter {Field = TypeFilter, Value = type.ToString()});
+            AddFilter(new Filter {Field = "type", Value = type.ToString()});
             return this;
         }
 
@@ -63,7 +48,7 @@ namespace dnsimple.Services.ListOptions
         /// <see cref="Order"/>
         public ZoneRecordsListOptions SortById(Order order)
         {
-            AddSortCriteria(new Sort {Field = IdSort, Order = order});
+            AddSortCriteria(new Sort {Field = "id", Order = order});
             return this;
         }
 
@@ -75,7 +60,7 @@ namespace dnsimple.Services.ListOptions
         /// <see cref="Order"/>
         public ZoneRecordsListOptions SortByName(Order order)
         {
-            AddSortCriteria(new Sort {Field = NameSort, Order = order});
+            AddSortCriteria(new Sort {Field = "name", Order = order});
             return this;
         }
 
@@ -87,7 +72,7 @@ namespace dnsimple.Services.ListOptions
         /// <see cref="Order"/>
         public ZoneRecordsListOptions SortByContent(Order order)
         {
-            AddSortCriteria(new Sort {Field = ContentSort, Order = order});
+            AddSortCriteria(new Sort {Field = "content", Order = order});
             return this;
         }
 
@@ -99,7 +84,7 @@ namespace dnsimple.Services.ListOptions
         /// <see cref="Order"/>
         public ZoneRecordsListOptions SortByType(Order order)
         {
-            AddSortCriteria(new Sort {Field = TypeSort, Order = order});
+            AddSortCriteria(new Sort {Field = "type", Order = order});
             return this;
         }
     }

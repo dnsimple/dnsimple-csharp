@@ -7,17 +7,6 @@ namespace dnsimple.Services.ListOptions
     /// <see cref="ListOptionsWithFiltering"/>
     public class ZonesListOptions : ListOptionsWithFiltering
     {
-        private const string NameLikeFilter = "name_like";
-        
-        private const string IdSort = "id";
-        private const string NameSort = "name";
-
-        /// <summary>
-        /// Creates a new instance of <c>ZonesListOptions</c>.
-        /// </summary>
-        public ZonesListOptions() =>
-            Pagination = new Pagination();
-        
         /// <summary>
         /// Sets the name to be filtered by.
         /// </summary>
@@ -25,7 +14,7 @@ namespace dnsimple.Services.ListOptions
         /// <returns>The instance of the <c>ZonesListOptions</c></returns>
         public ZonesListOptions FilterByName(string name)
         {
-            AddFilter(new Filter { Field = NameLikeFilter, Value = name });
+            AddFilter(new Filter { Field = "name_like", Value = name });
             return this;
         }
 
@@ -37,7 +26,7 @@ namespace dnsimple.Services.ListOptions
         /// <see cref="Order"/>
         public ZonesListOptions SortById(Order order)
         {
-            AddSortCriteria(new Sort { Field = IdSort, Order = order });
+            AddSortCriteria(new Sort { Field = "id", Order = order });
             return this;
         }
 
@@ -49,7 +38,7 @@ namespace dnsimple.Services.ListOptions
         /// <see cref="Order"/>
         public ZonesListOptions SortByName(Order order)
         {
-            AddSortCriteria(new Sort { Field = NameSort, Order = order});
+            AddSortCriteria(new Sort { Field = "name", Order = order});
             return this;
         }
     }

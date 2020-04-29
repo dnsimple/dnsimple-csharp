@@ -7,19 +7,6 @@ namespace dnsimple.Services.ListOptions
     /// <see cref="ListOptionsWithFiltering"/>
     public class DomainListOptions : ListOptionsWithFiltering
     {
-        private const string NameLikeFilter = "name_like";
-        private const string RegistrantIdFilter = "registrant_id";
-
-        private const string IdSort = "id";
-        private const string NameSort = "name";
-        private const string ExpiresOnSort = "expires_on";
-
-        /// <summary>
-        /// Creates a new instance of <c>DomainListOptions</c>.
-        /// </summary>
-        public DomainListOptions()
-           => Pagination = new Pagination();
-        
         /// <summary>
         /// Sets the order by which to sort by id.
         /// </summary>
@@ -27,7 +14,7 @@ namespace dnsimple.Services.ListOptions
         /// <returns>The instance of the <c>DomainListOptions</c></returns>
         public DomainListOptions SortById(Order order)
         {
-            AddSortCriteria(new Sort { Field = IdSort, Order = order });
+            AddSortCriteria(new Sort { Field = "id", Order = order });
             return this;
         }
 
@@ -38,7 +25,7 @@ namespace dnsimple.Services.ListOptions
         /// <returns>The instance of the <c>DomainListOptions</c></returns>
         public DomainListOptions SortByName(Order order)
         {
-            AddSortCriteria(new Sort { Field = NameSort, Order = order });
+            AddSortCriteria(new Sort { Field = "name", Order = order });
             return this;
         }
 
@@ -49,7 +36,7 @@ namespace dnsimple.Services.ListOptions
         /// <returns>The instance of the <c>DomainListOptions</c></returns>
         public DomainListOptions SortByExpiresOn(Order order)
         {
-            AddSortCriteria(new Sort { Field = ExpiresOnSort, Order = order });
+            AddSortCriteria(new Sort { Field = "expires_on", Order = order });
             return this;
         }
 
@@ -60,7 +47,7 @@ namespace dnsimple.Services.ListOptions
         /// <returns>The instance of the <c>DomainListOptions</c></returns>
         public DomainListOptions FilterByName(string name)
         {
-            AddFilter(new Filter { Field = NameLikeFilter, Value = name });
+            AddFilter(new Filter { Field = "name_like", Value = name });
             return this;
         }
 
@@ -71,7 +58,7 @@ namespace dnsimple.Services.ListOptions
         /// <returns>The instance of the <c>DomainListOptions</c></returns>
         public DomainListOptions FilterByRegistrantId(long registrantId)
         {
-            AddFilter(new Filter { Field = RegistrantIdFilter, 
+            AddFilter(new Filter { Field = "registrant_id", 
                 Value = registrantId.ToString() });
             
             return this;

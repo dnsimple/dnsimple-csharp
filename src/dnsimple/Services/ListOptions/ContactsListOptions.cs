@@ -2,7 +2,7 @@ namespace dnsimple.Services.ListOptions
 {
     /// <summary>
     /// Defines the options you may want to send to list contacts, such as
-    /// pagination and sorting
+    /// pagination and sorting.
     /// </summary>
     /// <see cref="ListOptions"/>
     public class ContactsListOptions : ListOptions
