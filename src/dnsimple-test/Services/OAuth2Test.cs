@@ -16,6 +16,8 @@ namespace dnsimple_test.Services
         private static void SetupMockHttpService(Mock<HttpService> http,
             IMock<RestResponse> mockRestResponse)
         {
+            var response = new RestResponse();
+            response.Content = mockRestResponse.Object.Content;
             http.Setup(mock =>
                     mock.RequestBuilder(It.IsAny<string>()))
                 .Returns(new RequestBuilder(""));
@@ -24,7 +26,7 @@ namespace dnsimple_test.Services
                 mock.Execute(
                     It.IsAny<RestRequest>()
                 )
-            ).Returns(JObject.Parse(mockRestResponse.Object.Content));
+            ).Returns(response);
         }
 
         [Test]

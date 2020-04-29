@@ -16,6 +16,7 @@ namespace dnsimple_test.Services
     public class ZoneRecordsTest
     {
         private JToken _jToken;
+        private RestResponse _response;
 
         private const string ListZoneRecordsFixture =
             "listZoneRecords/success.http";
@@ -54,6 +55,8 @@ namespace dnsimple_test.Services
         public void Initialize()
         {
             var loader = new FixtureLoader("v2", ListZoneRecordsFixture);
+            _response = new RestResponse();
+            _response.Content = loader.ExtractJsonPayload();
             _jToken = JObject.Parse(loader.ExtractJsonPayload());
         }
 
@@ -85,7 +88,7 @@ namespace dnsimple_test.Services
         [Test]
         public void ZoneRecordsResponse()
         {
-            var response = new PaginatedDnsimpleResponse<ZoneRecordsData>(_jToken);
+            var response = new PaginatedDnsimpleResponse<ZoneRecordsData>(_response);
 
             Assert.AreEqual(5, response.Data.Count);
         }

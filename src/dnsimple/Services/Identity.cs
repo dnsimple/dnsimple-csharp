@@ -2,6 +2,7 @@ using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
+using RestSharp;
 
 namespace dnsimple.Services
 {
@@ -43,9 +44,11 @@ namespace dnsimple.Services
         /// Constructs a new <c>WhoamiResponse</c> object with the
         /// <c>JToken</c> object returned from the API call.
         /// </summary>
-        /// <param name="json"></param>
-        public WhoamiResponse(JToken json) : base(json) => 
-            Data = new WhoamiData(json);
+        /// <param name="response"></param>
+        public WhoamiResponse(IRestResponse response) : base(response)
+        {
+            Data = new WhoamiData(JObject.Parse(response.Content));
+        }
     }
 
     /// <summary>

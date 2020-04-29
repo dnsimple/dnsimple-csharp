@@ -2,6 +2,7 @@ using System.Linq;
 using dnsimple.Services;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
+using RestSharp;
 
 namespace dnsimple_test.Services
 {
@@ -9,6 +10,7 @@ namespace dnsimple_test.Services
     public class AccountsTest
     {
         private JToken _jToken;
+        private IRestResponse _response;
 
         [SetUp]
         public void Initialize()
@@ -16,6 +18,9 @@ namespace dnsimple_test.Services
             var loader =
                 new FixtureLoader("v2", "accounts/success-user.http");
                 
+            _response = new RestResponse();
+            _response.Content = loader.ExtractJsonPayload();
+            
             _jToken = JObject.Parse(loader.ExtractJsonPayload());
         }
 
@@ -37,7 +42,8 @@ namespace dnsimple_test.Services
         [Test]
         public void AccountsResponse()
         {
-            var accountsResponse = new ListDnsimpleResponse<Account>(_jToken);
+            
+            var accountsResponse = new ListDnsimpleResponse<Account>(_response);
 
             Assert.AreEqual(2, accountsResponse.Data.Count);
         }

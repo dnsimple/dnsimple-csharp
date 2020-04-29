@@ -66,15 +66,16 @@ namespace dnsimple.Services
         /// </returns>
         /// <exception cref="DnSimpleException"></exception>
         /// <see cref="JToken"/>
-        public virtual JToken Execute(IRestRequest request)
+        public virtual IRestResponse Execute(IRestRequest request)
         {
-            var restResponse = RestClient.Execute(request);
+            var response = RestClient.Execute(request);
 
-            if (!restResponse.IsSuccessful) HandleExceptions(restResponse);
+            if (!response.IsSuccessful) HandleExceptions(response);
 
-            return !string.IsNullOrEmpty(restResponse.Content)
-                ? JObject.Parse(restResponse.Content)
-                : null;
+            return response;
+            // return !string.IsNullOrEmpty(restResponse.Content)
+            //     ? JObject.Parse(restResponse.Content)
+            //     : null;
         }
 
         private static void HandleExceptions(IRestResponse restResponse)
@@ -84,66 +85,28 @@ namespace dnsimple.Services
             
             switch (restResponse.StatusCode)
             {
-                case HttpStatusCode.BadGateway:
-                    break;
                 case HttpStatusCode.BadRequest:
                     if(error["errors"] != null)
                         throw new DnSimpleValidationException(error);
                     break;
-                case HttpStatusCode.Conflict:
-                    break;
-                case HttpStatusCode.ExpectationFailed:
-                    break;
-                case HttpStatusCode.Forbidden:
-                    break;
-                case HttpStatusCode.GatewayTimeout:
-                    throw new DnSimpleException(message);
-                case HttpStatusCode.Gone:
-                    break;
-                case HttpStatusCode.HttpVersionNotSupported:
-                    break;
-                case HttpStatusCode.InternalServerError:
-                    throw new DnSimpleException(message);
-                case HttpStatusCode.LengthRequired:
-                    break;
-                case HttpStatusCode.MethodNotAllowed:
-                    break;
-                case HttpStatusCode.NoContent:
-                    break;
-                case HttpStatusCode.NonAuthoritativeInformation:
-                    break;
-                case HttpStatusCode.NotAcceptable:
-                    break;
                 case HttpStatusCode.NotFound:
                     throw new NotFoundException(message);
-                case HttpStatusCode.NotImplemented:
-                    throw new DnSimpleException(message);
                 case HttpStatusCode.PaymentRequired:
-                    break;
+                    throw new DnSimpleException(message);
                 case HttpStatusCode.PreconditionFailed:
                     throw new DnSimpleException(message);
-                case HttpStatusCode.ProxyAuthenticationRequired:
-                    break;
-                case HttpStatusCode.RequestedRangeNotSatisfiable:
-                    break;
-                case HttpStatusCode.RequestEntityTooLarge:
-                    break;
-                case HttpStatusCode.RequestTimeout:
-                    break;
-                case HttpStatusCode.RequestUriTooLong:
-                    break;
-                case HttpStatusCode.ServiceUnavailable:
+                case (HttpStatusCode) 429 :
                     throw new DnSimpleException(message);
                 case HttpStatusCode.Unauthorized:
                     throw new AuthenticationException(message);
-                case HttpStatusCode.UnsupportedMediaType:
-                    break;
-                case HttpStatusCode.Unused:
-                    break;
-                case HttpStatusCode.UpgradeRequired:
-                    break;
-                case HttpStatusCode.UseProxy:
-                    break;
+                case HttpStatusCode.InternalServerError:
+                    throw new DnSimpleException(message);
+                case HttpStatusCode.NotImplemented:
+                    throw new DnSimpleException(message);
+                case HttpStatusCode.ServiceUnavailable:
+                    throw new DnSimpleException(message);
+                case HttpStatusCode.GatewayTimeout:
+                    throw new DnSimpleException(message);
                 default:
                     throw new DnSimpleException(message);
             }

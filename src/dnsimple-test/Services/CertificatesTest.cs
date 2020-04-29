@@ -14,6 +14,8 @@ namespace dnsimple_test.Services
     public class CertificatesTest
     {
         private JToken _jToken;
+        private IRestResponse _response;
+
 
         private const string CertificateContent =
             "-----BEGIN CERTIFICATE REQUEST-----\nMIICljCCAX4CAQAwGTEXMBUGA1U" +
@@ -53,7 +55,7 @@ namespace dnsimple_test.Services
 
         private const string PurchaseRenewalLetsEncryptCertificateFixture =
             "purchaseRenewalLetsencryptCertificate/success.http";
-        
+
         private const string IssueRenewalLetsEncryptCertificateFixture =
             "issueRenewalLetsencryptCertificate/success.http";
 
@@ -72,7 +74,7 @@ namespace dnsimple_test.Services
         private DateTime LetsEncryptUpdatedAt { get; } = DateTime.ParseExact(
             "2017-10-19T08:22:17Z", "yyyy-MM-ddTHH:mm:ssZ",
             CultureInfo.CurrentCulture);
-        
+
         private DateTime LetsEncryptRenewalCreatedAt { get; } = DateTime.ParseExact(
             "2017-10-19T08:18:53Z", "yyyy-MM-ddTHH:mm:ssZ",
             CultureInfo.CurrentCulture);
@@ -81,20 +83,21 @@ namespace dnsimple_test.Services
             "2017-10-19T08:18:53Z", "yyyy-MM-ddTHH:mm:ssZ",
             CultureInfo.CurrentCulture);
 
-
         private DateTime ExpiresOn = new DateTime(2016, 9, 9);
 
         [SetUp]
         public void Initialize()
         {
             var loader = new FixtureLoader("v2", ListCertificatesFixture);
+            _response = new RestResponse();
+            _response.Content = loader.ExtractJsonPayload();
             _jToken = JObject.Parse(loader.ExtractJsonPayload());
         }
 
         [Test]
         public void CertificatesResponse()
         {
-            var certificate = new PaginatedDnsimpleResponse<Certificate>(_jToken).Data;
+            var certificate = new PaginatedDnsimpleResponse<Certificate>(_response).Data;
 
             Assert.Multiple(() =>
             {

@@ -92,7 +92,7 @@ namespace dnsimple_test
             return new RequestBuilder(path);
         }
 
-        public override JToken Execute(IRestRequest request)
+        public override IRestResponse Execute(IRestRequest request)
         {
             RequestUrlSent = new RestClient($"{_baseUrl}/v2/").BuildUri(request).ToString();
             MethodSent = request.Method;
@@ -114,9 +114,10 @@ namespace dnsimple_test
                     message = JObject.Parse(rawPayload)["message"]?.ToString();
                     throw new NotFoundException(message);
             }
-            return !string.IsNullOrEmpty(rawPayload)
-                ? JObject.Parse(rawPayload)
-                : null;
+            var response = new RestResponse();
+            response.Content = rawPayload;
+
+            return response;
         }
     }
 }

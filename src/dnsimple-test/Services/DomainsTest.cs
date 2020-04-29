@@ -8,6 +8,7 @@ using dnsimple.Services;
 using dnsimple.Services.ListOptions;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
+using RestSharp;
 
 namespace dnsimple_test.Services
 {
@@ -15,6 +16,7 @@ namespace dnsimple_test.Services
     public class DomainsTest
     {
         private JToken _jToken;
+        private IRestResponse _response;
         private const string ListDomainsFixture = "listDomains/success.http";
         private const string GetDomainFixture = "getDomain/success.http";
         private const string CreateDomainFixture = "createDomain/created.http";
@@ -33,13 +35,15 @@ namespace dnsimple_test.Services
         public void Initialize()
         {
             var loader = new FixtureLoader("v2", ListDomainsFixture);
+            _response = new RestResponse();
+            _response.Content = loader.ExtractJsonPayload();
             _jToken = JObject.Parse(loader.ExtractJsonPayload());
         }
 
         [Test]
         public void DomainsResponse()
         {
-            var domains = new PaginatedDnsimpleResponse<Domain>(_jToken).Data;
+            var domains = new PaginatedDnsimpleResponse<Domain>(_response).Data;
 
             
             Assert.Multiple(() =>

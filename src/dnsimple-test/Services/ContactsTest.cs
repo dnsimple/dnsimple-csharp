@@ -15,6 +15,7 @@ namespace dnsimple_test.Services
     public class ContactsTest
     {
         private JToken _jToken;
+        private IRestResponse _response;
 
         private const string ListContactsFixture = "listContacts/success.http";
 
@@ -44,13 +45,16 @@ namespace dnsimple_test.Services
         public void Initialize()
         {
             var loader = new FixtureLoader("v2", ListContactsFixture);
+            _response = new RestResponse();
+            _response.Content = loader.ExtractJsonPayload();
+            
             _jToken = JObject.Parse(loader.ExtractJsonPayload());
         }
 
         [Test]
         public void ContactsResponse()
         {
-            var contacts = new PaginatedDnsimpleResponse<Contact>(_jToken).Data;
+            var contacts = new PaginatedDnsimpleResponse<Contact>(_response).Data;
             var contact = contacts.First();
 
             Assert.Multiple(() =>

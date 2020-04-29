@@ -7,6 +7,7 @@ using dnsimple.Services;
 using dnsimple.Services.ListOptions;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
+using RestSharp;
 
 namespace dnsimple_test.Services
 {
@@ -14,12 +15,15 @@ namespace dnsimple_test.Services
     public class DomainsDelegationSignerRecordsTest
     {
         private JToken _jToken;
+        private IRestResponse _response;
+        
         private const string GetRecordFixture = "getDelegationSignerRecord/success.http";
         private const string ListRecordsFixture = "listDelegationSignerRecords/success.http";
         private const string CreateRecordsFixture = "createDelegationSignerRecord/created.http";
         private const string FailToCreateRecordsFixture = "createDelegationSignerRecord/validation-error.http";
         private const string DeleteRecordFixture = "deleteDelegationSignerRecord/success.http";
-        
+
+
         private DateTime CreatedAt { get; } = DateTime.ParseExact(
             "2017-03-03T13:49:58Z", "yyyy-MM-ddTHH:mm:ssZ",
             CultureInfo.CurrentCulture);
@@ -36,18 +40,20 @@ namespace dnsimple_test.Services
             DigestType = "2",
             Keytag = "2371"
         };
-        
+
         [SetUp]
         public void Initialize()
         {
             var loader = new FixtureLoader("v2", ListRecordsFixture);
+            _response = new RestResponse();
+            _response.Content = loader.ExtractJsonPayload();
             _jToken = JObject.Parse(loader.ExtractJsonPayload());
         }
         
         [Test]
         public void DelegationSignerRecordsData()
         {
-            var records = new PaginatedDnsimpleResponse<DelegationSignerRecord>(_jToken).Data;
+            var records = new PaginatedDnsimpleResponse<DelegationSignerRecord>(_response).Data;
             
             Assert.Multiple(() =>
             {

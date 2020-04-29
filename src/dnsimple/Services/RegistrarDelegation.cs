@@ -62,16 +62,18 @@ namespace dnsimple.Services
         /// <param name="delegation">A list of name servers as strings</param>
         /// <returns>The list of nameservers updated to vanity for the domain</returns>
         /// <see>https://developer.dnsimple.com/v2/registrar/delegation/#changeDomainDelegationToVanity</see>
-        public ListDnsimpleResponse<VanityDelegation> ChangeDomainDelegationToVanity(
-            long accountId, string domain, List<string> delegation)
+        public ListDnsimpleResponse<VanityDelegation>
+            ChangeDomainDelegationToVanity(
+                long accountId, string domain, List<string> delegation)
         {
             var requestBuilder =
                 Client.Http.RequestBuilder(
                     VanityDelegationPath(accountId, domain));
             requestBuilder.Method(Method.PUT);
             requestBuilder.AddJsonPayload(delegation);
-            
-            return new ListDnsimpleResponse<VanityDelegation>(Client.Http.Execute(requestBuilder.Request));
+
+            return new ListDnsimpleResponse<VanityDelegation>(
+                Client.Http.Execute(requestBuilder.Request));
         }
 
         /// <summary>
@@ -85,7 +87,8 @@ namespace dnsimple.Services
         /// <param name="accountId">The account Id</param>
         /// <param name="domain">The domain id or name</param>
         /// <see>https://developer.dnsimple.com/v2/registrar/delegation/#changeDomainDelegationFromVanity</see>
-        public void ChangeDomainDelegationFromVanity(long accountId, string domain)
+        public void ChangeDomainDelegationFromVanity(long accountId,
+            string domain)
         {
             var requestBuilder =
                 Client.Http.RequestBuilder(
@@ -107,6 +110,12 @@ namespace dnsimple.Services
         {
             Data = JsonTools<string>.DeserializeList(json);
         }
+
+        public DelegationResponse(IRestResponse response)
+        {
+            Data = JsonTools<string>.DeserializeList(
+                JObject.Parse(response.Content));
+        }
     }
 
     /// <summary>
@@ -122,5 +131,4 @@ namespace dnsimple.Services
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }
-    
 }

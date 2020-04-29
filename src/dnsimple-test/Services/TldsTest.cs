@@ -3,6 +3,7 @@ using dnsimple.Services;
 using dnsimple.Services.ListOptions;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
+using RestSharp;
 
 namespace dnsimple_test.Services
 {
@@ -10,7 +11,8 @@ namespace dnsimple_test.Services
     public class TldsTest
     {
         private JToken _jToken;
-        
+        private IRestResponse _response;
+
         private const string ListTldsFixture = "listTlds/success.http";
         private const string GetTldFixture = "getTld/success.http";
 
@@ -24,13 +26,15 @@ namespace dnsimple_test.Services
         public void Initialize()
         {
             var loader = new FixtureLoader("v2", ListTldsFixture);
+            _response = new RestResponse();
+            _response.Content = loader.ExtractJsonPayload();
             _jToken = JObject.Parse(loader.ExtractJsonPayload());
         }
         
         [Test]
         public void TldsResponse()
         {
-            var tlds = new PaginatedDnsimpleResponse<TldData>(_jToken).Data;
+            var tlds = new PaginatedDnsimpleResponse<TldData>(_response).Data;
             
             Assert.Multiple(() =>
             {

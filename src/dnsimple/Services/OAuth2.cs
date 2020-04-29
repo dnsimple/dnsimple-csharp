@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using RestSharp;
 
@@ -54,7 +55,7 @@ namespace dnsimple.Services
             Dictionary<OAuthParams, string> arguments)
         {
             var request = BuildRequest("/oauth/access_token", arguments);
-            return Http.Execute(request).ToObject<AccessTokenData>();
+            return JObject.Parse(Http.Execute(request).Content).ToObject<AccessTokenData>();
         }
 
         private RestRequest BuildRequest(string path,

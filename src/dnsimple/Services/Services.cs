@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using RestSharp;
 
 namespace dnsimple.Services
 {
@@ -17,36 +18,49 @@ namespace dnsimple.Services
         protected Service(IClient client) =>
             Client = client;
     }
+    
+    public abstract class Response
+    {
+        public IList<Parameter> Headers;
+    }
+    
     /// <summary>
     /// Represents the most basic response from a call to the DNSimple API.
     /// </summary>
     /// <typeparam name="T">The Data object type contained in the response</typeparam>
-    public class SimpleDnsimpleResponse<T>
+    public class SimpleDnsimpleResponse<T> : Response
     {
         /// <summary>
         /// Represents the <c>struct</c> containing the data.
         /// </summary>
         public T Data { get; protected set; }
 
-        public SimpleDnsimpleResponse(JToken json) => 
-            Data = JsonTools<T>.DeserializeObject("data", json);
+        public SimpleDnsimpleResponse(IRestResponse response)
+        {
+            Headers = response.Headers;
+            Data = JsonTools<T>.DeserializeObject("data",
+                JObject.Parse(response.Content));
+        }
     }
-    
+
 
     /// <summary>
     /// Represents a response from a call to the DNSimple API containing a list
     /// of objects.
     /// </summary>
     /// <typeparam name="T">The Data object type contained in the response</typeparam>
-    public class ListDnsimpleResponse<T> where T : new()
+    public class ListDnsimpleResponse<T> : Response where T : new()
     {
         /// <summary>
         /// Represents the <c>struct</c> containing the data.
         /// </summary>
         public List<T> Data { get; }
 
-        public ListDnsimpleResponse(JToken response) =>
-            Data = JsonTools<T>.DeserializeList(response);
+        public ListDnsimpleResponse(IRestResponse response)
+        {
+            Headers = response.Headers;
+            Data = JsonTools<T>.DeserializeList(JObject.Parse(response.Content));
+        }
     }
 
     /// <summary>
@@ -55,7 +69,7 @@ namespace dnsimple.Services
     /// </summary>
     /// <typeparam name="T">The Data object type contained in the response</typeparam>
     /// <see cref="PaginationData"/>
-    public class PaginatedDnsimpleResponse<T> where T : new()
+    public class PaginatedDnsimpleResponse<T> : Response where T : new()
     {
         /// <summary>
         /// Represents the <c>struct</c> containing the data.
@@ -68,10 +82,19 @@ namespace dnsimple.Services
         /// <see cref="PaginationData"/>
         public PaginationData PaginationData { get; }
 
-        public PaginatedDnsimpleResponse(JToken response)
+        // public PaginatedDnsimpleResponse(JToken response)
+        // {
+        //     Data = JsonTools<T>.DeserializeList(response);
+        //     PaginationData = PaginationData.From(response);
+        // }
+
+        public PaginatedDnsimpleResponse(IRestResponse response)
         {
-            Data = JsonTools<T>.DeserializeList(response);
-            PaginationData = PaginationData.From(response);
+            var json = JObject.Parse(response.Content);
+            
+            Headers = response.Headers;
+            Data = JsonTools<T>.DeserializeList(json);
+            PaginationData = PaginationData.From(json);
         }
     }
 }
