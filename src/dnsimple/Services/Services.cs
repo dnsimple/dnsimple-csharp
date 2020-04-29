@@ -82,12 +82,6 @@ namespace dnsimple.Services
         /// <see cref="PaginationData"/>
         public PaginationData PaginationData { get; }
 
-        // public PaginatedDnsimpleResponse(JToken response)
-        // {
-        //     Data = JsonTools<T>.DeserializeList(response);
-        //     PaginationData = PaginationData.From(response);
-        // }
-
         public PaginatedDnsimpleResponse(IRestResponse response)
         {
             var json = JObject.Parse(response.Content);
