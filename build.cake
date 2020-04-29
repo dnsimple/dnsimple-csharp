@@ -1,6 +1,6 @@
 #tool nuget:?package=NUnit.ConsoleRunner&version=3.4.0
 
-var configuration = Argument("configuration", "Debug");
+var configuration = Argument("configuration", "Release");
 var target = Argument("target", "Default");
 
 var buildDir = Directory("./src/dnsimple/bin") + Directory(configuration);
