@@ -11,7 +11,7 @@ namespace dnsimple.Services
 {
     /// <summary>
     /// The <c>ZonesService</c> handles communication with the zone related
-    /// methods of the DNSimple API
+    /// methods of the DNSimple API.
     /// </summary>
     /// <see>https://developer.dnsimple.com/v2/zones/</see>
     public partial class ZonesService : Service

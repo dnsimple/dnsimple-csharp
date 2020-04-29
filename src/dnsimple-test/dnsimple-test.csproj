@@ -80,6 +80,7 @@
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Services\AccountsTest.cs" />
         <Compile Include="Services\CertificatesTest.cs" />
+        <Compile Include="Services\ContactsTest.cs" />
         <Compile Include="Services\DomainsCollaboratorsTest.cs" />
         <Compile Include="Services\DomainsDnssecTest.cs" />
         <Compile Include="Services\DomainsDelegationSignerRecordsTest.cs" />

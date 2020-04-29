@@ -6,15 +6,7 @@ namespace dnsimple.Services.ListOptions
     /// </summary>
     /// <see cref="ListOptions"/>
     public class ListDomainDelegationSignerRecordsOptions : ListOptions {
-        private const string IdSort = "id";
-        private const string CreatedAtSort = "created_at";
 
-        /// <summary>
-        /// Creates a new instance of <c>ListDomainDelegationSignerRecordsOptions</c>
-        /// </summary>
-        public ListDomainDelegationSignerRecordsOptions() =>
-            Pagination = new Pagination();
-        
         /// <summary>
         /// Sets the order by which to sort by id.
         /// </summary>
@@ -22,7 +14,7 @@ namespace dnsimple.Services.ListOptions
         /// <returns>The instance of the <c>ListDomainDelegationSignerRecordsOptions</c></returns>
         public ListDomainDelegationSignerRecordsOptions SortById(Order order)
         {
-            AddSortCriteria(new Sort {Field = IdSort, Order = order });
+            AddSortCriteria(new Sort {Field = "id", Order = order });
             return this;
         }
 
@@ -34,7 +26,7 @@ namespace dnsimple.Services.ListOptions
         public ListDomainDelegationSignerRecordsOptions SortByCreatedAt(
             Order order)
         {
-            AddSortCriteria(new Sort{Field = CreatedAtSort, Order = order });
+            AddSortCriteria(new Sort{Field = "created_at", Order = order });
             return this;
         }
     }

@@ -184,6 +184,16 @@ namespace dnsimple.Services
         {
             return $"{GetTldPath(tld)}/extended_attributes";
         }
+
+        public static string ContactsPath(long accountId)
+        {
+            return $"/{accountId}/contacts";
+        }
+
+        public static string ContactPath(long accountId, long contactId)
+        {
+            return $"{ContactsPath(accountId)}/{contactId}";
+        }
         
         public static string AutoRenewalPath(long accountId, string domain)
         {

@@ -15,6 +15,7 @@ namespace dnsimple_test
 
         public AccountsService Accounts { get; }
         public CertificatesService Certificates { get; }
+        public ContactsService Contacts { get; }
         public DomainsService Domains { get; }
         public HttpService Http { get; }
         public IdentityService Identity { get; }
@@ -29,6 +30,7 @@ namespace dnsimple_test
 
             Accounts = new AccountsService(this);
             Certificates = new CertificatesService(this);
+            Contacts = new ContactsService(this);
             Domains = new DomainsService(this);
             Http = new MockHttpService("v2", Fixture, BaseUrl);
             Identity = new IdentityService(this);

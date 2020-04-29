@@ -59,6 +59,13 @@ namespace dnsimple
         AccountsService Accounts { get; }
         
         /// <summary>
+        /// Instance of the <c>ContactsService</c>
+        /// </summary>
+        /// <see cref="ContactsService"/>
+        /// <see>https://developer.dnsimple.com/v2/contacts/</see>
+        ContactsService Contacts { get; }
+        
+        /// <summary>
         /// Instance of the <c>CertificatesService</c>
         /// </summary>
         /// <see cref="CertificatesService"/>
@@ -203,8 +210,12 @@ namespace dnsimple
         /// <inheritdoc />
         public AccountsService Accounts { get; private set; }
 
+        /// <inheritdoc />
         public CertificatesService Certificates { get; private set; }
-        
+
+        /// <inheritdoc />
+        public ContactsService Contacts { get; private set; }
+
         /// <inheritdoc/>
         public DomainsService Domains { get; private set; }
 
@@ -308,6 +319,7 @@ namespace dnsimple
         {
             Accounts = new AccountsService(this);
             Certificates = new CertificatesService(this);
+            Contacts = new ContactsService(this);
             Domains = new DomainsService(this);
             Http = new HttpService(RestClientWrapper.RestClient,
                 new RequestBuilder());
