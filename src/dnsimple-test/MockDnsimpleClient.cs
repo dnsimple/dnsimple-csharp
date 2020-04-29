@@ -23,10 +23,12 @@ namespace dnsimple_test
         public RegistrarService Registrar { get; set; }
         public TldsService Tlds { get; set; }
         public ZonesService Zones { get; }
+        public string UserAgent { get; }
 
         public MockDnsimpleClient(string fixture)
         {
             Fixture = fixture;
+            UserAgent = "Testing user agent";
 
             Accounts = new AccountsService(this);
             Certificates = new CertificatesService(this);
@@ -59,6 +61,10 @@ namespace dnsimple_test
         public void AddCredentials(ICredentials credentials)
         {
             // Not needed at the moment, but having to implement...
+        }
+
+        public void SetUserAgent(string customUserAgent)
+        {
         }
 
         public string RequestSentTo()

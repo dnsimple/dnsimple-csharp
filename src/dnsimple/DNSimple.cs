@@ -118,6 +118,8 @@ namespace dnsimple
         /// </summary>
         ZonesService Zones { get; }
 
+        string UserAgent { get; }
+
         /// <summary>
         /// Changes the base URL to be used (i.e. to the sandbox environment).
         /// </summary>
@@ -147,6 +149,8 @@ namespace dnsimple
         /// <seealso cref="BasicHttpCredentials"/>
         /// <seealso cref="OAuth2Credentials"/>
         void AddCredentials(ICredentials credentials);
+
+        void SetUserAgent(string customUserAgent);
     }
 
     /// <summary>
@@ -184,6 +188,8 @@ namespace dnsimple
     /// </remarks>
     public class Client : IClient
     {
+        private static readonly string DefaultUserAgent = $"dnsimple-csharp/{typeof(Client).Assembly.GetName().Version}-alpha";
+
         /// <summary>
         /// Base URL for API calls.
         ///
@@ -234,6 +240,8 @@ namespace dnsimple
 
         public ZonesService Zones { get; private set; }
 
+        public string UserAgent { get; private set; }
+
         /// <summary>
         /// Constructs a new Client initializing a new (default)
         /// <c>RestClientWrapper</c>.
@@ -271,6 +279,7 @@ namespace dnsimple
         {
             BaseUrl = baseUrl;
             RestClientWrapper.RestClient.BaseUrl = new Uri(VersionedBaseUrl());
+            RestClientWrapper.RestClient.UserAgent = DefaultUserAgent;
         }
         
         /// <summary>
@@ -295,6 +304,16 @@ namespace dnsimple
         /// <seealso cref="OAuth2Credentials"/>
         public void AddCredentials(ICredentials credentials) => 
             RestClientWrapper.AddAuthenticator(credentials);
+
+        /// <summary>
+        /// Sets the user agent 
+        /// </summary>
+        /// <param name="customUserAgent"></param>
+        public void SetUserAgent(string customUserAgent)
+        {
+            UserAgent = $"{customUserAgent} {DefaultUserAgent}";
+            RestClientWrapper.RestClient.UserAgent = UserAgent;
+        }
 
         /// <summary>
         /// Initializes the <c>RestClient</c> contained in the

@@ -99,5 +99,13 @@ namespace dnsimple_test
             Assert.AreEqual("https://api.dnsimple.com/v2/",
                 _client.VersionedBaseUrl());
         }
+
+        [Test]
+        public void CanSetTheUserAgent()
+        {
+            _client.SetUserAgent("MySuperAPP");
+
+            Assert.AreEqual($"MySuperAPP dnsimple-csharp/{typeof(HttpService).Assembly.GetName().Version}-alpha", _client.UserAgent);
+        }
     }
 }

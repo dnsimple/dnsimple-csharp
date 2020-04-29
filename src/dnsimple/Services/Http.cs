@@ -28,8 +28,6 @@ namespace dnsimple.Services
         public HttpService(IRestClient restClient, RequestBuilder builder)
         {
             RestClient = restClient;
-            RestClient.UserAgent =
-                $"dnsimple-csharp/{typeof(HttpService).Assembly.GetName().Version}-alpha";
             _builder = builder;
         }
 
