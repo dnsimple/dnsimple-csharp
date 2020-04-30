@@ -55,14 +55,14 @@ namespace dnsimple.Services
         /// disable DNSSEC for a domain that hasn't DNSSEC enabled.</remarks>
         /// <see cref="DnSimpleException"/>
         /// <see>https://developer.dnsimple.com/v2/domains/dnssec/#disableDomainDnssec</see>
-        public void DisableDnssec(long accountId, string domainIdentifier)
+        public EmptyDnsimpleResponse DisableDnssec(long accountId, string domainIdentifier)
         {
             var request =
                 Client.Http.RequestBuilder(DnssecPath(accountId,
                     domainIdentifier));
             request.Method(Method.DELETE);
             
-            Client.Http.Execute(request.Request);
+            return new EmptyDnsimpleResponse(Client.Http.Execute(request.Request));
         }
     }
 

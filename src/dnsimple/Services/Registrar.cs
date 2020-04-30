@@ -147,14 +147,14 @@ namespace dnsimple.Services
         /// <remarks>This will unlock a domain and send the authorization code
         /// to the domain’s administrative contact.</remarks>
         /// <see>https://developer.dnsimple.com/v2/registrar/#authorizeDomainTransferOut</see>
-        public void TransferDomainOut(long accountId, string domainName)
+        public EmptyDnsimpleResponse TransferDomainOut(long accountId, string domainName)
         {
             var requestBuilder =
                 Client.Http.RequestBuilder(
                     DomainTransferOutPath(accountId, domainName));
             requestBuilder.Method(Method.POST);
 
-            Client.Http.Execute(requestBuilder.Request);
+            return new EmptyDnsimpleResponse(Client.Http.Execute(requestBuilder.Request));
         }
     }
 

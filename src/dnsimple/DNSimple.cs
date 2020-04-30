@@ -104,6 +104,8 @@ namespace dnsimple
         /// <see cref="RegistrarService"/>
         RegistrarService Registrar { get; }
         
+        ServicesService Services { get; }
+        
         /// <summary>
         /// Instance of the <c>TldsService</c>
         /// </summary>
@@ -235,7 +237,9 @@ namespace dnsimple
         public OAuth2Service OAuth { get; private set; }
         
         public RegistrarService Registrar { get; private set; }
-        
+
+        public ServicesService Services { get; private set; }
+
         public TldsService Tlds { get; private set; }
 
         public ZonesService Zones { get; private set; }
@@ -345,6 +349,7 @@ namespace dnsimple
             Identity = new IdentityService(this);
             OAuth = new OAuth2Service(Http);
             Registrar = new RegistrarService(this);
+            Services = new ServicesService(this);
             Tlds = new TldsService(this);
             Zones = new ZonesService(this);
         }

@@ -194,6 +194,27 @@ namespace dnsimple.Services
         {
             return $"{ContactsPath(accountId)}/{contactId}";
         }
+
+        public static string ServicesPath()
+        {
+            return "/services";
+        }
+
+        public static string ServicePath(string service)
+        {
+            return $"{ServicesPath()}/{service}";
+        }
+
+        public static string AppliedServicesPath(long accountId, string domain)
+        {
+            return $"{DomainPath(accountId, domain)}/services";
+        }
+
+        public static string ApplyServicePath(long accountId, string domain,
+            string service)
+        {
+            return $"{AppliedServicesPath(accountId, domain)}/{service}";
+        }
         
         public static string AutoRenewalPath(long accountId, string domain)
         {

@@ -20,8 +20,9 @@ namespace dnsimple_test
         public HttpService Http { get; }
         public IdentityService Identity { get; }
         public OAuth2Service OAuth { get; }
-        public RegistrarService Registrar { get; set; }
-        public TldsService Tlds { get; set; }
+        public RegistrarService Registrar { get; }
+        public ServicesService Services { get; }
+        public TldsService Tlds { get; }
         public ZonesService Zones { get; }
         public string UserAgent { get; }
 
@@ -38,6 +39,7 @@ namespace dnsimple_test
             Identity = new IdentityService(this);
             OAuth = new OAuth2Service(Http);
             Registrar = new RegistrarService(this);
+            Services = new ServicesService(this);
             Tlds = new TldsService(this);
             Zones = new ZonesService(this);
         }

@@ -14,7 +14,6 @@ namespace dnsimple_test.Services
     [TestFixture]
     public class ContactsTest
     {
-        private JToken _jToken;
         private IRestResponse _response;
 
         private const string ListContactsFixture = "listContacts/success.http";
@@ -47,8 +46,6 @@ namespace dnsimple_test.Services
             var loader = new FixtureLoader("v2", ListContactsFixture);
             _response = new RestResponse();
             _response.Content = loader.ExtractJsonPayload();
-            
-            _jToken = JObject.Parse(loader.ExtractJsonPayload());
         }
 
         [Test]

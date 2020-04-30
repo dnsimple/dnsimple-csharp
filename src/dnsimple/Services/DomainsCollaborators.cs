@@ -71,7 +71,7 @@ namespace dnsimple.Services
         /// <param name="domainIdentifier">The domain name or id</param>
         /// <param name="collaboratorId">The collaborator id</param>
         /// <see>https://developer.dnsimple.com/v2/domains/collaborators/#removeDomainCollaborator</see>
-        public void RemoveCollaborator(long accountId, string domainIdentifier,
+        public EmptyDnsimpleResponse RemoveCollaborator(long accountId, string domainIdentifier,
             long collaboratorId)
         {
             var request = Client.Http.RequestBuilder(
@@ -79,7 +79,7 @@ namespace dnsimple.Services
                     collaboratorId));
             request.Method(Method.DELETE);
 
-            Client.Http.Execute(request.Request);
+            return new EmptyDnsimpleResponse(Client.Http.Execute(request.Request));
         }
     }
 

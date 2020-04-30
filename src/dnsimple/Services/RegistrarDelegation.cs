@@ -87,7 +87,7 @@ namespace dnsimple.Services
         /// <param name="accountId">The account Id</param>
         /// <param name="domain">The domain id or name</param>
         /// <see>https://developer.dnsimple.com/v2/registrar/delegation/#changeDomainDelegationFromVanity</see>
-        public void ChangeDomainDelegationFromVanity(long accountId,
+        public EmptyDnsimpleResponse ChangeDomainDelegationFromVanity(long accountId,
             string domain)
         {
             var requestBuilder =
@@ -95,7 +95,7 @@ namespace dnsimple.Services
                     VanityDelegationPath(accountId, domain));
             requestBuilder.Method(Method.DELETE);
 
-            Client.Http.Execute(requestBuilder.Request);
+            return new EmptyDnsimpleResponse(Client.Http.Execute(requestBuilder.Request));
         }
     }
 

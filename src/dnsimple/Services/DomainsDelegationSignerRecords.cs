@@ -105,14 +105,14 @@ namespace dnsimple.Services
         /// <param name="domainIdentifier">The domain name or id</param>
         /// <param name="recordId">the delegation signer record id</param>
         /// <see>https://developer.dnsimple.com/v2/domains/dnssec/#deleteDomainDelegationSignerRecord</see>
-        public void DeleteDelegationSignerRecord(long accountId, string domainIdentifier, int recordId)
+        public EmptyDnsimpleResponse DeleteDelegationSignerRecord(long accountId, string domainIdentifier, int recordId)
         {
             var request =
                 Client.Http.RequestBuilder(DsRecordPath(accountId,
                     domainIdentifier, recordId));
             request.Method(Method.DELETE);
 
-            Client.Http.Execute(request.Request);
+            return new EmptyDnsimpleResponse(Client.Http.Execute(request.Request));
         }
     }
 

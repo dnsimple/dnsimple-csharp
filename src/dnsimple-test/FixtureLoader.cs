@@ -32,8 +32,8 @@ namespace dnsimple_test
         {
             try
             {
-                    JToken.Parse(lastLine);
-                    return true;
+                JToken.Parse(lastLine);
+                return true;
             }
             catch (JsonReaderException ex)
             {

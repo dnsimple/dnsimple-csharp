@@ -13,9 +13,9 @@ namespace dnsimple.Services
         /// <param name="accountId">The account Id</param>
         /// <param name="domain">The domain name or id</param>
         /// <see>https://developer.dnsimple.com/v2/registrar/auto-renewal/#enableDomainAutoRenewal</see>
-        public void EnableDomainAutoRenewal(long accountId, string domain)
+        public EmptyDnsimpleResponse EnableDomainAutoRenewal(long accountId, string domain)
         {
-            DomainAutoRenewal(accountId, domain, Method.PUT);
+            return DomainAutoRenewal(accountId, domain, Method.PUT);
         }
         
         /// <summary>
@@ -24,18 +24,18 @@ namespace dnsimple.Services
         /// <param name="accountId">The account Id</param>
         /// <param name="domain">The domain name or id</param>
         /// <see>https://developer.dnsimple.com/v2/registrar/auto-renewal/#disableDomainAutoRenewal</see>
-        public void DisableDomainAutoRenewal(long accountId, string domain)
+        public EmptyDnsimpleResponse DisableDomainAutoRenewal(long accountId, string domain)
         {
-            DomainAutoRenewal(accountId, domain, Method.DELETE);
+            return DomainAutoRenewal(accountId, domain, Method.DELETE);
         }
 
-        private void DomainAutoRenewal(long accountId, string domain,
+        private EmptyDnsimpleResponse DomainAutoRenewal(long accountId, string domain,
             Method method)
         {
             var requestBuilder =
                 Client.Http.RequestBuilder(AutoRenewalPath(accountId, domain));
             requestBuilder.Method(method);
-            Client.Http.Execute(requestBuilder.Request);
+            return new EmptyDnsimpleResponse(Client.Http.Execute(requestBuilder.Request));
         }
     }
 }

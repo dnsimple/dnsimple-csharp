@@ -126,14 +126,14 @@ namespace dnsimple.Services
         /// <exception cref="DnSimpleValidationException">If the contact cannot
         /// be deleted because it’s currently used by a domain or a
         /// certificate.</exception>
-        public void DeleteContact(long accountId, long contactId)
+        public EmptyDnsimpleResponse DeleteContact(long accountId, long contactId)
         {
             var requestBuilder =
                 Client.Http.RequestBuilder(ContactPath(accountId,
                     contactId));
             requestBuilder.Method(Method.DELETE);
 
-            Client.Http.Execute(requestBuilder.Request);
+            return new EmptyDnsimpleResponse(Client.Http.Execute(requestBuilder.Request));
         }
     }
 

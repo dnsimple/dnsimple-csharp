@@ -135,14 +135,14 @@ namespace dnsimple.Services
         /// <param name="zoneId">The zone name</param>
         /// <param name="recordId">The record Id</param>
         /// <see>https://developer.dnsimple.com/v2/zones/records/#deleteZoneRecord</see>
-        public void DeleteRecord(long accountId, string zoneId, long recordId)
+        public EmptyDnsimpleResponse DeleteRecord(long accountId, string zoneId, long recordId)
         {
             var requestBuilder =
                 Client.Http.RequestBuilder(ZoneRecordPath(accountId, zoneId,
                     recordId));
             requestBuilder.Method(Method.DELETE);
 
-            Client.Http.Execute(requestBuilder.Request);
+            return new EmptyDnsimpleResponse(Client.Http.Execute(requestBuilder.Request));
         }
 
         /// <summary>

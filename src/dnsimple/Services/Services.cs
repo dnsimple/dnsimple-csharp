@@ -1,94 +1,102 @@
+using System;
 using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
-using RestSharp;
+using dnsimple.Services.ListOptions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using static dnsimple.Services.Paths;
 
 namespace dnsimple.Services
 {
-    public abstract class Service
-    {
-        
-        protected IClient Client { get; }
-
-        /// <summary>
-        /// Creates a new instance of a Service by passing an
-        /// instance of the DNSimple <c>IClient</c>
-        /// </summary>
-        /// <param name="client">An instance of the <c>IClient</c></param>
-        /// <see cref="IClient"/>
-        protected Service(IClient client) =>
-            Client = client;
-    }
-    
-    public abstract class Response
-    {
-        public IList<Parameter> Headers;
-    }
-    
     /// <summary>
-    /// Represents the most basic response from a call to the DNSimple API.
+    /// Handles communication with the service related methods of the
+    /// DNSimple API.
     /// </summary>
-    /// <typeparam name="T">The Data object type contained in the response</typeparam>
-    public class SimpleDnsimpleResponse<T> : Response
+    /// <see cref="Service"/>
+    public partial class ServicesService : Service
     {
-        /// <summary>
-        /// Represents the <c>struct</c> containing the data.
-        /// </summary>
-        public T Data { get; protected set; }
-
-        public SimpleDnsimpleResponse(IRestResponse response)
+        /// <inheritdoc cref="Service"/>
+        public ServicesService(IClient client) : base(client)
         {
-            Headers = response.Headers;
-            Data = JsonTools<T>.DeserializeObject("data",
-                JObject.Parse(response.Content));
+        }
+
+        /// <summary>
+        /// Lists the one-click services available in DNSimple.
+        /// </summary>
+        /// <returns>A list of all the one-click services available</returns>
+        /// <see>https://developer.dnsimple.com/v2/services/#listServices</see>
+        public PaginatedDnsimpleResponse<ServiceData> ListServices()
+        {
+            return new PaginatedDnsimpleResponse<ServiceData>(
+                Client.Http.Execute(Client.Http.RequestBuilder(ServicesPath())
+                    .Request));
+        }
+
+        /// <summary>
+        /// Lists the one-click services available in DNSimple.
+        /// </summary>
+        /// <param name="options">Options passed to the list (sorting and
+        /// pagination).</param>
+        /// <returns>A list of all the one-click services available</returns>
+        /// <see>https://developer.dnsimple.com/v2/services/#listServices</see>
+        public PaginatedDnsimpleResponse<ServiceData> ListServices(
+            ListServicesOptions options)
+        {
+            var requestBuilder = Client.Http.RequestBuilder(ServicesPath());
+            requestBuilder.AddParameter(options.UnpackSorting());
+
+            if (!options.Pagination.IsDefault())
+            {
+                requestBuilder.AddParameters(options.UnpackPagination());
+            }
+
+            return new PaginatedDnsimpleResponse<ServiceData>(
+                Client.Http.Execute(requestBuilder
+                    .Request));
+        }
+
+        /// <summary>
+        /// Returns a one-click service.
+        /// </summary>
+        /// <param name="service">The service name or id</param>
+        /// <returns>The one-click service requested.</returns>
+        /// <see>https://developer.dnsimple.com/v2/services/#getService</see>
+        public SimpleDnsimpleResponse<ServiceData> GetService(string service)
+        {
+            return new SimpleDnsimpleResponse<ServiceData>(
+                Client.Http.Execute(Client.Http
+                    .RequestBuilder(ServicePath(service)).Request));
         }
     }
 
-
     /// <summary>
-    /// Represents a response from a call to the DNSimple API containing a list
-    /// of objects.
+    /// Represents a one-click service.
     /// </summary>
-    /// <typeparam name="T">The Data object type contained in the response</typeparam>
-    public class ListDnsimpleResponse<T> : Response where T : new()
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    public struct ServiceData
     {
-        /// <summary>
-        /// Represents the <c>struct</c> containing the data.
-        /// </summary>
-        public List<T> Data { get; }
-
-        public ListDnsimpleResponse(IRestResponse response)
-        {
-            Headers = response.Headers;
-            Data = JsonTools<T>.DeserializeList(JObject.Parse(response.Content));
-        }
+        public long Id { get; set; }
+        public string Name { get; set; }
+        public string Sid { get; set; }
+        public string Description { get; set; }
+        public string SetupDescription { get; set; }
+        public bool? RequiresSetup { get; set; }
+        public string DefaultSubdomain { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+        public IList<ServiceSettingData> Settings { get; set; }
     }
 
     /// <summary>
-    /// Represents a response from a call to the DNSimple API containing a list
-    /// and a pagination.
+    /// Represents a single group of settings for a DNSimple Service.
     /// </summary>
-    /// <typeparam name="T">The Data object type contained in the response</typeparam>
-    /// <see cref="PaginationData"/>
-    public class PaginatedDnsimpleResponse<T> : Response where T : new()
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    public struct ServiceSettingData
     {
-        /// <summary>
-        /// Represents the <c>struct</c> containing the data.
-        /// </summary>
-        public List<T> Data { get; }
-
-        /// <summary>
-        /// The <c>Pagination</c> object containing the pagination data
-        /// </summary>
-        /// <see cref="PaginationData"/>
-        public PaginationData PaginationData { get; }
-
-        public PaginatedDnsimpleResponse(IRestResponse response)
-        {
-            var json = JObject.Parse(response.Content);
-            
-            Headers = response.Headers;
-            Data = JsonTools<T>.DeserializeList(json);
-            PaginationData = PaginationData.From(json);
-        }
+        public string Name { get; set; }
+        public string Label { get; set; }
+        public string Append { get; set; }
+        public string Description { get; set; }
+        public string Example { get; set; }
+        public bool? Password { get; set; }
     }
 }

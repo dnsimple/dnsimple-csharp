@@ -95,14 +95,14 @@ namespace dnsimple.Services
         /// <param name="domainIdentifier">The domain name or id</param>
         /// <param name="emailForwardId">The email forward id</param>
         /// <see>https://developer.dnsimple.com/v2/domains/email-forwards/#deleteEmailForward</see>
-        public void DeleteEmailForward(long accountId, string domainIdentifier,
+        public EmptyDnsimpleResponse DeleteEmailForward(long accountId, string domainIdentifier,
             int emailForwardId)
         {
             var request = Client.Http.RequestBuilder(
                 EmailForwardPath(accountId, domainIdentifier, emailForwardId));
             request.Method(Method.DELETE);
 
-            Client.Http.Execute(request.Request);
+            return new EmptyDnsimpleResponse(Client.Http.Execute(request.Request));
         }
     }
 

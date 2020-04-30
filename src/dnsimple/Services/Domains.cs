@@ -107,14 +107,14 @@ namespace dnsimple.Services
         /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or id</param>
         /// <see>https://developer.dnsimple.com/v2/domains/#deleteDomain</see>
-        public void DeleteDomain(long accountId, string domainIdentifier)
+        public EmptyDnsimpleResponse DeleteDomain(long accountId, string domainIdentifier)
         {
             var request =
                 Client.Http.RequestBuilder(DeleteDomainPath(accountId,
                     domainIdentifier));
             request.Method(Method.DELETE);
 
-            Client.Http.Execute(request.Request);
+            return new EmptyDnsimpleResponse(Client.Http.Execute(request.Request));
         }
     }
 

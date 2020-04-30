@@ -55,14 +55,14 @@ namespace dnsimple.Services
         /// DNSimple account. The contact will be used as new registrant for
         /// the domain, if the domain is registered with DNSimple.</param>
         /// <see>https://developer.dnsimple.com/v2/domains/pushes/#acceptPush</see>
-        public void AcceptPush(long accountId, long pushId, long contactId)
+        public EmptyDnsimpleResponse AcceptPush(long accountId, long pushId, long contactId)
         {
             var request =
                 Client.Http.RequestBuilder(PushPath(accountId, pushId));
             request.Method(Method.POST);
             request.AddJsonPayload(PushPayload("contact_id", contactId.ToString()));
 
-            Client.Http.Execute(request.Request);
+            return new EmptyDnsimpleResponse(Client.Http.Execute(request.Request));
         }
 
         /// <summary>
@@ -71,13 +71,13 @@ namespace dnsimple.Services
         /// <param name="accountId">The account id</param>
         /// <param name="pushId">The push id</param>
         /// <see>https://developer.dnsimple.com/v2/domains/pushes/#rejectPush</see>
-        public void RejectPush(int accountId, int pushId)
+        public EmptyDnsimpleResponse RejectPush(int accountId, int pushId)
         {
             var request =
                 Client.Http.RequestBuilder(PushPath(accountId, pushId));
             request.Method(Method.DELETE);
 
-            Client.Http.Execute(request.Request);
+            return new EmptyDnsimpleResponse(Client.Http.Execute(request.Request));
         }
 
         private static JsonObject PushPayload(string key, string value)
