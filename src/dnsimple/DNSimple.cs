@@ -106,6 +106,8 @@ namespace dnsimple
         
         ServicesService Services { get; }
         
+        TemplatesService Templates { get; }
+        
         /// <summary>
         /// Instance of the <c>TldsService</c>
         /// </summary>
@@ -241,6 +243,8 @@ namespace dnsimple
         public ServicesService Services { get; private set; }
 
         public TldsService Tlds { get; private set; }
+        
+        public TemplatesService Templates { get; private set; }
 
         public ZonesService Zones { get; private set; }
 
@@ -351,6 +355,7 @@ namespace dnsimple
             Registrar = new RegistrarService(this);
             Services = new ServicesService(this);
             Tlds = new TldsService(this);
+            Templates = new TemplatesService(this);
             Zones = new ZonesService(this);
         }
     }

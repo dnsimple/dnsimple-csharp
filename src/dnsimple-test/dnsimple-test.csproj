@@ -97,6 +97,9 @@
         <Compile Include="Services\RegistrarWhoisPrivacyTest.cs" />
         <Compile Include="Services\ServicesDomainsTest.cs" />
         <Compile Include="Services\ServicesTest.cs" />
+        <Compile Include="Services\TemplateDomainsTest.cs" />
+        <Compile Include="Services\TemplateRecordsTest.cs" />
+        <Compile Include="Services\TemplatesTest.cs" />
         <Compile Include="Services\TldsTest.cs" />
         <Compile Include="Services\ZoneRecordsTest.cs" />
         <Compile Include="Services\ZonesTest.cs" />

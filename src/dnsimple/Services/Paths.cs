@@ -215,6 +215,34 @@ namespace dnsimple.Services
         {
             return $"{AppliedServicesPath(accountId, domain)}/{service}";
         }
+
+        public static string TemplatesPath(long accountId)
+        {
+            return $"/{accountId}/templates";
+        }
+
+        public static string TemplatePath(long account, string template)
+        {
+            return $"{TemplatesPath(account)}/{template}";
+        }
+
+        public static string TemplateRecordsPath(long accountId,
+            string template)
+        {
+            return $"{TemplatePath(accountId, template)}/records";
+        }
+
+        public static string TemplateRecordPath(long accountId,
+            string template, long recordId)
+        {
+            return $"{TemplateRecordsPath(accountId, template)}/{recordId}";
+        }
+
+        public static string TemplateDomainPath(long accountId, string domain,
+            string template)
+        {
+            return $"{DomainPath(accountId, domain)}/templates/{template}";
+        }
         
         public static string AutoRenewalPath(long accountId, string domain)
         {

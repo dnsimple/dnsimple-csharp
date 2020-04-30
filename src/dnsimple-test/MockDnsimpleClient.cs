@@ -22,6 +22,7 @@ namespace dnsimple_test
         public OAuth2Service OAuth { get; }
         public RegistrarService Registrar { get; }
         public ServicesService Services { get; }
+        public TemplatesService Templates { get; }
         public TldsService Tlds { get; }
         public ZonesService Zones { get; }
         public string UserAgent { get; }
@@ -41,6 +42,7 @@ namespace dnsimple_test
             Registrar = new RegistrarService(this);
             Services = new ServicesService(this);
             Tlds = new TldsService(this);
+            Templates = new TemplatesService(this);
             Zones = new ZonesService(this);
         }
         
