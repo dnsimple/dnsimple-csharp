@@ -104,8 +104,16 @@ namespace dnsimple
         /// <see cref="RegistrarService"/>
         RegistrarService Registrar { get; }
         
+        /// <summary>
+        /// Instance of the <c>ServicesService</c>
+        /// </summary>
+        /// <see cref="ServicesService"/>
         ServicesService Services { get; }
         
+        /// <summary>
+        /// Instance of the <c>TemplatesService</c>
+        /// </summary>
+        /// <see cref="TemplatesService"/>
         TemplatesService Templates { get; }
         
         /// <summary>
@@ -115,6 +123,11 @@ namespace dnsimple
         /// <see>https://developer.dnsimple.com/v2/tlds/</see>
         TldsService Tlds { get; }
         
+        /// <summary>
+        /// Instance of the <c>VanityNameServersService</c>
+        /// </summary>
+        /// <see cref="VanityNameServersService"/>
+        VanityNameServersService VanityNameServers { get; }
         /// <summary>
         /// Instance of the <c>ZonesService</c>
         /// <see cref="ZonesService"/>
@@ -246,6 +259,8 @@ namespace dnsimple
         
         public TemplatesService Templates { get; private set; }
 
+        public VanityNameServersService VanityNameServers { get; private set; }
+
         public ZonesService Zones { get; private set; }
 
         public string UserAgent { get; private set; }
@@ -356,6 +371,7 @@ namespace dnsimple
             Services = new ServicesService(this);
             Tlds = new TldsService(this);
             Templates = new TemplatesService(this);
+            VanityNameServers = new VanityNameServersService(this);
             Zones = new ZonesService(this);
         }
     }

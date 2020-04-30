@@ -90,6 +90,7 @@
         <Compile Include="Services\TemplateRecords.cs" />
         <Compile Include="Services\Templates.cs" />
         <Compile Include="Services\Tlds.cs" />
+        <Compile Include="Services\VanityNameServers.cs" />
         <Compile Include="Services\ZoneRecords.cs" />
         <Compile Include="Services\Zones.cs" />
     </ItemGroup>

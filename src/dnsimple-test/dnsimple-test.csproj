@@ -101,6 +101,7 @@
         <Compile Include="Services\TemplateRecordsTest.cs" />
         <Compile Include="Services\TemplatesTest.cs" />
         <Compile Include="Services\TldsTest.cs" />
+        <Compile Include="Services\VanityNameServersTest.cs" />
         <Compile Include="Services\ZoneRecordsTest.cs" />
         <Compile Include="Services\ZonesTest.cs" />
     </ItemGroup>

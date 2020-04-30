@@ -243,6 +243,12 @@ namespace dnsimple.Services
         {
             return $"{DomainPath(accountId, domain)}/templates/{template}";
         }
+
+        public static string VanityNameServersPath(long accountId,
+            string domain)
+        {
+            return $"/{accountId}/vanity/{domain}";
+        }
         
         public static string AutoRenewalPath(long accountId, string domain)
         {
