@@ -20,9 +20,9 @@ namespace dnsimple.Services
         public SimpleDnsimpleResponse<DnssecStatus> GetDnssec(long accountId,
             string domainIdentifier)
         {
-            return new SimpleDnsimpleResponse<DnssecStatus>(Client.Http.Execute(Client.Http
-                .RequestBuilder(DnssecPath(accountId, domainIdentifier))
-                .Request));
+            return new SimpleDnsimpleResponse<DnssecStatus>(Execute(
+                BuildRequestForPath(DnssecPath(accountId, domainIdentifier))
+                    .Request));
         }
 
         /// <summary>
@@ -38,12 +38,12 @@ namespace dnsimple.Services
         public SimpleDnsimpleResponse<DnssecStatus> EnableDnssec(long accountId,
             string domainIdentifier)
         {
-            var request =
-                Client.Http.RequestBuilder(
-                    DnssecPath(accountId, domainIdentifier));
-            request.Method(Method.POST);
+            var builder = BuildRequestForPath(
+                DnssecPath(accountId, domainIdentifier));
+            builder.Method(Method.POST);
 
-            return new SimpleDnsimpleResponse<DnssecStatus>(Client.Http.Execute(request.Request));
+            return new SimpleDnsimpleResponse<DnssecStatus>(
+                Execute(builder.Request));
         }
 
         /// <summary>
@@ -55,14 +55,14 @@ namespace dnsimple.Services
         /// disable DNSSEC for a domain that hasn't DNSSEC enabled.</remarks>
         /// <see cref="DnSimpleException"/>
         /// <see>https://developer.dnsimple.com/v2/domains/dnssec/#disableDomainDnssec</see>
-        public EmptyDnsimpleResponse DisableDnssec(long accountId, string domainIdentifier)
+        public EmptyDnsimpleResponse DisableDnssec(long accountId,
+            string domainIdentifier)
         {
-            var request =
-                Client.Http.RequestBuilder(DnssecPath(accountId,
+            var builder = BuildRequestForPath(DnssecPath(accountId,
                     domainIdentifier));
-            request.Method(Method.DELETE);
-            
-            return new EmptyDnsimpleResponse(Client.Http.Execute(request.Request));
+            builder.Method(Method.DELETE);
+
+            return new EmptyDnsimpleResponse(Execute(builder.Request));
         }
     }
 

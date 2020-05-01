@@ -17,8 +17,7 @@ namespace dnsimple.Services
             long accountId, string domain)
         {
             return new PaginatedDnsimpleResponse<ServiceData>(
-                Client.Http.Execute(Client.Http
-                    .RequestBuilder(AppliedServicesPath(accountId, domain))
+                Execute(BuildRequestForPath(AppliedServicesPath(accountId, domain))
                     .Request));
         }
 
@@ -33,13 +32,11 @@ namespace dnsimple.Services
         public EmptyDnsimpleResponse ApplyService(long accountId, string domain,
             string service)
         {
-            var requestBuilder =
-                Client.Http.RequestBuilder(ApplyServicePath(accountId, domain,
+            var builder = BuildRequestForPath(ApplyServicePath(accountId, domain,
                     service));
-            requestBuilder.Method(Method.POST);
+            builder.Method(Method.POST);
 
-            return new EmptyDnsimpleResponse(
-                Client.Http.Execute(requestBuilder.Request));
+            return new EmptyDnsimpleResponse(Execute(builder.Request));
         }
 
         /// <summary>
@@ -52,13 +49,11 @@ namespace dnsimple.Services
         /// <see>https://developer.dnsimple.com/v2/services/domains/#unapplyServiceFromDomain</see>
         public EmptyDnsimpleResponse UnapplyService(long accountId, string domain, string service)
         {
-            var requestBuilder =
-                Client.Http.RequestBuilder(ApplyServicePath(accountId, domain,
+            var builder = BuildRequestForPath(ApplyServicePath(accountId, domain,
                     service));
-            requestBuilder.Method(Method.DELETE);
+            builder.Method(Method.DELETE);
             
-            return new EmptyDnsimpleResponse(
-                Client.Http.Execute(requestBuilder.Request));
+            return new EmptyDnsimpleResponse(Execute(builder.Request));
         }
     }
 }

@@ -41,13 +41,12 @@ namespace dnsimple.Services
         public ListDnsimpleResponse<VanityNameServer> EnableVanityNameServers(
             long accountId, string domain)
         {
-            var requestBuilder =
-                Client.Http.RequestBuilder(
-                    VanityNameServersPath(accountId, domain));
-            requestBuilder.Method(Method.PUT);
+            var builder = BuildRequestForPath(
+                VanityNameServersPath(accountId, domain));
+            builder.Method(Method.PUT);
 
             return new ListDnsimpleResponse<VanityNameServer>(
-                Client.Http.Execute(requestBuilder.Request));
+                Execute(builder.Request));
         }
 
         /// <summary>
@@ -69,12 +68,11 @@ namespace dnsimple.Services
         public EmptyDnsimpleResponse DisableVanityNameServers(long accountId,
             string domain)
         {
-            var requestBuilder =
-                Client.Http.RequestBuilder(
+            var builder = BuildRequestForPath(
                     VanityNameServersPath(accountId, domain));
-            requestBuilder.Method(Method.DELETE);
-            
-            return new EmptyDnsimpleResponse(Client.Http.Execute(requestBuilder.Request));
+            builder.Method(Method.DELETE);
+
+            return new EmptyDnsimpleResponse(Execute(builder.Request));
         }
     }
 

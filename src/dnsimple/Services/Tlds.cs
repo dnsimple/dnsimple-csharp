@@ -20,35 +20,18 @@ namespace dnsimple.Services
         /// </summary>
         /// <returns>The list of TLDs supported</returns>
         /// <see cref="TldData"/>
-        /// <see>https://developer.dnsimple.com/v2/tlds/#listTlds</see>
-        public PaginatedDnsimpleResponse<TldData> ListTlds()
-        {
-            return new PaginatedDnsimpleResponse<TldData>(
-                Client.Http.Execute(Client.Http.RequestBuilder(TldsPath())
-                    .Request));
-        }
-
-        /// <summary>
-        /// Returns the list of TLDs supported for registration or transfer.
-        /// </summary>
-        /// <returns>The list of TLDs supported</returns>
-        /// <see cref="TldData"/>
         /// <param name="options">Options passed to the list (sorting and
         ///  pagination)</param>
         /// <see>https://developer.dnsimple.com/v2/tlds/#listTlds</see>
         public PaginatedDnsimpleResponse<TldData> ListTlds(
-            TldListOptions options)
+            TldListOptions options = null)
         {
-            var requestBuilder = Client.Http.RequestBuilder(TldsPath());
-            requestBuilder.AddParameter(options.UnpackSorting());
+            var builder = BuildRequestForPath(TldsPath());
 
-            if (!options.Pagination.IsDefault())
-            {
-                requestBuilder.AddParameters(options.UnpackPagination());
-            }
+            AddListOptionsToRequest(options, ref builder);
 
             return new PaginatedDnsimpleResponse<TldData>(
-                Client.Http.Execute(requestBuilder.Request));
+                Execute(builder.Request));
         }
 
         /// <summary>
@@ -60,9 +43,8 @@ namespace dnsimple.Services
         /// <see>https://developer.dnsimple.com/v2/tlds/#getTld</see>
         public SimpleDnsimpleResponse<TldData> GetTld(string tld)
         {
-            return new SimpleDnsimpleResponse<TldData>(
-                Client.Http.Execute(Client.Http.RequestBuilder(GetTldPath(tld))
-                    .Request));
+            return new SimpleDnsimpleResponse<TldData>(Execute(
+                BuildRequestForPath(GetTldPath(tld)).Request));
         }
 
         /// <summary>
@@ -87,8 +69,7 @@ namespace dnsimple.Services
             GetTldExtendedAttributes(string tld)
         {
             return new ListDnsimpleResponse<TldExtendedAttribute>(
-                Client.Http.Execute(Client.Http
-                    .RequestBuilder(GetTldExtendedAttributesPath(tld))
+                Execute(BuildRequestForPath(GetTldExtendedAttributesPath(tld))
                     .Request));
         }
     }

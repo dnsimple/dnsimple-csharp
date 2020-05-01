@@ -22,10 +22,8 @@ namespace dnsimple.Services
         public DelegationResponse GetDomainDelegation(long accountId,
             string domain)
         {
-            return new DelegationResponse(
-                Client.Http.Execute(Client.Http
-                    .RequestBuilder(DelegationPath(accountId, domain))
-                    .Request));
+            return new DelegationResponse(Execute(
+                BuildRequestForPath(DelegationPath(accountId, domain)).Request));
         }
 
         /// <summary>
@@ -39,14 +37,11 @@ namespace dnsimple.Services
         public DelegationResponse ChangeDomainDelegation(long accountId,
             string domain, IList<string> delegation)
         {
-            var requestBuilder =
-                Client.Http.RequestBuilder(
-                    DelegationPath(accountId, domain));
-            requestBuilder.Method(Method.PUT);
-            requestBuilder.AddJsonPayload(delegation);
+            var builder = BuildRequestForPath(DelegationPath(accountId, domain));
+            builder.Method(Method.PUT);
+            builder.AddJsonPayload(delegation);
 
-            return new DelegationResponse(
-                Client.Http.Execute(requestBuilder.Request));
+            return new DelegationResponse(Execute(builder.Request));
         }
 
         /// <summary>
@@ -66,14 +61,12 @@ namespace dnsimple.Services
             ChangeDomainDelegationToVanity(
                 long accountId, string domain, List<string> delegation)
         {
-            var requestBuilder =
-                Client.Http.RequestBuilder(
-                    VanityDelegationPath(accountId, domain));
-            requestBuilder.Method(Method.PUT);
-            requestBuilder.AddJsonPayload(delegation);
+            var builder = BuildRequestForPath(VanityDelegationPath(accountId, domain));
+            builder.Method(Method.PUT);
+            builder.AddJsonPayload(delegation);
 
             return new ListDnsimpleResponse<VanityDelegation>(
-                Client.Http.Execute(requestBuilder.Request));
+                Execute(builder.Request));
         }
 
         /// <summary>
@@ -87,15 +80,15 @@ namespace dnsimple.Services
         /// <param name="accountId">The account Id</param>
         /// <param name="domain">The domain id or name</param>
         /// <see>https://developer.dnsimple.com/v2/registrar/delegation/#changeDomainDelegationFromVanity</see>
-        public EmptyDnsimpleResponse ChangeDomainDelegationFromVanity(long accountId,
+        public EmptyDnsimpleResponse ChangeDomainDelegationFromVanity(
+            long accountId,
             string domain)
         {
-            var requestBuilder =
-                Client.Http.RequestBuilder(
+            var builder = BuildRequestForPath(
                     VanityDelegationPath(accountId, domain));
-            requestBuilder.Method(Method.DELETE);
+            builder.Method(Method.DELETE);
 
-            return new EmptyDnsimpleResponse(Client.Http.Execute(requestBuilder.Request));
+            return new EmptyDnsimpleResponse(Execute(builder.Request));
         }
     }
 

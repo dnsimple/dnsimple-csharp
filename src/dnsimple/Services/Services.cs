@@ -22,36 +22,19 @@ namespace dnsimple.Services
         /// <summary>
         /// Lists the one-click services available in DNSimple.
         /// </summary>
-        /// <returns>A list of all the one-click services available</returns>
-        /// <see>https://developer.dnsimple.com/v2/services/#listServices</see>
-        public PaginatedDnsimpleResponse<ServiceData> ListServices()
-        {
-            return new PaginatedDnsimpleResponse<ServiceData>(
-                Client.Http.Execute(Client.Http.RequestBuilder(ServicesPath())
-                    .Request));
-        }
-
-        /// <summary>
-        /// Lists the one-click services available in DNSimple.
-        /// </summary>
         /// <param name="options">Options passed to the list (sorting and
         /// pagination).</param>
         /// <returns>A list of all the one-click services available</returns>
         /// <see>https://developer.dnsimple.com/v2/services/#listServices</see>
         public PaginatedDnsimpleResponse<ServiceData> ListServices(
-            ListServicesOptions options)
+            ListServicesOptions options = null)
         {
-            var requestBuilder = Client.Http.RequestBuilder(ServicesPath());
-            requestBuilder.AddParameter(options.UnpackSorting());
+            var builder = BuildRequestForPath(ServicesPath());
 
-            if (!options.Pagination.IsDefault())
-            {
-                requestBuilder.AddParameters(options.UnpackPagination());
-            }
+            AddListOptionsToRequest(options, ref builder);
 
             return new PaginatedDnsimpleResponse<ServiceData>(
-                Client.Http.Execute(requestBuilder
-                    .Request));
+                Execute(builder.Request));
         }
 
         /// <summary>
@@ -63,8 +46,7 @@ namespace dnsimple.Services
         public SimpleDnsimpleResponse<ServiceData> GetService(string service)
         {
             return new SimpleDnsimpleResponse<ServiceData>(
-                Client.Http.Execute(Client.Http
-                    .RequestBuilder(ServicePath(service)).Request));
+                Execute(BuildRequestForPath(ServicePath(service)).Request));
         }
     }
 

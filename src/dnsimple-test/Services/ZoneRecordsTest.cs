@@ -112,7 +112,7 @@ namespace dnsimple_test.Services
 
         [Test]
         [TestCase(1010, "example.com",
-            "https://api.sandbox.dnsimple.com/v2/1010/zones/example.com/records?name_like=example&name=boom&type=SOA&name_like=example&name=boom&type=SOA&per_page=42&page=7")]
+            "https://api.sandbox.dnsimple.com/v2/1010/zones/example.com/records?sort=id:asc%2cname:desc%2ccontent:asc%2ctype:desc&name_like=example&name=boom&type=SOA&per_page=42&page=7")]
         public void ListRecordsWithOptions(long account, string zoneId,
             string expectedUrl)
         {

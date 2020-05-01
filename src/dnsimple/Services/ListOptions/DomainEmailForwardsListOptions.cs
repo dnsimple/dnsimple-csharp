@@ -7,10 +7,6 @@ namespace dnsimple.Services.ListOptions
     /// <see cref="ListOptions"/>
     public class DomainEmailForwardsListOptions : ListOptions
     {
-        private const string IdSort = "id";
-        private const string FromSort = "from";
-        private const string ToSort = "to";
-
         /// <summary>
         /// Creates a new instance of <c>DomainEmailForwardsListOptions</c>
         /// </summary>
@@ -24,7 +20,7 @@ namespace dnsimple.Services.ListOptions
         /// <returns>The instance of the <c>DomainEmailForwardsListOptions</c></returns>
         public DomainEmailForwardsListOptions SortById(Order order)
         {
-            AddSortCriteria(new Sort { Field = IdSort, Order = order});
+            AddSortCriteria(new Sort { Field = "id", Order = order});
             return this;
         }
 
@@ -35,7 +31,7 @@ namespace dnsimple.Services.ListOptions
         /// <returns>The instance of the <c>DomainEmailForwardsListOptions</c></returns>
         public DomainEmailForwardsListOptions SortByFrom(Order order)
         {
-            AddSortCriteria(new Sort{Field = FromSort, Order = order});
+            AddSortCriteria(new Sort{Field = "from", Order = order});
             return this;
         }
 
@@ -46,7 +42,7 @@ namespace dnsimple.Services.ListOptions
         /// <returns>The instance of the <c>DomainEmailForwardsListOptions</c></returns>
         public DomainEmailForwardsListOptions SortByTo(Order order)
         {
-            AddSortCriteria(new Sort{Field = ToSort, Order = order});
+            AddSortCriteria(new Sort{Field = "to", Order = order});
             return this;
         }
     }

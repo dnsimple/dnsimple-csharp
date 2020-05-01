@@ -13,10 +13,11 @@ namespace dnsimple.Services
     /// <see>https://developer.dnsimple.com/v2/identity/</see>
     public class IdentityService : Service
     {
-
         /// <inheritdoc cref="Service"/>
-        public IdentityService(IClient client) : base(client) {}
-        
+        public IdentityService(IClient client) : base(client)
+        {
+        }
+
         /// <summary>
         /// Sends a request to the DNSimple API <c>/whoami</c> endpoint.
         /// </summary>
@@ -28,8 +29,7 @@ namespace dnsimple.Services
         public WhoamiResponse Whoami()
         {
             return new WhoamiResponse(
-                Client.Http.Execute(Client.Http.RequestBuilder("/whoami")
-                    .Request));
+                Execute(BuildRequestForPath("/whoami").Request));
         }
     }
 
@@ -39,7 +39,6 @@ namespace dnsimple.Services
     /// </summary>
     public class WhoamiResponse : SimpleDnsimpleResponse<WhoamiData>
     {
-        
         /// <summary>
         /// Constructs a new <c>WhoamiResponse</c> object with the
         /// <c>JToken</c> object returned from the API call.
@@ -63,12 +62,12 @@ namespace dnsimple.Services
         /// The instance of the <c>Account</c> <c>struct</c>.
         /// </summary>
         public Account Account { get; }
-        
+
         /// <summary>
         /// The instance of the <c>User</c> <c>struct</c>.
         /// </summary>
         public User User { get; }
-        
+
         /// <summary>
         /// Constructs a new <c>WhoamiData</c> object by passing the
         /// <c>JToken</c> and <c>JsonSerializer</c>.

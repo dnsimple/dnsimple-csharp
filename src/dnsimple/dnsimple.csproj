@@ -74,6 +74,7 @@
         <Compile Include="Services\ListOptions\ListServicesOptions.cs" />
         <Compile Include="Services\ListOptions\ListTemplateRecordsOptions.cs" />
         <Compile Include="Services\ListOptions\ListTemplatesOptions.cs" />
+        <Compile Include="Services\ListOptions\ListWebhooksOptions.cs" />
         <Compile Include="Services\ListOptions\TldListOptions.cs" />
         <Compile Include="Services\ListOptions\ZoneRecordsListOptions.cs" />
         <Compile Include="Services\ListOptions\ZonesListOptions.cs" />
@@ -91,6 +92,7 @@
         <Compile Include="Services\Templates.cs" />
         <Compile Include="Services\Tlds.cs" />
         <Compile Include="Services\VanityNameServers.cs" />
+        <Compile Include="Services\Webhooks.cs" />
         <Compile Include="Services\ZoneRecords.cs" />
         <Compile Include="Services\Zones.cs" />
     </ItemGroup>

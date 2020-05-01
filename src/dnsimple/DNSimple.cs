@@ -128,6 +128,13 @@ namespace dnsimple
         /// </summary>
         /// <see cref="VanityNameServersService"/>
         VanityNameServersService VanityNameServers { get; }
+        
+        /// <summary>
+        /// Instance of the <c>WebhooksService</c>
+        /// </summary>
+        /// <see cref="WebhooksService"/>
+        WebhooksService Webhooks { get; }
+        
         /// <summary>
         /// Instance of the <c>ZonesService</c>
         /// <see cref="ZonesService"/>
@@ -260,6 +267,8 @@ namespace dnsimple
         public TemplatesService Templates { get; private set; }
 
         public VanityNameServersService VanityNameServers { get; private set; }
+        
+        public WebhooksService Webhooks { get; private set; }
 
         public ZonesService Zones { get; private set; }
 
@@ -372,6 +381,7 @@ namespace dnsimple
             Tlds = new TldsService(this);
             Templates = new TemplatesService(this);
             VanityNameServers = new VanityNameServersService(this);
+            Webhooks = new WebhooksService(this);
             Zones = new ZonesService(this);
         }
     }

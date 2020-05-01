@@ -25,6 +25,7 @@ namespace dnsimple_test
         public TemplatesService Templates { get; }
         public TldsService Tlds { get; }
         public VanityNameServersService VanityNameServers { get; }
+        public WebhooksService Webhooks { get; }
         public ZonesService Zones { get; }
         public string UserAgent { get; }
 
@@ -45,6 +46,7 @@ namespace dnsimple_test
             Tlds = new TldsService(this);
             Templates = new TemplatesService(this);
             VanityNameServers = new VanityNameServersService(this);
+            Webhooks = new WebhooksService(this);
             Zones = new ZonesService(this);
         }
         

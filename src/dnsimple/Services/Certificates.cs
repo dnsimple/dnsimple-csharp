@@ -22,45 +22,21 @@ namespace dnsimple.Services
         /// </summary>
         /// <param name="accountId">The account Id</param>
         /// <param name="domainName">The domain name or id</param>
-        /// <returns>A <c>CertificatesResponse</c> containing a list of zones for the
-        /// account.</returns>
-        /// <see>https://developer.dnsimple.com/v2/certificates/#listCertificates</see>
-        public PaginatedDnsimpleResponse<Certificate> ListCertificates(
-            long accountId,
-            string domainName)
-        {
-            return new PaginatedDnsimpleResponse<Certificate>(
-                Client.Http.Execute(
-                    Client.Http
-                        .RequestBuilder(CertificatesPath(accountId, domainName))
-                        .Request));
-        }
-
-        /// <summary>
-        /// List the certificates for a domain in the account.
-        /// </summary>
-        /// <param name="accountId">The account Id</param>
-        /// <param name="domainName">The domain name or id</param>
         /// <param name="options">Options passed to the list (sorting and
         ///  pagination)</param>
         /// <returns>A <c>CertificatesResponse</c> containing a list of zones for the
         /// account.</returns>
         public PaginatedDnsimpleResponse<Certificate> ListCertificates(
             long accountId,
-            string domainName, CertificatesListOptions options)
+            string domainName, CertificatesListOptions options = null)
         {
-            var requestBuilder =
-                Client.Http.RequestBuilder(
-                    CertificatesPath(accountId, domainName));
-            requestBuilder.AddParameter(options.UnpackSorting());
+            var builder = BuildRequestForPath(
+                CertificatesPath(accountId, domainName));
 
-            if (!options.Pagination.IsDefault())
-            {
-                requestBuilder.AddParameters(options.UnpackPagination());
-            }
+            AddListOptionsToRequest(options, ref builder);
 
             return new PaginatedDnsimpleResponse<Certificate>(
-                Client.Http.Execute(requestBuilder.Request));
+                Execute(builder.Request));
         }
 
         /// <summary>
@@ -75,10 +51,9 @@ namespace dnsimple.Services
             long accountId,
             string domainName, long certificateId)
         {
-            return new SimpleDnsimpleResponse<Certificate>(Client.Http.Execute(
-                Client.Http
-                    .RequestBuilder(CertificatePath(accountId, domainName,
-                        certificateId)).Request));
+            return new SimpleDnsimpleResponse<Certificate>(Execute(
+                BuildRequestForPath(CertificatePath(accountId, domainName,
+                    certificateId)).Request));
         }
 
         /// <summary>
@@ -96,9 +71,9 @@ namespace dnsimple.Services
                 string domainName, long certificateId)
         {
             return new SimpleDnsimpleResponse<PemEncodedCertificate>(
-                Client.Http.Execute(Client.Http
-                    .RequestBuilder(PemCertificateDownloadPath(accountId,
-                        domainName, certificateId)).Request));
+                Execute(BuildRequestForPath(
+                    PemCertificateDownloadPath(accountId, domainName,
+                        certificateId)).Request));
         }
 
         /// <summary>
@@ -113,8 +88,8 @@ namespace dnsimple.Services
             long accountId, string domainName, long certificateId)
         {
             return new SimpleDnsimpleResponse<PrivateKeyData>(
-                Client.Http.Execute(Client.Http
-                    .RequestBuilder(CertificatePrivateKeyPath(accountId,
+                Execute(
+                    BuildRequestForPath(CertificatePrivateKeyPath(accountId,
                         domainName, certificateId)).Request));
         }
 
@@ -170,13 +145,13 @@ namespace dnsimple.Services
             PurchaseLetsEncryptCertificate(
                 long accountId, string domainName, CertificateOrder order)
         {
-            var requestBuilder = Client.Http.RequestBuilder(
+            var builder = BuildRequestForPath(
                 PurchaseLetsEncryptCertificatePath(accountId, domainName));
-            requestBuilder.Method(Method.POST);
-            requestBuilder.AddJsonPayload(order);
+            builder.Method(Method.POST);
+            builder.AddJsonPayload(order);
 
             return new SimpleDnsimpleResponse<CertificateOrdered>(
-                Client.Http.Execute(requestBuilder.Request));
+                Execute(builder.Request));
         }
 
         /// <summary>
@@ -192,13 +167,13 @@ namespace dnsimple.Services
             long accountId,
             string domainName, long certificateId)
         {
-            var requestBuilder = Client.Http.RequestBuilder(
+            var builder = BuildRequestForPath(
                 IssueLetsEncryptCertificatePath(accountId, domainName,
                     certificateId));
-            requestBuilder.Method(Method.POST);
+            builder.Method(Method.POST);
 
             return new SimpleDnsimpleResponse<Certificate>(
-                Client.Http.Execute(requestBuilder.Request));
+                Execute(builder.Request));
         }
 
         /// <summary>
@@ -215,14 +190,14 @@ namespace dnsimple.Services
                 long accountId, string domainName, long certificateId,
                 LetsEncryptRenewal renewal)
         {
-            var requestBuilder = Client.Http.RequestBuilder(
+            var builder = BuildRequestForPath(
                 LetsEncryptCertificateRenewalPath(accountId, domainName,
                     certificateId));
-            requestBuilder.Method(Method.POST);
-            requestBuilder.AddJsonPayload(renewal);
+            builder.Method(Method.POST);
+            builder.AddJsonPayload(renewal);
 
             return new SimpleDnsimpleResponse<LetsEncryptRenewalData>(
-                Client.Http.Execute(requestBuilder.Request));
+                Execute(builder.Request));
         }
 
         /// <summary>
@@ -238,14 +213,13 @@ namespace dnsimple.Services
                 string domainName, long certificateId,
                 long certificateRenewalId)
         {
-            var requestBuilder =
-                Client.Http.RequestBuilder(
+            var builder = BuildRequestForPath(
                     IssueLetsEncryptCertificateRenewalPath(accountId,
                         domainName, certificateId, certificateRenewalId));
-            requestBuilder.Method(Method.POST);
+            builder.Method(Method.POST);
 
             return new SimpleDnsimpleResponse<Certificate>(
-                Client.Http.Execute(requestBuilder.Request));
+                Execute(builder.Request));
         }
     }
 

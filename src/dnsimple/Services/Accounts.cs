@@ -17,7 +17,9 @@ namespace dnsimple.Services
     public class AccountsService : Service
     {
         /// <inheritdoc cref="Service"/>
-        public AccountsService(IClient client) : base(client) {}
+        public AccountsService(IClient client) : base(client)
+        {
+        }
 
         /// <summary>
         /// Returns a <c>AccountsResponse</c> containing a list of the accounts
@@ -27,11 +29,11 @@ namespace dnsimple.Services
         public ListDnsimpleResponse<Account> List()
         {
             return new ListDnsimpleResponse<Account>(
-                Client.Http.Execute(Client.Http.RequestBuilder("/accounts")
+                Execute(BuildRequestForPath("/accounts")
                     .Request));
         }
     }
-    
+
     /// <summary>
     /// Represents the data returned from the API call by transforming the
     /// incoming JSON into a <c>List</c> of <c>Account</c> objects.
@@ -50,7 +52,7 @@ namespace dnsimple.Services
         /// </summary>
         /// <param name="json"><c>JToken</c> representing the JSON returned</param>
         /// <see cref="JToken"/>
-        public AccountsData(JToken json) => 
+        public AccountsData(JToken json) =>
             Accounts = DeserializeList(json);
     }
 }

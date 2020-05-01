@@ -32,10 +32,10 @@ namespace dnsimple.Services
         private EmptyDnsimpleResponse DomainAutoRenewal(long accountId, string domain,
             Method method)
         {
-            var requestBuilder =
-                Client.Http.RequestBuilder(AutoRenewalPath(accountId, domain));
-            requestBuilder.Method(method);
-            return new EmptyDnsimpleResponse(Client.Http.Execute(requestBuilder.Request));
+            var builder = BuildRequestForPath(AutoRenewalPath(accountId, domain));
+            builder.Method(method);
+            
+            return new EmptyDnsimpleResponse(Execute(builder.Request));
         }
     }
 }

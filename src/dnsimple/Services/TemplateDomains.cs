@@ -16,13 +16,11 @@ namespace dnsimple.Services
         public EmptyDnsimpleResponse ApplyTemplate(long accountId,
             string domain, string template)
         {
-            var requestBuilder =
-                Client.Http.RequestBuilder(
+            var builder = BuildRequestForPath(
                     TemplateDomainPath(accountId, domain, template));
-            requestBuilder.Method(Method.POST);
+            builder.Method(Method.POST);
 
-            return new EmptyDnsimpleResponse(
-                Client.Http.Execute(requestBuilder.Request));
+            return new EmptyDnsimpleResponse(Execute(builder.Request));
         }
     }
 }

@@ -249,6 +249,16 @@ namespace dnsimple.Services
         {
             return $"/{accountId}/vanity/{domain}";
         }
+
+        public static string WebhooksPath(long accountId)
+        {
+            return $"/{accountId}/webhooks";
+        }
+        
+        public static string WebhookPath(long accountId, long webhookId)
+        {
+            return $"{WebhooksPath(accountId)}/{webhookId}";
+        }
         
         public static string AutoRenewalPath(long accountId, string domain)
         {

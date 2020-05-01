@@ -20,20 +20,6 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Lists contacts in the account.
-        /// </summary>
-        /// <param name="accountId">The account id</param>
-        /// <returns>The list of contacts in the account</returns>
-        /// <see cref="Contact"/>
-        /// <see>https://developer.dnsimple.com/v2/contacts/#listContacts</see>
-        public PaginatedDnsimpleResponse<Contact> ListContacts(long accountId)
-        {
-            return new PaginatedDnsimpleResponse<Contact>(
-                Client.Http.Execute(Client.Http
-                    .RequestBuilder(ContactsPath(accountId)).Request));
-        }
-
-        /// <summary>
         /// Lists the contacts in the account according to the options sent.
         /// </summary>
         /// <param name="accountId">The account id</param>
@@ -43,19 +29,13 @@ namespace dnsimple.Services
         /// <see cref="ContactsListOptions"/>
         /// <see>https://developer.dnsimple.com/v2/contacts/#listContacts</see>
         public PaginatedDnsimpleResponse<Contact> ListContacts(long accountId,
-            ContactsListOptions options)
+            ContactsListOptions options = null)
         {
-            var requestBuilder =
-                Client.Http.RequestBuilder(ContactsPath(accountId));
-            requestBuilder.AddParameter(options.UnpackSorting());
+            var builder = BuildRequestForPath(ContactsPath(accountId));
 
-            if (!options.Pagination.IsDefault())
-            {
-                requestBuilder.AddParameters(options.UnpackPagination());
-            }
+            AddListOptionsToRequest(options, ref builder);
 
-            return new PaginatedDnsimpleResponse<Contact>(
-                Client.Http.Execute(requestBuilder.Request));
+            return new PaginatedDnsimpleResponse<Contact>(Execute(builder.Request));
         }
 
         /// <summary>
@@ -69,13 +49,11 @@ namespace dnsimple.Services
         public SimpleDnsimpleResponse<Contact> CreateContact(long accountId,
             Contact contact)
         {
-            var requestBuilder =
-                Client.Http.RequestBuilder(ContactsPath(accountId));
-            requestBuilder.Method(Method.POST);
-            requestBuilder.AddJsonPayload(contact);
+            var builder = BuildRequestForPath(ContactsPath(accountId));
+            builder.Method(Method.POST);
+            builder.AddJsonPayload(contact);
 
-            return new SimpleDnsimpleResponse<Contact>(
-                Client.Http.Execute(requestBuilder.Request));
+            return new SimpleDnsimpleResponse<Contact>(Execute(builder.Request));
         }
 
         /// <summary>
@@ -90,8 +68,7 @@ namespace dnsimple.Services
             long contactId)
         {
             return new SimpleDnsimpleResponse<Contact>(
-                Client.Http.Execute(Client.Http
-                    .RequestBuilder(ContactPath(accountId, contactId))
+                Execute(BuildRequestForPath(ContactPath(accountId, contactId))
                     .Request));
         }
 
@@ -107,14 +84,11 @@ namespace dnsimple.Services
         public SimpleDnsimpleResponse<Contact> UpdateContact(long accountId,
             long contactId, Contact contact)
         {
-            var requestBuilder =
-                Client.Http.RequestBuilder(ContactPath(accountId,
-                    contactId));
-            requestBuilder.Method(Method.PATCH);
-            requestBuilder.AddJsonPayload(contact);
+            var builder = BuildRequestForPath(ContactPath(accountId, contactId));
+            builder.Method(Method.PATCH);
+            builder.AddJsonPayload(contact);
 
-            return new SimpleDnsimpleResponse<Contact>(
-                Client.Http.Execute(requestBuilder.Request));
+            return new SimpleDnsimpleResponse<Contact>(Execute(builder.Request));
         }
 
         /// <summary>
@@ -128,12 +102,10 @@ namespace dnsimple.Services
         /// certificate.</exception>
         public EmptyDnsimpleResponse DeleteContact(long accountId, long contactId)
         {
-            var requestBuilder =
-                Client.Http.RequestBuilder(ContactPath(accountId,
-                    contactId));
-            requestBuilder.Method(Method.DELETE);
+            var builder = BuildRequestForPath(ContactPath(accountId, contactId));
+            builder.Method(Method.DELETE);
 
-            return new EmptyDnsimpleResponse(Client.Http.Execute(requestBuilder.Request));
+            return new EmptyDnsimpleResponse(Execute(builder.Request));
         }
     }
 

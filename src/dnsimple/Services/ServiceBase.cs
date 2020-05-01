@@ -6,7 +6,6 @@ namespace dnsimple.Services
 {
     public abstract class Service
     {
-        
         protected IClient Client { get; }
 
         /// <summary>
@@ -17,8 +16,33 @@ namespace dnsimple.Services
         /// <see cref="IClient"/>
         protected Service(IClient client) =>
             Client = client;
+
+        protected RequestBuilder BuildRequestForPath(string path)
+        {
+            return Client.Http.RequestBuilder(path);
+        }
+
+        protected IRestResponse Execute(RestRequest request)
+        {
+            return Client.Http.Execute(request);
+        }
+
+        protected static void AddListOptionsToRequest(
+            ListOptions.ListOptions options,
+            ref RequestBuilder requestBuilder)
+        {
+            if (options != null)
+            {
+                if (options.HasSortingOptions())
+                    requestBuilder.AddParameter(options.UnpackSorting());
+                if (options.HasFilterOptions())
+                    requestBuilder.AddParameters(options.UnpackFilters());
+                if (!options.Pagination.IsDefault())
+                    requestBuilder.AddParameters(options.UnpackPagination());
+            }
+        }
     }
-    
+
     public abstract class Response
     {
         public IList<Parameter> Headers;
@@ -35,7 +59,7 @@ namespace dnsimple.Services
             Headers = response.Headers;
         }
     }
-    
+
     /// <summary>
     /// Represents the most basic response from a call to the DNSimple API.
     /// </summary>
@@ -71,7 +95,8 @@ namespace dnsimple.Services
         public ListDnsimpleResponse(IRestResponse response)
         {
             Headers = response.Headers;
-            Data = JsonTools<T>.DeserializeList(JObject.Parse(response.Content));
+            Data = JsonTools<T>.DeserializeList(
+                JObject.Parse(response.Content));
         }
     }
 
@@ -97,7 +122,7 @@ namespace dnsimple.Services
         public PaginatedDnsimpleResponse(IRestResponse response)
         {
             var json = JObject.Parse(response.Content);
-            
+
             Headers = response.Headers;
             Data = JsonTools<T>.DeserializeList(json);
             PaginationData = PaginationData.From(json);

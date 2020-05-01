@@ -17,7 +17,7 @@
       Accounts, Identity, Certificates, Contacts, Domains (Collaborators, 
       DNSSEC, Email Forwards, Pushes), Registration (Delegation, Auto Renewal, 
       Whois Privacy), Services (Domain Services), Templates, Tlds,
-      Vanity Name Servers and Zones (Records).
+      Vanity Name Servers, Webhooks and Zones (Records).
     </releaseNotes>
     <copyright>Copyright 2020</copyright>
     <tags>dnsimple dns api domains</tags>

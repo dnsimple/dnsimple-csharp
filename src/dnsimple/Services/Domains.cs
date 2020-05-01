@@ -28,25 +28,9 @@ namespace dnsimple.Services
         public SimpleDnsimpleResponse<Domain> GetDomain(long accountId,
             string domainIdentifier)
         {
-            return new SimpleDnsimpleResponse<Domain>(Client.Http.Execute(Client
-                .Http
-                .RequestBuilder(DomainPath(accountId, domainIdentifier))
-                .Request));
-        }
-
-        /// <summary>
-        /// Lists the domains in the account.
-        /// </summary>
-        /// <param name="accountId">The account ID</param>
-        /// <returns>A <c>DomainResponse</c> containing a list of domains.</returns>
-        /// <see>https://developer.dnsimple.com/v2/domains/#listDomains</see>
-        public PaginatedDnsimpleResponse<Domain> ListDomains(long accountId)
-        {
-            var requestBuilder =
-                Client.Http.RequestBuilder(DomainsPath(accountId));
-
-            return new PaginatedDnsimpleResponse<Domain>(
-                Client.Http.Execute(requestBuilder.Request));
+            return new SimpleDnsimpleResponse<Domain>(Execute(
+                BuildRequestForPath(DomainPath(accountId, domainIdentifier))
+                    .Request));
         }
 
         /// <summary>
@@ -58,21 +42,15 @@ namespace dnsimple.Services
         /// <see cref="DomainListOptions"/>
         /// <see>https://developer.dnsimple.com/v2/domains/#listDomains</see>
         public PaginatedDnsimpleResponse<Domain> ListDomains(long accountId,
-            ListOptionsWithFiltering options)
+            ListOptionsWithFiltering options = null)
         {
-            var requestBuilder =
-                Client.Http.RequestBuilder(DomainsPath(accountId));
-            requestBuilder.AddParameter(options.UnpackSorting());
-            requestBuilder.AddParameters(options.UnpackFilters());
+            var builder = BuildRequestForPath(DomainsPath(accountId));
 
-            if (!options.Pagination.IsDefault())
-            {
-                requestBuilder.AddParameters(options.UnpackPagination());
-            }
+            AddListOptionsToRequest(options, ref builder);
 
 
             return new PaginatedDnsimpleResponse<Domain>(
-                Client.Http.Execute(requestBuilder.Request));
+                Execute(builder.Request));
         }
 
         /// <summary>
@@ -86,18 +64,16 @@ namespace dnsimple.Services
         public SimpleDnsimpleResponse<Domain> CreateDomain(long accountId,
             string domainName)
         {
-            var request =
-                Client.Http.RequestBuilder(DomainsPath(accountId));
-            request.Method(Method.POST);
+            var builder = BuildRequestForPath(DomainsPath(accountId));
+            builder.Method(Method.POST);
 
             var parameters = new Collection<KeyValuePair<string, string>>
             {
                 new KeyValuePair<string, string>("name", domainName)
             };
-            request.AddParameters(parameters);
+            builder.AddParameters(parameters);
 
-            return new SimpleDnsimpleResponse<Domain>(
-                Client.Http.Execute(request.Request));
+            return new SimpleDnsimpleResponse<Domain>(Execute(builder.Request));
         }
 
         /// <summary>
@@ -107,14 +83,14 @@ namespace dnsimple.Services
         /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or id</param>
         /// <see>https://developer.dnsimple.com/v2/domains/#deleteDomain</see>
-        public EmptyDnsimpleResponse DeleteDomain(long accountId, string domainIdentifier)
+        public EmptyDnsimpleResponse DeleteDomain(long accountId,
+            string domainIdentifier)
         {
-            var request =
-                Client.Http.RequestBuilder(DeleteDomainPath(accountId,
+            var builder = BuildRequestForPath(DeleteDomainPath(accountId,
                     domainIdentifier));
-            request.Method(Method.DELETE);
+            builder.Method(Method.DELETE);
 
-            return new EmptyDnsimpleResponse(Client.Http.Execute(request.Request));
+            return new EmptyDnsimpleResponse(Execute(builder.Request));
         }
     }
 

@@ -19,12 +19,14 @@ namespace dnsimple.Services
         /// <param name="domainIdentifier">The domain name or id</param>
         /// <returns>A list of collaborators wrapped in a response</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/collaborators/#listDomainCollaborators</see>
-        public PaginatedDnsimpleResponse<Collaborator> ListCollaborators(long accountId,
+        public PaginatedDnsimpleResponse<Collaborator> ListCollaborators(
+            long accountId,
             string domainIdentifier)
         {
-            return new PaginatedDnsimpleResponse<Collaborator>(Client.Http.Execute(Client.Http
-                .RequestBuilder(CollaboratorsPath(accountId, domainIdentifier))
-                .Request));
+            return new PaginatedDnsimpleResponse<Collaborator>(Execute(
+                BuildRequestForPath(CollaboratorsPath(accountId,
+                        domainIdentifier))
+                    .Request));
         }
 
         /// <summary>
@@ -45,23 +47,23 @@ namespace dnsimple.Services
         /// <param name="email">The email of the collaborator to be added/invited</param>
         /// <returns>The collaborator wrapped in a response.</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/collaborators/#addDomainCollaborator</see>
-        public SimpleDnsimpleResponse<Collaborator> AddCollaborator(long accountId,
+        public SimpleDnsimpleResponse<Collaborator> AddCollaborator(
+            long accountId,
             string domainIdentifier, string email)
         {
-            var request =
-                Client.Http.RequestBuilder(
-                    CollaboratorsPath(accountId, domainIdentifier));
-            request.Method(Method.POST);
+            var builder = BuildRequestForPath(
+                CollaboratorsPath(accountId, domainIdentifier));
+            builder.Method(Method.POST);
 
             var parameters = new Collection<KeyValuePair<string, string>>
             {
                 new KeyValuePair<string, string>("email", email)
             };
 
-            request.AddParameters(parameters);
-            
+            builder.AddParameters(parameters);
+
             return new SimpleDnsimpleResponse<Collaborator>(
-                Client.Http.Execute(request.Request));
+                Execute(builder.Request));
         }
 
         /// <summary>
@@ -71,15 +73,16 @@ namespace dnsimple.Services
         /// <param name="domainIdentifier">The domain name or id</param>
         /// <param name="collaboratorId">The collaborator id</param>
         /// <see>https://developer.dnsimple.com/v2/domains/collaborators/#removeDomainCollaborator</see>
-        public EmptyDnsimpleResponse RemoveCollaborator(long accountId, string domainIdentifier,
+        public EmptyDnsimpleResponse RemoveCollaborator(long accountId,
+            string domainIdentifier,
             long collaboratorId)
         {
-            var request = Client.Http.RequestBuilder(
-                RemoveCollaboratorPath(accountId, domainIdentifier,
-                    collaboratorId));
-            request.Method(Method.DELETE);
+            var bu = BuildRequestForPath(RemoveCollaboratorPath(accountId,
+                domainIdentifier, collaboratorId));
+            bu.Method(Method.DELETE);
 
-            return new EmptyDnsimpleResponse(Client.Http.Execute(request.Request));
+            return new EmptyDnsimpleResponse(
+                Execute(bu.Request));
         }
     }
 

@@ -16,42 +16,19 @@ namespace dnsimple.Services
         /// </summary>
         /// <param name="accountId">The account id</param>
         /// <param name="domainIdentifier">The domain name or id</param>
-        /// <returns>A list of delegation signer records wrapped in a response</returns>
-        /// <see>https://developer.dnsimple.com/v2/domains/dnssec/#listDomainDelegationSignerRecords</see>
-        public PaginatedDnsimpleResponse<DelegationSignerRecord> ListDelegationSignerRecords(
-            long accountId, string domainIdentifier)
-        {
-            var requestBuilder =
-                Client.Http.RequestBuilder(DsRecordsPath(accountId,
-                    domainIdentifier));
-            return new PaginatedDnsimpleResponse<DelegationSignerRecord>(
-                Client.Http.Execute(requestBuilder.Request));
-        }
-
-        /// <summary>
-        /// List delegation signer records for the domain in the account.
-        /// </summary>
-        /// <param name="accountId">The account id</param>
-        /// <param name="domainIdentifier">The domain name or id</param>
         /// <param name="options">Options passed to the list (sorting, pagination)</param>
         /// <returns>A list of delegation signer records wrapped in a response</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/dnssec/#listDomainDelegationSignerRecords</see>
         public PaginatedDnsimpleResponse<DelegationSignerRecord> ListDelegationSignerRecords(
-            long accountId, string domainIdentifier, ListDomainDelegationSignerRecordsOptions options)
+            long accountId, string domainIdentifier, ListDomainDelegationSignerRecordsOptions options = null)
         {
-            var requestBuilder =
-                Client.Http.RequestBuilder(DsRecordsPath(accountId,
+            var builder = BuildRequestForPath(DsRecordsPath(accountId,
                     domainIdentifier));
             
-            requestBuilder.AddParameter(options.UnpackSorting());
-            
-            if (!options.Pagination.IsDefault())
-            {
-                requestBuilder.AddParameters(options.UnpackPagination());
-            }
+            AddListOptionsToRequest(options, ref builder);
             
             return new PaginatedDnsimpleResponse<DelegationSignerRecord>(
-                Client.Http.Execute(requestBuilder.Request));
+                Execute(builder.Request));
         }
 
         /// <summary>
@@ -71,14 +48,13 @@ namespace dnsimple.Services
             long accountId, string domainIdentifier,
             DelegationSignerRecord record)
         {
-            var request =
-                Client.Http.RequestBuilder(DsRecordsPath(accountId,
+            var builder = BuildRequestForPath(DsRecordsPath(accountId,
                     domainIdentifier));
-            request.Method(Method.POST);
-            request.AddJsonPayload(record);
+            builder.Method(Method.POST);
+            builder.AddJsonPayload(record);
 
             return new SimpleDnsimpleResponse<DelegationSignerRecord>(
-                Client.Http.Execute(request.Request));
+                Execute(builder.Request));
         }
 
         /// <summary>
@@ -93,8 +69,7 @@ namespace dnsimple.Services
             long accountId, string domainIdentifier, long recordId)
         {
             return new SimpleDnsimpleResponse<DelegationSignerRecord>(
-                Client.Http.Execute(Client.Http
-                    .RequestBuilder(DsRecordPath(accountId, domainIdentifier,
+                Execute(BuildRequestForPath(DsRecordPath(accountId, domainIdentifier,
                         recordId)).Request));
         }
 
@@ -107,12 +82,11 @@ namespace dnsimple.Services
         /// <see>https://developer.dnsimple.com/v2/domains/dnssec/#deleteDomainDelegationSignerRecord</see>
         public EmptyDnsimpleResponse DeleteDelegationSignerRecord(long accountId, string domainIdentifier, int recordId)
         {
-            var request =
-                Client.Http.RequestBuilder(DsRecordPath(accountId,
+            var builder = BuildRequestForPath(DsRecordPath(accountId,
                     domainIdentifier, recordId));
-            request.Method(Method.DELETE);
+            builder.Method(Method.DELETE);
 
-            return new EmptyDnsimpleResponse(Client.Http.Execute(request.Request));
+            return new EmptyDnsimpleResponse(Execute(builder.Request));
         }
     }
 

@@ -16,21 +16,9 @@ namespace dnsimple.Services
     /// <see>https://developer.dnsimple.com/v2/zones/</see>
     public partial class ZonesService : Service
     {
-
         /// <inheritdoc cref="Service"/>
-        public ZonesService(IClient client) : base(client) {}
-
-        /// <summary>
-        /// Lists the zones in the account.
-        /// </summary>
-        /// <param name="accountId">The account id</param>
-        /// <returns>A <c>ZonesResponse</c> containing a list of zones for the
-        /// account.</returns>
-        /// <see>https://developer.dnsimple.com/v2/zones/#listZones</see>
-        public PaginatedDnsimpleResponse<ZonesData> ListZones(long accountId)
+        public ZonesService(IClient client) : base(client)
         {
-            return new PaginatedDnsimpleResponse<ZonesData>(Client.Http.Execute(Client.Http
-                .RequestBuilder(ZonesPath(accountId)).Request));
         }
 
         /// <summary>
@@ -42,20 +30,15 @@ namespace dnsimple.Services
         /// <returns>A <c>ZonesResponse</c> containing a list of zones for
         /// the account.</returns>
         /// <see>https://developer.dnsimple.com/v2/zones/#listZones</see>
-        public PaginatedDnsimpleResponse<ZonesData> ListZones(long accountId, ZonesListOptions options)
+        public PaginatedDnsimpleResponse<ZonesData> ListZones(long accountId,
+            ZonesListOptions options = null)
         {
-            var requestBuilder = Client.Http
-                .RequestBuilder(ZonesPath(accountId));
-            
-            requestBuilder.AddParameter(options.UnpackSorting());
-            requestBuilder.AddParameters(options.UnpackFilters());
-            
-            if (!options.Pagination.IsDefault())
-            {
-                requestBuilder.AddParameters(options.UnpackPagination());
-            }
-            
-            return new PaginatedDnsimpleResponse<ZonesData>(Client.Http.Execute(requestBuilder.Request));
+            var builder = BuildRequestForPath(ZonesPath(accountId));
+
+            AddListOptionsToRequest(options, ref builder);
+
+            return new PaginatedDnsimpleResponse<ZonesData>(
+                Execute(builder.Request));
         }
 
         /// <summary>
@@ -65,10 +48,12 @@ namespace dnsimple.Services
         /// <param name="zoneName">The zone name</param>
         /// <returns>A <c>ZoneResponse</c> containing the zone.</returns>
         /// <see>https://developer.dnsimple.com/v2/zones/#getZone</see>
-        public SimpleDnsimpleResponse<ZoneData> GetZone(long accountId, string zoneName)
+        public SimpleDnsimpleResponse<ZoneData> GetZone(long accountId,
+            string zoneName)
         {
-            return new SimpleDnsimpleResponse<ZoneData>(Client.Http.Execute(Client.Http
-                .RequestBuilder(ZonePath(accountId, zoneName)).Request));
+            return new SimpleDnsimpleResponse<ZoneData>(
+                Execute(BuildRequestForPath(ZonePath(accountId, zoneName))
+                    .Request));
         }
 
         /// <summary>
@@ -78,10 +63,11 @@ namespace dnsimple.Services
         /// <param name="zoneName">The zone name</param>
         /// <returns>A <c>ZoneFileResponse</c> containing the zone file content.</returns>
         /// <see>https://developer.dnsimple.com/v2/zones/#getZoneFile</see>
-        public SimpleDnsimpleResponse<ZoneFile> GetZoneFile(long accountId, string zoneName)
+        public SimpleDnsimpleResponse<ZoneFile> GetZoneFile(long accountId,
+            string zoneName)
         {
-            return new SimpleDnsimpleResponse<ZoneFile>(Client.Http.Execute(Client.Http
-                .RequestBuilder(ZoneFilePath(accountId, zoneName)).Request));
+            return new SimpleDnsimpleResponse<ZoneFile>(Execute(
+                BuildRequestForPath(ZoneFilePath(accountId, zoneName)).Request));
         }
 
         /// <summary>
@@ -92,12 +78,13 @@ namespace dnsimple.Services
         /// <param name="zoneName">The zone name</param>
         /// <returns>A <c>ZoneDistributionResponse</c>.</returns>
         /// <see>https://developer.dnsimple.com/v2/zones/#checkZoneDistribution</see>
-        public SimpleDnsimpleResponse<ZoneDistribution> CheckZoneDistribution(long accountId,
+        public SimpleDnsimpleResponse<ZoneDistribution> CheckZoneDistribution(
+            long accountId,
             string zoneName)
         {
-            return new SimpleDnsimpleResponse<ZoneDistribution>(Client.Http.Execute(Client.Http
-                .RequestBuilder(ZoneDistributionPath(accountId, zoneName))
-                .Request));
+            return new SimpleDnsimpleResponse<ZoneDistribution>(
+                Execute(BuildRequestForPath(ZoneDistributionPath(accountId, zoneName))
+                    .Request));
         }
     }
 

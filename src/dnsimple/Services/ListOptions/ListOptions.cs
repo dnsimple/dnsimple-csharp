@@ -15,13 +15,18 @@ namespace dnsimple.Services.ListOptions
         /// </summary>
         /// <see cref="List{T}"/>
         /// <see cref="Sort"/>
-        private List<Sort> SortCriteria { get; } = new List<Sort>();
+        private IList<Sort> SortCriteria { get; } = new List<Sort>();
 
         /// <summary>
         /// The <c>Pagination object</c>.
         /// </summary>
         /// <see cref="Pagination"/>
         public Pagination Pagination { get; set; } = new Pagination();
+
+        public bool HasSortingOptions()
+        {
+            return SortCriteria.Count > 0;
+        }
 
         /// <summary>
         /// Unpacks the sorting into a <c>KeyValuePair</c>.
@@ -43,7 +48,16 @@ namespace dnsimple.Services.ListOptions
             }
 
             return new KeyValuePair<string, string>();
+        }
+        
+        public virtual bool HasFilterOptions()
+        {
+            return false;
+        }
 
+        public virtual List<KeyValuePair<string, string>> UnpackFilters()
+        {
+            return null;
         }
 
         /// <summary>
@@ -79,15 +93,20 @@ namespace dnsimple.Services.ListOptions
         /// </summary>
         /// <see cref="List{T}"/>
         /// <see cref="Filter"/>
-        private List<Filter> Filters { get; } = new List<Filter>();
-        
+        private IList<Filter> Filters { get; } = new List<Filter>();
+
+        public override bool HasFilterOptions()
+        {
+            return Filters.Count > 0;
+        }
+
         /// <summary>
         /// Unpacks the filters into <c>KeyValuePair</c> objects.
         /// </summary>
         /// <returns>A list of KeyValuePair objects</returns>
         /// <see cref="List{T}"/>
         /// <see cref="KeyValuePair{TKey,TValue}"/>
-        public List<KeyValuePair<string, string>> UnpackFilters()
+        public override List<KeyValuePair<string, string>> UnpackFilters()
         {
             return Filters.Select(filter =>
                     new KeyValuePair<string, string>(filter.Field,

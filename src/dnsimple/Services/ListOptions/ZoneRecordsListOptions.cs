@@ -14,7 +14,7 @@ namespace dnsimple.Services.ListOptions
         /// <returns>The instance of the <c>ZoneRecordsListOptions</c></returns>
         public ZoneRecordsListOptions FilterByName(string name)
         {
-            AddFilter(new Filter {Field = "name_like", Value = name});
+            AddFilter(new Filter { Field = "name_like", Value = name });
             return this;
         }
 
@@ -25,7 +25,7 @@ namespace dnsimple.Services.ListOptions
         /// <returns>The instance of the <c>ZoneRecordsListOptions</c></returns>
         public ZoneRecordsListOptions FilterByExactName(string name)
         {
-            AddFilter(new Filter {Field = "name", Value = name});
+            AddFilter(new Filter { Field = "name", Value = name });
             return this;
         }
         
@@ -36,7 +36,7 @@ namespace dnsimple.Services.ListOptions
         /// <returns>The instance of the <c>ZoneRecordsListOptions</c></returns>
         public ZoneRecordsListOptions FilterByType(ZoneRecordType type)
         {
-            AddFilter(new Filter {Field = "type", Value = type.ToString()});
+            AddFilter(new Filter { Field = "type", Value = type.ToString() });
             return this;
         }
 
