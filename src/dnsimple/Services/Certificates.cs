@@ -107,7 +107,7 @@ namespace dnsimple.Services
         /// <para>
         /// A certificate can be purchased for multiple subdomains. We call
         /// them alternate names or Subject Alternative Name (SAN).
-        /// By default, a certificate doesn’t have alternate names.
+        /// By default, a certificate doesn't have alternate names.
         /// You can purchase a single certificate for both https://docs.example.com
         /// and https://status.example.com, alongside https://example.com.
         ///</para>

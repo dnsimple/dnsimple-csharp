@@ -4,14 +4,13 @@ using System.Linq;
 using dnsimple.Services;
 using dnsimple.Services.ListOptions;
 using NUnit.Framework;
-using RestSharp;
 
 namespace dnsimple_test.Services
 {
     [TestFixture]
     public class ServicesTest
     {
-        private RestResponse _response;
+        private MockResponse _response;
         private const string ListServicesFixture = "listServices/success.http";
         private const string GetServiceFixture = "getService/success.http";
         
@@ -27,9 +26,7 @@ namespace dnsimple_test.Services
         public void Initialize()
         {
             var loader = new FixtureLoader("v2", ListServicesFixture);
-            _response = new RestResponse();
-            _response.Content = loader.ExtractJsonPayload();
-            
+            _response = new MockResponse(loader);
         }
         
         [Test]

@@ -106,7 +106,7 @@ namespace dnsimple.Services
             var builder = BuildRequestForPath(ZoneRecordPath(accountId, zoneId,
                 recordId));
             builder.Method(Method.PATCH);
-            builder.AddJsonPayload(recordId);
+            builder.AddJsonPayload(record);
 
             return new SimpleDnsimpleResponse<ZoneRecordData>(
                 Execute(builder.Request));

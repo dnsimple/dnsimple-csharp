@@ -16,7 +16,7 @@ namespace dnsimple_test.Services
     public class ZoneRecordsTest
     {
         private JToken _jToken;
-        private RestResponse _response;
+        private MockResponse _response;
 
         private const string ListZoneRecordsFixture =
             "listZoneRecords/success.http";
@@ -55,8 +55,7 @@ namespace dnsimple_test.Services
         public void Initialize()
         {
             var loader = new FixtureLoader("v2", ListZoneRecordsFixture);
-            _response = new RestResponse();
-            _response.Content = loader.ExtractJsonPayload();
+            _response = new MockResponse(loader);
             _jToken = JObject.Parse(loader.ExtractJsonPayload());
         }
 

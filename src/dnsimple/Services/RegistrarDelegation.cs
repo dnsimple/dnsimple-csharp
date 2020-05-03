@@ -99,16 +99,12 @@ namespace dnsimple.Services
     {
         public List<string> Data { get; }
 
-        public DelegationResponse(JToken json)
-        {
+        public DelegationResponse(JToken json) =>
             Data = JsonTools<string>.DeserializeList(json);
-        }
 
-        public DelegationResponse(IRestResponse response)
-        {
+        public DelegationResponse(IRestResponse response) =>
             Data = JsonTools<string>.DeserializeList(
                 JObject.Parse(response.Content));
-        }
     }
 
     /// <summary>

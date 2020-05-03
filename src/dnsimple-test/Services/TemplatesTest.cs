@@ -11,7 +11,7 @@ namespace dnsimple_test.Services
     [TestFixture]
     public class TemplatesTest
     {
-        private IRestResponse _response;
+        private MockResponse _response;
 
         private const string ListTemplatesFixture =
             "listTemplates/success.http";
@@ -39,8 +39,7 @@ namespace dnsimple_test.Services
         public void Initialize()
         {
             var loader = new FixtureLoader("v2", ListTemplatesFixture);
-            _response = new RestResponse();
-            _response.Content = loader.ExtractJsonPayload();
+            _response = new MockResponse(loader);
         }
         
         [Test]

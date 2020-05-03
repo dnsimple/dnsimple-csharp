@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using Castle.Core.Internal;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using RestSharp;
 
 namespace dnsimple_test
 {
@@ -61,5 +63,24 @@ namespace dnsimple_test
 
             return File.ReadAllText(path);
         }
+
+        public List<Parameter> ExtractHeaders()
+        {
+            var headers = new List<Parameter>();
+            var lines = GetLines();
+            foreach (var line in lines)
+            {
+                if(line.IsNullOrEmpty())
+                    break;
+                if (line.Contains(':'))
+                {
+                    var header = line.Split(':');
+                    headers.Add(new Parameter(header[0], header[1], ParameterType.HttpHeader)); 
+                }
+            }
+
+            return headers;
+        }
+        
     }
 }

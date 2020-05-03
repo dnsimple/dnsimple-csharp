@@ -5,17 +5,14 @@ using System.Net;
 using dnsimple;
 using dnsimple.Services;
 using dnsimple.Services.ListOptions;
-using Newtonsoft.Json.Linq;
 using NUnit.Framework;
-using RestSharp;
 
 namespace dnsimple_test.Services
 {
     [TestFixture]
     public class DomainsDelegationSignerRecordsTest
     {
-        private JToken _jToken;
-        private IRestResponse _response;
+        private MockResponse _response;
         
         private const string GetRecordFixture = "getDelegationSignerRecord/success.http";
         private const string ListRecordsFixture = "listDelegationSignerRecords/success.http";
@@ -45,9 +42,7 @@ namespace dnsimple_test.Services
         public void Initialize()
         {
             var loader = new FixtureLoader("v2", ListRecordsFixture);
-            _response = new RestResponse();
-            _response.Content = loader.ExtractJsonPayload();
-            _jToken = JObject.Parse(loader.ExtractJsonPayload());
+            _response = new MockResponse(loader);
         }
         
         [Test]

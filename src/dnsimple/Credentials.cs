@@ -21,7 +21,7 @@ namespace dnsimple
     /// <code>
     ///     var credentials = new BasicHttpCredentials("example-account@example.com", "secret");
     /// </code>
-    public struct BasicHttpCredentials : ICredentials
+    public readonly struct BasicHttpCredentials : ICredentials
     {
         public AuthenticatorBase Authenticator { get; }
 
@@ -36,7 +36,7 @@ namespace dnsimple
     ///     var credentials = new Oauth2Credentials("TOKEN");
     /// </code>
     /// <seealso cref="OAuth2Service"/>
-    public struct OAuth2Credentials : ICredentials
+    public readonly struct OAuth2Credentials : ICredentials
     {
         public AuthenticatorBase Authenticator { get; }
 

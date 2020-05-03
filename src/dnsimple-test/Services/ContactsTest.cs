@@ -5,7 +5,6 @@ using System.Net;
 using dnsimple;
 using dnsimple.Services;
 using dnsimple.Services.ListOptions;
-using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using RestSharp;
 
@@ -14,7 +13,7 @@ namespace dnsimple_test.Services
     [TestFixture]
     public class ContactsTest
     {
-        private IRestResponse _response;
+        private MockResponse _response;
 
         private const string ListContactsFixture = "listContacts/success.http";
 
@@ -44,8 +43,7 @@ namespace dnsimple_test.Services
         public void Initialize()
         {
             var loader = new FixtureLoader("v2", ListContactsFixture);
-            _response = new RestResponse();
-            _response.Content = loader.ExtractJsonPayload();
+            _response = new MockResponse(loader);
         }
 
         [Test]

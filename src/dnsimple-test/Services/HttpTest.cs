@@ -44,8 +44,21 @@ namespace dnsimple_test.Services
                     .And.Message.EqualTo("Authentication failed"),
                 delegate { http.Execute(request.Object); });
         }
-    }
 
+        [Test]
+        public void SetsTheHeaders()
+        {
+            var response = new MockDnsimpleClient("response.http").Identity.Whoami();
+            
+            Assert.Multiple(() =>
+            {
+                Assert.AreEqual(4000, response.RateLimit);
+                Assert.AreEqual(3991, response.RateLimitRemaining);
+                Assert.AreEqual(1450451976, response.RateLimitReset);
+            });
+        }
+    }
+    
     [TestFixture]
     public class RequestBuilderTest
     {

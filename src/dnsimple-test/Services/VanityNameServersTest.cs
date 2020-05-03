@@ -10,7 +10,7 @@ namespace dnsimple_test.Services
     [TestFixture]
     public class VanityNameServersTest
     {
-        private IRestResponse _response;
+        private MockResponse _response;
 
         private const string EnableVanityNameServersFixture =
             "enableVanityNameServers/success.http";
@@ -30,8 +30,7 @@ namespace dnsimple_test.Services
         public void Initialize()
         {
             var loader = new FixtureLoader("v2", EnableVanityNameServersFixture);
-            _response = new RestResponse();
-            _response.Content = loader.ExtractJsonPayload();
+            _response = new MockResponse(loader);
         }
 
         [Test]

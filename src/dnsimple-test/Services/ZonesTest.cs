@@ -8,7 +8,6 @@ using dnsimple.Services;
 using dnsimple.Services.ListOptions;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
-using RestSharp;
 
 namespace dnsimple_test.Services
 {
@@ -16,7 +15,7 @@ namespace dnsimple_test.Services
     public class ZonesTest
     {
         private JToken _jToken;
-        private IRestResponse _response;
+        private MockResponse _response;
         
         private const string ListZonesFixture = "listZones/success.http";
         private const string GetZoneFixture = "getZone/success.http";
@@ -41,8 +40,7 @@ namespace dnsimple_test.Services
         public void Initialize()
         {
             var loader = new FixtureLoader("v2", ListZonesFixture);
-            _response = new RestResponse();
-            _response.Content = loader.ExtractJsonPayload();
+            _response = new MockResponse(loader);
             _jToken = JObject.Parse(loader.ExtractJsonPayload());
         }
 

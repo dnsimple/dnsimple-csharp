@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Net;
 using dnsimple;
 using dnsimple.Services;
@@ -128,10 +129,22 @@ namespace dnsimple_test
                     message = JObject.Parse(rawPayload)["message"]?.ToString();
                     throw new NotFoundException(message);
             }
-            var response = new RestResponse();
-            response.Content = rawPayload;
 
-            return response;
+            return new MockResponse(_fixtureLoader);
+        }
+    }
+
+    public class MockResponse : RestResponse
+    {
+        public MockResponse(FixtureLoader loader)
+        {
+            Content = loader.ExtractJsonPayload();
+            Headers = loader.ExtractHeaders();
+        }
+        
+        public void SetHeaders(List<Parameter> headers)
+        {
+            Headers = headers;
         }
     }
 }

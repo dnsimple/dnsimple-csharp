@@ -1,16 +1,13 @@
 using System.Linq;
 using dnsimple.Services;
-using Newtonsoft.Json.Linq;
 using NUnit.Framework;
-using RestSharp;
 
 namespace dnsimple_test.Services
 {
     [TestFixture]
     public class DomainsCollaboratorsTest
     {
-        private JToken _jToken;
-        private IRestResponse _response;
+        private MockResponse _response;
 
         private const string ListCollaboratorsFixture =
             "listCollaborators/success.http";
@@ -27,10 +24,7 @@ namespace dnsimple_test.Services
         public void Initialize()
         {
             var loader = new FixtureLoader("v2", ListCollaboratorsFixture);
-            _response = new RestResponse();
-            _response.Content = loader.ExtractJsonPayload();
-            
-            _jToken = JObject.Parse(loader.ExtractJsonPayload());
+            _response = new MockResponse(loader);
         }
 
         [Test]

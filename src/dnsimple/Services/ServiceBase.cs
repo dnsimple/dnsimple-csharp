@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json.Linq;
 using RestSharp;
 
@@ -6,7 +7,7 @@ namespace dnsimple.Services
 {
     public abstract class Service
     {
-        protected IClient Client { get; }
+        private IClient Client { get; }
 
         /// <summary>
         /// Creates a new instance of a Service by passing an
@@ -31,21 +32,36 @@ namespace dnsimple.Services
             ListOptions.ListOptions options,
             ref RequestBuilder requestBuilder)
         {
-            if (options != null)
-            {
-                if (options.HasSortingOptions())
-                    requestBuilder.AddParameter(options.UnpackSorting());
-                if (options.HasFilterOptions())
-                    requestBuilder.AddParameters(options.UnpackFilters());
-                if (!options.Pagination.IsDefault())
-                    requestBuilder.AddParameters(options.UnpackPagination());
-            }
+            if (options == null) return;
+            if (options.HasSortingOptions())
+                requestBuilder.AddParameter(options.UnpackSorting());
+            if (options.HasFilterOptions())
+                requestBuilder.AddParameters(options.UnpackFilters());
+            if (!options.Pagination.IsDefault())
+                requestBuilder.AddParameters(options.UnpackPagination());
         }
     }
 
     public abstract class Response
     {
-        public IList<Parameter> Headers;
+        public readonly IList<Parameter> Headers;
+        public readonly int RateLimit;
+        public readonly int RateLimitRemaining;
+        public readonly int RateLimitReset;
+
+        public Response(IRestResponse response)
+        {
+            Headers = response.Headers;
+            RateLimit = int.Parse(ExtractValueFromHeader("X-RateLimit-Limit"));
+            RateLimitRemaining = int.Parse(ExtractValueFromHeader("X-RateLimit-Remaining"));
+            RateLimitReset = int.Parse(ExtractValueFromHeader("X-RateLimit-Reset"));
+        }
+
+        private string ExtractValueFromHeader(string headerName)
+        {
+            return (string) Headers.Where(header => header.Name.Equals(headerName))
+                .First().Value;
+        }
     }
 
     /// <summary>
@@ -54,9 +70,8 @@ namespace dnsimple.Services
     /// </summary>
     public class EmptyDnsimpleResponse : Response
     {
-        public EmptyDnsimpleResponse(IRestResponse response)
+        public EmptyDnsimpleResponse(IRestResponse response) : base(response)
         {
-            Headers = response.Headers;
         }
     }
 
@@ -71,9 +86,8 @@ namespace dnsimple.Services
         /// </summary>
         public T Data { get; protected set; }
 
-        public SimpleDnsimpleResponse(IRestResponse response)
+        public SimpleDnsimpleResponse(IRestResponse response) : base(response)
         {
-            Headers = response.Headers;
             Data = JsonTools<T>.DeserializeObject("data",
                 JObject.Parse(response.Content));
         }
@@ -92,9 +106,8 @@ namespace dnsimple.Services
         /// </summary>
         public List<T> Data { get; }
 
-        public ListDnsimpleResponse(IRestResponse response)
+        public ListDnsimpleResponse(IRestResponse response) : base(response)
         {
-            Headers = response.Headers;
             Data = JsonTools<T>.DeserializeList(
                 JObject.Parse(response.Content));
         }
@@ -119,11 +132,10 @@ namespace dnsimple.Services
         /// <see cref="PaginationData"/>
         public PaginationData PaginationData { get; }
 
-        public PaginatedDnsimpleResponse(IRestResponse response)
+        public PaginatedDnsimpleResponse(IRestResponse response) : base(response)
         {
             var json = JObject.Parse(response.Content);
 
-            Headers = response.Headers;
             Data = JsonTools<T>.DeserializeList(json);
             PaginationData = PaginationData.From(json);
         }

@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Linq;
 using dnsimple.Services;
 using dnsimple.Services.ListOptions;
-using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using RestSharp;
 
@@ -13,8 +12,7 @@ namespace dnsimple_test.Services
     [TestFixture]
     public class CertificatesTest
     {
-        private JToken _jToken;
-        private IRestResponse _response;
+        private MockResponse _response;
 
 
         private const string CertificateContent =
@@ -89,9 +87,7 @@ namespace dnsimple_test.Services
         public void Initialize()
         {
             var loader = new FixtureLoader("v2", ListCertificatesFixture);
-            _response = new RestResponse();
-            _response.Content = loader.ExtractJsonPayload();
-            _jToken = JObject.Parse(loader.ExtractJsonPayload());
+            _response = new MockResponse(loader);
         }
 
         [Test]
