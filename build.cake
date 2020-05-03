@@ -1,16 +1,13 @@
 #tool nuget:?package=NUnit.ConsoleRunner&version=3.4.0
 
-var configuration = Argument("configuration", "Release");
 var target = Argument("target", "Default");
 
-var buildDir = Directory("./src/dnsimple/bin") + Directory(configuration);
-var releaseDir = Directory("./bin") + Directory(configuration);
+var buildDir = Directory("./src/dnsimple/bin");
 
 Task("Clean")
     .Does(() =>
 {
     CleanDirectory(buildDir);
-    CleanDirectory(releaseDir);
 });
 
 Task("Restore-NuGet-Packages")
@@ -24,34 +21,32 @@ Task("Build")
     .IsDependentOn("Restore-NuGet-Packages")
     .Does(() =>
 {
-      MSBuild("./dnsimple-csharp.sln", settings =>
-        settings.SetConfiguration(configuration));
+      MSBuild("./dnsimple-csharp.sln");
 });
 
-Task("Run-Unit-Tests")
+Task("Test")
     .IsDependentOn("Build")
     .Does(() =>
 {
-    NUnit3("./src/**/bin/" + configuration + "/*_test.dll", new NUnit3Settings {
+    NUnit3("./src/**/bin/**/*_test.dll", new NUnit3Settings {
         NoResults = true
         });
 });
 
-Task("BuildPackages")
-	.IsDependentOn("Run-Unit-Tests")
+Task("Package")
+	.IsDependentOn("Test")
     .Does(() =>
 {
         var nuGetPackSettings = new NuGetPackSettings
         	{
-        		OutputDirectory = releaseDir,
+        		OutputDirectory = buildDir,
         		IncludeReferencedProjects = true,
         	};
-        MSBuild("./dnsimple-csharp.sln", settings =>
-                settings.SetConfiguration(configuration));
+        MSBuild("./dnsimple-csharp.sln");
         NuGetPack("./src/dnsimple/dnsimple.csproj", nuGetPackSettings);
 });
 
 Task("Default")
-    .IsDependentOn("Run-Unit-Tests");
+    .IsDependentOn("Test");
     
 RunTarget(target);
