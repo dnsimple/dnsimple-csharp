@@ -51,8 +51,6 @@ namespace dnsimple
         public JObject Validation { get; }
 
         public DnSimpleValidationException(JToken error) : base(error["message"]?.ToString()) =>
-            //TODO: Need to find a better way to return the errors...
             Validation = (JObject) error["errors"];
-        
     }
 }

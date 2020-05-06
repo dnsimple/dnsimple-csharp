@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using dnsimple.Services;
 using RestSharp;
 
@@ -46,6 +47,7 @@ namespace dnsimple
         /// Base URL for API calls.
         /// </summary>
         string BaseUrl { get; }
+
         /// <summary>
         /// Current API version
         /// </summary>
@@ -57,21 +59,21 @@ namespace dnsimple
         /// <see cref="AccountsService"/>
         /// <see>https://developer.dnsimple.com/v2/accounts/</see>
         AccountsService Accounts { get; }
-        
+
         /// <summary>
         /// Instance of the <c>ContactsService</c>
         /// </summary>
         /// <see cref="ContactsService"/>
         /// <see>https://developer.dnsimple.com/v2/contacts/</see>
         ContactsService Contacts { get; }
-        
+
         /// <summary>
         /// Instance of the <c>CertificatesService</c>
         /// </summary>
         /// <see cref="CertificatesService"/>
         /// <see>https://developer.dnsimple.com/v2/certificates/</see>
         CertificatesService Certificates { get; }
-        
+
         /// <summary>
         /// Instance of the <c>DomainsService</c>
         /// <see cref="DomainsService"/>
@@ -97,44 +99,44 @@ namespace dnsimple
         /// </summary>
         /// <see cref="OAuth2Service"/>
         OAuth2Service OAuth { get; }
-        
+
         /// <summary>
         /// Instance of the <c>RegistrarService</c>
         /// </summary>
         /// <see cref="RegistrarService"/>
         RegistrarService Registrar { get; }
-        
+
         /// <summary>
         /// Instance of the <c>ServicesService</c>
         /// </summary>
         /// <see cref="ServicesService"/>
         ServicesService Services { get; }
-        
+
         /// <summary>
         /// Instance of the <c>TemplatesService</c>
         /// </summary>
         /// <see cref="TemplatesService"/>
         TemplatesService Templates { get; }
-        
+
         /// <summary>
         /// Instance of the <c>TldsService</c>
         /// </summary>
         /// <see cref="TldsService"/>
         /// <see>https://developer.dnsimple.com/v2/tlds/</see>
         TldsService Tlds { get; }
-        
+
         /// <summary>
         /// Instance of the <c>VanityNameServersService</c>
         /// </summary>
         /// <see cref="VanityNameServersService"/>
         VanityNameServersService VanityNameServers { get; }
-        
+
         /// <summary>
         /// Instance of the <c>WebhooksService</c>
         /// </summary>
         /// <see cref="WebhooksService"/>
         WebhooksService Webhooks { get; }
-        
+
         /// <summary>
         /// Instance of the <c>ZonesService</c>
         /// <see cref="ZonesService"/>
@@ -154,7 +156,7 @@ namespace dnsimple
         /// </example>
         /// <param name="baseUrl"></param>
         void ChangeBaseUrlTo(string baseUrl);
-        
+
         /// <summary>
         /// Returns the URL to the API including the version
         /// </summary>
@@ -163,7 +165,7 @@ namespace dnsimple
         /// </example>
         /// <returns>A string representation of the URL to the API</returns>
         string VersionedBaseUrl();
-        
+
         /// <summary>
         /// Adds the credentials to be used to Authenticate with the API.
         /// </summary>
@@ -212,7 +214,20 @@ namespace dnsimple
     /// </remarks>
     public class Client : IClient
     {
-        private static readonly string DefaultUserAgent = $"dnsimple-csharp/{typeof(Client).Assembly.GetName().Version}-alpha";
+        private static readonly string ProductName =
+            ((AssemblyProductAttribute) Attribute.GetCustomAttribute(
+                Assembly.GetExecutingAssembly(),
+                typeof(AssemblyProductAttribute), false))
+            .Product;
+
+        private static readonly string ClientVersion =
+            ((AssemblyInformationalVersionAttribute)
+                Attribute.GetCustomAttribute(Assembly.GetExecutingAssembly(),
+                    typeof(AssemblyInformationalVersionAttribute), false))
+            .InformationalVersion;
+
+        public static readonly string DefaultUserAgent =
+            $"{ProductName}/{ClientVersion}";
 
         /// <summary>
         /// Base URL for API calls.
@@ -257,17 +272,17 @@ namespace dnsimple
 
         /// <inheritdoc />
         public OAuth2Service OAuth { get; private set; }
-        
+
         public RegistrarService Registrar { get; private set; }
 
         public ServicesService Services { get; private set; }
 
         public TldsService Tlds { get; private set; }
-        
+
         public TemplatesService Templates { get; private set; }
 
         public VanityNameServersService VanityNameServers { get; private set; }
-        
+
         public WebhooksService Webhooks { get; private set; }
 
         public ZonesService Zones { get; private set; }
@@ -313,7 +328,7 @@ namespace dnsimple
             RestClientWrapper.RestClient.BaseUrl = new Uri(VersionedBaseUrl());
             RestClientWrapper.RestClient.UserAgent = DefaultUserAgent;
         }
-        
+
         /// <summary>
         /// Returns the URL to the API including the version
         /// </summary>
@@ -334,7 +349,7 @@ namespace dnsimple
         /// </param>
         /// <seealso cref="BasicHttpCredentials"/>
         /// <seealso cref="OAuth2Credentials"/>
-        public void AddCredentials(ICredentials credentials) => 
+        public void AddCredentials(ICredentials credentials) =>
             RestClientWrapper.AddAuthenticator(credentials);
 
         /// <summary>

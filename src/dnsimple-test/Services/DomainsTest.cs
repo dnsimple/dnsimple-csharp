@@ -40,7 +40,7 @@ namespace dnsimple_test.Services
         {
             var domains = new PaginatedDnsimpleResponse<Domain>(_response).Data;
 
-            
+
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(2, domains.Count);
@@ -74,7 +74,8 @@ namespace dnsimple_test.Services
         }
 
         [Test]
-        [TestCase("https://api.sandbox.dnsimple.com/v2/1010/domains?sort=id:asc&name_like=example.com")]
+        [TestCase(
+            "https://api.sandbox.dnsimple.com/v2/1010/domains?sort=id:asc&name_like=example.com")]
         public void ListDomainsWithOptions(string expectedUrl)
         {
             var client = new MockDnsimpleClient(ListDomainsFixture);
@@ -88,7 +89,8 @@ namespace dnsimple_test.Services
 
         [Test]
         [TestCase("1", "https://api.sandbox.dnsimple.com/v2/1010/domains/1")]
-        [TestCase("example-alpha.com", "https://api.sandbox.dnsimple.com/v2/1010/domains/example-alpha.com")]
+        [TestCase("example-alpha.com",
+            "https://api.sandbox.dnsimple.com/v2/1010/domains/example-alpha.com")]
         public void GetDomain(string domainIdentifier, string expectedUrl)
         {
             var client = new MockDnsimpleClient(GetDomainFixture);
@@ -107,7 +109,7 @@ namespace dnsimple_test.Services
                 Assert.IsNull(domain.ExpiresOn);
                 Assert.AreEqual(CreatedAt, domain.CreatedAt);
                 Assert.AreEqual(UpdatedAt, domain.UpdatedAt);
-                
+
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
@@ -146,15 +148,18 @@ namespace dnsimple_test.Services
                 Assert.IsNull(domain.ExpiresOn);
                 Assert.AreEqual(CreatedAt, domain.CreatedAt);
                 Assert.AreEqual(UpdatedAt, domain.UpdatedAt);
-                
+
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
 
         [Test]
-        [TestCase(1010,"1", "https://api.sandbox.dnsimple.com/v2/1010/domains/1")]
-        [TestCase(1010,"example-alpha.com", "https://api.sandbox.dnsimple.com/v2/1010/domains/example-alpha.com")]
-        public void DeleteDomain(long accountId, string domainIdentifier, string expectedUrl)
+        [TestCase(1010, "1",
+            "https://api.sandbox.dnsimple.com/v2/1010/domains/1")]
+        [TestCase(1010, "example-alpha.com",
+            "https://api.sandbox.dnsimple.com/v2/1010/domains/example-alpha.com")]
+        public void DeleteDomain(long accountId, string domainIdentifier,
+            string expectedUrl)
         {
             var client = new MockDnsimpleClient(DeleteDomainFixture);
 
@@ -162,12 +167,12 @@ namespace dnsimple_test.Services
             {
                 Assert.DoesNotThrow(delegate
                 {
-                    client.Domains.DeleteDomain(accountId, domainIdentifier);
+                    client.Domains.DeleteDomain(accountId,
+                        domainIdentifier);
                 });
-                
+
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
-            
         }
 
         [Test]
@@ -178,7 +183,8 @@ namespace dnsimple_test.Services
                 new KeyValuePair<string, string>("name_like", "example.com"),
                 new KeyValuePair<string, string>("registrant_id", "89")
             };
-            var sorting = new KeyValuePair<string, string>("sort", "id:asc,name:asc,expires_on:desc");
+            var sorting = new KeyValuePair<string, string>("sort",
+                "id:asc,name:asc,expires_on:desc");
             var pagination = new List<KeyValuePair<string, string>>
             {
                 new KeyValuePair<string, string>("per_page", "42"),

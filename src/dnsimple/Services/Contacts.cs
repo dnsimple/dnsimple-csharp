@@ -86,7 +86,7 @@ namespace dnsimple.Services
         {
             var builder = BuildRequestForPath(ContactPath(accountId, contactId));
             builder.Method(Method.PATCH);
-            builder.AddJsonPayload(contact);
+            builder.AddJsonPayload(new UpdateContact(contact));
 
             return new SimpleDnsimpleResponse<Contact>(Execute(builder.Request));
         }
@@ -113,49 +113,85 @@ namespace dnsimple.Services
     /// Represents a contact.
     /// </summary>
     /// <see>https://developer.dnsimple.com/v2/openapi.yml</see>
-    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy), ItemNullValueHandling = NullValueHandling.Ignore)]
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]//, ItemNullValueHandling = NullValueHandling.Ignore)]
     public struct Contact
     {
         public long? Id { get; set; }
         public long? AccountId { get; set; }
         public string Label { get; set; }
 
-        // [JsonProperty(Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public string FirstName { get; set; }
 
-        // [JsonProperty(Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public string LastName { get; set; }
 
         public string JobTitle { get; set; }
         public string OrganizationName { get; set; }
 
-        // [JsonProperty(Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public string Email { get; set; }
 
-        // [JsonProperty(Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public string Phone { get; set; }
 
-        // [JsonProperty(Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public string Fax { get; set; }
 
-        // [JsonProperty(Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public string Address1 { get; set; }
 
         public string Address2 { get; set; }
 
-        // [JsonProperty(Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public string City { get; set; }
 
-        // [JsonProperty(Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public string StateProvince { get; set; }
 
-        // [JsonProperty(Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public string PostalCode { get; set; }
 
-        // [JsonProperty(Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public string Country { get; set; }
 
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
+    }
+    
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy), ItemNullValueHandling = NullValueHandling.Ignore)]
+    internal class UpdateContact
+    {
+        public string Label { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string JobTitle { get; set; }
+        public string OrganizationName { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+        public string Fax { get; set; }
+        public string Address1 { get; set; }
+        public string Address2 { get; set; }
+        public string City { get; set; }
+        public string StateProvince { get; set; }
+        public string PostalCode { get; set; }
+        public string Country { get; set; }
+
+        internal UpdateContact(Contact contact)
+        {
+            Label = contact.Label;
+            FirstName = contact.FirstName;
+            LastName = contact.LastName;
+            JobTitle = contact.JobTitle;
+            OrganizationName = contact.OrganizationName;
+            Email = contact.Email;
+            Phone = contact.Phone;
+            Fax = contact.Fax;
+            Address1 = contact.Address1;
+            Address2 = contact.Address2;
+            City = contact.City;
+            StateProvince = contact.StateProvince;
+            Country = contact.Country;
+        }
     }
 }

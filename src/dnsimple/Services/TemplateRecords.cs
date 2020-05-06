@@ -97,11 +97,18 @@ namespace dnsimple.Services
     {
         public long Id { get; set; }
         public long TemplateId { get; set; }
+        
+        [JsonProperty(Required = Required.Always)]
         public string Name { get; set; }
+        
+        [JsonProperty(Required = Required.Always)]
         public string Content { get; set; }
+
+        [JsonProperty(Required = Required.Always)]
+        public string Type { get; set; }
+
         public long Ttl { get; set; }
         public long? Priority { get; set; }
-        public string Type { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }

@@ -254,7 +254,8 @@ namespace dnsimple.Services
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public struct CertificateOrder
     {
-        public int ContactId { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public long? ContactId { get; set; }
         public bool AutoRenew { get; set; }
         public string Name { get; set; }
         public List<string> AlternateNames { get; set; }

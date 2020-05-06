@@ -93,6 +93,8 @@ namespace dnsimple.Services
     public struct Webhook
     {
         public long Id { get; set; }
+     
+        [JsonProperty(Required = Required.Always)]
         public string Url { get; set; }
     }
 }

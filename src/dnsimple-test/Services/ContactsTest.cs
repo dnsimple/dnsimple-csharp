@@ -146,7 +146,6 @@ namespace dnsimple_test.Services
         }
 
         [Test]
-        [Ignore("I am turning off the client side JSON validation")]
         [TestCase(null, "User", "first@example.com", "+18001234567", "+18011234567", "Italian Street, 10", "Roma", "RM", "00100", "IT")]
         [TestCase("First", null, "first@example.com", "+18001234567", "+18011234567", "Italian Street, 10", "Roma", "RM", "00100", "IT")]
         [TestCase("First", "User", null, "+18001234567", "+18011234567", "Italian Street, 10", "Roma", "RM", "00100", "IT")]

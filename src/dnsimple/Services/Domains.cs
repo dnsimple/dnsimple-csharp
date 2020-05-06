@@ -48,7 +48,6 @@ namespace dnsimple.Services
 
             AddListOptionsToRequest(options, ref builder);
 
-
             return new PaginatedDnsimpleResponse<Domain>(
                 Execute(builder.Request));
         }

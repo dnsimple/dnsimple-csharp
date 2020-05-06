@@ -118,8 +118,11 @@ namespace dnsimple.Services
     {
         public long Id { get; set; }
         public long AccountId { get; set; }
+        [JsonProperty(Required = Required.Always)]
         public string Name { get; set; }
+        [JsonProperty(Required = Required.Always)]
         public string Sid { get; set; }
+        [JsonProperty(Required = Required.Always)]
         public string Description { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }

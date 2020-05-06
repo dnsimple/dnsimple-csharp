@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>DNSimple</id>
-    <version>$version$-alpha</version>
+    <version>$version$</version>
     <title>$title$</title>
     <authors>Enrique Comba Riepenhausen</authors>
     <owners>$company$</owners>

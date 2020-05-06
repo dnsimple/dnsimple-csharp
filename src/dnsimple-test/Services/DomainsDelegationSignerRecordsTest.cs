@@ -13,12 +13,21 @@ namespace dnsimple_test.Services
     public class DomainsDelegationSignerRecordsTest
     {
         private MockResponse _response;
-        
-        private const string GetRecordFixture = "getDelegationSignerRecord/success.http";
-        private const string ListRecordsFixture = "listDelegationSignerRecords/success.http";
-        private const string CreateRecordsFixture = "createDelegationSignerRecord/created.http";
-        private const string FailToCreateRecordsFixture = "createDelegationSignerRecord/validation-error.http";
-        private const string DeleteRecordFixture = "deleteDelegationSignerRecord/success.http";
+
+        private const string GetRecordFixture =
+            "getDelegationSignerRecord/success.http";
+
+        private const string ListRecordsFixture =
+            "listDelegationSignerRecords/success.http";
+
+        private const string CreateRecordsFixture =
+            "createDelegationSignerRecord/created.http";
+
+        private const string FailToCreateRecordsFixture =
+            "createDelegationSignerRecord/validation-error.http";
+
+        private const string DeleteRecordFixture =
+            "deleteDelegationSignerRecord/success.http";
 
 
         private DateTime CreatedAt { get; } = DateTime.ParseExact(
@@ -29,14 +38,15 @@ namespace dnsimple_test.Services
             "2017-03-03T13:49:58Z", "yyyy-MM-ddTHH:mm:ssZ",
             CultureInfo.CurrentCulture);
 
-        private readonly DelegationSignerRecord _record = new DelegationSignerRecord
-        {
-            Algorithm = "13",
-            Digest =
-                "684a1f049d7d082b7f98691657da5a65764913df7f065f6f8c36edf62d66ca03",
-            DigestType = "2",
-            Keytag = "2371"
-        };
+        private readonly DelegationSignerRecord _record =
+            new DelegationSignerRecord
+            {
+                Algorithm = "13",
+                Digest =
+                    "684a1f049d7d082b7f98691657da5a65764913df7f065f6f8c36edf62d66ca03",
+                DigestType = "2",
+                Keytag = "2371"
+            };
 
         [SetUp]
         public void Initialize()
@@ -44,19 +54,23 @@ namespace dnsimple_test.Services
             var loader = new FixtureLoader("v2", ListRecordsFixture);
             _response = new MockResponse(loader);
         }
-        
+
         [Test]
         public void DelegationSignerRecordsData()
         {
-            var records = new PaginatedDnsimpleResponse<DelegationSignerRecord>(_response).Data;
-            
+            var records =
+                new PaginatedDnsimpleResponse<DelegationSignerRecord>(_response)
+                    .Data;
+
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(1, records.Count);
                 Assert.AreEqual(24, records.First().Id);
                 Assert.AreEqual(1010, records.First().DomainId);
                 Assert.AreEqual("8", records.First().Algorithm);
-                Assert.AreEqual("C1F6E04A5A61FBF65BF9DC8294C363CF11C89E802D926BDAB79C55D27BEFA94F", records.First().Digest);
+                Assert.AreEqual(
+                    "C1F6E04A5A61FBF65BF9DC8294C363CF11C89E802D926BDAB79C55D27BEFA94F",
+                    records.First().Digest);
                 Assert.AreEqual("2", records.First().DigestType);
                 Assert.AreEqual("44620", records.First().Keytag);
                 Assert.AreEqual(CreatedAt, records.First().CreatedAt);
@@ -65,9 +79,12 @@ namespace dnsimple_test.Services
         }
 
         [Test]
-        [TestCase(1010, "100", "https://api.sandbox.dnsimple.com/v2/1010/domains/100/ds_records")]
-        [TestCase(1010, "example.com", "https://api.sandbox.dnsimple.com/v2/1010/domains/example.com/ds_records")]
-        public void ListDelegationSignerRecords(long accountId, string domainIdentifier, string expectedUrl)
+        [TestCase(1010, "100",
+            "https://api.sandbox.dnsimple.com/v2/1010/domains/100/ds_records")]
+        [TestCase(1010, "example.com",
+            "https://api.sandbox.dnsimple.com/v2/1010/domains/example.com/ds_records")]
+        public void ListDelegationSignerRecords(long accountId,
+            string domainIdentifier, string expectedUrl)
         {
             var client = new MockDnsimpleClient(ListRecordsFixture);
             var records =
@@ -77,15 +94,18 @@ namespace dnsimple_test.Services
             {
                 Assert.AreEqual(1, records.Data.Count);
                 Assert.AreEqual(1, records.PaginationData.CurrentPage);
-                
+
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
-        
+
         [Test]
-        [TestCase(1010, "100", "https://api.sandbox.dnsimple.com/v2/1010/domains/100/ds_records?sort=id:asc%2ccreated_at:desc&per_page=5&page=3")]
-        [TestCase(1010, "example.com", "https://api.sandbox.dnsimple.com/v2/1010/domains/example.com/ds_records?sort=id:asc%2ccreated_at:desc&per_page=5&page=3")]
-        public void ListDelegationSignerRecordsWithOptions(long accountId, string domainIdentifier, string expectedUrl)
+        [TestCase(1010, "100",
+            "https://api.sandbox.dnsimple.com/v2/1010/domains/100/ds_records?sort=id:asc%2ccreated_at:desc&per_page=5&page=3")]
+        [TestCase(1010, "example.com",
+            "https://api.sandbox.dnsimple.com/v2/1010/domains/example.com/ds_records?sort=id:asc%2ccreated_at:desc&per_page=5&page=3")]
+        public void ListDelegationSignerRecordsWithOptions(long accountId,
+            string domainIdentifier, string expectedUrl)
         {
             var options = new ListDomainDelegationSignerRecordsOptions
             {
@@ -97,33 +117,36 @@ namespace dnsimple_test.Services
             var records =
                 client.Domains.ListDelegationSignerRecords(accountId,
                     domainIdentifier, options);
-            
+
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(1, records.Data.Count);
                 Assert.AreEqual(1, records.PaginationData.CurrentPage);
-                
+
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
 
         [Test]
-        [TestCase(1010, "100", "https://api.sandbox.dnsimple.com/v2/1010/domains/100/ds_records")]
-        [TestCase(1010, "example.com", "https://api.sandbox.dnsimple.com/v2/1010/domains/example.com/ds_records")]
-        public void CreateDelegationSignerRecord(long accountId, string domainIdentifier, string expectedUrl)
+        [TestCase(1010, "100",
+            "https://api.sandbox.dnsimple.com/v2/1010/domains/100/ds_records")]
+        [TestCase(1010, "example.com",
+            "https://api.sandbox.dnsimple.com/v2/1010/domains/example.com/ds_records")]
+        public void CreateDelegationSignerRecord(long accountId,
+            string domainIdentifier, string expectedUrl)
         {
             var client = new MockDnsimpleClient(CreateRecordsFixture);
-            
+
             var created =
                 client.Domains.CreateDelegationSignerRecord(accountId,
                     domainIdentifier, _record);
-            
+
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(2, created.Data.Id);
                 Assert.AreEqual(1010, created.Data.DomainId);
                 Assert.AreEqual("13", created.Data.Algorithm);
-                
+
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
@@ -131,11 +154,12 @@ namespace dnsimple_test.Services
         [Test]
         [TestCase(1010, "100")]
         [TestCase(1010, "example.com")]
-        public void FailToCreateDelegationSignerRecord(long accountId, string domainIdentifier)
+        public void FailToCreateDelegationSignerRecord(long accountId,
+            string domainIdentifier)
         {
             var client = new MockDnsimpleClient(FailToCreateRecordsFixture);
             client.StatusCode(HttpStatusCode.BadRequest);
-            
+
             try
             {
                 client.Domains.CreateDelegationSignerRecord(accountId,
@@ -158,31 +182,65 @@ namespace dnsimple_test.Services
         }
 
         [Test]
-        [TestCase(1010, "1010", "https://api.sandbox.dnsimple.com/v2/1010/domains/1010/ds_records/24")]
-        [TestCase(1010, "example.com", "https://api.sandbox.dnsimple.com/v2/1010/domains/example.com/ds_records/24")]
-        public void GetDelegationSignerRecord(long accountId, string domainIdentifier, string expectedUrl)
+        [TestCase("", "digest", "digestType", "keytag")]
+        [TestCase("algorithm", "", "digestType", "keytag")]
+        [TestCase("algorithm", "digest", "", "keytag")]
+        [TestCase("algorithm", "digest", "digestType", "")]
+        [TestCase(null, "digest", "digestType", "keytag")]
+        [TestCase("algorithm", null, "digestType", "keytag")]
+        [TestCase("algorithm", "digest", null, "keytag")]
+        [TestCase("algorithm", "digest", "digestType", null)]
+        public void CreateDelegationSignerRecordClientSideValidation(
+            string algorithm, string digest, string digestType, string keytag)
+        {
+            var client = new MockDnsimpleClient(CreateRecordsFixture);
+
+            Assert.Throws(Is.InstanceOf<Exception>(),
+                delegate
+                {
+                    client.Domains.CreateDelegationSignerRecord(1010,
+                        "ruby.codes", new DelegationSignerRecord
+                        {
+                            Algorithm = algorithm,
+                            Digest = digest,
+                            DigestType = digestType,
+                            Keytag = keytag
+                        });
+                });
+        }
+
+        [Test]
+        [TestCase(1010, "1010",
+            "https://api.sandbox.dnsimple.com/v2/1010/domains/1010/ds_records/24")]
+        [TestCase(1010, "example.com",
+            "https://api.sandbox.dnsimple.com/v2/1010/domains/example.com/ds_records/24")]
+        public void GetDelegationSignerRecord(long accountId,
+            string domainIdentifier, string expectedUrl)
         {
             var client = new MockDnsimpleClient(GetRecordFixture);
             var record =
                 client.Domains.GetDelegationSignerRecord(accountId,
                     domainIdentifier, 24).Data;
-            
+
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(24, record.Id);
                 Assert.AreEqual(1010, record.DomainId);
-                
+
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
 
         [Test]
-        [TestCase(1010, "1010", "https://api.sandbox.dnsimple.com/v2/1010/domains/1010/ds_records/24")]
-        [TestCase(1010, "example.com", "https://api.sandbox.dnsimple.com/v2/1010/domains/example.com/ds_records/24")]
-        public void DeleteDelegationSignerRecord(long accountId, string domainIdentifier, string expectedUrl)
+        [TestCase(1010, "1010",
+            "https://api.sandbox.dnsimple.com/v2/1010/domains/1010/ds_records/24")]
+        [TestCase(1010, "example.com",
+            "https://api.sandbox.dnsimple.com/v2/1010/domains/example.com/ds_records/24")]
+        public void DeleteDelegationSignerRecord(long accountId,
+            string domainIdentifier, string expectedUrl)
         {
             var client = new MockDnsimpleClient(DeleteRecordFixture);
-            
+
             Assert.Multiple(() =>
             {
                 Assert.DoesNotThrow(() =>
@@ -190,7 +248,7 @@ namespace dnsimple_test.Services
                     client.Domains.DeleteDelegationSignerRecord(accountId,
                         domainIdentifier, 24);
                 });
-                
+
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }

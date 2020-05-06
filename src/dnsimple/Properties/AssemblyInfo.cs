@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("The DNSimple API client for the .NET platform.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("DNSimple")]
-[assembly: AssemblyProduct("dnsimple")]
+[assembly: AssemblyProduct("dnsimple-csharp")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -33,3 +33,5 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("0.8.6")]
 [assembly: AssemblyFileVersion("0.8.6")]
+// This version is the one used for the user agent
+[assembly: AssemblyInformationalVersion("0.8.6-alpha")]

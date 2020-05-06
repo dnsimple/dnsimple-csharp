@@ -43,6 +43,21 @@ namespace dnsimple_test.Services
         }
 
         [Test]
+        [TestCase("")]
+        [TestCase(null)]
+        public void InitiatePushValidationFail(string email)
+        {
+            var client = new MockDnsimpleClient(InitiatePushFixture);
+            
+            Assert.Throws(Is.TypeOf<ArgumentException>().And.Message.EqualTo("Email cannot be null or empty"),
+                delegate
+                {
+                    client.Domains.InitiatePush(1010, "100", email);
+
+                });
+        }
+
+        [Test]
         [TestCase(1010, "https://api.sandbox.dnsimple.com/v2/1010/pushes")]
         [TestCase(1010, "https://api.sandbox.dnsimple.com/v2/1010/pushes")]
         public void ListPushes(long accountId, string expectedUrl)

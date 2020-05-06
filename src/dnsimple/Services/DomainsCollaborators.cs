@@ -51,6 +51,9 @@ namespace dnsimple.Services
             long accountId,
             string domainIdentifier, string email)
         {
+            if (string.IsNullOrEmpty(email))
+                throw new ArgumentException("Email cannot be null or empty");
+            
             var builder = BuildRequestForPath(
                 CollaboratorsPath(accountId, domainIdentifier));
             builder.Method(Method.POST);

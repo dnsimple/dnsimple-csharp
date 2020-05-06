@@ -105,7 +105,7 @@ namespace dnsimple_test
         {
             _client.SetUserAgent("MySuperAPP");
 
-            Assert.AreEqual($"MySuperAPP dnsimple-csharp/{typeof(HttpService).Assembly.GetName().Version}-alpha", _client.UserAgent);
+            Assert.AreEqual($"MySuperAPP {Client.DefaultUserAgent}", _client.UserAgent);
         }
     }
 }

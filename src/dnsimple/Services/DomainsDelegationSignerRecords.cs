@@ -19,14 +19,16 @@ namespace dnsimple.Services
         /// <param name="options">Options passed to the list (sorting, pagination)</param>
         /// <returns>A list of delegation signer records wrapped in a response</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/dnssec/#listDomainDelegationSignerRecords</see>
-        public PaginatedDnsimpleResponse<DelegationSignerRecord> ListDelegationSignerRecords(
-            long accountId, string domainIdentifier, ListDomainDelegationSignerRecordsOptions options = null)
+        public PaginatedDnsimpleResponse<DelegationSignerRecord>
+            ListDelegationSignerRecords(
+                long accountId, string domainIdentifier,
+                ListDomainDelegationSignerRecordsOptions options = null)
         {
             var builder = BuildRequestForPath(DsRecordsPath(accountId,
-                    domainIdentifier));
-            
+                domainIdentifier));
+
             AddListOptionsToRequest(options, ref builder);
-            
+
             return new PaginatedDnsimpleResponse<DelegationSignerRecord>(
                 Execute(builder.Request));
         }
@@ -44,14 +46,22 @@ namespace dnsimple.Services
         /// <returns>The newly created delegation signer record.</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/dnssec/#createDomainDelegationSignerRecord</see>
         /// <see>"https://tools.ietf.org/html/rfc4034"</see>
-        public SimpleDnsimpleResponse<DelegationSignerRecord> CreateDelegationSignerRecord(
-            long accountId, string domainIdentifier,
-            DelegationSignerRecord record)
+        public SimpleDnsimpleResponse<DelegationSignerRecord>
+            CreateDelegationSignerRecord(
+                long accountId, string domainIdentifier,
+                DelegationSignerRecord record)
         {
             var builder = BuildRequestForPath(DsRecordsPath(accountId,
-                    domainIdentifier));
+                domainIdentifier));
             builder.Method(Method.POST);
             builder.AddJsonPayload(record);
+
+            if (record.Algorithm.Trim().Equals("") ||
+                record.Digest.Trim().Equals("") ||
+                record.DigestType.Trim().Equals("") ||
+                record.Keytag.Trim().Equals(""))
+                throw new ArgumentException(
+                    "Algorithm, Digest, DigestType and Keytag cannot be null or empty");
 
             return new SimpleDnsimpleResponse<DelegationSignerRecord>(
                 Execute(builder.Request));
@@ -65,12 +75,14 @@ namespace dnsimple.Services
         /// <param name="recordId">The delegation signer record id</param>
         /// <returns>The delegation signer record</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/dnssec/#getDomainDelegationSignerRecord</see>
-        public SimpleDnsimpleResponse<DelegationSignerRecord> GetDelegationSignerRecord(
-            long accountId, string domainIdentifier, long recordId)
+        public SimpleDnsimpleResponse<DelegationSignerRecord>
+            GetDelegationSignerRecord(
+                long accountId, string domainIdentifier, long recordId)
         {
             return new SimpleDnsimpleResponse<DelegationSignerRecord>(
-                Execute(BuildRequestForPath(DsRecordPath(accountId, domainIdentifier,
-                        recordId)).Request));
+                Execute(BuildRequestForPath(DsRecordPath(accountId,
+                    domainIdentifier,
+                    recordId)).Request));
         }
 
         /// <summary>
@@ -80,10 +92,11 @@ namespace dnsimple.Services
         /// <param name="domainIdentifier">The domain name or id</param>
         /// <param name="recordId">the delegation signer record id</param>
         /// <see>https://developer.dnsimple.com/v2/domains/dnssec/#deleteDomainDelegationSignerRecord</see>
-        public EmptyDnsimpleResponse DeleteDelegationSignerRecord(long accountId, string domainIdentifier, int recordId)
+        public EmptyDnsimpleResponse DeleteDelegationSignerRecord(
+            long accountId, string domainIdentifier, int recordId)
         {
             var builder = BuildRequestForPath(DsRecordPath(accountId,
-                    domainIdentifier, recordId));
+                domainIdentifier, recordId));
             builder.Method(Method.DELETE);
 
             return new EmptyDnsimpleResponse(Execute(builder.Request));
@@ -98,14 +111,19 @@ namespace dnsimple.Services
     {
         public long Id { get; set; }
         public long DomainId { get; set; }
+
         [JsonProperty(Required = Required.Always)]
         public string Algorithm { get; set; }
+
         [JsonProperty(Required = Required.Always)]
         public string Digest { get; set; }
+
         [JsonProperty(Required = Required.Always)]
         public string DigestType { get; set; }
+
         [JsonProperty(Required = Required.Always)]
         public string Keytag { get; set; }
+
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }

@@ -53,6 +53,9 @@ namespace dnsimple.Services
             builder.Method(Method.POST);
             builder.AddJsonPayload(record);
 
+            if(record.To.Trim().Equals("") || record.From.Trim().Equals(""))
+                throw new ArgumentException("From or To cannot be blank");
+            
             return new SimpleDnsimpleResponse<EmailForward>(
                 Execute(builder.Request));
         }

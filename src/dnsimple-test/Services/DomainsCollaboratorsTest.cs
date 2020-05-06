@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using dnsimple.Services;
 using NUnit.Framework;
@@ -82,6 +83,21 @@ namespace dnsimple_test.Services
                 
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
+        }
+
+        [Test]
+        [TestCase(null)]
+        [TestCase("")]
+        public void AddCollaboratorCannotBeNullOrEmpty(string collaborator)
+        {
+            var client = new MockDnsimpleClient(AddCollaboratorFixture);
+            
+            Assert.Throws(
+                Is.TypeOf<ArgumentException>(),
+                delegate { 
+                    client.Domains.AddCollaborator(AccountId, "ruby.codes",collaborator);
+                }
+            );
         }
 
         [Test]

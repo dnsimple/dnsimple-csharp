@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using dnsimple;
 using dnsimple.Services;
 using dnsimple.Services.ListOptions;
 using NUnit.Framework;
@@ -73,13 +74,15 @@ namespace dnsimple_test.Services
             "2017-10-19T08:22:17Z", "yyyy-MM-ddTHH:mm:ssZ",
             CultureInfo.CurrentCulture);
 
-        private DateTime LetsEncryptRenewalCreatedAt { get; } = DateTime.ParseExact(
-            "2017-10-19T08:18:53Z", "yyyy-MM-ddTHH:mm:ssZ",
-            CultureInfo.CurrentCulture);
+        private DateTime LetsEncryptRenewalCreatedAt { get; } =
+            DateTime.ParseExact(
+                "2017-10-19T08:18:53Z", "yyyy-MM-ddTHH:mm:ssZ",
+                CultureInfo.CurrentCulture);
 
-        private DateTime LetsEncryptRenewalUpdatedAt { get; } = DateTime.ParseExact(
-            "2017-10-19T08:18:53Z", "yyyy-MM-ddTHH:mm:ssZ",
-            CultureInfo.CurrentCulture);
+        private DateTime LetsEncryptRenewalUpdatedAt { get; } =
+            DateTime.ParseExact(
+                "2017-10-19T08:18:53Z", "yyyy-MM-ddTHH:mm:ssZ",
+                CultureInfo.CurrentCulture);
 
         private DateTime ExpiresOn = new DateTime(2016, 9, 9);
 
@@ -93,7 +96,8 @@ namespace dnsimple_test.Services
         [Test]
         public void CertificatesResponse()
         {
-            var certificate = new PaginatedDnsimpleResponse<Certificate>(_response).Data;
+            var certificate =
+                new PaginatedDnsimpleResponse<Certificate>(_response).Data;
 
             Assert.Multiple(() =>
             {
@@ -102,13 +106,15 @@ namespace dnsimple_test.Services
                 Assert.AreEqual(10, certificate.First().DomainId);
                 Assert.AreEqual(3, certificate.First().ContactId);
                 Assert.AreEqual("www", certificate.First().Name);
-                Assert.AreEqual("www.weppos.net", certificate.First().CommonName);
+                Assert.AreEqual("www.weppos.net",
+                    certificate.First().CommonName);
                 Assert.AreEqual(1, certificate.First().Years);
                 Assert.AreEqual(CertificateContent, certificate.First().Csr);
                 Assert.AreEqual("issued", certificate.First().State);
                 Assert.IsFalse(certificate.First().AutoRenew);
                 Assert.IsEmpty(certificate.First().AlternateNames);
-                Assert.AreEqual("letsencrypt", certificate.First().AuthorityIdentifier);
+                Assert.AreEqual("letsencrypt",
+                    certificate.First().AuthorityIdentifier);
                 Assert.AreEqual(CreatedAt, certificate.First().CreatedAt);
                 Assert.AreEqual(UpdatedAt, certificate.First().UpdatedAt);
                 Assert.AreEqual(ExpiresOn, certificate.First().ExpiresOn);
@@ -361,7 +367,7 @@ namespace dnsimple_test.Services
         {
             var client =
                 new MockDnsimpleClient(PurchaseLetsEncryptCertificateFixture);
-            var certificatePurchase = new CertificateOrder
+            var certificateOrder = new CertificateOrder
             {
                 ContactId = 11,
                 AutoRenew = false,
@@ -372,7 +378,7 @@ namespace dnsimple_test.Services
 
             var certificateOrdered =
                 client.Certificates.PurchaseLetsEncryptCertificate(accountId,
-                    domainName, certificatePurchase).Data;
+                    domainName, certificateOrder).Data;
 
             Assert.Multiple(() =>
             {
@@ -387,6 +393,29 @@ namespace dnsimple_test.Services
 
                 Assert.AreEqual(Method.POST, client.HttpMethodUsed());
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
+            });
+        }
+
+        [Test]
+        [TestCase(1010, "ruby.codes",
+            "https://api.sandbox.dnsimple.com/v2/1010/domains/ruby.codes/certificates/letsencrypt")]
+        public void PurchaseLetsEncryptCertificateValidation(long accountId,
+            string domainName, string expectedUrl)
+        {
+            var client =
+                new MockDnsimpleClient(PurchaseLetsEncryptCertificateFixture);
+            var certificateOrder = new CertificateOrder
+            {
+                AutoRenew = false,
+                Name = "SuperCertificate",
+                AlternateNames = new List<string>
+                    {"docs.rubycodes.com", "status.rubycodes.com"}
+            };
+
+            Assert.Throws(Is.TypeOf<Newtonsoft.Json.JsonSerializationException>(), 
+                delegate {
+                    client.Certificates.PurchaseLetsEncryptCertificate(accountId,
+                        domainName, certificateOrder);
             });
         }
 
@@ -415,7 +444,7 @@ namespace dnsimple_test.Services
                 Assert.IsFalse(certificate.AutoRenew);
                 CollectionAssert.IsEmpty(certificate.AlternateNames);
                 Assert.AreEqual("letsencrypt", certificate.AuthorityIdentifier);
-                
+
                 Assert.AreEqual(Method.POST, client.HttpMethodUsed());
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
@@ -427,7 +456,9 @@ namespace dnsimple_test.Services
         public void PurchaseLetsEncryptCertificateRenewal(long accountId,
             string domainName, long certificateId, string expectedUrl)
         {
-            var client = new MockDnsimpleClient(PurchaseRenewalLetsEncryptCertificateFixture);
+            var client =
+                new MockDnsimpleClient(
+                    PurchaseRenewalLetsEncryptCertificateFixture);
             var renewal = new LetsEncryptRenewal
             {
                 AutoRenew = false
@@ -435,7 +466,7 @@ namespace dnsimple_test.Services
             var renewalPurchased =
                 client.Certificates.PurchaseLetsEncryptCertificateRenewal(
                     accountId, domainName, certificateId, renewal).Data;
-            
+
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(999, renewalPurchased.Id);
@@ -443,9 +474,11 @@ namespace dnsimple_test.Services
                 Assert.AreEqual(300, renewalPurchased.NewCertificateId);
                 Assert.AreEqual("new", renewalPurchased.State);
                 Assert.IsFalse(renewalPurchased.AutoRenew);
-                Assert.AreEqual(LetsEncryptRenewalCreatedAt, renewalPurchased.CreatedAt);
-                Assert.AreEqual(LetsEncryptRenewalUpdatedAt, renewalPurchased.UpdatedAt);
-                
+                Assert.AreEqual(LetsEncryptRenewalCreatedAt,
+                    renewalPurchased.CreatedAt);
+                Assert.AreEqual(LetsEncryptRenewalUpdatedAt,
+                    renewalPurchased.UpdatedAt);
+
                 Assert.AreEqual(Method.POST, client.HttpMethodUsed());
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
@@ -454,13 +487,19 @@ namespace dnsimple_test.Services
         [Test]
         [TestCase(1010, "ruby.codes", 200, 22,
             "https://api.sandbox.dnsimple.com/v2/1010/domains/ruby.codes/certificates/letsencrypt/200/renewals/22/issue")]
-        public void IssueLetsEncryptCertificateRenewal(long accountId, string domainName, long certificateId, long certificateRenewalId, string expectedUrl)
+        public void IssueLetsEncryptCertificateRenewal(long accountId,
+            string domainName, long certificateId, long certificateRenewalId,
+            string expectedUrl)
         {
-            var client = new MockDnsimpleClient(IssueRenewalLetsEncryptCertificateFixture);
+            var client =
+                new MockDnsimpleClient(
+                    IssueRenewalLetsEncryptCertificateFixture);
             var renewalIssued =
                 client.Certificates.IssueLetsEncryptCertificateRenewal(
-                    accountId, domainName, certificateId, certificateRenewalId).Data;
-            
+                        accountId, domainName, certificateId,
+                        certificateRenewalId)
+                    .Data;
+
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(300, renewalIssued.Id);
@@ -473,7 +512,8 @@ namespace dnsimple_test.Services
                 Assert.AreEqual("requesting", renewalIssued.State);
                 Assert.IsFalse(renewalIssued.AutoRenew);
                 CollectionAssert.IsEmpty(renewalIssued.AlternateNames);
-                Assert.AreEqual("letsencrypt", renewalIssued.AuthorityIdentifier);
+                Assert.AreEqual("letsencrypt",
+                    renewalIssued.AuthorityIdentifier);
 
                 Assert.AreEqual(Method.POST, client.HttpMethodUsed());
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());

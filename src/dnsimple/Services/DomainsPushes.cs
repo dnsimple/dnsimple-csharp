@@ -22,6 +22,9 @@ namespace dnsimple.Services
         public SimpleDnsimpleResponse<PushData> InitiatePush(long accountId,
             string domainIdentifier, string email)
         {
+            if(string.IsNullOrEmpty(email))
+                throw new ArgumentException("Email cannot be null or empty");
+            
             var builder = BuildRequestForPath(InitiatePushPath(accountId,
                     domainIdentifier));
             builder.Method(Method.POST);
