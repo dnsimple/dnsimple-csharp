@@ -11,10 +11,27 @@ The code is tested with an automated test suite connected to a continuous integr
 
 A C# client for the [DNSimple API v2](https://developer.dnsimple.com/v2/).
 
-
 ## Installation
 
-** **COMING SOON** **
+Where `<version>` denotes the version of the client you want to install.
+
+### Package Manager
+
+```shell
+PM> Install-Package DNSimple -Version <version>
+```
+
+### .NET CLI
+
+```shell
+> dotnet add package DNSimple --version <version>
+```
+
+### .NET CLI
+
+```xml
+<PackageReference Include="DNSimple" Version="0.8.3-alpha" />
+```
 
 ## Usage
 
