@@ -63,5 +63,5 @@ The following instructions uses `$VERSION` as a placeholder, where `$VERSION` is
 
 Submit unit tests for your changes. You can test your changes on your machine by [running the test suite](#testing).
 
-When you submit a PR, tests will also be run on the [continuous integration environment via Travis](https://travis-ci.org/dnsimple/dnsimple-csharp).
+When you submit a PR, tests will also be run on the [continuous integration environment via Travis](https://travis-ci.com/dnsimple/dnsimple-csharp).
 
