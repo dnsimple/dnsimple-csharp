@@ -36,6 +36,7 @@ PM> Install-Package DNSimple -Version <version>
 <PackageReference Include="DNSimple" Version="0.8.3-alpha" />
 ```
 
+
 ## Usage
 
 This library is a C# client you can use to interact with the [DNSimple API v2](https://developer.dnsimple.com/v2/). Here are some examples.
@@ -58,7 +59,7 @@ var whoami = client.Identity.Whoami();
 var accountId = whoami.Account.Id;
 ```
 
-# List your domains
+### List your domains
 
 ```c#
 using dnsimple;
@@ -68,10 +69,9 @@ client.AddCredentials(new OAuth2Credentials("..."));
 
 var accountId = client.Identity.Whoami().Data.Account.Id;
 var domains = client.Domains.ListDomains(accountId).Data.Domains;
-
 ```
 
-# Create a domain
+### Create a domain
 
 ```c#
 using dnsimple;
@@ -83,7 +83,7 @@ var accountId = client.Identity.Whoami().Data.Account.Id;
 var domain = client.Domains.CreateDomain(accountId, "example.com").Data;
 ```
 
-# Get a domain
+### Retrieve a domain
 
 ```c#
 using dnsimple;
@@ -96,7 +96,6 @@ var domainId = client.Domains.ListDomains(accountId).Data.First().Id;
 var domain = client.Domains.GetDomain(accountId, domainId).Data;
 ```
 
-For the full library documentation visit: **COMING SOON**
 
 ## Sandbox Environment
 
@@ -115,6 +114,21 @@ client.AddCredentials(credentials);
 ```
 
 You will need to ensure that you are using an access token created in the sandbox environment. Production tokens will *not* work in the sandbox environment.
+
+
+## Setting a custom `User-Agent` header
+
+You can customize the `User-Agent` header for the calls made to the DNSimple API:
+
+```c#
+var client = new Client();
+client.SetUserAgent("my-app/1.0");
+```
+
+The value you provide will be prepended to the default `User-Agent` the client uses. For example, if you use `my-app/1.0`, the final header value will be `my-app/1.0 dnsimple-csharp/0.14.0` (note that it will vary depending on the client version).
+
+We recommend to customize the user agent. If you are building a library or integration on top of the official client, customizing the client will help us to understand what is this client used for, and allow to contribute back or get in touch.
+
 
 ## License
 
