@@ -12,7 +12,7 @@ cd dnsimple-csharp
 
 #### 2. Install dependencies
 
-Install [.NET]() [mono](https://www.mono-project.com/)
+Install .NET [mono](https://www.mono-project.com/)
 
 ```
 brew install mono
