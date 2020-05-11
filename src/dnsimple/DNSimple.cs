@@ -246,11 +246,16 @@ namespace dnsimple
         /// </summary>
         public string Version { get; } = "v2";
 
+        public string UserAgent { get; private set; }
+
         /// <summary>
         /// Instance of the <c>RestClientWrapper</c>
         /// </summary>
         /// <see cref="RestClientWrapper"/>
         private RestClientWrapper RestClientWrapper { get; }
+
+        /// <inheritdoc />
+        public HttpService Http { get; private set; }
 
         /// <inheritdoc />
         public AccountsService Accounts { get; private set; }
@@ -263,9 +268,6 @@ namespace dnsimple
 
         /// <inheritdoc/>
         public DomainsService Domains { get; private set; }
-
-        /// <inheritdoc />
-        public HttpService Http { get; private set; }
 
         /// <inheritdoc />
         public IdentityService Identity { get; private set; }
@@ -286,8 +288,6 @@ namespace dnsimple
         public WebhooksService Webhooks { get; private set; }
 
         public ZonesService Zones { get; private set; }
-
-        public string UserAgent { get; private set; }
 
         /// <summary>
         /// Constructs a new Client initializing a new (default)
