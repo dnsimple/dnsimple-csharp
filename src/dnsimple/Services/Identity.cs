@@ -19,13 +19,14 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Sends a request to the DNSimple API <c>/whoami</c> endpoint.
+        /// Retrieves the details about the current authenticated entity used to access the API.
         /// </summary>
         /// <returns>
         /// A <c>WhoamiResponse</c> containing the User and/or Account.
         /// </returns>
         /// <see cref="WhoamiResponse"/>
         /// <see cref="WhoamiData"/>
+        /// <see>https://developer.dnsimple.com/v2/identity/#whoami</see>
         public WhoamiResponse Whoami()
         {
             return new WhoamiResponse(
