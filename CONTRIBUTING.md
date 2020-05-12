@@ -18,7 +18,7 @@ cd dnsimple-csharp
     
 - macOS
 
-    Install [.NET] [mono](https://www.mono-project.com/) either by [dowloading mono](https://www.mono-project.com/download/stable/#download-mac)
+    Install .NET [mono](https://www.mono-project.com/) either by [dowloading mono](https://www.mono-project.com/download/stable/#download-mac)
     directly or by using [Homebrew](https://brew.sh)
 
     ```
