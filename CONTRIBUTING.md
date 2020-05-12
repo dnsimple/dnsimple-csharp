@@ -12,17 +12,28 @@ cd dnsimple-csharp
 
 #### 2. Install dependencies
 
-Install [.NET]() [mono](https://www.mono-project.com/)
+- Linux
 
-```
-brew install mono
-```
+    Please follow the instructions on the [Mono Project Page](https://www.mono-project.com/download/stable/#download-lin)
+    
+- macOS
 
-Make sure your dotnet installation is working.
+    Install [.NET]() [mono](https://www.mono-project.com/) either by [dowloading mono](https://www.mono-project.com/download/stable/#download-mac)
+    directly or by using [Homebrew](https://brew.sh)
 
-```shell
-mono --version
-```
+    ```
+    brew install mono
+    ```
+
+    Make sure your dotnet installation is working.
+
+    ```shell
+    mono --version
+    ```
+
+- Windows
+
+    Please follow the instructions on the [Microsoft Docs Website](https://docs.microsoft.com/en-us/dotnet/framework/install)
 
 #### 3. Build and test
 
@@ -31,9 +42,15 @@ dependencies (the first time you'll run the script it will install all the depen
 
 To run the test suite: 
 
-```shell
-./build.sh
-```
+- macOS / *NIX
+    ```shell
+    ./build.sh
+    ```
+  
+- Windows
+    ```shell
+    PS> .\build.ps1
+    ```
 
 ## Releasing
 
@@ -57,6 +74,15 @@ The following instructions uses `$VERSION` as a placeholder, where `$VERSION` is
     ```shell
     git tag -a v$VERSION -s -m "Release $VERSION
     git push origin --tags
+    ```
+ 8. Create the NuGet Package
+    ```shell
+    ./build.sh --target=Package
+    ```
+    
+ 9. Upload the package to [NuGet](https://www.nuget.org/) by using the web interface or pushing the package
+    ```shell
+    nuget push <path/to/file.nupkg>
     ```
 
 ## Testing
