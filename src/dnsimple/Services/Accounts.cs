@@ -22,10 +22,10 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Returns a <c>AccountsResponse</c> containing a list of the accounts
-        /// the authenticated entity has access to.
+        /// Lists the accounts the current authenticated entity has access to.
         /// </summary>
-        /// <returns>An <c>AccountsResponse</c> object</returns>
+        /// <returns>An <c>AccountsResponse</c> containing a list of accounts.</returns>
+        /// <see>https://developer.dnsimple.com/v2/accounts/#listAccounts</see>
         public ListDnsimpleResponse<Account> List()
         {
             return new ListDnsimpleResponse<Account>(

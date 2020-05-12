@@ -53,6 +53,14 @@ namespace dnsimple
         /// </summary>
         string Version { get; }
 
+        string UserAgent { get; }
+
+        /// <summary>
+        /// Instance of the <c>HttpService</c>
+        /// </summary>
+        /// <see cref="HttpService"/>
+        HttpService Http { get; }
+
         /// <summary>
         /// Instance of the <c>AccountsService</c>
         /// </summary>
@@ -80,12 +88,6 @@ namespace dnsimple
         /// <see>https://developer.dnsimple.com/v2/domains/</see>
         /// </summary>
         DomainsService Domains { get; }
-
-        /// <summary>
-        /// Instance of the <c>HttpService</c>
-        /// </summary>
-        /// <see cref="HttpService"/>
-        HttpService Http { get; }
 
         /// <summary>
         /// Instance of the <c>IdentityService</c>
@@ -143,8 +145,6 @@ namespace dnsimple
         /// <see>https://developer.dnsimple.com/v2/zones/</see>
         /// </summary>
         ZonesService Zones { get; }
-
-        string UserAgent { get; }
 
         /// <summary>
         /// Changes the base URL to be used (i.e. to the sandbox environment).
@@ -246,11 +246,16 @@ namespace dnsimple
         /// </summary>
         public string Version { get; } = "v2";
 
+        public string UserAgent { get; private set; }
+
         /// <summary>
         /// Instance of the <c>RestClientWrapper</c>
         /// </summary>
         /// <see cref="RestClientWrapper"/>
         private RestClientWrapper RestClientWrapper { get; }
+
+        /// <inheritdoc />
+        public HttpService Http { get; private set; }
 
         /// <inheritdoc />
         public AccountsService Accounts { get; private set; }
@@ -265,29 +270,31 @@ namespace dnsimple
         public DomainsService Domains { get; private set; }
 
         /// <inheritdoc />
-        public HttpService Http { get; private set; }
-
-        /// <inheritdoc />
         public IdentityService Identity { get; private set; }
 
         /// <inheritdoc />
         public OAuth2Service OAuth { get; private set; }
 
+        /// <inheritdoc />
         public RegistrarService Registrar { get; private set; }
 
+        /// <inheritdoc />
         public ServicesService Services { get; private set; }
 
+        /// <inheritdoc />
         public TldsService Tlds { get; private set; }
 
+        /// <inheritdoc />
         public TemplatesService Templates { get; private set; }
 
+        /// <inheritdoc />
         public VanityNameServersService VanityNameServers { get; private set; }
 
+        /// <inheritdoc />
         public WebhooksService Webhooks { get; private set; }
 
+        /// <inheritdoc />
         public ZonesService Zones { get; private set; }
-
-        public string UserAgent { get; private set; }
 
         /// <summary>
         /// Constructs a new Client initializing a new (default)
@@ -383,12 +390,11 @@ namespace dnsimple
         /// <see cref="OAuth2Service"/>
         private void InitializeServices()
         {
+            Http = new HttpService(RestClientWrapper.RestClient, new RequestBuilder());
             Accounts = new AccountsService(this);
             Certificates = new CertificatesService(this);
             Contacts = new ContactsService(this);
             Domains = new DomainsService(this);
-            Http = new HttpService(RestClientWrapper.RestClient,
-                new RequestBuilder());
             Identity = new IdentityService(this);
             OAuth = new OAuth2Service(Http);
             Registrar = new RegistrarService(this);

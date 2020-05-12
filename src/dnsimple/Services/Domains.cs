@@ -23,7 +23,7 @@ namespace dnsimple.Services
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or ID</param>
-        /// <returns>The domain requested.</returns>
+        /// <returns>A <c>DomainResponse</c> with the requested domain.</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/#getDomain</see>
         public SimpleDnsimpleResponse<Domain> GetDomain(long accountId,
             string domainIdentifier)
@@ -80,7 +80,7 @@ namespace dnsimple.Services
         /// </summary>
         /// <remarks>It cannot be undone.</remarks>
         /// <param name="accountId">The account ID</param>
-        /// <param name="domainIdentifier">The domain name or id</param>
+        /// <param name="domainIdentifier">The domain name or ID</param>
         /// <see>https://developer.dnsimple.com/v2/domains/#deleteDomain</see>
         public EmptyDnsimpleResponse DeleteDomain(long accountId,
             string domainIdentifier)

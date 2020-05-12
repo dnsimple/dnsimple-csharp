@@ -18,7 +18,7 @@ cd dnsimple-csharp
     
 - macOS
 
-    Install [.NET]() [mono](https://www.mono-project.com/) either by [dowloading mono](https://www.mono-project.com/download/stable/#download-mac)
+    Install [.NET] [mono](https://www.mono-project.com/) either by [dowloading mono](https://www.mono-project.com/download/stable/#download-mac)
     directly or by using [Homebrew](https://brew.sh)
 
     ```
@@ -89,5 +89,5 @@ The following instructions uses `$VERSION` as a placeholder, where `$VERSION` is
 
 Submit unit tests for your changes. You can test your changes on your machine by [running the test suite](#testing).
 
-When you submit a PR, tests will also be run on the [continuous integration environment via Travis](https://travis-ci.org/dnsimple/dnsimple-csharp).
+When you submit a PR, tests will also be run on the [continuous integration environment via Travis](https://travis-ci.com/dnsimple/dnsimple-csharp).
 
