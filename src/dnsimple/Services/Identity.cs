@@ -1,8 +1,6 @@
 using System;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
-using RestSharp;
 
 namespace dnsimple.Services
 {
@@ -24,30 +22,13 @@ namespace dnsimple.Services
         /// <returns>
         /// A <c>WhoamiResponse</c> containing the User and/or Account.
         /// </returns>
-        /// <see cref="WhoamiResponse"/>
         /// <see cref="WhoamiData"/>
+        /// <see cref="SimpleDnsimpleResponse{T}"/>
         /// <see>https://developer.dnsimple.com/v2/identity/#whoami</see>
-        public WhoamiResponse Whoami()
+        public SimpleDnsimpleResponse<WhoamiData> Whoami()
         {
-            return new WhoamiResponse(
+            return new SimpleDnsimpleResponse<WhoamiData>(
                 Execute(BuildRequestForPath("/whoami").Request));
-        }
-    }
-
-    /// <summary>
-    /// Represents the <c>WhoamiResponse</c> containing the <c>WhoamiData</c>
-    /// <c>struct</c>.
-    /// </summary>
-    public class WhoamiResponse : SimpleDnsimpleResponse<WhoamiData>
-    {
-        /// <summary>
-        /// Constructs a new <c>WhoamiResponse</c> object with the
-        /// <c>JToken</c> object returned from the API call.
-        /// </summary>
-        /// <param name="response"></param>
-        public WhoamiResponse(IRestResponse response) : base(response)
-        {
-            Data = new WhoamiData(JObject.Parse(response.Content));
         }
     }
 
@@ -57,64 +38,19 @@ namespace dnsimple.Services
     /// </summary>
     /// <see cref="Account"/>
     /// <see cref="User"/>
-    public readonly struct WhoamiData
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy),
+        ItemNullValueHandling = NullValueHandling.Ignore)] 
+    public struct WhoamiData
     {
         /// <summary>
         /// The instance of the <c>Account</c> <c>struct</c>.
         /// </summary>
-        public Account Account { get; }
-
+        public Account Account { get; set; }
+        
         /// <summary>
         /// The instance of the <c>User</c> <c>struct</c>.
         /// </summary>
-        public User User { get; }
-
-        /// <summary>
-        /// Constructs a new <c>WhoamiData</c> object by passing the
-        /// <c>JToken</c> and <c>JsonSerializer</c>.
-        /// </summary>
-        /// <remarks>
-        /// <para>
-        /// The <c>JToken</c> object is a <c>JSON</c> object with the data
-        /// from the call to the API.
-        /// </para>
-        /// <para>
-        /// The <c>JsonSerializer</c> contains configurations to be used when
-        /// deserializing the raw data into a <c>Account</c> and/or <c>User</c>
-        /// objects.
-        /// </para>
-        /// </remarks>
-        /// <param name="json"></param>
-        public WhoamiData(JToken json) : this()
-        {
-            Account = AccountPart(json);
-            User = UserPart(json);
-        }
-
-        private static Account AccountPart(JToken json)
-        {
-            try
-            {
-                return JsonTools<Account>.DeserializeObject("data.account",
-                    json);
-            }
-            catch (Exception)
-            {
-                return new Account();
-            }
-        }
-
-        private static User UserPart(JToken json)
-        {
-            try
-            {
-                return JsonTools<User>.DeserializeObject("data.user", json);
-            }
-            catch (Exception)
-            {
-                return new User();
-            }
-        }
+        public User User { get; set; }
     }
 
     /// <summary>
