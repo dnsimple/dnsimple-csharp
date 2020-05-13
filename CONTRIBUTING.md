@@ -72,7 +72,7 @@ The following instructions uses `$VERSION` as a placeholder, where `$VERSION` is
 6. Wait for the CI to complete.
 7. Create a signed tag.
     ```shell
-    git tag -a v$VERSION -s -m "Release $VERSION
+    git tag -a v$VERSION -s -m "Release $VERSION"
     git push origin --tags
     ```
  8. Create the NuGet Package
