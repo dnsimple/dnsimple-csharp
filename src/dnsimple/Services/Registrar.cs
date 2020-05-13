@@ -100,7 +100,7 @@ namespace dnsimple.Services
         /// <see cref="DomainTransfer"/>
         /// <see>https://developer.dnsimple.com/v2/registrar/#transferDomain</see>
         public SimpleDnsimpleResponse<DomainTransfer> TransferDomain(long accountId,
-            string domainName, DomainTransfer transfer)
+            string domainName, DomainTransferInput transfer)
         {
             if (transfer.AuthCode == null)
             {
@@ -211,7 +211,7 @@ namespace dnsimple.Services
     }
 
     /// <summary>
-    /// Represents the data sent to the API when transferring a domain.
+    /// Represents a domain transfer.
     /// </summary>
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy),
         ItemNullValueHandling = NullValueHandling.Ignore)]
@@ -219,17 +219,16 @@ namespace dnsimple.Services
     {
         public long Id { get; set; }
         public long DomainId { get; set; }
-        
+
         [JsonProperty(Required = Required.Always)]
         public long RegistrantId { get; set; }
 
         public string State { get; set; }
         public bool AutoRenew { get; set; }
         public bool WhoisPrivacy { get; set; }
-        
+
         public string AuthCode { get; set; }
-        public string PremiumPrice { get; set; }
-        
+
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }
@@ -270,4 +269,21 @@ namespace dnsimple.Services
         public long Period { get; set; }
         public string PremiumPrice { get; set; }
     }
+
+    /// <summary>
+    /// Represents the data sent to transfer a domain.
+    /// </summary>
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    public struct DomainTransferInput
+    {
+        [JsonProperty(Required = Required.Always)]
+        public long RegistrantId { get; set; }
+
+        public bool AutoRenew { get; set; }
+        public bool WhoisPrivacy { get; set; }
+
+        public string AuthCode { get; set; }
+        public string PremiumPrice { get; set; }
+    }
+
 }

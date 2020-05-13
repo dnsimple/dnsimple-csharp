@@ -157,7 +157,7 @@ namespace dnsimple_test.Services
         {
             var client = new MockDnsimpleClient(TransferDomainFixture);
 
-            var transfer = new DomainTransfer
+            var transfer = new DomainTransferInput
             {
                 RegistrantId = 2,
                 AuthCode = "authcode"
@@ -182,7 +182,7 @@ namespace dnsimple_test.Services
             var client =
                 new MockDnsimpleClient(TransferDomainMissingAuthCodeFixture);
 
-            var transfer = new DomainTransfer
+            var transfer = new DomainTransferInput
             {
                 RegistrantId = 2
             };
@@ -206,7 +206,7 @@ namespace dnsimple_test.Services
                 new MockDnsimpleClient(TransferDomainMissingAuthCodeFixture);
             client.StatusCode(HttpStatusCode.BadRequest);
 
-            var transfer = new DomainTransfer
+            var transfer = new DomainTransferInput
             {
                 RegistrantId = 2,
                 AuthCode = ""
@@ -229,7 +229,7 @@ namespace dnsimple_test.Services
                 new MockDnsimpleClient(TransferDomainErrorInDnsimpleFixture);
             client.StatusCode(HttpStatusCode.BadRequest);
 
-            var transfer = new DomainTransfer
+            var transfer = new DomainTransferInput
             {
                 RegistrantId = 2,
                 AuthCode = "gimmegoogle"
