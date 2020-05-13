@@ -141,7 +141,7 @@ namespace dnsimple.Services
         /// <param name="accountId">The account Id</param>
         /// <param name="domainName">The domain name</param>
         /// <remarks>This will unlock a domain and send the authorization code
-        /// to the domain’s administrative contact.</remarks>
+        /// to the domain's administrative contact.</remarks>
         /// <see>https://developer.dnsimple.com/v2/registrar/#authorizeDomainTransferOut</see>
         public EmptyDnsimpleResponse TransferDomainOut(long accountId, string domainName)
         {

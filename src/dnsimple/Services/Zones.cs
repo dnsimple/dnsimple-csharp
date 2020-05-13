@@ -71,7 +71,7 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Checks if a zone change is fully distributed to all our nameservers
+        /// Checks if a zone change is fully distributed to all our name servers
         /// across the globe.
         /// </summary>
         /// <param name="accountId">The account id</param>

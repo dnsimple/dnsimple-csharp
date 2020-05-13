@@ -130,7 +130,7 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Checks if a zone change is fully distributed to all our nameservers
+        /// Checks if a zone change is fully distributed to all our name servers
         /// across the globe.
         /// </summary>
         /// <remarks>This feature is not available for testing in our Sandbox environment.</remarks>
