@@ -11,9 +11,9 @@ namespace dnsimple.Services
     /// Provides access to the DNSimple Registrar API.
     /// </summary>
     /// <see>https://developer.dnsimple.com/v2/registrar/</see>
-    public partial class RegistrarService : Service
+    public partial class RegistrarService : ServiceBase
     {
-        /// <inheritdoc cref="Service"/>
+        /// <inheritdoc cref="ServiceBase"/>
         public RegistrarService(IClient client) : base(client)
         {
         }
@@ -24,10 +24,10 @@ namespace dnsimple.Services
         /// <param name="accountId">The account Id</param>
         /// <param name="domainName">The domain name to check</param>
         /// <returns>The check domain response</returns>
-        public SimpleDnsimpleResponse<DomainCheckData> CheckDomain(long accountId,
+        public SimpleDnsimpleResponse<DomainCheck> CheckDomain(long accountId,
             string domainName)
         {
-            return new SimpleDnsimpleResponse<DomainCheckData>(Execute(
+            return new SimpleDnsimpleResponse<DomainCheck>(Execute(
                 BuildRequestForPath(DomainCheckPath(accountId,
                     domainName)).Request));
         }
@@ -47,7 +47,7 @@ namespace dnsimple.Services
         /// different price, you should specify it with the action
         /// param.</remarks>
         /// <see>https://developer.dnsimple.com/v2/registrar/#getDomainPremiumPrice</see>
-        public SimpleDnsimpleResponse<DomainPremiumPriceData> GetDomainPremiumPrice(long accountId,
+        public SimpleDnsimpleResponse<DomainPremiumPrice> GetDomainPremiumPrice(long accountId,
             string domainName, PremiumPriceCheckAction action)
         {
             var builder = BuildRequestForPath(
@@ -56,7 +56,7 @@ namespace dnsimple.Services
                 new KeyValuePair<string, string>("action",
                     action.ToString().ToLower()));
 
-            return new SimpleDnsimpleResponse<DomainPremiumPriceData>(
+            return new SimpleDnsimpleResponse<DomainPremiumPrice>(
                Execute(builder.Request));
         }
 
@@ -203,7 +203,7 @@ namespace dnsimple.Services
     /// Represents the domain check.
     /// </summary>
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public struct DomainCheckData
+    public struct DomainCheck
     {
         public string Domain { get; set; }
         public bool Available { get; set; }
@@ -239,7 +239,7 @@ namespace dnsimple.Services
     /// a domain.
     /// </summary>
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public struct DomainPremiumPriceData
+    public struct DomainPremiumPrice
     {
         public string PremiumPrice { get; set; }
         public string Action { get; set; }

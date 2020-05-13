@@ -11,10 +11,10 @@ namespace dnsimple.Services
     /// Handles communication with the service related methods of the
     /// DNSimple API.
     /// </summary>
-    /// <see cref="Service"/>
-    public partial class ServicesService : Service
+    /// <see cref="ServiceBase"/>
+    public partial class ServicesService : ServiceBase
     {
-        /// <inheritdoc cref="Service"/>
+        /// <inheritdoc cref="ServiceBase"/>
         public ServicesService(IClient client) : base(client)
         {
         }
@@ -26,14 +26,14 @@ namespace dnsimple.Services
         /// pagination).</param>
         /// <returns>A list of all the one-click services available</returns>
         /// <see>https://developer.dnsimple.com/v2/services/#listServices</see>
-        public PaginatedDnsimpleResponse<ServiceData> ListServices(
+        public PaginatedDnsimpleResponse<Service> ListServices(
             ListServicesOptions options = null)
         {
             var builder = BuildRequestForPath(ServicesPath());
 
             AddListOptionsToRequest(options, ref builder);
 
-            return new PaginatedDnsimpleResponse<ServiceData>(
+            return new PaginatedDnsimpleResponse<Service>(
                 Execute(builder.Request));
         }
 
@@ -43,9 +43,9 @@ namespace dnsimple.Services
         /// <param name="service">The service name or id</param>
         /// <returns>The one-click service requested.</returns>
         /// <see>https://developer.dnsimple.com/v2/services/#getService</see>
-        public SimpleDnsimpleResponse<ServiceData> GetService(string service)
+        public SimpleDnsimpleResponse<Service> GetService(string service)
         {
-            return new SimpleDnsimpleResponse<ServiceData>(
+            return new SimpleDnsimpleResponse<Service>(
                 Execute(BuildRequestForPath(ServicePath(service)).Request));
         }
     }
@@ -54,7 +54,7 @@ namespace dnsimple.Services
     /// Represents a one-click service.
     /// </summary>
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public struct ServiceData
+    public struct Service
     {
         public long Id { get; set; }
         public string Name { get; set; }
@@ -65,14 +65,14 @@ namespace dnsimple.Services
         public string DefaultSubdomain { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-        public IList<ServiceSettingData> Settings { get; set; }
+        public IList<ServiceSetting> Settings { get; set; }
     }
 
     /// <summary>
     /// Represents a single group of settings for a DNSimple Service.
     /// </summary>
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public struct ServiceSettingData
+    public struct ServiceSetting
     {
         public string Name { get; set; }
         public string Label { get; set; }

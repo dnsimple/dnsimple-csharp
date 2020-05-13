@@ -1,7 +1,5 @@
 using System.Net;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
 using RestSharp;
 
 namespace dnsimple.Services
@@ -106,41 +104,6 @@ namespace dnsimple.Services
                 default:
                     throw new DnSimpleException(message);
             }
-        }
-    }
-
-    /// <summary>
-    /// Represents a <c>Pagination</c> object
-    /// </summary>
-    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public struct PaginationData
-    {
-        /// <summary>
-        /// The current page we are at.
-        /// </summary>
-        public long CurrentPage { get; set; }
-        /// <summary>
-        /// How many entries we want per page.
-        /// </summary>
-        public long PerPage { get; set; }
-        /// <summary>
-        /// The total number of entries found.
-        /// </summary>
-        public long TotalEntries { get; set; }
-        /// <summary>
-        /// The total number of pages.
-        /// </summary>
-        public long TotalPages { get; set; }
-
-        /// <summary>
-        /// Extracts the <c>Pagination struct</c> from the <c>JToken</c>.
-        /// </summary>
-        /// <param name="json"></param>
-        /// <returns>A <c>Pagination</c> object</returns>
-        /// <see cref="JToken"/>
-        public static PaginationData From(JToken json)
-        {
-            return json.SelectToken("pagination").ToObject<PaginationData>();
         }
     }
 }

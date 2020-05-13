@@ -11,10 +11,10 @@ namespace dnsimple.Services
     /// Handles communication with the template related methods of the
     /// DNSimple API.
     /// </summary>
-    /// <see cref="Service"/>
-    public partial class TemplatesService : Service
+    /// <see cref="ServiceBase"/>
+    public partial class TemplatesService : ServiceBase
     {
-        /// <inheritdoc cref="Service"/>
+        /// <inheritdoc cref="ServiceBase"/>
         public TemplatesService(IClient client) : base(client)
         {
         }
@@ -76,7 +76,7 @@ namespace dnsimple.Services
         /// </summary>
         /// <param name="accountId">The account id</param>
         /// <param name="template">The template id or shot name (sid)</param>
-        /// <param name="payload">The <c>TemplateData</c> struct with the fields
+        /// <param name="payload">The <c>Template</c> struct with the fields
         /// we want to update</param>
         /// <returns>The newly updated template</returns>
         /// <see>https://developer.dnsimple.com/v2/templates/#updateTemplate</see>

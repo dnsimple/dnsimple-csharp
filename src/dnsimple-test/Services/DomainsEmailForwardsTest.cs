@@ -5,6 +5,7 @@ using System.Linq;
 using dnsimple.Services;
 using dnsimple.Services.ListOptions;
 using NUnit.Framework;
+using Pagination = dnsimple.Services.ListOptions.Pagination;
 
 namespace dnsimple_test.Services
 {
@@ -74,7 +75,7 @@ namespace dnsimple_test.Services
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(2, emailForwards.Data.Count);
-                Assert.AreEqual(1, emailForwards.PaginationData.CurrentPage);
+                Assert.AreEqual(1, emailForwards.Pagination.CurrentPage);
 
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
@@ -99,7 +100,7 @@ namespace dnsimple_test.Services
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(2, emailForwards.Data.Count);
-                Assert.AreEqual(1, emailForwards.PaginationData.CurrentPage);
+                Assert.AreEqual(1, emailForwards.Pagination.CurrentPage);
 
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });

@@ -8,11 +8,11 @@ using static dnsimple.Services.Paths;
 
 namespace dnsimple.Services
 {
-    /// <inheritdoc cref="Service"/>
+    /// <inheritdoc cref="ServiceBase"/>
     /// <see>https://developer.dnsimple.com/v2/certificates/</see>
-    public class CertificatesService : Service
+    public class CertificatesService : ServiceBase
     {
-        /// <inheritdoc cref="Service"/>
+        /// <inheritdoc cref="ServiceBase"/>
         public CertificatesService(IClient client) : base(client)
         {
         }
@@ -185,7 +185,7 @@ namespace dnsimple.Services
         /// <param name="renewal">The renewal object.</param>
         /// <returns>The renewal data.</returns>
         /// <see>https://developer.dnsimple.com/v2/certificates/#purchaseRenewalLetsencryptCertificate</see>
-        public SimpleDnsimpleResponse<LetsEncryptRenewalData>
+        public SimpleDnsimpleResponse<LetsEncryptRenewal>
             PurchaseLetsEncryptCertificateRenewal(
                 long accountId, string domainName, long certificateId,
                 LetsEncryptRenewal renewal)
@@ -196,7 +196,7 @@ namespace dnsimple.Services
             builder.Method(Method.POST);
             builder.AddJsonPayload(renewal);
 
-            return new SimpleDnsimpleResponse<LetsEncryptRenewalData>(
+            return new SimpleDnsimpleResponse<LetsEncryptRenewal>(
                 Execute(builder.Request));
         }
 
@@ -226,8 +226,9 @@ namespace dnsimple.Services
     /// <summary>
     /// Represents the letsencrypt renewal data.
     /// </summary>
-    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public struct LetsEncryptRenewalData
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy),
+        ItemNullValueHandling = NullValueHandling.Ignore)]
+    public struct LetsEncryptRenewal
     {
         public long Id { get; set; }
         public long OldCertificateId { get; set; }
@@ -236,16 +237,6 @@ namespace dnsimple.Services
         public bool? AutoRenew { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-    }
-
-    /// <summary>
-    /// Represents the data we send to the server when renewing a letsencrypt
-    /// certificate.
-    /// </summary>
-    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public struct LetsEncryptRenewal
-    {
-        public bool AutoRenew { get; set; }
     }
 
     /// <summary>

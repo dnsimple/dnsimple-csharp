@@ -1,10 +1,7 @@
 using System;
-using System.Collections.Generic;
 using dnsimple.Services.ListOptions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
-using static dnsimple.Services.JsonTools<dnsimple.Services.ZoneData>;
 using static dnsimple.Services.Paths;
 
 namespace dnsimple.Services
@@ -14,9 +11,9 @@ namespace dnsimple.Services
     /// methods of the DNSimple API.
     /// </summary>
     /// <see>https://developer.dnsimple.com/v2/zones/</see>
-    public partial class ZonesService : Service
+    public partial class ZonesService : ServiceBase
     {
-        /// <inheritdoc cref="Service"/>
+        /// <inheritdoc cref="ServiceBase"/>
         public ZonesService(IClient client) : base(client)
         {
         }
@@ -30,14 +27,14 @@ namespace dnsimple.Services
         /// <returns>A <c>ZonesResponse</c> containing a list of zones for
         /// the account.</returns>
         /// <see>https://developer.dnsimple.com/v2/zones/#listZones</see>
-        public PaginatedDnsimpleResponse<ZonesData> ListZones(long accountId,
+        public PaginatedDnsimpleResponse<Zone> ListZones(long accountId,
             ZonesListOptions options = null)
         {
             var builder = BuildRequestForPath(ZonesPath(accountId));
 
             AddListOptionsToRequest(options, ref builder);
 
-            return new PaginatedDnsimpleResponse<ZonesData>(
+            return new PaginatedDnsimpleResponse<Zone>(
                 Execute(builder.Request));
         }
 
@@ -48,10 +45,10 @@ namespace dnsimple.Services
         /// <param name="zoneName">The zone name</param>
         /// <returns>A <c>ZoneResponse</c> containing the zone.</returns>
         /// <see>https://developer.dnsimple.com/v2/zones/#getZone</see>
-        public SimpleDnsimpleResponse<ZoneData> GetZone(long accountId,
+        public SimpleDnsimpleResponse<Zone> GetZone(long accountId,
             string zoneName)
         {
-            return new SimpleDnsimpleResponse<ZoneData>(
+            return new SimpleDnsimpleResponse<Zone>(
                 Execute(BuildRequestForPath(ZonePath(accountId, zoneName))
                     .Request));
         }
@@ -89,32 +86,11 @@ namespace dnsimple.Services
     }
 
     /// <summary>
-    /// Represents the <c>struct</c> containing a <c>List</c> of <c>ZoneData</c>
-    /// objects.
-    /// </summary>
-    /// <see cref="List{T}"/>
-    /// <see cref="ZoneData"/>
-    public readonly struct ZonesData
-    {
-        /// <summary>
-        /// The list of zones.
-        /// </summary>
-        public List<ZoneData> Zones { get; }
-
-        /// <summary>
-        /// Creates a new <c>ZonesData</c> object.
-        /// </summary>
-        /// <param name="json">The json payload containing the raw data.</param>
-        public ZonesData(JToken json) =>
-            Zones = DeserializeList(json);
-    }
-
-    /// <summary>
     /// Represents a zone.
     /// </summary>
     /// <see>https://developer.dnsimple.com/v2/zones/#zones-attributes</see>
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public struct ZoneData
+    public struct Zone
     {
         public long Id { get; set; }
         public long AccountId { get; set; }

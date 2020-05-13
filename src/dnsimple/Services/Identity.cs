@@ -9,9 +9,9 @@ namespace dnsimple.Services
     /// of the DNSimple API.
     /// </summary>
     /// <see>https://developer.dnsimple.com/v2/identity/</see>
-    public class IdentityService : Service
+    public class IdentityService : ServiceBase
     {
-        /// <inheritdoc cref="Service"/>
+        /// <inheritdoc cref="ServiceBase"/>
         public IdentityService(IClient client) : base(client)
         {
         }
@@ -22,12 +22,12 @@ namespace dnsimple.Services
         /// <returns>
         /// A <c>WhoamiResponse</c> containing the User and/or Account.
         /// </returns>
-        /// <see cref="WhoamiData"/>
+        /// <see cref="Services.Whoami"/>
         /// <see cref="SimpleDnsimpleResponse{T}"/>
         /// <see>https://developer.dnsimple.com/v2/identity/#whoami</see>
-        public SimpleDnsimpleResponse<WhoamiData> Whoami()
+        public SimpleDnsimpleResponse<Whoami> Whoami()
         {
-            return new SimpleDnsimpleResponse<WhoamiData>(
+            return new SimpleDnsimpleResponse<Whoami>(
                 Execute(BuildRequestForPath("/whoami").Request));
         }
     }
@@ -40,7 +40,7 @@ namespace dnsimple.Services
     /// <see cref="User"/>
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy),
         ItemNullValueHandling = NullValueHandling.Ignore)] 
-    public struct WhoamiData
+    public struct Whoami
     {
         /// <summary>
         /// The instance of the <c>Account</c> <c>struct</c>.

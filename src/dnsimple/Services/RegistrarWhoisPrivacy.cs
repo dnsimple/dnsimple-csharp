@@ -20,11 +20,11 @@ namespace dnsimple.Services
         /// <param name="domain">The domain name or id</param>
         /// <returns>The WHOIS privacy for the domain</returns>
         /// <see>https://developer.dnsimple.com/v2/registrar/whois-privacy/#getWhoisPrivacy</see>
-        public SimpleDnsimpleResponse<WhoisPrivacyData> GetWhoisPrivacy(
+        public SimpleDnsimpleResponse<WhoisPrivacy> GetWhoisPrivacy(
             long accountId,
             string domain)
         {
-            return new SimpleDnsimpleResponse<WhoisPrivacyData>(
+            return new SimpleDnsimpleResponse<WhoisPrivacy>(
                 Execute(BuildRequestForPath(WhoisPrivacyPath(accountId, domain))
                     .Request));
         }
@@ -44,7 +44,7 @@ namespace dnsimple.Services
         /// <param name="domain">The domain name or id</param>
         /// <returns>The WHOIS privacy for the domain</returns>
         /// <see>https://developer.dnsimple.com/v2/registrar/whois-privacy/#enableWhoisPrivacy</see>
-        public SimpleDnsimpleResponse<WhoisPrivacyData> EnableWhoisPrivacy(
+        public SimpleDnsimpleResponse<WhoisPrivacy> EnableWhoisPrivacy(
             long accountId,
             string domain)
         {
@@ -52,7 +52,7 @@ namespace dnsimple.Services
                 BuildRequestForPath(WhoisPrivacyPath(accountId, domain));
             builder.Method(Method.PUT);
 
-            return new SimpleDnsimpleResponse<WhoisPrivacyData>(
+            return new SimpleDnsimpleResponse<WhoisPrivacy>(
                 Execute(builder.Request));
         }
 
@@ -69,14 +69,14 @@ namespace dnsimple.Services
         /// <param name="domain">The domain name or id</param>
         /// <returns>The WHOIS privacy response for the domain</returns>
         /// <see>https://developer.dnsimple.com/v2/registrar/whois-privacy/#disableWhoisPrivacy</see>
-        public SimpleDnsimpleResponse<WhoisPrivacyData> DisableWhoisPrivacy(
+        public SimpleDnsimpleResponse<WhoisPrivacy> DisableWhoisPrivacy(
             long accountId,
             string domain)
         {
             var builder = BuildRequestForPath(WhoisPrivacyPath(accountId, domain));
             builder.Method(Method.DELETE);
 
-            return new SimpleDnsimpleResponse<WhoisPrivacyData>(
+            return new SimpleDnsimpleResponse<WhoisPrivacy>(
                 Execute(builder.Request));
         }
 
@@ -87,14 +87,14 @@ namespace dnsimple.Services
         /// <param name="domain">The domain name or id</param>
         /// <returns>A whois renewal response with the renewal information</returns>
         /// <see>https://developer.dnsimple.com/v2/registrar/whois-privacy/#renewWhoisPrivacy</see>
-        public SimpleDnsimpleResponse<WhoisPrivacyRenewalData>
+        public SimpleDnsimpleResponse<WhoisPrivacyRenewal>
             RenewWhoisPrivacy(long accountId,
                 string domain)
         {
             var builder = BuildRequestForPath(WhoisRenewalPath(accountId, domain));
             builder.Method(Method.POST);
 
-            return new SimpleDnsimpleResponse<WhoisPrivacyRenewalData>(
+            return new SimpleDnsimpleResponse<WhoisPrivacyRenewal>(
                 Execute(builder.Request));
         }
     }
@@ -103,7 +103,7 @@ namespace dnsimple.Services
     /// Represents the WHOIS privacy data for a domain.
     /// </summary>
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public struct WhoisPrivacyData
+    public struct WhoisPrivacy
     {
         public long Id { get; set; }
         public long DomainId { get; set; }
@@ -117,7 +117,7 @@ namespace dnsimple.Services
     /// Represents the WHOIS privacy renewal data for a domain.
     /// </summary>
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public struct WhoisPrivacyRenewalData
+    public struct WhoisPrivacyRenewal
     {
         public long Id { get; set; }
         public long DomainId { get; set; }

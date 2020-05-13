@@ -19,7 +19,7 @@ namespace dnsimple.Services
         /// <param name="email">The email address of the target DNSimple account.</param>
         /// <returns>The newly created push.</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/pushes/#initiateDomainPush</see>
-        public SimpleDnsimpleResponse<PushData> InitiatePush(long accountId,
+        public SimpleDnsimpleResponse<Push> InitiatePush(long accountId,
             string domainIdentifier, string email)
         {
             if(string.IsNullOrEmpty(email))
@@ -31,7 +31,7 @@ namespace dnsimple.Services
 
             builder.AddJsonPayload(PushPayload("new_account_email", email));
 
-            return new SimpleDnsimpleResponse<PushData>(Execute(builder.Request));
+            return new SimpleDnsimpleResponse<Push>(Execute(builder.Request));
         }
 
         /// <summary>
@@ -40,9 +40,9 @@ namespace dnsimple.Services
         /// <param name="accountId">The account id</param>
         /// <returns>A list of the pending pushes.</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/pushes/#listPushes</see>
-        public PaginatedDnsimpleResponse<PushData> ListPushes(long accountId)
+        public PaginatedDnsimpleResponse<Push> ListPushes(long accountId)
         {
-            return new PaginatedDnsimpleResponse<PushData>(
+            return new PaginatedDnsimpleResponse<Push>(
                 Execute(BuildRequestForPath(PushPath(accountId)).Request));
         }
 
@@ -92,7 +92,7 @@ namespace dnsimple.Services
     /// Represents a pending push.
     /// </summary>
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public struct PushData
+    public struct Push
     {
         public long Id { get; set; }
         public long DomainId { get; set; }

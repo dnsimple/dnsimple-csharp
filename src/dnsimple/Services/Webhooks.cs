@@ -11,9 +11,9 @@ namespace dnsimple.Services
     /// methods of the DNSimple API.
     /// </summary>
     /// <see>https://developer.dnsimple.com/v2/webhooks/</see>
-    public class WebhooksService : Service
+    public class WebhooksService : ServiceBase
     {
-        /// <inheritdoc cref="Service" />
+        /// <inheritdoc cref="ServiceBase" />
         public WebhooksService(IClient client) : base(client)
         {
         }

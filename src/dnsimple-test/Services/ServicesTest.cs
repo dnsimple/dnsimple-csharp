@@ -4,6 +4,7 @@ using System.Linq;
 using dnsimple.Services;
 using dnsimple.Services.ListOptions;
 using NUnit.Framework;
+using Pagination = dnsimple.Services.ListOptions.Pagination;
 
 namespace dnsimple_test.Services
 {
@@ -32,7 +33,7 @@ namespace dnsimple_test.Services
         [Test]
         public void ListServicesResponse()
         {
-            var services = new PaginatedDnsimpleResponse<ServiceData>(_response).Data;
+            var services = new PaginatedDnsimpleResponse<Service>(_response).Data;
             var service = services.First();
             var serviceSetting = services.Last().Settings.First();
             

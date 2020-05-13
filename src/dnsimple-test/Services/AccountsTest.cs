@@ -1,6 +1,5 @@
 using System.Linq;
 using dnsimple.Services;
-using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 
 namespace dnsimple_test.Services
@@ -8,7 +7,6 @@ namespace dnsimple_test.Services
     [TestFixture]
     public class AccountsTest
     {
-        private JToken _jToken;
         private MockResponse _response;
 
         [SetUp]
@@ -18,22 +16,20 @@ namespace dnsimple_test.Services
                 new FixtureLoader("v2", "accounts/success-user.http");
                 
             _response = new MockResponse(loader);
-            
-            _jToken = JObject.Parse(loader.ExtractJsonPayload());
         }
 
         [Test]
         public void AccountsData()
         {
-            var accountsData = new AccountsData(_jToken);
+            var accountsData = new ListDnsimpleResponse<Account>(_response);
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(123, accountsData.Accounts.First().Id);
+                Assert.AreEqual(123, accountsData.Data.First().Id);
                 Assert.AreEqual("john@example.com",
-                    accountsData.Accounts.First().Email);
+                    accountsData.Data.First().Email);
                 Assert.AreEqual("dnsimple-personal",
-                    accountsData.Accounts.First().PlanIdentifier);
+                    accountsData.Data.First().PlanIdentifier);
             });
         }
 

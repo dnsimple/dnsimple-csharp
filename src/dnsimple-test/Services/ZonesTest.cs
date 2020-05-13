@@ -6,15 +6,14 @@ using System.Net;
 using dnsimple;
 using dnsimple.Services;
 using dnsimple.Services.ListOptions;
-using Newtonsoft.Json.Linq;
 using NUnit.Framework;
+using Pagination = dnsimple.Services.ListOptions.Pagination;
 
 namespace dnsimple_test.Services
 {
     [TestFixture]
     public class ZonesTest
     {
-        private JToken _jToken;
         private MockResponse _response;
         
         private const string ListZonesFixture = "listZones/success.http";
@@ -41,13 +40,12 @@ namespace dnsimple_test.Services
         {
             var loader = new FixtureLoader("v2", ListZonesFixture);
             _response = new MockResponse(loader);
-            _jToken = JObject.Parse(loader.ExtractJsonPayload());
         }
 
         [Test]
-        public void ZonesData()
+        public void Zones()
         {
-            var zones = new ZonesData(_jToken).Zones;
+            var zones = new PaginatedDnsimpleResponse<Zone>(_response).Data;
 
             Assert.Multiple(() =>
             {
@@ -63,7 +61,7 @@ namespace dnsimple_test.Services
         [Test]
         public void ZonesResponse()
         {
-            var response = new PaginatedDnsimpleResponse<ZonesData>(_response);
+            var response = new PaginatedDnsimpleResponse<Zone>(_response);
 
             Assert.AreEqual(2, response.Data.Count);
         }
@@ -78,7 +76,7 @@ namespace dnsimple_test.Services
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(2, response.Data.Count);
-                Assert.AreEqual(1, response.PaginationData.CurrentPage);
+                Assert.AreEqual(1, response.Pagination.CurrentPage);
                 
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
@@ -106,7 +104,7 @@ namespace dnsimple_test.Services
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(2, response.Data.Count);
-                Assert.AreEqual(1, response.PaginationData.CurrentPage);
+                Assert.AreEqual(1, response.Pagination.CurrentPage);
                 
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });

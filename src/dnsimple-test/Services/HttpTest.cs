@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using dnsimple;
 using dnsimple.Services;
+using dnsimple.Services.ListOptions;
 using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -193,7 +194,7 @@ namespace dnsimple_test.Services
         [Test]
         public void ReturnsAPaginationStruct()
         {
-            var pagination = PaginationData.From(_jToken);
+            var pagination = Pagination.From(_jToken);
 
             Assert.Multiple(() =>
             {

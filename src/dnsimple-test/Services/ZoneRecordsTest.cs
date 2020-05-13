@@ -6,16 +6,15 @@ using System.Net;
 using dnsimple;
 using dnsimple.Services;
 using dnsimple.Services.ListOptions;
-using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using RestSharp;
+using Pagination = dnsimple.Services.ListOptions.Pagination;
 
 namespace dnsimple_test.Services
 {
     [TestFixture]
     public class ZoneRecordsTest
     {
-        private JToken _jToken;
         private MockResponse _response;
 
         private const string ListZoneRecordsFixture =
@@ -56,13 +55,12 @@ namespace dnsimple_test.Services
         {
             var loader = new FixtureLoader("v2", ListZoneRecordsFixture);
             _response = new MockResponse(loader);
-            _jToken = JObject.Parse(loader.ExtractJsonPayload());
         }
 
         [Test]
         public void ZoneRecordData()
         {
-            var records = new ZoneRecords(_jToken).Records;
+            var records = new PaginatedDnsimpleResponse<ZoneRecord>(_response).Data;
             var record = records.First();
 
             Assert.Multiple(() =>
@@ -87,7 +85,7 @@ namespace dnsimple_test.Services
         [Test]
         public void ZoneRecordsResponse()
         {
-            var response = new PaginatedDnsimpleResponse<ZoneRecords>(_response);
+            var response = new PaginatedDnsimpleResponse<ZoneRecord>(_response);
 
             Assert.AreEqual(5, response.Data.Count);
         }
@@ -103,7 +101,7 @@ namespace dnsimple_test.Services
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(5, response.Data.Count);
-                Assert.AreEqual(1, response.PaginationData.CurrentPage);
+                Assert.AreEqual(1, response.Pagination.CurrentPage);
 
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });

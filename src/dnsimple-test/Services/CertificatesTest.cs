@@ -7,6 +7,7 @@ using dnsimple.Services;
 using dnsimple.Services.ListOptions;
 using NUnit.Framework;
 using RestSharp;
+using Pagination = dnsimple.Services.ListOptions.Pagination;
 
 namespace dnsimple_test.Services
 {
@@ -134,7 +135,7 @@ namespace dnsimple_test.Services
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(2, response.Data.Count);
-                Assert.AreEqual(1, response.PaginationData.CurrentPage);
+                Assert.AreEqual(1, response.Pagination.CurrentPage);
 
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
@@ -165,7 +166,7 @@ namespace dnsimple_test.Services
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(2, response.Data.Count);
-                Assert.AreEqual(1, response.PaginationData.CurrentPage);
+                Assert.AreEqual(1, response.Pagination.CurrentPage);
 
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });

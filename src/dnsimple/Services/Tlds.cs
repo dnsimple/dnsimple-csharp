@@ -6,11 +6,11 @@ using static dnsimple.Services.Paths;
 
 namespace dnsimple.Services
 {
-    /// <inheritdoc cref="Service"/>
+    /// <inheritdoc cref="ServiceBase"/>
     /// <see>https://developer.dnsimple.com/v2/tlds/</see>
-    public class TldsService : Service
+    public class TldsService : ServiceBase
     {
-        /// <inheritdoc cref="Service"/>
+        /// <inheritdoc cref="ServiceBase"/>
         public TldsService(IClient client) : base(client)
         {
         }

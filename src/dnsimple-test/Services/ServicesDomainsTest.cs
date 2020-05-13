@@ -26,7 +26,7 @@ namespace dnsimple_test.Services
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(1, services.Data.Count);
-                Assert.AreEqual(30, services.PaginationData.PerPage);
+                Assert.AreEqual(30, services.Pagination.PerPage);
 
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });

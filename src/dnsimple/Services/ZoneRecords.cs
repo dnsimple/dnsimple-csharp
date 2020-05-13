@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using dnsimple.Services.ListOptions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using RestSharp;
-using static dnsimple.Services.JsonTools<dnsimple.Services.ZoneRecord>;
 using static dnsimple.Services.Paths;
 
 namespace dnsimple.Services
@@ -25,7 +23,7 @@ namespace dnsimple.Services
         /// records for the zone.</returns>
         /// <see cref="ZoneRecordsListOptions"/>
         /// <see>https://developer.dnsimple.com/v2/zones/records/#listZoneRecords</see>
-        public PaginatedDnsimpleResponse<ZoneRecords> ListRecords(
+        public PaginatedDnsimpleResponse<ZoneRecord> ListRecords(
             long accountId, string zoneId,
             ZoneRecordsListOptions options = null)
         {
@@ -34,7 +32,7 @@ namespace dnsimple.Services
 
             AddListOptionsToRequest(options, ref builder);
 
-            return new PaginatedDnsimpleResponse<ZoneRecords>(
+            return new PaginatedDnsimpleResponse<ZoneRecord>(
                 Execute(builder.Request));
         }
 
@@ -147,20 +145,6 @@ namespace dnsimple.Services
                         ZoneRecordDistributionPath(accountId, zoneId, recordId))
                     .Request));
         }
-    }
-
-    /// <summary>
-    /// Represents the struct containing a <c>List</c> of <c>ZoneRecordData</c>
-    /// objects.
-    /// </summary>
-    /// <see cref="List{T}"/>
-    /// <see cref="ZoneRecord"/>
-    public readonly struct ZoneRecords
-    {
-        public List<ZoneRecord> Records { get; }
-
-        public ZoneRecords(JToken json) =>
-            Records = DeserializeList(json);
     }
 
     /// <summary>

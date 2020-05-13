@@ -1,7 +1,3 @@
-using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
-using static dnsimple.Services.JsonTools<dnsimple.Services.Account>;
-
 namespace dnsimple.Services
 {
     /// <summary>
@@ -14,9 +10,9 @@ namespace dnsimple.Services
     /// </code>
     /// </example>
     /// <see>https://developer.dnsimple.com/v2/accounts/</see>
-    public class AccountsService : Service
+    public class AccountsService : ServiceBase
     {
-        /// <inheritdoc cref="Service"/>
+        /// <inheritdoc cref="ServiceBase"/>
         public AccountsService(IClient client) : base(client)
         {
         }
@@ -32,27 +28,5 @@ namespace dnsimple.Services
                 Execute(BuildRequestForPath("/accounts")
                     .Request));
         }
-    }
-
-    /// <summary>
-    /// Represents the data returned from the API call by transforming the
-    /// incoming JSON into a <c>List</c> of <c>Account</c> objects.
-    /// </summary>
-    /// <see>http://developer.dnsimple.com/v2/accounts</see>
-    public readonly struct AccountsData
-    {
-        /// <summary>
-        /// The <c>List</c> of <c>Account</c>s.
-        /// </summary>
-        public List<Account> Accounts { get; }
-
-        /// <summary>
-        /// Creates a new instance of the <c>AccountData</c> object by passing
-        /// a <c>JToken</c> representing the JSON returned by the API call.
-        /// </summary>
-        /// <param name="json"><c>JToken</c> representing the JSON returned</param>
-        /// <see cref="JToken"/>
-        public AccountsData(JToken json) =>
-            Accounts = DeserializeList(json);
     }
 }

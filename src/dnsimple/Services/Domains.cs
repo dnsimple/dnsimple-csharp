@@ -9,11 +9,11 @@ using static dnsimple.Services.Paths;
 
 namespace dnsimple.Services
 {
-    /// <inheritdoc cref="Service"/>
+    /// <inheritdoc cref="ServiceBase"/>
     /// <see>https://developer.dnsimple.com/v2/domains/</see>
-    public partial class DomainsService : Service
+    public partial class DomainsService : ServiceBase
     {
-        /// <inheritdoc cref="Service"/>
+        /// <inheritdoc cref="ServiceBase"/>
         public DomainsService(IClient client) : base(client)
         {
         }

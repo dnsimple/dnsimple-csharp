@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 
 namespace dnsimple.Services.ListOptions
 {
@@ -163,25 +166,46 @@ namespace dnsimple.Services.ListOptions
         asc,
         desc
     }
-
+    
     /// <summary>
-    /// Defines the pagination options.
+    /// Represents a <c>Pagination</c> object
     /// </summary>
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class Pagination
     {
         private const int DefaultPage = 1;
         private const int DefaultPerPage = 30;
         
         /// <summary>
-        /// The items to display per page (defaults to 30).
+        /// The current page we are at.
+        /// </summary>
+        public int CurrentPage { get; set; }
+
+        public int Page { get; set; } = DefaultPage;
+        /// <summary>
+        /// How many entries we want per page.
         /// </summary>
         public int PerPage { get; set; } = DefaultPerPage;
+        /// <summary>
+        /// The total number of entries found.
+        /// </summary>
+        public int TotalEntries { get; set; }
+        /// <summary>
+        /// The total number of pages.
+        /// </summary>
+        public int TotalPages { get; set; }
 
         /// <summary>
-        /// The page number requested (defaults to 1).
+        /// Extracts the <c>Pagination struct</c> from the <c>JToken</c>.
         /// </summary>
-        public int Page { get; set; } = DefaultPage;
-
+        /// <param name="json"></param>
+        /// <returns>A <c>Pagination</c> object</returns>
+        /// <see cref="JToken"/>
+        public static Pagination From(JToken json)
+        {
+            return json.SelectToken("pagination").ToObject<Pagination>();
+        }
+       
         public bool IsDefault()
         {
             return Page == DefaultPage && PerPage == DefaultPerPage;

@@ -12,9 +12,9 @@ namespace dnsimple.Services
     /// related methods of the DNSimple API.
     /// </summary>
     /// <see>https://developer.dnsimple.com/v2/contacts/</see>
-    public class ContactsService : Service
+    public class ContactsService : ServiceBase
     {
-        /// <inheritdoc cref="Service"/>
+        /// <inheritdoc cref="ServiceBase"/>
         public ContactsService(IClient client) : base(client)
         {
         }
@@ -113,7 +113,7 @@ namespace dnsimple.Services
     /// Represents a contact.
     /// </summary>
     /// <see>https://developer.dnsimple.com/v2/openapi.yml</see>
-    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]//, ItemNullValueHandling = NullValueHandling.Ignore)]
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public struct Contact
     {
         public long? Id { get; set; }

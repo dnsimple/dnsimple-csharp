@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
+using dnsimple.Services.ListOptions;
 using Newtonsoft.Json.Linq;
 using RestSharp;
 
 namespace dnsimple.Services
 {
-    public abstract class Service
+    public abstract class ServiceBase
     {
         private IClient Client { get; }
 
@@ -15,7 +16,7 @@ namespace dnsimple.Services
         /// </summary>
         /// <param name="client">An instance of the <c>IClient</c></param>
         /// <see cref="IClient"/>
-        protected Service(IClient client) =>
+        protected ServiceBase(IClient client) =>
             Client = client;
 
         protected RequestBuilder BuildRequestForPath(string path)
@@ -118,7 +119,7 @@ namespace dnsimple.Services
     /// and a pagination.
     /// </summary>
     /// <typeparam name="T">The Data object type contained in the response</typeparam>
-    /// <see cref="PaginationData"/>
+    /// <see cref="Pagination"/>
     public class PaginatedDnsimpleResponse<T> : Response where T : new()
     {
         /// <summary>
@@ -129,15 +130,15 @@ namespace dnsimple.Services
         /// <summary>
         /// The <c>Pagination</c> object containing the pagination data
         /// </summary>
-        /// <see cref="PaginationData"/>
-        public PaginationData PaginationData { get; }
+        /// <see cref="Pagination"/>
+        public Pagination Pagination { get; }
 
         public PaginatedDnsimpleResponse(IRestResponse response) : base(response)
         {
             var json = JObject.Parse(response.Content);
 
             Data = JsonTools<T>.DeserializeList(json);
-            PaginationData = PaginationData.From(json);
+            Pagination = Pagination.From(json);
         }
     }
 }

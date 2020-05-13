@@ -6,11 +6,11 @@ using static dnsimple.Services.Paths;
 
 namespace dnsimple.Services
 {
-    /// <inheritdoc cref="Service"/>
+    /// <inheritdoc cref="ServiceBase"/>
     /// <see>https://developer.dnsimple.com/v2/vanity/</see>
-    public class VanityNameServersService : Service
+    public class VanityNameServersService : ServiceBase
     {
-        /// <inheritdoc cref="Service"/>
+        /// <inheritdoc cref="ServiceBase"/>
         public VanityNameServersService(IClient client) : base(client)
         {
         }

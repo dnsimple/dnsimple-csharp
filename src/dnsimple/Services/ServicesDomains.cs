@@ -13,10 +13,10 @@ namespace dnsimple.Services
         /// <param name="domain">The domain name or id</param>
         /// <returns>The list of services applied to the domain.</returns>
         /// <see>https://developer.dnsimple.com/v2/services/domains/#listDomainAppliedServices</see>
-        public PaginatedDnsimpleResponse<ServiceData> AppliedServices(
+        public PaginatedDnsimpleResponse<Service> AppliedServices(
             long accountId, string domain)
         {
-            return new PaginatedDnsimpleResponse<ServiceData>(
+            return new PaginatedDnsimpleResponse<Service>(
                 Execute(BuildRequestForPath(AppliedServicesPath(accountId, domain))
                     .Request));
         }
