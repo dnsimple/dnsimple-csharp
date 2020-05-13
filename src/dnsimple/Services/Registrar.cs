@@ -71,17 +71,17 @@ namespace dnsimple.Services
         /// successfully. You will be automatically charged the registration
         /// fee upon successful registration, so please be careful with this
         /// command.</remarks>
-        /// <see cref="DomainRegistration"/>
+        /// <see cref="DomainRegistrationInfo"/>
         /// <see>https://developer.dnsimple.com/v2/registrar/#registerDomain</see>
-        public SimpleDnsimpleResponse<RegisteredDomain> RegisterDomain(long accountId,
-            string domainName, DomainRegistration domain)
+        public SimpleDnsimpleResponse<DomainRegistration> RegisterDomain(long accountId,
+            string domainName, DomainRegistrationInfo domain)
         {
             var builder = BuildRequestForPath(
                     DomainRegistrationPath(accountId, domainName));
             builder.Method(Method.POST);
             builder.AddJsonPayload(domain);
 
-            return new SimpleDnsimpleResponse<RegisteredDomain>(
+            return new SimpleDnsimpleResponse<DomainRegistration>(
                 Execute(builder.Request));
         }
 
@@ -99,15 +99,19 @@ namespace dnsimple.Services
         /// 7 days.</remarks>
         /// <see cref="DomainTransfer"/>
         /// <see>https://developer.dnsimple.com/v2/registrar/#transferDomain</see>
-        public SimpleDnsimpleResponse<RegisteredDomain> TransferDomain(long accountId,
+        public SimpleDnsimpleResponse<DomainTransfer> TransferDomain(long accountId,
             string domainName, DomainTransfer transfer)
         {
+            if (transfer.AuthCode == null)
+            {
+                throw new DnSimpleException("Please provide an AuthCode");
+            }
             var builder = BuildRequestForPath(
                     DomainTransferPath(accountId, domainName));
             builder.Method(Method.POST);
             builder.AddJsonPayload(transfer);
 
-            return new SimpleDnsimpleResponse<RegisteredDomain>(
+            return new SimpleDnsimpleResponse<DomainTransfer>(
                 Execute(builder.Request));
         }
 
@@ -116,22 +120,22 @@ namespace dnsimple.Services
         /// </summary>
         /// <param name="accountId">The account Id</param>
         /// <param name="domainName">The domain name</param>
-        /// <param name="renewal">The domain renewal request</param>
+        /// <param name="input">The domain renewal request</param>
         /// <returns>The renewed domain</returns>
         /// <remarks>Your account must be active for this command to complete
         /// successfully. You will be automatically charged the renewal fee
         /// upon successful renewal, so please be careful with this
         /// command.</remarks>
         /// <see>https://developer.dnsimple.com/v2/registrar/#renewDomain</see>
-        public SimpleDnsimpleResponse<RegisteredDomain> RenewDomain(long accountId,
-            string domainName, DomainRenewal renewal)
+        public SimpleDnsimpleResponse<DomainRenewal> RenewDomain(long accountId,
+            string domainName, DomainRenewalInput input)
         {
             var builder = BuildRequestForPath(
                     DomainRenewalPath(accountId, domainName));
             builder.Method(Method.POST);
-            builder.AddJsonPayload(renewal);
+            builder.AddJsonPayload(input);
 
-            return new SimpleDnsimpleResponse<RegisteredDomain>(
+            return new SimpleDnsimpleResponse<DomainRenewal>(
                 Execute(builder.Request));
         }
 
@@ -168,7 +172,7 @@ namespace dnsimple.Services
     /// Represents a registered domain.
     /// </summary>
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public struct RegisteredDomain
+    public struct DomainRegistration
     {
         public long Id { get; set; }
         public long DomainId { get; set; }
@@ -177,6 +181,20 @@ namespace dnsimple.Services
         public string State { get; set; }
         public bool AutoRenew { get; set; }
         public bool WhoisPrivacy { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+    }
+
+    /// <summary>
+    /// Represents a domain renewal.
+    /// </summary>
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    public struct DomainRenewal
+    {
+        public long Id { get; set; }
+        public long DomainId { get; set; }
+        public long Period { get; set; }
+        public string State { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }
@@ -193,6 +211,30 @@ namespace dnsimple.Services
     }
 
     /// <summary>
+    /// Represents the data sent to the API when transferring a domain.
+    /// </summary>
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy),
+        ItemNullValueHandling = NullValueHandling.Ignore)]
+    public struct DomainTransfer
+    {
+        public long Id { get; set; }
+        public long DomainId { get; set; }
+        
+        [JsonProperty(Required = Required.Always)]
+        public long RegistrantId { get; set; }
+
+        public string State { get; set; }
+        public bool AutoRenew { get; set; }
+        public bool WhoisPrivacy { get; set; }
+        
+        public string AuthCode { get; set; }
+        public string PremiumPrice { get; set; }
+        
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+    }
+
+    /// <summary>
     /// Represents the data sent to the API to check the premium price of
     /// a domain.
     /// </summary>
@@ -204,31 +246,15 @@ namespace dnsimple.Services
     }
 
     // TODO : Add the extended attributes
+
     /// <summary>
     /// Represents a domain registration.
     /// </summary>
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public struct DomainRegistration
+    public struct DomainRegistrationInfo
     {
         [JsonProperty(Required = Required.Always)]
         public long RegistrantId { get; set; }
-
-        public bool WhoisPrivacy { get; set; }
-        public bool AutoRenew { get; set; }
-        public string PremiumPrice { get; set; }
-    }
-
-    /// <summary>
-    /// Represents the data sent to the API when transferring a domain.
-    /// </summary>
-    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public struct DomainTransfer
-    {
-        [JsonProperty(Required = Required.Always)]
-        public long RegistrantId { get; set; }
-
-        [JsonProperty(Required = Required.Always)]
-        public string AuthCode { get; set; }
 
         public bool WhoisPrivacy { get; set; }
         public bool AutoRenew { get; set; }
@@ -239,7 +265,7 @@ namespace dnsimple.Services
     /// Represents the data sent to renew a domain.
     /// </summary>
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public struct DomainRenewal
+    public struct DomainRenewalInput
     {
         public long Period { get; set; }
         public string PremiumPrice { get; set; }
