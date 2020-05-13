@@ -62,7 +62,7 @@ namespace dnsimple_test.Services
         [Test]
         public void ZoneRecordData()
         {
-            var records = new ZoneRecordsData(_jToken).Records;
+            var records = new ZoneRecords(_jToken).Records;
             var record = records.First();
 
             Assert.Multiple(() =>
@@ -87,7 +87,7 @@ namespace dnsimple_test.Services
         [Test]
         public void ZoneRecordsResponse()
         {
-            var response = new PaginatedDnsimpleResponse<ZoneRecordsData>(_response);
+            var response = new PaginatedDnsimpleResponse<ZoneRecords>(_response);
 
             Assert.AreEqual(5, response.Data.Count);
         }

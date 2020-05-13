@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using RestSharp;
-using static dnsimple.Services.JsonTools<dnsimple.Services.ZoneRecordData>;
+using static dnsimple.Services.JsonTools<dnsimple.Services.ZoneRecord>;
 using static dnsimple.Services.Paths;
 
 namespace dnsimple.Services
@@ -25,7 +25,7 @@ namespace dnsimple.Services
         /// records for the zone.</returns>
         /// <see cref="ZoneRecordsListOptions"/>
         /// <see>https://developer.dnsimple.com/v2/zones/records/#listZoneRecords</see>
-        public PaginatedDnsimpleResponse<ZoneRecordsData> ListRecords(
+        public PaginatedDnsimpleResponse<ZoneRecords> ListRecords(
             long accountId, string zoneId,
             ZoneRecordsListOptions options = null)
         {
@@ -34,7 +34,7 @@ namespace dnsimple.Services
 
             AddListOptionsToRequest(options, ref builder);
 
-            return new PaginatedDnsimpleResponse<ZoneRecordsData>(
+            return new PaginatedDnsimpleResponse<ZoneRecords>(
                 Execute(builder.Request));
         }
 
@@ -43,23 +43,23 @@ namespace dnsimple.Services
         /// </summary>
         /// <param name="accountId">The account Id</param>
         /// <param name="zoneId">The zone name</param>
-        /// <param name="record">The zone record input</param>
+        /// <param name="input">The zone record input</param>
         /// <returns>The newly created <c>ZoneRecord</c> wrapped inside a
         /// <c>ZoneRecordResponse</c></returns>
         /// <exception cref="DnSimpleException">If Bad Request</exception>
         /// <exception cref="DnSimpleValidationException">If the validation fails</exception>
         /// <see cref="ZoneRecord"/>
         /// <see>https://developer.dnsimple.com/v2/zones/records/#createZoneRecord</see>
-        public SimpleDnsimpleResponse<ZoneRecordData> CreateRecord(
+        public SimpleDnsimpleResponse<ZoneRecord> CreateRecord(
             long accountId, string zoneId,
-            ZoneRecord record)
+            ZoneRecord input)
         {
             var builder =
                 BuildRequestForPath(ZoneRecordsPath(accountId, zoneId));
             builder.Method(Method.POST);
-            builder.AddJsonPayload(PrepareRecord(record));
+            builder.AddJsonPayload(PrepareRecord(input));
 
-            return new SimpleDnsimpleResponse<ZoneRecordData>(
+            return new SimpleDnsimpleResponse<ZoneRecord>(
                 Execute(builder.Request));
         }
 
@@ -78,11 +78,11 @@ namespace dnsimple.Services
         /// <returns>A <c>ZoneRecordResponse</c> containing the zone record.</returns>
         /// <see cref="ZoneRecord"/>
         /// <see>https://developer.dnsimple.com/v2/zones/records/#getZoneRecord</see>
-        public SimpleDnsimpleResponse<ZoneRecordData> GetRecord(long accountId,
+        public SimpleDnsimpleResponse<ZoneRecord> GetRecord(long accountId,
             string zoneId,
             long recordId)
         {
-            return new SimpleDnsimpleResponse<ZoneRecordData>(Execute(
+            return new SimpleDnsimpleResponse<ZoneRecord>(Execute(
                 BuildRequestForPath(ZoneRecordPath(accountId, zoneId, recordId))
                     .Request));
         }
@@ -100,7 +100,7 @@ namespace dnsimple.Services
         /// <exception cref="DnSimpleValidationException">If the validation fails</exception>
         /// <see cref="ZoneRecord"/>
         /// <see>https://developer.dnsimple.com/v2/zones/records/#updateZoneRecord</see>
-        public SimpleDnsimpleResponse<ZoneRecordData> UpdateRecord(
+        public SimpleDnsimpleResponse<ZoneRecord> UpdateRecord(
             long accountId, string zoneId, long recordId, ZoneRecord record)
         {
             var builder = BuildRequestForPath(ZoneRecordPath(accountId, zoneId,
@@ -108,7 +108,7 @@ namespace dnsimple.Services
             builder.Method(Method.PATCH);
             builder.AddJsonPayload(record);
 
-            return new SimpleDnsimpleResponse<ZoneRecordData>(
+            return new SimpleDnsimpleResponse<ZoneRecord>(
                 Execute(builder.Request));
         }
 
@@ -154,12 +154,12 @@ namespace dnsimple.Services
     /// objects.
     /// </summary>
     /// <see cref="List{T}"/>
-    /// <see cref="ZoneRecordData"/>
-    public readonly struct ZoneRecordsData
+    /// <see cref="ZoneRecord"/>
+    public readonly struct ZoneRecords
     {
-        public List<ZoneRecordData> Records { get; }
+        public List<ZoneRecord> Records { get; }
 
-        public ZoneRecordsData(JToken json) =>
+        public ZoneRecords(JToken json) =>
             Records = DeserializeList(json);
     }
 
@@ -211,8 +211,8 @@ namespace dnsimple.Services
     /// <summary>
     /// Represents a zone Record
     /// </summary>
-    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public struct ZoneRecordData
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy),ItemNullValueHandling = NullValueHandling.Ignore)]
+    public struct ZoneRecord
     {
         public long Id { get; set; }
         public string ZoneId { get; set; }
@@ -227,21 +227,6 @@ namespace dnsimple.Services
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }
-
-    /// <summary>
-    /// Represents a zone record
-    /// </summary>
-    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class ZoneRecord
-    {
-        public string Name { get; set; }
-        public ZoneRecordType Type { get; set; }
-        public string Content { get; set; }
-        public long Ttl { get; set; }
-        public long? Priority { get; set; }
-        public List<Region> Regions { get; private set; } = new List<Region>();
-    }
-
 
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy),
         ItemNullValueHandling = NullValueHandling.Ignore)]
@@ -267,7 +252,7 @@ namespace dnsimple.Services
             Content = record.Content;
             Ttl = record.Ttl;
             Priority = record.Priority;
-            if (record.Regions.Count > 0)
+            if (record.Regions != null && record.Regions.Count > 0)
             {
                 Regions = record.Regions.Select(region => region.ToString())
                     .ToList();
