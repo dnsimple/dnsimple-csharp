@@ -51,11 +51,11 @@ namespace dnsimple.Services
         /// token to be used in subsequent calls of the Api</returns>
         /// 
         /// <see>https://developer.dnsimple.com/v2/oauth/</see>
-        public AccessTokenData ExchangeAuthorizationForToken(
+        public AccessToken ExchangeAuthorizationForToken(
             Dictionary<OAuthParams, string> arguments)
         {
             var request = BuildRequest("/oauth/access_token", arguments);
-            return JObject.Parse(Http.Execute(request).Content).ToObject<AccessTokenData>();
+            return JObject.Parse(Http.Execute(request).Content).ToObject<AccessToken>();
         }
 
         private RestRequest BuildRequest(string path,
@@ -104,9 +104,10 @@ namespace dnsimple.Services
     /// server.
     /// </summary>
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public struct AccessTokenData
+    public struct AccessToken
     {
-        public string AccessToken { get; set; }
+        [JsonProperty("access_token")]
+        public string Token       { get; set; }
         public string TokenType   { get; set; }
         public string Scope       { get; set; }
         public long AccountId     { get; set; }

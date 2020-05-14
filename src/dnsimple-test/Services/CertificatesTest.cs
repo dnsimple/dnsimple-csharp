@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using dnsimple;
 using dnsimple.Services;
 using dnsimple.Services.ListOptions;
 using NUnit.Framework;
@@ -176,7 +175,7 @@ namespace dnsimple_test.Services
         [TestCase(1010, "ruby.codes", 1,
             "https://api.sandbox.dnsimple.com/v2/1010/domains/ruby.codes/certificates/1")]
         public void GetCertificate(long accountId, string domainName,
-            long certificateId, string expecetdUrl)
+            long certificateId, string expectedUrl)
         {
             var client = new MockDnsimpleClient(GetCertificateFixture);
             var certificate =
@@ -223,7 +222,7 @@ namespace dnsimple_test.Services
                 Assert.AreEqual(UpdatedAt, certificate.UpdatedAt);
                 Assert.AreEqual(ExpiresOn, certificate.ExpiresOn);
 
-                Assert.AreEqual(expecetdUrl, client.RequestSentTo());
+                Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
 
@@ -302,9 +301,9 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(serverCertificate, certificate.Server);
-                Assert.IsNull(certificate.Root);
-                Assert.Contains(chainCertificate, certificate.Chain);
+                Assert.AreEqual(serverCertificate, certificate.ServerCertificate);
+                Assert.IsNull(certificate.RootCertificate);
+                Assert.Contains(chainCertificate, certificate.IntermediateCertificates);
 
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });

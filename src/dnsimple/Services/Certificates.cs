@@ -66,11 +66,11 @@ namespace dnsimple.Services
         /// <returns>The PEM-encoded certificate, along with the root
         /// certificate and intermediate chain.</returns>
         /// <see>https://developer.dnsimple.com/v2/certificates/#downloadCertificate</see>
-        public SimpleDnsimpleResponse<PemEncodedCertificate>
+        public SimpleDnsimpleResponse<CertificateBundle>
             DownloadCertificate(long accountId,
                 string domainName, long certificateId)
         {
-            return new SimpleDnsimpleResponse<PemEncodedCertificate>(
+            return new SimpleDnsimpleResponse<CertificateBundle>(
                 Execute(BuildRequestForPath(
                     PemCertificateDownloadPath(accountId, domainName,
                         certificateId)).Request));
@@ -84,10 +84,10 @@ namespace dnsimple.Services
         /// <param name="certificateId">The certificate id</param>
         /// <returns>The private key for the certificate requested</returns>
         /// <see>https://developer.dnsimple.com/v2/certificates/#getCertificatePrivateKey</see>
-        public SimpleDnsimpleResponse<PrivateKeyData> GetCertificatePrivateKey(
+        public SimpleDnsimpleResponse<CertificateBundle> GetCertificatePrivateKey(
             long accountId, string domainName, long certificateId)
         {
-            return new SimpleDnsimpleResponse<PrivateKeyData>(
+            return new SimpleDnsimpleResponse<CertificateBundle>(
                 Execute(
                     BuildRequestForPath(CertificatePrivateKeyPath(accountId,
                         domainName, certificateId)).Request));
@@ -268,15 +268,6 @@ namespace dnsimple.Services
     }
 
     /// <summary>
-    /// Represents the private key.
-    /// </summary>
-    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public struct PrivateKeyData
-    {
-        public string PrivateKey { get; set; }
-    }
-
-    /// <summary>
     /// Represents a Certificate
     /// </summary>
     /// <see>https://developer.dnsimple.com/v2/certificates/#certificate-attributes</see>
@@ -300,15 +291,23 @@ namespace dnsimple.Services
     }
 
     /// <summary>
-    /// Represents a PEM encoded certificate.
+    /// Represents the possible certificates issued by the server (Pem encoded
+    /// certificates and private keys).
     /// </summary>
     /// /// <see>https://developer.dnsimple.com/v2/certificates/#certificate-attributes</see>
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy),
         ItemNullValueHandling = NullValueHandling.Ignore)]
-    public struct PemEncodedCertificate
+    public struct CertificateBundle
     {
-        public string Server { get; set; }
-        public string Root { get; set; }
-        public List<string> Chain { get; set; }
+        [JsonProperty("server")]
+        public string ServerCertificate { get; set; }
+        
+        [JsonProperty("root")]
+        public string RootCertificate { get; set; }
+        
+        [JsonProperty("chain")]
+        public List<string> IntermediateCertificates { get; set; }
+        
+        public string PrivateKey { get; set; }
     }
 }
