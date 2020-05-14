@@ -100,16 +100,16 @@ namespace dnsimple.Services
         /// <see cref="DomainTransfer"/>
         /// <see>https://developer.dnsimple.com/v2/registrar/#transferDomain</see>
         public SimpleDnsimpleResponse<DomainTransfer> TransferDomain(long accountId,
-            string domainName, DomainTransferInput transfer)
+            string domainName, DomainTransferInput transferInput)
         {
-            if (transfer.AuthCode == null)
+            if (transferInput.AuthCode == null)
             {
                 throw new DnSimpleException("Please provide an AuthCode");
             }
             var builder = BuildRequestForPath(
                     DomainTransferPath(accountId, domainName));
             builder.Method(Method.POST);
-            builder.AddJsonPayload(transfer);
+            builder.AddJsonPayload(transferInput);
 
             return new SimpleDnsimpleResponse<DomainTransfer>(
                 Execute(builder.Request));
