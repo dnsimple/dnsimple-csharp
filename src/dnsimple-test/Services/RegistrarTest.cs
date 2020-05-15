@@ -30,6 +30,12 @@ namespace dnsimple_test.Services
         private const string TransferDomainErrorInDnsimpleFixture =
             "transferDomain/error-indnsimple.http";
 
+        private const string GetDomainTransferFixture =
+            "getDomainTransfer/success.http";
+
+        private const string CancelDomainTransferFixture =
+            "cancelDomainTransfer/success.http";
+
         private const string RenewDomainFixture = "renewDomain/success.http";
 
         private const string RenewDomainTooEarlyFixture =
@@ -246,6 +252,48 @@ namespace dnsimple_test.Services
                     client.Registrar.TransferDomain(accountId, domainName,
                         transfer);
                 });
+        }
+
+        [Test]
+        [TestCase(1010, "ruby.codes", 42)]
+        public void GetDomainTransfer(long accountId, string domainName, long domainTansferId)
+        {
+            var client = new MockDnsimpleClient(GetDomainTransferFixture);
+            var domainTransfer = client.Registrar.GetDomainTransfer(accountId, domainName, domainTansferId).Data;
+
+            Assert.Multiple(() =>
+            {
+                Assert.AreEqual(42, domainTransfer.Id);
+                Assert.AreEqual(2, domainTransfer.DomainId);
+                Assert.AreEqual(3, domainTransfer.RegistrantId);
+                Assert.AreEqual("cancelled", domainTransfer.State);
+                Assert.False(domainTransfer.AutoRenew);
+                Assert.False(domainTransfer.WhoisPrivacy);
+                Assert.AreEqual("Canceled by customer", domainTransfer.StatusDescription);
+                Assert.AreEqual(Convert.ToDateTime("2020-04-27T18:08:44Z"), domainTransfer.CreatedAt);
+                Assert.AreEqual(Convert.ToDateTime("2020-04-27T18:20:01Z"), domainTransfer.UpdatedAt);
+            });
+        }
+
+        [Test]
+        [TestCase(1010, "ruby.codes", 42)]
+        public void CancelDomainTransfer(long accountId, string domainName, long domainTansferId)
+        {
+            var client = new MockDnsimpleClient(CancelDomainTransferFixture);
+            var domainTransfer = client.Registrar.CancelDomainTransfer(accountId, domainName, domainTansferId).Data;
+
+            Assert.Multiple(() =>
+            {
+                Assert.AreEqual(42, domainTransfer.Id);
+                Assert.AreEqual(6, domainTransfer.DomainId);
+                Assert.AreEqual(1, domainTransfer.RegistrantId);
+                Assert.AreEqual("transferring", domainTransfer.State);
+                Assert.True(domainTransfer.AutoRenew);
+                Assert.False(domainTransfer.WhoisPrivacy);
+                Assert.IsNull(domainTransfer.StatusDescription);
+                Assert.AreEqual(Convert.ToDateTime("2020-04-24T19:19:03Z"), domainTransfer.CreatedAt);
+                Assert.AreEqual(Convert.ToDateTime("2020-04-24T19:19:15Z"), domainTransfer.UpdatedAt);
+            });
         }
 
         [Test]

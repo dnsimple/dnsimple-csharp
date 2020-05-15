@@ -56,7 +56,7 @@ namespace dnsimple.Services
         {
             return $"{CertificatesPath(accountId, domainName)}/letsencrypt";
         }
-        
+
         public static string IssueLetsEncryptCertificatePath(long accountId,
             string domainName, long certificateId)
         {
@@ -78,14 +78,14 @@ namespace dnsimple.Services
             return
                 $"{LetsEncryptCertificateRenewalPath(accountId, domainName, certificateId)}/{certificateRenewalId}/issue";
         }
-        
+
         public static string RemoveCollaboratorPath(long accountId,
             string domainIdentifier, long collaboratorId)
         {
             return
                 $"{CollaboratorsPath(accountId, domainIdentifier)}/{collaboratorId}";
         }
-        
+
         public static string DsRecordsPath(long accountId,
             string domainIdentifier)
         {
@@ -97,12 +97,12 @@ namespace dnsimple.Services
         {
             return $"{DsRecordsPath(accountId, domainIdentifier)}/{recordId}";
         }
-        
+
         public static string DnssecPath(long accountId, string domainIdentifier)
         {
             return $"{DomainPath(accountId, domainIdentifier)}/dnssec";
         }
-        
+
         public static string EmailForwardPath(long accountId, string domainIdentifier,
             int emailForwardId)
         {
@@ -115,7 +115,7 @@ namespace dnsimple.Services
         {
             return $"{DomainPath(accountId, domainIdentifier)}/email_forwards";
         }
-        
+
         public static string PushPath(long accountId, long pushId)
         {
             return $"{PushPath(accountId)}/{pushId}";
@@ -131,7 +131,7 @@ namespace dnsimple.Services
         {
             return $"{accountId}/pushes";
         }
-        
+
         public static string DomainTransferOutPath(long accountId, string domainName)
         {
             return
@@ -143,9 +143,14 @@ namespace dnsimple.Services
             return $"{RegistrarPath(accountId, domainName)}/renewals";
         }
 
-        public static string DomainTransferPath(long accountId, string domainName)
+        public static string TransferDomainPath(long accountId, string domainName)
         {
             return $"{RegistrarPath(accountId, domainName)}/transfers";
+        }
+
+        public static string DomainTransferPath(long accountId, string domainName, long domainTransferId)
+        {
+            return $"{RegistrarPath(accountId, domainName)}/transfers/{domainTransferId}";
         }
 
         public static string DomainRegistrationPath(long accountId,
@@ -179,7 +184,7 @@ namespace dnsimple.Services
         {
             return $"{TldsPath()}/{tld}";
         }
-        
+
         public static string GetTldExtendedAttributesPath(string tld)
         {
             return $"{GetTldPath(tld)}/extended_attributes";
@@ -254,17 +259,17 @@ namespace dnsimple.Services
         {
             return $"/{accountId}/webhooks";
         }
-        
+
         public static string WebhookPath(long accountId, long webhookId)
         {
             return $"{WebhooksPath(accountId)}/{webhookId}";
         }
-        
+
         public static string AutoRenewalPath(long accountId, string domain)
         {
             return $"{RegistrarPath(accountId, domain)}/auto_renewal";
         }
-        
+
         public static string VanityDelegationPath(long accountId, string domain)
         {
             return $"{DelegationPath(accountId, domain)}/vanity";
@@ -274,7 +279,7 @@ namespace dnsimple.Services
         {
             return $"{RegistrarPath(accountId, domain)}/delegation";
         }
-        
+
         public static string WhoisRenewalPath(long accountId, string domain)
         {
             return $"{WhoisPrivacyPath(accountId, domain)}/renewals";
@@ -284,7 +289,7 @@ namespace dnsimple.Services
         {
             return $"{RegistrarPath(accountId, domain)}/whois_privacy";
         }
-        
+
         public static string ZoneRecordDistributionPath(long accountId,
             string zoneId, long recordId)
         {
@@ -302,7 +307,7 @@ namespace dnsimple.Services
         {
             return $"{ZonePath(accountId, zoneId)}/records";
         }
-        
+
         public static string ZoneDistributionPath(long accountId,
             string zoneName)
         {
