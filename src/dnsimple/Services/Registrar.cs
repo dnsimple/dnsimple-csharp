@@ -90,7 +90,7 @@ namespace dnsimple.Services
         /// </summary>
         /// <param name="accountId">The account Id</param>
         /// <param name="domainName">The domain name</param>
-        /// <param name="transfer">The transfer command</param>
+        /// <param name="transferInput">The transfer command</param>
         /// <returns>The transferred domain</returns>
         /// <remarks>Your account must be active for this command to complete
         /// successfully. You will be automatically charged the 1-year transfer
