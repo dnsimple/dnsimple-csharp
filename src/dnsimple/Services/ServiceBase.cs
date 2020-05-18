@@ -60,7 +60,7 @@ namespace dnsimple.Services
 
         private string ExtractValueFromHeader(string headerName)
         {
-            return (string) Headers.Where(header => header.Name.Equals(headerName))
+            return (string) Headers.Where(header => header.Name.ToLower().Equals(headerName.ToLower()))
                 .First().Value;
         }
     }
