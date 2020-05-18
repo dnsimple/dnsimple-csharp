@@ -255,7 +255,7 @@ namespace dnsimple_test.Services
         }
 
         [Test]
-        [TestCase(1010, "ruby.codes", 357)]
+        [TestCase(1010, "ruby.codes", 358)]
         public void GetDomainTransfer(long accountId, string domainName, long domainTansferId)
         {
             var client = new MockDnsimpleClient(GetDomainTransferFixture);
@@ -276,7 +276,7 @@ namespace dnsimple_test.Services
         }
 
         [Test]
-        [TestCase(1010, "ruby.codes", 357)]
+        [TestCase(1010, "ruby.codes", 358)]
         public void CancelDomainTransfer(long accountId, string domainName, long domainTansferId)
         {
             var client = new MockDnsimpleClient(CancelDomainTransferFixture);
