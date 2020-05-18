@@ -25,7 +25,7 @@ namespace dnsimple_test
         private string JsonPartFrom(string fixture)
         {
             Fixture = fixture;
-            LoadFixture();
+            LoadFixture(); 
             var lastLine = GetLines(true).Last();
             return IsValidJson(lastLine) ? lastLine : "";
         }
@@ -54,7 +54,7 @@ namespace dnsimple_test
             return LoadFixture().Split(new[] { "\r\n", "\r", "\n" },
                 removeEmptyLines ? StringSplitOptions.RemoveEmptyEntries : StringSplitOptions.None);
         }
-
+        
 
         private string LoadFixture()
         {
@@ -75,12 +75,12 @@ namespace dnsimple_test
                 if (line.Contains(':'))
                 {
                     var header = line.Split(':');
-                    headers.Add(new Parameter(header[0], header[1], ParameterType.HttpHeader));
+                    headers.Add(new Parameter(header[0], header[1], ParameterType.HttpHeader)); 
                 }
             }
 
             return headers;
         }
-
+        
     }
 }
