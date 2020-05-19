@@ -39,7 +39,7 @@ namespace dnsimple_test.Services
         [Test]
         public void DomainsResponse()
         {
-            var domains = new PaginatedDnsimpleResponse<Domain>(_response).Data;
+            var domains = new PaginatedResponse<Domain>(_response).Data;
 
 
             Assert.Multiple(() =>

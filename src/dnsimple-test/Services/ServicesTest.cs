@@ -33,7 +33,7 @@ namespace dnsimple_test.Services
         [Test]
         public void ListServicesResponse()
         {
-            var services = new PaginatedDnsimpleResponse<Service>(_response).Data;
+            var services = new PaginatedResponse<Service>(_response).Data;
             var service = services.First();
             var serviceSetting = services.Last().Settings.First();
             

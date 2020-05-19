@@ -25,10 +25,10 @@ namespace dnsimple.Services
         /// <param name="domainIdentifier">The domain name or ID</param>
         /// <returns>A <c>DomainResponse</c> with the requested domain.</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/#getDomain</see>
-        public SimpleDnsimpleResponse<Domain> GetDomain(long accountId,
+        public SimpleResponse<Domain> GetDomain(long accountId,
             string domainIdentifier)
         {
-            return new SimpleDnsimpleResponse<Domain>(Execute(
+            return new SimpleResponse<Domain>(Execute(
                 BuildRequestForPath(DomainPath(accountId, domainIdentifier))
                     .Request));
         }
@@ -41,14 +41,14 @@ namespace dnsimple.Services
         /// <returns>A <c>DomainResponse</c> containing a list of domains.</returns>
         /// <see cref="DomainListOptions"/>
         /// <see>https://developer.dnsimple.com/v2/domains/#listDomains</see>
-        public PaginatedDnsimpleResponse<Domain> ListDomains(long accountId,
+        public PaginatedResponse<Domain> ListDomains(long accountId,
             ListOptionsWithFiltering options = null)
         {
             var builder = BuildRequestForPath(DomainsPath(accountId));
 
             AddListOptionsToRequest(options, ref builder);
 
-            return new PaginatedDnsimpleResponse<Domain>(
+            return new PaginatedResponse<Domain>(
                 Execute(builder.Request));
         }
 
@@ -60,7 +60,7 @@ namespace dnsimple.Services
         /// <returns>A <c>DomainResponse</c> containing the data of the newly
         /// created domain.</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/#createDomain</see>
-        public SimpleDnsimpleResponse<Domain> CreateDomain(long accountId,
+        public SimpleResponse<Domain> CreateDomain(long accountId,
             string domainName)
         {
             var builder = BuildRequestForPath(DomainsPath(accountId));
@@ -72,7 +72,7 @@ namespace dnsimple.Services
             };
             builder.AddParameters(parameters);
 
-            return new SimpleDnsimpleResponse<Domain>(Execute(builder.Request));
+            return new SimpleResponse<Domain>(Execute(builder.Request));
         }
 
         /// <summary>
@@ -82,14 +82,14 @@ namespace dnsimple.Services
         /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or ID</param>
         /// <see>https://developer.dnsimple.com/v2/domains/#deleteDomain</see>
-        public EmptyDnsimpleResponse DeleteDomain(long accountId,
+        public EmptyResponse DeleteDomain(long accountId,
             string domainIdentifier)
         {
             var builder = BuildRequestForPath(DeleteDomainPath(accountId,
                     domainIdentifier));
             builder.Method(Method.DELETE);
 
-            return new EmptyDnsimpleResponse(Execute(builder.Request));
+            return new EmptyResponse(Execute(builder.Request));
         }
     }
 

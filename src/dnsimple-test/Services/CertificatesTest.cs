@@ -97,7 +97,7 @@ namespace dnsimple_test.Services
         public void CertificatesResponse()
         {
             var certificate =
-                new PaginatedDnsimpleResponse<Certificate>(_response).Data;
+                new PaginatedResponse<Certificate>(_response).Data;
 
             Assert.Multiple(() =>
             {

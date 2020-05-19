@@ -21,7 +21,7 @@ namespace dnsimple_test.Services
         [Test]
         public void AccountsData()
         {
-            var accountsData = new ListDnsimpleResponse<Account>(_response);
+            var accountsData = new ListResponse<Account>(_response);
 
             Assert.Multiple(() =>
             {
@@ -36,7 +36,7 @@ namespace dnsimple_test.Services
         [Test]
         public void AccountsResponse()
         {
-            var accountsResponse = new ListDnsimpleResponse<Account>(_response);
+            var accountsResponse = new ListResponse<Account>(_response);
 
             Assert.AreEqual(2, accountsResponse.Data.Count);
         }

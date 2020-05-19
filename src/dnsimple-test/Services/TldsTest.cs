@@ -30,7 +30,7 @@ namespace dnsimple_test.Services
         [Test]
         public void TldsResponse()
         {
-            var tlds = new PaginatedDnsimpleResponse<TldData>(_response).Data;
+            var tlds = new PaginatedResponse<TldData>(_response).Data;
             
             Assert.Multiple(() =>
             {

@@ -19,7 +19,7 @@ namespace dnsimple.Services
         /// pagination).</param>
         /// <returns>The list of template records</returns>
         /// <see>https://developer.dnsimple.com/v2/templates/records/#listTemplateRecords</see>
-        public PaginatedDnsimpleResponse<TemplateRecord> ListTemplateRecords(
+        public PaginatedResponse<TemplateRecord> ListTemplateRecords(
             long accountId, string template,
             ListTemplateRecordsOptions options = null)
         {
@@ -28,7 +28,7 @@ namespace dnsimple.Services
 
             AddListOptionsToRequest(options, ref builder);
 
-            return new PaginatedDnsimpleResponse<TemplateRecord>(Execute(builder
+            return new PaginatedResponse<TemplateRecord>(Execute(builder
                 .Request));
         }
 
@@ -41,7 +41,7 @@ namespace dnsimple.Services
         /// <returns>The newly created <c>TemplateRecord</c></returns>
         /// <see cref="TemplateRecord"/>
         /// <see>https://developer.dnsimple.com/v2/templates/records/#createTemplateRecord</see>
-        public SimpleDnsimpleResponse<TemplateRecord> CreateTemplateRecord(long
+        public SimpleResponse<TemplateRecord> CreateTemplateRecord(long
             accountId, string template, TemplateRecord payload)
         {
             var builder =
@@ -49,7 +49,7 @@ namespace dnsimple.Services
             builder.Method(Method.POST);
             builder.AddJsonPayload(payload);
 
-            return new SimpleDnsimpleResponse<TemplateRecord>(
+            return new SimpleResponse<TemplateRecord>(
                 Execute(builder.Request));
         }
 
@@ -61,10 +61,10 @@ namespace dnsimple.Services
         /// <param name="recordId">The record Id</param>
         /// <returns>The <c>TemplateRecord</c> requested</returns>
         /// <see>https://developer.dnsimple.com/v2/templates/records/#getTemplateRecord</see>
-        public SimpleDnsimpleResponse<TemplateRecord> GetTemplateRecord(
+        public SimpleResponse<TemplateRecord> GetTemplateRecord(
             long accountId, string template, long recordId)
         {
-            return new SimpleDnsimpleResponse<TemplateRecord>(Execute(
+            return new SimpleResponse<TemplateRecord>(Execute(
                 BuildRequestForPath(TemplateRecordPath(accountId, template,
                     recordId)).Request));
         }
@@ -77,14 +77,14 @@ namespace dnsimple.Services
         /// <param name="recordId">The record Id</param>
         /// <returns><c>EmptyDnsimpleResponse</c></returns>
         /// <see>https://developer.dnsimple.com/v2/templates/records/#deleteTemplateRecord</see>
-        public EmptyDnsimpleResponse DeleteTemplateRecord(long accountId,
+        public EmptyResponse DeleteTemplateRecord(long accountId,
             string template, long recordId)
         {
             var builder = BuildRequestForPath(
                     TemplateRecordPath(accountId, template, recordId));
             builder.Method(Method.DELETE);
 
-            return new EmptyDnsimpleResponse(Execute(builder.Request));
+            return new EmptyResponse(Execute(builder.Request));
         }
     }
 

@@ -45,7 +45,7 @@ namespace dnsimple_test.Services
         public void ListTemplateRecordsResponse()
         {
             var records =
-                new PaginatedDnsimpleResponse<TemplateRecord>(_response);
+                new PaginatedResponse<TemplateRecord>(_response);
             var record = records.Data.First();
 
             Assert.Multiple(() =>

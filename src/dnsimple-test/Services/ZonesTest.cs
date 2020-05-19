@@ -45,7 +45,7 @@ namespace dnsimple_test.Services
         [Test]
         public void Zones()
         {
-            var zones = new PaginatedDnsimpleResponse<Zone>(_response).Data;
+            var zones = new PaginatedResponse<Zone>(_response).Data;
 
             Assert.Multiple(() =>
             {
@@ -61,7 +61,7 @@ namespace dnsimple_test.Services
         [Test]
         public void ZonesResponse()
         {
-            var response = new PaginatedDnsimpleResponse<Zone>(_response);
+            var response = new PaginatedResponse<Zone>(_response);
 
             Assert.AreEqual(2, response.Data.Count);
         }

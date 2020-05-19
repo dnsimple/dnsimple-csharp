@@ -22,9 +22,9 @@ namespace dnsimple.Services
         /// </summary>
         /// <returns>An <c>AccountsResponse</c> containing a list of accounts.</returns>
         /// <see>https://developer.dnsimple.com/v2/accounts/#listAccounts</see>
-        public ListDnsimpleResponse<Account> List()
+        public ListResponse<Account> List()
         {
-            return new ListDnsimpleResponse<Account>(
+            return new ListResponse<Account>(
                 Execute(BuildRequestForPath("/accounts")
                     .Request));
         }

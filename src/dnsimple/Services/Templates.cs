@@ -27,14 +27,14 @@ namespace dnsimple.Services
         /// pagination).</param>
         /// <returns>A list of templates for the account</returns>
         /// <see>https://developer.dnsimple.com/v2/templates/#listTemplates</see>
-        public PaginatedDnsimpleResponse<Template> ListTemplates(
+        public PaginatedResponse<Template> ListTemplates(
             long accountId, ListTemplatesOptions options = null)
         {
             var builder = BuildRequestForPath(TemplatesPath(accountId));
 
             AddListOptionsToRequest(options, ref builder);
 
-            return new PaginatedDnsimpleResponse<Template>(
+            return new PaginatedResponse<Template>(
                 Execute(builder.Request));
         }
 
@@ -45,14 +45,14 @@ namespace dnsimple.Services
         /// <param name="template">The template to be created</param>
         /// <returns>The newly created template</returns>
         /// <see>https://developer.dnsimple.com/v2/templates/#createTemplate</see>
-        public SimpleDnsimpleResponse<Template> CreateTemplate(
+        public SimpleResponse<Template> CreateTemplate(
             long accountId, Template template)
         {
             var builder = BuildRequestForPath(TemplatesPath(accountId));
             builder.Method(Method.POST);
             builder.AddJsonPayload(template);
 
-            return new SimpleDnsimpleResponse<Template>(
+            return new SimpleResponse<Template>(
                 Execute(builder.Request));
         }
 
@@ -63,10 +63,10 @@ namespace dnsimple.Services
         /// <param name="template">The template id or short name (sid)</param>
         /// <returns>The template requested</returns>
         /// <see>https://developer.dnsimple.com/v2/templates/#getTemplate</see>
-        public SimpleDnsimpleResponse<Template> GetTemplate(long accountId,
+        public SimpleResponse<Template> GetTemplate(long accountId,
             string template)
         {
-            return new SimpleDnsimpleResponse<Template>(Execute(
+            return new SimpleResponse<Template>(Execute(
                 BuildRequestForPath(TemplatePath(accountId, template))
                     .Request));
         }
@@ -80,7 +80,7 @@ namespace dnsimple.Services
         /// we want to update</param>
         /// <returns>The newly updated template</returns>
         /// <see>https://developer.dnsimple.com/v2/templates/#updateTemplate</see>
-        public SimpleDnsimpleResponse<Template> UpdateTemplate(
+        public SimpleResponse<Template> UpdateTemplate(
             long accountId, string template, Template payload)
         {
             var builder =
@@ -88,7 +88,7 @@ namespace dnsimple.Services
             builder.Method(Method.PATCH);
             builder.AddJsonPayload(payload);
 
-            return new SimpleDnsimpleResponse<Template>(
+            return new SimpleResponse<Template>(
                 Execute(builder.Request));
         }
 
@@ -99,13 +99,13 @@ namespace dnsimple.Services
         /// <param name="template">The template name or id</param>
         /// <returns>An <c>EmptyDnsimpleResponse</c></returns>
         /// <see>https://developer.dnsimple.com/v2/templates/#deleteTemplate</see>
-        public EmptyDnsimpleResponse DeleteTemplate(long accountId,
+        public EmptyResponse DeleteTemplate(long accountId,
             string template)
         {
             var builder = BuildRequestForPath(TemplatePath(accountId, template));
             builder.Method(Method.DELETE);
 
-            return new EmptyDnsimpleResponse(Execute(builder.Request));
+            return new EmptyResponse(Execute(builder.Request));
         }
     }
 

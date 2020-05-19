@@ -32,7 +32,7 @@ namespace dnsimple_test.Services
         [Test]
         public void WebhooksResponse()
         {
-            var webhooks = new ListDnsimpleResponse<Webhook>(_response);
+            var webhooks = new ListResponse<Webhook>(_response);
             var webhook = webhooks.Data.First();
             
             Assert.Multiple(() =>

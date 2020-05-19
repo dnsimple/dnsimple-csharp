@@ -26,14 +26,14 @@ namespace dnsimple.Services
         /// pagination).</param>
         /// <returns>The list of webhooks in the account</returns>
         /// <see>https://developer.dnsimple.com/v2/webhooks/#listWebhooks</see>
-        public ListDnsimpleResponse<Webhook> ListWebhooks(long accountId,
+        public ListResponse<Webhook> ListWebhooks(long accountId,
             ListWebhooksOptions options = null)
         {
             var builder = BuildRequestForPath(WebhooksPath(accountId));
 
             AddListOptionsToRequest(options, ref builder);
 
-            return new ListDnsimpleResponse<Webhook>(Execute(builder.Request));
+            return new ListResponse<Webhook>(Execute(builder.Request));
         }
 
         /// <summary>
@@ -44,14 +44,14 @@ namespace dnsimple.Services
         /// <returns>The newly created webhook</returns>
         /// <see cref="Webhook"/>
         /// <see>https://developer.dnsimple.com/v2/webhooks/#createWebhook</see>
-        public SimpleDnsimpleResponse<Webhook> CreateWebhook(long accountId,
+        public SimpleResponse<Webhook> CreateWebhook(long accountId,
             Webhook webhook)
         {
             var builder = BuildRequestForPath(WebhooksPath(accountId));
             builder.Method(Method.POST);
             builder.AddJsonPayload(webhook);
 
-            return new SimpleDnsimpleResponse<Webhook>(
+            return new SimpleResponse<Webhook>(
                 Execute(builder.Request));
         }
 
@@ -61,12 +61,12 @@ namespace dnsimple.Services
         /// <param name="accountId">The account Id</param>
         /// <param name="webhookId">The webhook id</param>
         /// <returns>The webhook requested</returns>
-        public SimpleDnsimpleResponse<Webhook> GetWebhook(long accountId,
+        public SimpleResponse<Webhook> GetWebhook(long accountId,
             long webhookId)
         {
             var builder =
                 BuildRequestForPath(WebhookPath(accountId, webhookId));
-            return new SimpleDnsimpleResponse<Webhook>(
+            return new SimpleResponse<Webhook>(
                 Execute(builder.Request));
         }
 
@@ -76,12 +76,12 @@ namespace dnsimple.Services
         /// <param name="accountId">The account Id</param>
         /// <param name="webhookId">The webhook Id</param>
         /// <returns><c>EmptyDnsimpleRequest</c></returns>
-        public EmptyDnsimpleResponse DeleteWebhook(long accountId, long webhookId)
+        public EmptyResponse DeleteWebhook(long accountId, long webhookId)
         {
             var builder =
                 BuildRequestForPath(WebhookPath(accountId, webhookId));
             builder.Method(Method.DELETE);
-            return new EmptyDnsimpleResponse(Execute(builder.Request));
+            return new EmptyResponse(Execute(builder.Request));
         }
     }
 

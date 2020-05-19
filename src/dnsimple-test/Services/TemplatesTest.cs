@@ -46,7 +46,7 @@ namespace dnsimple_test.Services
         [Test]
         public void ListTemplatesResponse()
         {
-            var templates = new PaginatedDnsimpleResponse<Template>(_response);
+            var templates = new PaginatedResponse<Template>(_response);
             var template = templates.Data.First();
             
             Assert.Multiple(() =>

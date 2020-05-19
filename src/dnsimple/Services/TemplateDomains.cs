@@ -13,14 +13,14 @@ namespace dnsimple.Services
         /// <param name="template">The template id or short name (sid)</param>
         /// <returns><c>EmptyDnsimpleResponse</c></returns>
         /// <see>https://developer.dnsimple.com/v2/templates/domains/#applyTemplateToDomain</see>
-        public EmptyDnsimpleResponse ApplyTemplate(long accountId,
+        public EmptyResponse ApplyTemplate(long accountId,
             string domain, string template)
         {
             var builder = BuildRequestForPath(
                     TemplateDomainPath(accountId, domain, template));
             builder.Method(Method.POST);
 
-            return new EmptyDnsimpleResponse(Execute(builder.Request));
+            return new EmptyResponse(Execute(builder.Request));
         }
     }
 }

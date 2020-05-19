@@ -17,10 +17,10 @@ namespace dnsimple.Services
         /// <param name="domainIdentifier">The domain name or id</param>
         /// <returns>The status of the DNSSEC wrapped in a response</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/dnssec/#getDomainDnssec</see>
-        public SimpleDnsimpleResponse<DnssecStatus> GetDnssec(long accountId,
+        public SimpleResponse<DnssecStatus> GetDnssec(long accountId,
             string domainIdentifier)
         {
-            return new SimpleDnsimpleResponse<DnssecStatus>(Execute(
+            return new SimpleResponse<DnssecStatus>(Execute(
                 BuildRequestForPath(DnssecPath(accountId, domainIdentifier))
                     .Request));
         }
@@ -35,14 +35,14 @@ namespace dnsimple.Services
         /// <returns>The confirmation of the operation withe the status of the
         /// DNSSEC wrapped in a response</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/dnssec/#enableDomainDnssec</see>
-        public SimpleDnsimpleResponse<DnssecStatus> EnableDnssec(long accountId,
+        public SimpleResponse<DnssecStatus> EnableDnssec(long accountId,
             string domainIdentifier)
         {
             var builder = BuildRequestForPath(
                 DnssecPath(accountId, domainIdentifier));
             builder.Method(Method.POST);
 
-            return new SimpleDnsimpleResponse<DnssecStatus>(
+            return new SimpleResponse<DnssecStatus>(
                 Execute(builder.Request));
         }
 
@@ -55,14 +55,14 @@ namespace dnsimple.Services
         /// disable DNSSEC for a domain that hasn't DNSSEC enabled.</remarks>
         /// <see cref="DnSimpleException"/>
         /// <see>https://developer.dnsimple.com/v2/domains/dnssec/#disableDomainDnssec</see>
-        public EmptyDnsimpleResponse DisableDnssec(long accountId,
+        public EmptyResponse DisableDnssec(long accountId,
             string domainIdentifier)
         {
             var builder = BuildRequestForPath(DnssecPath(accountId,
                     domainIdentifier));
             builder.Method(Method.DELETE);
 
-            return new EmptyDnsimpleResponse(Execute(builder.Request));
+            return new EmptyResponse(Execute(builder.Request));
         }
     }
 

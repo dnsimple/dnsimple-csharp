@@ -19,7 +19,7 @@ namespace dnsimple.Services
         /// <param name="email">The email address of the target DNSimple account.</param>
         /// <returns>The newly created push.</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/pushes/#initiateDomainPush</see>
-        public SimpleDnsimpleResponse<Push> InitiatePush(long accountId,
+        public SimpleResponse<Push> InitiatePush(long accountId,
             string domainIdentifier, string email)
         {
             if(string.IsNullOrEmpty(email))
@@ -31,7 +31,7 @@ namespace dnsimple.Services
 
             builder.AddJsonPayload(PushPayload("new_account_email", email));
 
-            return new SimpleDnsimpleResponse<Push>(Execute(builder.Request));
+            return new SimpleResponse<Push>(Execute(builder.Request));
         }
 
         /// <summary>
@@ -40,9 +40,9 @@ namespace dnsimple.Services
         /// <param name="accountId">The account id</param>
         /// <returns>A list of the pending pushes.</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/pushes/#listPushes</see>
-        public PaginatedDnsimpleResponse<Push> ListPushes(long accountId)
+        public PaginatedResponse<Push> ListPushes(long accountId)
         {
-            return new PaginatedDnsimpleResponse<Push>(
+            return new PaginatedResponse<Push>(
                 Execute(BuildRequestForPath(PushPath(accountId)).Request));
         }
 
@@ -55,13 +55,13 @@ namespace dnsimple.Services
         /// DNSimple account. The contact will be used as new registrant for
         /// the domain, if the domain is registered with DNSimple.</param>
         /// <see>https://developer.dnsimple.com/v2/domains/pushes/#acceptPush</see>
-        public EmptyDnsimpleResponse AcceptPush(long accountId, long pushId, long contactId)
+        public EmptyResponse AcceptPush(long accountId, long pushId, long contactId)
         {
             var builder = BuildRequestForPath(PushPath(accountId, pushId));
             builder.Method(Method.POST);
             builder.AddJsonPayload(PushPayload("contact_id", contactId.ToString()));
 
-            return new EmptyDnsimpleResponse(Execute(builder.Request));
+            return new EmptyResponse(Execute(builder.Request));
         }
 
         /// <summary>
@@ -70,12 +70,12 @@ namespace dnsimple.Services
         /// <param name="accountId">The account id</param>
         /// <param name="pushId">The push id</param>
         /// <see>https://developer.dnsimple.com/v2/domains/pushes/#rejectPush</see>
-        public EmptyDnsimpleResponse RejectPush(int accountId, int pushId)
+        public EmptyResponse RejectPush(int accountId, int pushId)
         {
             var builder = BuildRequestForPath(PushPath(accountId, pushId));
             builder.Method(Method.DELETE);
 
-            return new EmptyDnsimpleResponse(Execute(builder.Request));
+            return new EmptyResponse(Execute(builder.Request));
         }
 
         private static JsonObject PushPayload(string key, string value)

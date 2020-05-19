@@ -20,7 +20,7 @@ namespace dnsimple.Services
         /// <param name="options">Options passed to the list (sorting, pagination)</param>
         /// <returns>A list of all email forwards for the domain</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/email-forwards/#listEmailForwards</see>
-        public PaginatedDnsimpleResponse<EmailForward> ListEmailForwards(
+        public PaginatedResponse<EmailForward> ListEmailForwards(
             long accountId,
             string domainIdentifier,
             DomainEmailForwardsListOptions options = null)
@@ -31,7 +31,7 @@ namespace dnsimple.Services
 
             AddListOptionsToRequest(options, ref builder);
 
-            return new PaginatedDnsimpleResponse<EmailForward>(Execute(builder
+            return new PaginatedResponse<EmailForward>(Execute(builder
                 .Request));
         }
 
@@ -43,7 +43,7 @@ namespace dnsimple.Services
         /// <param name="record">The email forward to be added</param>
         /// <returns>The newly created email forward for the domain</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/email-forwards/#createEmailForward</see>
-        public SimpleDnsimpleResponse<EmailForward> CreateEmailForward(
+        public SimpleResponse<EmailForward> CreateEmailForward(
             long accountId,
             string domainIdentifier, EmailForward record)
         {
@@ -56,7 +56,7 @@ namespace dnsimple.Services
             if(record.To.Trim().Equals("") || record.From.Trim().Equals(""))
                 throw new ArgumentException("From or To cannot be blank");
             
-            return new SimpleDnsimpleResponse<EmailForward>(
+            return new SimpleResponse<EmailForward>(
                 Execute(builder.Request));
         }
 
@@ -68,11 +68,11 @@ namespace dnsimple.Services
         /// <param name="emailForwardId">The email forward id</param>
         /// <returns>The email forward</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/email-forwards/#getEmailForward</see>
-        public SimpleDnsimpleResponse<EmailForward> GetEmailForward(
+        public SimpleResponse<EmailForward> GetEmailForward(
             long accountId,
             string domainIdentifier, int emailForwardId)
         {
-            return new SimpleDnsimpleResponse<EmailForward>(Execute(
+            return new SimpleResponse<EmailForward>(Execute(
                 BuildRequestForPath(EmailForwardPath(accountId,
                         domainIdentifier,
                         emailForwardId)).Request));
@@ -85,7 +85,7 @@ namespace dnsimple.Services
         /// <param name="domainIdentifier">The domain name or id</param>
         /// <param name="emailForwardId">The email forward id</param>
         /// <see>https://developer.dnsimple.com/v2/domains/email-forwards/#deleteEmailForward</see>
-        public EmptyDnsimpleResponse DeleteEmailForward(long accountId,
+        public EmptyResponse DeleteEmailForward(long accountId,
             string domainIdentifier,
             int emailForwardId)
         {
@@ -93,7 +93,7 @@ namespace dnsimple.Services
                 EmailForwardPath(accountId, domainIdentifier, emailForwardId));
             builder.Method(Method.DELETE);
 
-            return new EmptyDnsimpleResponse(Execute(builder.Request));
+            return new EmptyResponse(Execute(builder.Request));
         }
     }
 

@@ -19,7 +19,7 @@ namespace dnsimple.Services
         /// <param name="options">Options passed to the list (sorting, pagination)</param>
         /// <returns>A list of delegation signer records wrapped in a response</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/dnssec/#listDomainDelegationSignerRecords</see>
-        public PaginatedDnsimpleResponse<DelegationSignerRecord>
+        public PaginatedResponse<DelegationSignerRecord>
             ListDelegationSignerRecords(
                 long accountId, string domainIdentifier,
                 ListDomainDelegationSignerRecordsOptions options = null)
@@ -29,7 +29,7 @@ namespace dnsimple.Services
 
             AddListOptionsToRequest(options, ref builder);
 
-            return new PaginatedDnsimpleResponse<DelegationSignerRecord>(
+            return new PaginatedResponse<DelegationSignerRecord>(
                 Execute(builder.Request));
         }
 
@@ -46,7 +46,7 @@ namespace dnsimple.Services
         /// <returns>The newly created delegation signer record.</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/dnssec/#createDomainDelegationSignerRecord</see>
         /// <see>"https://tools.ietf.org/html/rfc4034"</see>
-        public SimpleDnsimpleResponse<DelegationSignerRecord>
+        public SimpleResponse<DelegationSignerRecord>
             CreateDelegationSignerRecord(
                 long accountId, string domainIdentifier,
                 DelegationSignerRecord record)
@@ -63,7 +63,7 @@ namespace dnsimple.Services
                 throw new ArgumentException(
                     "Algorithm, Digest, DigestType and Keytag cannot be null or empty");
 
-            return new SimpleDnsimpleResponse<DelegationSignerRecord>(
+            return new SimpleResponse<DelegationSignerRecord>(
                 Execute(builder.Request));
         }
 
@@ -75,11 +75,11 @@ namespace dnsimple.Services
         /// <param name="recordId">The delegation signer record id</param>
         /// <returns>The delegation signer record</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/dnssec/#getDomainDelegationSignerRecord</see>
-        public SimpleDnsimpleResponse<DelegationSignerRecord>
+        public SimpleResponse<DelegationSignerRecord>
             GetDelegationSignerRecord(
                 long accountId, string domainIdentifier, long recordId)
         {
-            return new SimpleDnsimpleResponse<DelegationSignerRecord>(
+            return new SimpleResponse<DelegationSignerRecord>(
                 Execute(BuildRequestForPath(DsRecordPath(accountId,
                     domainIdentifier,
                     recordId)).Request));
@@ -92,14 +92,14 @@ namespace dnsimple.Services
         /// <param name="domainIdentifier">The domain name or id</param>
         /// <param name="recordId">the delegation signer record id</param>
         /// <see>https://developer.dnsimple.com/v2/domains/dnssec/#deleteDomainDelegationSignerRecord</see>
-        public EmptyDnsimpleResponse DeleteDelegationSignerRecord(
+        public EmptyResponse DeleteDelegationSignerRecord(
             long accountId, string domainIdentifier, int recordId)
         {
             var builder = BuildRequestForPath(DsRecordPath(accountId,
                 domainIdentifier, recordId));
             builder.Method(Method.DELETE);
 
-            return new EmptyDnsimpleResponse(Execute(builder.Request));
+            return new EmptyResponse(Execute(builder.Request));
         }
     }
 

@@ -31,7 +31,7 @@ namespace dnsimple_test.Services
         [Test]
         public void CollaboratorsResponse()
         {
-            var response = new PaginatedDnsimpleResponse<Collaborator>(_response);
+            var response = new PaginatedResponse<Collaborator>(_response);
             
             Assert.AreEqual(100, response.Data.First().Id);
             Assert.AreEqual(1,

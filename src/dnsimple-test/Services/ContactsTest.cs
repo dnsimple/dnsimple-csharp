@@ -50,7 +50,7 @@ namespace dnsimple_test.Services
         [Test]
         public void ContactsResponse()
         {
-            var contacts = new PaginatedDnsimpleResponse<Contact>(_response).Data;
+            var contacts = new PaginatedResponse<Contact>(_response).Data;
             var contact = contacts.First();
 
             Assert.Multiple(() =>

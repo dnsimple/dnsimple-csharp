@@ -28,14 +28,14 @@ namespace dnsimple.Services
         /// <returns>The list of contacts in the account.</returns>
         /// <see cref="ContactsListOptions"/>
         /// <see>https://developer.dnsimple.com/v2/contacts/#listContacts</see>
-        public PaginatedDnsimpleResponse<Contact> ListContacts(long accountId,
+        public PaginatedResponse<Contact> ListContacts(long accountId,
             ContactsListOptions options = null)
         {
             var builder = BuildRequestForPath(ContactsPath(accountId));
 
             AddListOptionsToRequest(options, ref builder);
 
-            return new PaginatedDnsimpleResponse<Contact>(Execute(builder.Request));
+            return new PaginatedResponse<Contact>(Execute(builder.Request));
         }
 
         /// <summary>
@@ -46,14 +46,14 @@ namespace dnsimple.Services
         /// <returns>The newly created contact for the account</returns>
         /// <see cref="Contact"/>
         /// <see>https://developer.dnsimple.com/v2/contacts/#createContact</see>
-        public SimpleDnsimpleResponse<Contact> CreateContact(long accountId,
+        public SimpleResponse<Contact> CreateContact(long accountId,
             Contact contact)
         {
             var builder = BuildRequestForPath(ContactsPath(accountId));
             builder.Method(Method.POST);
             builder.AddJsonPayload(contact);
 
-            return new SimpleDnsimpleResponse<Contact>(Execute(builder.Request));
+            return new SimpleResponse<Contact>(Execute(builder.Request));
         }
 
         /// <summary>
@@ -64,10 +64,10 @@ namespace dnsimple.Services
         /// <returns>The contact requested</returns>
         /// <see cref="Contact"/>
         /// <see>https://developer.dnsimple.com/v2/contacts/#getContact</see>
-        public SimpleDnsimpleResponse<Contact> GetContact(long accountId,
+        public SimpleResponse<Contact> GetContact(long accountId,
             long contactId)
         {
-            return new SimpleDnsimpleResponse<Contact>(
+            return new SimpleResponse<Contact>(
                 Execute(BuildRequestForPath(ContactPath(accountId, contactId))
                     .Request));
         }
@@ -81,14 +81,14 @@ namespace dnsimple.Services
         /// <returns>The updated contact</returns>
         /// <see cref="Contact"/>
         /// <see>https://developer.dnsimple.com/v2/contacts/#updateContact</see>
-        public SimpleDnsimpleResponse<Contact> UpdateContact(long accountId,
+        public SimpleResponse<Contact> UpdateContact(long accountId,
             long contactId, Contact contact)
         {
             var builder = BuildRequestForPath(ContactPath(accountId, contactId));
             builder.Method(Method.PATCH);
             builder.AddJsonPayload(new UpdateContact(contact));
 
-            return new SimpleDnsimpleResponse<Contact>(Execute(builder.Request));
+            return new SimpleResponse<Contact>(Execute(builder.Request));
         }
 
         /// <summary>
@@ -100,12 +100,12 @@ namespace dnsimple.Services
         /// <exception cref="DnSimpleValidationException">If the contact cannot
         /// be deleted because it’s currently used by a domain or a
         /// certificate.</exception>
-        public EmptyDnsimpleResponse DeleteContact(long accountId, long contactId)
+        public EmptyResponse DeleteContact(long accountId, long contactId)
         {
             var builder = BuildRequestForPath(ContactPath(accountId, contactId));
             builder.Method(Method.DELETE);
 
-            return new EmptyDnsimpleResponse(Execute(builder.Request));
+            return new EmptyResponse(Execute(builder.Request));
         }
     }
 

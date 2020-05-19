@@ -23,11 +23,11 @@ namespace dnsimple.Services
         /// A <c>WhoamiResponse</c> containing the User and/or Account.
         /// </returns>
         /// <see cref="Services.Whoami"/>
-        /// <see cref="SimpleDnsimpleResponse{T}"/>
+        /// <see cref="SimpleResponse{T}"/>
         /// <see>https://developer.dnsimple.com/v2/identity/#whoami</see>
-        public SimpleDnsimpleResponse<Whoami> Whoami()
+        public SimpleResponse<Whoami> Whoami()
         {
-            return new SimpleDnsimpleResponse<Whoami>(
+            return new SimpleResponse<Whoami>(
                 Execute(BuildRequestForPath("/whoami").Request));
         }
     }

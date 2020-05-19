@@ -37,7 +37,7 @@ namespace dnsimple_test.Services
         public void VanityNameServersResponse()
         {
             var vanityServers =
-                new ListDnsimpleResponse<VanityNameServer>(_response);
+                new ListResponse<VanityNameServer>(_response);
             var vanityServer = vanityServers.Data.First();
             
             Assert.Multiple(() =>

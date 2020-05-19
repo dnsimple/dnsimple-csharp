@@ -45,7 +45,7 @@ namespace dnsimple_test.Services
         public void EmailForwardsData()
         {
             var emailForwards =
-                new PaginatedDnsimpleResponse<EmailForward>(_response).Data;
+                new PaginatedResponse<EmailForward>(_response).Data;
 
             Assert.Multiple(() =>
             {

@@ -60,7 +60,7 @@ namespace dnsimple_test.Services
         public void DelegationSignerRecordsData()
         {
             var records =
-                new PaginatedDnsimpleResponse<DelegationSignerRecord>(_response)
+                new PaginatedResponse<DelegationSignerRecord>(_response)
                     .Data;
 
             Assert.Multiple(() =>

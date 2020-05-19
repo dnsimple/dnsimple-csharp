@@ -26,7 +26,7 @@ namespace dnsimple.Services
         ///  pagination)</param>
         /// <returns>A <c>CertificatesResponse</c> containing a list of zones for the
         /// account.</returns>
-        public PaginatedDnsimpleResponse<Certificate> ListCertificates(
+        public PaginatedResponse<Certificate> ListCertificates(
             long accountId,
             string domainName, CertificatesListOptions options = null)
         {
@@ -35,7 +35,7 @@ namespace dnsimple.Services
 
             AddListOptionsToRequest(options, ref builder);
 
-            return new PaginatedDnsimpleResponse<Certificate>(
+            return new PaginatedResponse<Certificate>(
                 Execute(builder.Request));
         }
 
@@ -47,11 +47,11 @@ namespace dnsimple.Services
         /// <param name="certificateId">The certificate id</param>
         /// <returns>The details of the certificate requested</returns>
         /// <see>https://developer.dnsimple.com/v2/certificates/#getCertificate</see>
-        public SimpleDnsimpleResponse<Certificate> GetCertificate(
+        public SimpleResponse<Certificate> GetCertificate(
             long accountId,
             string domainName, long certificateId)
         {
-            return new SimpleDnsimpleResponse<Certificate>(Execute(
+            return new SimpleResponse<Certificate>(Execute(
                 BuildRequestForPath(CertificatePath(accountId, domainName,
                     certificateId)).Request));
         }
@@ -66,11 +66,11 @@ namespace dnsimple.Services
         /// <returns>The PEM-encoded certificate, along with the root
         /// certificate and intermediate chain.</returns>
         /// <see>https://developer.dnsimple.com/v2/certificates/#downloadCertificate</see>
-        public SimpleDnsimpleResponse<CertificateBundle>
+        public SimpleResponse<CertificateBundle>
             DownloadCertificate(long accountId,
                 string domainName, long certificateId)
         {
-            return new SimpleDnsimpleResponse<CertificateBundle>(
+            return new SimpleResponse<CertificateBundle>(
                 Execute(BuildRequestForPath(
                     PemCertificateDownloadPath(accountId, domainName,
                         certificateId)).Request));
@@ -84,10 +84,10 @@ namespace dnsimple.Services
         /// <param name="certificateId">The certificate id</param>
         /// <returns>The private key for the certificate requested</returns>
         /// <see>https://developer.dnsimple.com/v2/certificates/#getCertificatePrivateKey</see>
-        public SimpleDnsimpleResponse<CertificateBundle> GetCertificatePrivateKey(
+        public SimpleResponse<CertificateBundle> GetCertificatePrivateKey(
             long accountId, string domainName, long certificateId)
         {
-            return new SimpleDnsimpleResponse<CertificateBundle>(
+            return new SimpleResponse<CertificateBundle>(
                 Execute(
                     BuildRequestForPath(CertificatePrivateKeyPath(accountId,
                         domainName, certificateId)).Request));
@@ -141,7 +141,7 @@ namespace dnsimple.Services
         /// <returns>The certificate ordered</returns>
         /// <see cref="CertificateOrder"/>
         /// <see>https://developer.dnsimple.com/v2/certificates/#purchaseLetsencryptCertificate</see>
-        public SimpleDnsimpleResponse<CertificateOrdered>
+        public SimpleResponse<CertificateOrdered>
             PurchaseLetsEncryptCertificate(
                 long accountId, string domainName, CertificateOrder order)
         {
@@ -150,7 +150,7 @@ namespace dnsimple.Services
             builder.Method(Method.POST);
             builder.AddJsonPayload(order);
 
-            return new SimpleDnsimpleResponse<CertificateOrdered>(
+            return new SimpleResponse<CertificateOrdered>(
                 Execute(builder.Request));
         }
 
@@ -163,7 +163,7 @@ namespace dnsimple.Services
         /// <returns>The certificate data issued</returns>
         /// <see>https://developer.dnsimple.com/v2/certificates/#issueLetsencryptCertificate</see>
         /// <see>https://dnsimple.com/letsencrypt</see>
-        public SimpleDnsimpleResponse<Certificate> IssueLetsEncryptCertificate(
+        public SimpleResponse<Certificate> IssueLetsEncryptCertificate(
             long accountId,
             string domainName, long certificateId)
         {
@@ -172,7 +172,7 @@ namespace dnsimple.Services
                     certificateId));
             builder.Method(Method.POST);
 
-            return new SimpleDnsimpleResponse<Certificate>(
+            return new SimpleResponse<Certificate>(
                 Execute(builder.Request));
         }
 
@@ -185,7 +185,7 @@ namespace dnsimple.Services
         /// <param name="renewal">The renewal object.</param>
         /// <returns>The renewal data.</returns>
         /// <see>https://developer.dnsimple.com/v2/certificates/#purchaseRenewalLetsencryptCertificate</see>
-        public SimpleDnsimpleResponse<LetsEncryptRenewal>
+        public SimpleResponse<LetsEncryptRenewal>
             PurchaseLetsEncryptCertificateRenewal(
                 long accountId, string domainName, long certificateId,
                 LetsEncryptRenewal renewal)
@@ -196,7 +196,7 @@ namespace dnsimple.Services
             builder.Method(Method.POST);
             builder.AddJsonPayload(renewal);
 
-            return new SimpleDnsimpleResponse<LetsEncryptRenewal>(
+            return new SimpleResponse<LetsEncryptRenewal>(
                 Execute(builder.Request));
         }
 
@@ -208,7 +208,7 @@ namespace dnsimple.Services
         /// <param name="certificateId">The certificate id</param>
         /// <param name="certificateRenewalId">The certificate renewal id</param>
         /// <returns>The certificate data issued in the renewal</returns>
-        public SimpleDnsimpleResponse<Certificate>
+        public SimpleResponse<Certificate>
             IssueLetsEncryptCertificateRenewal(long accountId,
                 string domainName, long certificateId,
                 long certificateRenewalId)
@@ -218,7 +218,7 @@ namespace dnsimple.Services
                         domainName, certificateId, certificateRenewalId));
             builder.Method(Method.POST);
 
-            return new SimpleDnsimpleResponse<Certificate>(
+            return new SimpleResponse<Certificate>(
                 Execute(builder.Request));
         }
     }

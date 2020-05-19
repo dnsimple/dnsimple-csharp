@@ -23,7 +23,7 @@ namespace dnsimple.Services
         /// records for the zone.</returns>
         /// <see cref="ZoneRecordsListOptions"/>
         /// <see>https://developer.dnsimple.com/v2/zones/records/#listZoneRecords</see>
-        public PaginatedDnsimpleResponse<ZoneRecord> ListRecords(
+        public PaginatedResponse<ZoneRecord> ListRecords(
             long accountId, string zoneId,
             ZoneRecordsListOptions options = null)
         {
@@ -32,7 +32,7 @@ namespace dnsimple.Services
 
             AddListOptionsToRequest(options, ref builder);
 
-            return new PaginatedDnsimpleResponse<ZoneRecord>(
+            return new PaginatedResponse<ZoneRecord>(
                 Execute(builder.Request));
         }
 
@@ -48,7 +48,7 @@ namespace dnsimple.Services
         /// <exception cref="DnSimpleValidationException">If the validation fails</exception>
         /// <see cref="ZoneRecord"/>
         /// <see>https://developer.dnsimple.com/v2/zones/records/#createZoneRecord</see>
-        public SimpleDnsimpleResponse<ZoneRecord> CreateRecord(
+        public SimpleResponse<ZoneRecord> CreateRecord(
             long accountId, string zoneId,
             ZoneRecord input)
         {
@@ -57,7 +57,7 @@ namespace dnsimple.Services
             builder.Method(Method.POST);
             builder.AddJsonPayload(PrepareRecord(input));
 
-            return new SimpleDnsimpleResponse<ZoneRecord>(
+            return new SimpleResponse<ZoneRecord>(
                 Execute(builder.Request));
         }
 
@@ -76,11 +76,11 @@ namespace dnsimple.Services
         /// <returns>A <c>ZoneRecordResponse</c> containing the zone record.</returns>
         /// <see cref="ZoneRecord"/>
         /// <see>https://developer.dnsimple.com/v2/zones/records/#getZoneRecord</see>
-        public SimpleDnsimpleResponse<ZoneRecord> GetRecord(long accountId,
+        public SimpleResponse<ZoneRecord> GetRecord(long accountId,
             string zoneId,
             long recordId)
         {
-            return new SimpleDnsimpleResponse<ZoneRecord>(Execute(
+            return new SimpleResponse<ZoneRecord>(Execute(
                 BuildRequestForPath(ZoneRecordPath(accountId, zoneId, recordId))
                     .Request));
         }
@@ -98,7 +98,7 @@ namespace dnsimple.Services
         /// <exception cref="DnSimpleValidationException">If the validation fails</exception>
         /// <see cref="ZoneRecord"/>
         /// <see>https://developer.dnsimple.com/v2/zones/records/#updateZoneRecord</see>
-        public SimpleDnsimpleResponse<ZoneRecord> UpdateRecord(
+        public SimpleResponse<ZoneRecord> UpdateRecord(
             long accountId, string zoneId, long recordId, ZoneRecord record)
         {
             var builder = BuildRequestForPath(ZoneRecordPath(accountId, zoneId,
@@ -106,7 +106,7 @@ namespace dnsimple.Services
             builder.Method(Method.PATCH);
             builder.AddJsonPayload(record);
 
-            return new SimpleDnsimpleResponse<ZoneRecord>(
+            return new SimpleResponse<ZoneRecord>(
                 Execute(builder.Request));
         }
 
@@ -117,14 +117,14 @@ namespace dnsimple.Services
         /// <param name="zoneId">The zone name</param>
         /// <param name="recordId">The record Id</param>
         /// <see>https://developer.dnsimple.com/v2/zones/records/#deleteZoneRecord</see>
-        public EmptyDnsimpleResponse DeleteRecord(long accountId, string zoneId,
+        public EmptyResponse DeleteRecord(long accountId, string zoneId,
             long recordId)
         {
             var builder = BuildRequestForPath(ZoneRecordPath(accountId, zoneId,
                 recordId));
             builder.Method(Method.DELETE);
 
-            return new EmptyDnsimpleResponse(Execute(builder.Request));
+            return new EmptyResponse(Execute(builder.Request));
         }
 
         /// <summary>
@@ -137,10 +137,10 @@ namespace dnsimple.Services
         /// <param name="recordId">The record id</param>
         /// <returns>A <c>ZoneDistributionResponse</c>.</returns>
         /// <see>https://developer.dnsimple.com/v2/zones/records/#checkZoneRecordDistribution</see>
-        public SimpleDnsimpleResponse<ZoneDistribution> CheckRecordDistribution(
+        public SimpleResponse<ZoneDistribution> CheckRecordDistribution(
             long accountId, string zoneId, long recordId)
         {
-            return new SimpleDnsimpleResponse<ZoneDistribution>(Execute(
+            return new SimpleResponse<ZoneDistribution>(Execute(
                 BuildRequestForPath(
                         ZoneRecordDistributionPath(accountId, zoneId, recordId))
                     .Request));

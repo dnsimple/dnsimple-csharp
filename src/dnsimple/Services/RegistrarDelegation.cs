@@ -57,7 +57,7 @@ namespace dnsimple.Services
         /// <param name="delegation">A list of name servers as strings</param>
         /// <returns>The list of nameservers updated to vanity for the domain</returns>
         /// <see>https://developer.dnsimple.com/v2/registrar/delegation/#changeDomainDelegationToVanity</see>
-        public ListDnsimpleResponse<VanityDelegation>
+        public ListResponse<VanityDelegation>
             ChangeDomainDelegationToVanity(
                 long accountId, string domain, List<string> delegation)
         {
@@ -65,7 +65,7 @@ namespace dnsimple.Services
             builder.Method(Method.PUT);
             builder.AddJsonPayload(delegation);
 
-            return new ListDnsimpleResponse<VanityDelegation>(
+            return new ListResponse<VanityDelegation>(
                 Execute(builder.Request));
         }
 
@@ -80,7 +80,7 @@ namespace dnsimple.Services
         /// <param name="accountId">The account Id</param>
         /// <param name="domain">The domain id or name</param>
         /// <see>https://developer.dnsimple.com/v2/registrar/delegation/#changeDomainDelegationFromVanity</see>
-        public EmptyDnsimpleResponse ChangeDomainDelegationFromVanity(
+        public EmptyResponse ChangeDomainDelegationFromVanity(
             long accountId,
             string domain)
         {
@@ -88,7 +88,7 @@ namespace dnsimple.Services
                     VanityDelegationPath(accountId, domain));
             builder.Method(Method.DELETE);
 
-            return new EmptyDnsimpleResponse(Execute(builder.Request));
+            return new EmptyResponse(Execute(builder.Request));
         }
     }
 
