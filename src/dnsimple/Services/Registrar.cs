@@ -107,10 +107,45 @@ namespace dnsimple.Services
                 throw new DnSimpleException("Please provide an AuthCode");
             }
             var builder = BuildRequestForPath(
-                    DomainTransferPath(accountId, domainName));
+                    TransferDomainPath(accountId, domainName));
             builder.Method(Method.POST);
             builder.AddJsonPayload(transferInput);
 
+            return new SimpleDnsimpleResponse<DomainTransfer>(
+                Execute(builder.Request));
+        }
+
+        /// <summary>
+        /// Retrieves the details of an existing domain transfer.
+        /// </summary>
+        /// <param name="accountId">The account Id</param>
+        /// <param name="domainName">The domain name</param>
+        /// <param name="domainTransferId">The domain transfer Id</param>
+        /// <returns>The domain transfer</returns>
+        /// <see cref="DomainTransfer"/>
+        /// <see>https://developer.dnsimple.com/v2/registrar/#getDomainTransfer</see>
+        public SimpleDnsimpleResponse<DomainTransfer> GetDomainTransfer(long accountId,
+            string domainName, long domainTransferId)
+        {
+            return new SimpleDnsimpleResponse<DomainTransfer>(
+                Execute(BuildRequestForPath(DomainTransferPath(accountId, domainName, domainTransferId))
+                    .Request));
+        }
+
+        /// <summary>
+        /// Cancels an in progress domain transfer.
+        /// </summary>
+        /// <param name="accountId">The account Id</param>
+        /// <param name="domainName">The domain name</param>
+        /// <param name="domainTransferId">The domain transfer Id</param>
+        /// <returns>The domain transfer</returns>
+        /// <see cref="DomainTransfer"/>
+        /// <see>https://developer.dnsimple.com/v2/registrar/#cancelDomainTransfer</see>
+        public SimpleDnsimpleResponse<DomainTransfer> CancelDomainTransfer(long accountId,
+            string domainName, long domainTransferId)
+        {
+            var builder = BuildRequestForPath(DomainTransferPath(accountId, domainName, domainTransferId));
+            builder.Method(Method.DELETE);
             return new SimpleDnsimpleResponse<DomainTransfer>(
                 Execute(builder.Request));
         }
@@ -226,8 +261,7 @@ namespace dnsimple.Services
         public string State { get; set; }
         public bool AutoRenew { get; set; }
         public bool WhoisPrivacy { get; set; }
-
-        public string AuthCode { get; set; }
+        public string StatusDescription { get; set; }
 
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
