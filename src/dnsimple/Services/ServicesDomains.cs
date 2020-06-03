@@ -26,7 +26,6 @@ namespace dnsimple.Services
         /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or ID</param>
         /// <param name="service">The service name or id</param>
-        /// <returns><c>EmptyDnsimpleResponse</c></returns>
         /// <see>https://developer.dnsimple.com/v2/services/domains/#applyServiceToDomain</see>
         public EmptyResponse ApplyService(long accountId, string domainIdentifier, string service)
         {
@@ -42,7 +41,6 @@ namespace dnsimple.Services
         /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or ID</param>
         /// <param name="service">The service name or id</param>
-        /// <returns><c>EmptyDnsimpleResponse</c></returns>
         /// <see>https://developer.dnsimple.com/v2/services/domains/#unapplyServiceFromDomain</see>
         public EmptyResponse UnapplyService(long accountId, string domainIdentifier, string service)
         {

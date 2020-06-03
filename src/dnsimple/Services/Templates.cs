@@ -89,7 +89,6 @@ namespace dnsimple.Services
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="templateIdentifier">The template ID or short name (SID)</param>
-        /// <returns>An <c>EmptyDnsimpleResponse</c></returns>
         /// <see>https://developer.dnsimple.com/v2/templates/#deleteTemplate</see>
         public EmptyResponse DeleteTemplate(long accountId, string templateIdentifier)
         {

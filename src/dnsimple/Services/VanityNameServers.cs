@@ -61,7 +61,6 @@ namespace dnsimple.Services
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="domain">The domain name or id</param>
-        /// <returns><c>EmptyDnsimpleResponse</c></returns>
         public EmptyResponse DisableVanityNameServers(long accountId, string domain)
         {
             var builder = BuildRequestForPath(VanityNameServersPath(accountId, domain));

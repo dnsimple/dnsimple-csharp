@@ -66,7 +66,6 @@ namespace dnsimple.Services
         /// <param name="accountId">The account ID</param>
         /// <param name="template">The template id or short name (sid)</param>
         /// <param name="recordId">The record Id</param>
-        /// <returns><c>EmptyDnsimpleResponse</c></returns>
         /// <see>https://developer.dnsimple.com/v2/templates/records/#deleteTemplateRecord</see>
         public EmptyResponse DeleteTemplateRecord(long accountId, string template, long recordId)
         {
