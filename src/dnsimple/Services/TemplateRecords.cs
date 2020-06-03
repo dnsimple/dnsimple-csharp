@@ -11,7 +11,7 @@ namespace dnsimple.Services
     public partial class TemplatesService
     {
         /// <summary>
-        /// List records for the template.
+        /// Lists the records for a template.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="template">The template id or short name (sid)</param>
@@ -23,17 +23,15 @@ namespace dnsimple.Services
             long accountId, string template,
             ListTemplateRecordsOptions options = null)
         {
-            var builder =
-                BuildRequestForPath(TemplateRecordsPath(accountId, template));
+            var builder = BuildRequestForPath(TemplateRecordsPath(accountId, template));
 
             AddListOptionsToRequest(options, ref builder);
 
-            return new PaginatedResponse<TemplateRecord>(Execute(builder
-                .Request));
+            return new PaginatedResponse<TemplateRecord>(Execute(builder.Request));
         }
 
         /// <summary>
-        /// Create a record for the template in the account
+        /// Creates a new template record.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="template">The template id or short name (sid)</param>
@@ -44,17 +42,15 @@ namespace dnsimple.Services
         public SimpleResponse<TemplateRecord> CreateTemplateRecord(long
             accountId, string template, TemplateRecord payload)
         {
-            var builder =
-                BuildRequestForPath(TemplateRecordsPath(accountId, template));
+            var builder = BuildRequestForPath(TemplateRecordsPath(accountId, template));
             builder.Method(Method.POST);
             builder.AddJsonPayload(payload);
 
-            return new SimpleResponse<TemplateRecord>(
-                Execute(builder.Request));
+            return new SimpleResponse<TemplateRecord>(Execute(builder.Request));
         }
 
         /// <summary>
-        /// Gets the record for the template in the account.
+        /// Retrieves the details of an existing template record.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="template">The template id or short name (sid)</param>
@@ -64,13 +60,13 @@ namespace dnsimple.Services
         public SimpleResponse<TemplateRecord> GetTemplateRecord(
             long accountId, string template, long recordId)
         {
-            return new SimpleResponse<TemplateRecord>(Execute(
-                BuildRequestForPath(TemplateRecordPath(accountId, template,
-                    recordId)).Request));
+            var builder = BuildRequestForPath(TemplateRecordPath(accountId, template, recordId)); 
+            
+            return new SimpleResponse<TemplateRecord>(Execute(builder.Request));
         }
 
         /// <summary>
-        /// Delete the record for template in the account.
+        /// Permanently deletes a template record.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="template">The template id or short name (sid)</param>
@@ -80,8 +76,7 @@ namespace dnsimple.Services
         public EmptyResponse DeleteTemplateRecord(long accountId,
             string template, long recordId)
         {
-            var builder = BuildRequestForPath(
-                    TemplateRecordPath(accountId, template, recordId));
+            var builder = BuildRequestForPath(TemplateRecordPath(accountId, template, recordId));
             builder.Method(Method.DELETE);
 
             return new EmptyResponse(Execute(builder.Request));

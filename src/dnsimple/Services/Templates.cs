@@ -60,15 +60,15 @@ namespace dnsimple.Services
         /// Retrieve a template
         /// </summary>
         /// <param name="accountId">The account ID</param>
-        /// <param name="template">The template id or short name (sid)</param>
+        /// <param name="templateIdentifier">The template ID or short name (SID)</param>
         /// <returns>The template requested</returns>
         /// <see>https://developer.dnsimple.com/v2/templates/#getTemplate</see>
         public SimpleResponse<Template> GetTemplate(long accountId,
-            string template)
+            string templateIdentifier)
         {
-            return new SimpleResponse<Template>(Execute(
-                BuildRequestForPath(TemplatePath(accountId, template))
-                    .Request));
+            var builder = BuildRequestForPath(TemplatePath(accountId, templateIdentifier));
+            
+            return new SimpleResponse<Template>(Execute(builder.Request));
         }
 
         /// <summary>
@@ -81,10 +81,9 @@ namespace dnsimple.Services
         /// <returns>The newly updated template</returns>
         /// <see>https://developer.dnsimple.com/v2/templates/#updateTemplate</see>
         public SimpleResponse<Template> UpdateTemplate(
-            long accountId, string template, Template payload)
+            long accountId, string templateIdentifier, Template payload)
         {
-            var builder =
-                BuildRequestForPath(TemplatePath(accountId, template));
+            var builder = BuildRequestForPath(TemplatePath(accountId, templateIdentifier));
             builder.Method(Method.PATCH);
             builder.AddJsonPayload(payload);
 
@@ -96,13 +95,13 @@ namespace dnsimple.Services
         /// Deletes a template
         /// </summary>
         /// <param name="accountId">The account ID</param>
-        /// <param name="template">The template name or id</param>
+        /// <param name="templateIdentifier">The template ID or short name (SID)</param>
         /// <returns>An <c>EmptyDnsimpleResponse</c></returns>
         /// <see>https://developer.dnsimple.com/v2/templates/#deleteTemplate</see>
         public EmptyResponse DeleteTemplate(long accountId,
-            string template)
+            string templateIdentifier)
         {
-            var builder = BuildRequestForPath(TemplatePath(accountId, template));
+            var builder = BuildRequestForPath(TemplatePath(accountId, templateIdentifier));
             builder.Method(Method.DELETE);
 
             return new EmptyResponse(Execute(builder.Request));

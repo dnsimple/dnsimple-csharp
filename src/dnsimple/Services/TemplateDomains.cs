@@ -9,15 +9,14 @@ namespace dnsimple.Services
         /// Applies a template to a domain.
         /// </summary>
         /// <param name="accountId">The account ID</param>
-        /// <param name="domain">The domain name or id</param>
-        /// <param name="template">The template id or short name (sid)</param>
+        /// <param name="domainIdentifier">The domain name or ID</param>
+        /// <param name="templateIdentifier">The template ID or short name (SID)</param>
         /// <returns><c>EmptyDnsimpleResponse</c></returns>
         /// <see>https://developer.dnsimple.com/v2/templates/domains/#applyTemplateToDomain</see>
         public EmptyResponse ApplyTemplate(long accountId,
-            string domain, string template)
+            string domainIdentifier, string templateIdentifier)
         {
-            var builder = BuildRequestForPath(
-                    TemplateDomainPath(accountId, domain, template));
+            var builder = BuildRequestForPath(TemplateDomainPath(accountId, domainIdentifier, templateIdentifier));
             builder.Method(Method.POST);
 
             return new EmptyResponse(Execute(builder.Request));
