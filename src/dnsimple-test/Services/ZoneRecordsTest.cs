@@ -96,7 +96,7 @@ namespace dnsimple_test.Services
         public void ListRecords(long account, string zoneId, string expectedUrl)
         {
             var client = new MockDnsimpleClient(ListZoneRecordsFixture);
-            var response = client.Zones.ListRecords(account, zoneId);
+            var response = client.Zones.ListZoneRecords(account, zoneId);
 
             Assert.Multiple(() =>
             {
@@ -130,7 +130,7 @@ namespace dnsimple_test.Services
                 .SortByContent(Order.asc)
                 .SortByType(Order.desc);
 
-            client.Zones.ListRecords(account, zoneId, options);
+            client.Zones.ListZoneRecords(account, zoneId, options);
 
             Assert.AreEqual(expectedUrl, client.RequestSentTo());
         }
@@ -154,7 +154,7 @@ namespace dnsimple_test.Services
             };
 
             var created = client.Zones
-                .CreateRecord(accountId, "example.com", record)
+                .CreateZoneRecord(accountId, "example.com", record)
                 .Data;
 
             Assert.Multiple(() =>
@@ -179,7 +179,7 @@ namespace dnsimple_test.Services
             string expectedUrl)
         {
             var client = new MockDnsimpleClient(GetZoneRecordFixture);
-            var record = client.Zones.GetRecord(accountId, zoneId, recordId)
+            var record = client.Zones.GetZoneRecord(accountId, zoneId, recordId)
                 .Data;
 
             Assert.Multiple(() =>
@@ -217,7 +217,7 @@ namespace dnsimple_test.Services
             };
 
             var record =
-                client.Zones.UpdateRecord(accountId, zoneId, recordId, data)
+                client.Zones.UpdateZoneRecord(accountId, zoneId, recordId, data)
                     .Data;
 
             Assert.Multiple(() =>
@@ -250,7 +250,7 @@ namespace dnsimple_test.Services
             {
                 Assert.DoesNotThrow(delegate
                 {
-                    client.Zones.DeleteRecord(accountId, zoneId, recordId);
+                    client.Zones.DeleteZoneRecord(accountId, zoneId, recordId);
                 });
                 
                 Assert.AreEqual(Method.DELETE, client.HttpMethodUsed());

@@ -23,7 +23,7 @@ namespace dnsimple.Services
         /// records for the zone.</returns>
         /// <see cref="ZoneRecordsListOptions"/>
         /// <see>https://developer.dnsimple.com/v2/zones/records/#listZoneRecords</see>
-        public PaginatedResponse<ZoneRecord> ListRecords(long accountId, string zoneId, ZoneRecordsListOptions options = null)
+        public PaginatedResponse<ZoneRecord> ListZoneRecords(long accountId, string zoneId, ZoneRecordsListOptions options = null)
         {
             var builder = BuildRequestForPath(ZoneRecordsPath(accountId, zoneId));
 
@@ -44,7 +44,7 @@ namespace dnsimple.Services
         /// <exception cref="DnsimpleValidationException">If the validation fails</exception>
         /// <see cref="ZoneRecord"/>
         /// <see>https://developer.dnsimple.com/v2/zones/records/#createZoneRecord</see>
-        public SimpleResponse<ZoneRecord> CreateRecord(long accountId, string zoneId, ZoneRecord input)
+        public SimpleResponse<ZoneRecord> CreateZoneRecord(long accountId, string zoneId, ZoneRecord input)
         {
             var builder = BuildRequestForPath(ZoneRecordsPath(accountId, zoneId));
             builder.Method(Method.POST);
@@ -68,7 +68,7 @@ namespace dnsimple.Services
         /// <returns>A <c>ZoneRecordResponse</c> containing the zone record.</returns>
         /// <see cref="ZoneRecord"/>
         /// <see>https://developer.dnsimple.com/v2/zones/records/#getZoneRecord</see>
-        public SimpleResponse<ZoneRecord> GetRecord(long accountId, string zoneId, long recordId)
+        public SimpleResponse<ZoneRecord> GetZoneRecord(long accountId, string zoneId, long recordId)
         {
             var builder = BuildRequestForPath(ZoneRecordPath(accountId, zoneId, recordId));
                 
@@ -88,7 +88,7 @@ namespace dnsimple.Services
         /// <exception cref="DnsimpleValidationException">If the validation fails</exception>
         /// <see cref="ZoneRecord"/>
         /// <see>https://developer.dnsimple.com/v2/zones/records/#updateZoneRecord</see>
-        public SimpleResponse<ZoneRecord> UpdateRecord(long accountId, string zoneId, long recordId, ZoneRecord record)
+        public SimpleResponse<ZoneRecord> UpdateZoneRecord(long accountId, string zoneId, long recordId, ZoneRecord record)
         {
             var builder = BuildRequestForPath(ZoneRecordPath(accountId, zoneId, recordId));
             builder.Method(Method.PATCH);
@@ -104,7 +104,7 @@ namespace dnsimple.Services
         /// <param name="zoneId">The zone name</param>
         /// <param name="recordId">The record Id</param>
         /// <see>https://developer.dnsimple.com/v2/zones/records/#deleteZoneRecord</see>
-        public EmptyResponse DeleteRecord(long accountId, string zoneId, long recordId)
+        public EmptyResponse DeleteZoneRecord(long accountId, string zoneId, long recordId)
         {
             var builder = BuildRequestForPath(ZoneRecordPath(accountId, zoneId, recordId));
             builder.Method(Method.DELETE);
