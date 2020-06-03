@@ -20,7 +20,7 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Lists the one-click services available in DNSimple.
+        /// List all available one-click services.
         /// </summary>
         /// <param name="options">Options passed to the list (sorting and
         /// pagination).</param>
@@ -35,14 +35,14 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Returns a one-click service.
+        /// Retrieves the details of a one-click service.
         /// </summary>
-        /// <param name="service">The service name or id</param>
+        /// <param name="serviceIdentifier">The service name or ID</param>
         /// <returns>The one-click service requested.</returns>
         /// <see>https://developer.dnsimple.com/v2/services/#getService</see>
-        public SimpleResponse<Service> GetService(string service)
+        public SimpleResponse<Service> GetService(string serviceIdentifier)
         {
-            var builder = BuildRequestForPath(ServicePath(service));
+            var builder = BuildRequestForPath(ServicePath(serviceIdentifier));
 
             return new SimpleResponse<Service>(Execute(builder.Request));
         }
