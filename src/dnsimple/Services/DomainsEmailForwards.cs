@@ -13,7 +13,7 @@ namespace dnsimple.Services
     public partial class DomainsService
     {
         /// <summary>
-        /// List email forwards for the domain in the account.
+        /// Lists email forwards for the domain.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or ID</param>
@@ -32,7 +32,7 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Creates a email forward for the domain
+        /// Creates a new email forward for the domain.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or ID</param>
@@ -52,7 +52,7 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Retrieves an email forward.
+        /// Retrieves the details of an existing email forward.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or ID</param>
@@ -67,7 +67,7 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Deletes an email forward.
+        /// Permanently deletes an email forward.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or ID</param>

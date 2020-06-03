@@ -14,10 +14,10 @@ namespace dnsimple.Services
     public partial class RegistrarService
     {
         /// <summary>
-        /// Get the WHOIS privacy details for a domain.
+        /// Gets the whois privacy status for an existing domain.
         /// </summary>
         /// <param name="accountId">The account ID</param>
-        /// <param name="domain">The domain name or id</param>
+        /// <param name="domain">The domain name</param>
         /// <returns>The WHOIS privacy for the domain</returns>
         /// <see>https://developer.dnsimple.com/v2/registrar/whois-privacy/#getWhoisPrivacy</see>
         public SimpleResponse<WhoisPrivacy> GetWhoisPrivacy(long accountId, string domain)
@@ -39,7 +39,7 @@ namespace dnsimple.Services
         /// calling this will enable the WHOIS privacy.
         /// </remarks>
         /// <param name="accountId">The account ID</param>
-        /// <param name="domain">The domain name or id</param>
+        /// <param name="domain">The domain name</param>
         /// <returns>The WHOIS privacy for the domain</returns>
         /// <see>https://developer.dnsimple.com/v2/registrar/whois-privacy/#enableWhoisPrivacy</see>
         public SimpleResponse<WhoisPrivacy> EnableWhoisPrivacy(long accountId, string domain)
@@ -51,16 +51,10 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Disable WHOIS privacy for the domain.
+        /// Disables the WHOIS privacy for the domain.
         /// </summary>
-        /// <remarks>
-        /// Note that if the WHOIS privacy is not purchased for the domain,
-        /// this method will do nothing.
-        /// If WHOIS privacy was previously purchased and enabled, then calling
-        /// this will disable the WHOIS privacy.
-        /// </remarks>
         /// <param name="accountId">The account ID</param>
-        /// <param name="domain">The domain name or id</param>
+        /// <param name="domain">The domain name</param>
         /// <returns>The WHOIS privacy response for the domain</returns>
         /// <see>https://developer.dnsimple.com/v2/registrar/whois-privacy/#disableWhoisPrivacy</see>
         public SimpleResponse<WhoisPrivacy> DisableWhoisPrivacy(long accountId, string domain)
@@ -72,10 +66,10 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Renew whois privacy for the domain.
+        /// Renews the WHOIS privacy for the domain.
         /// </summary>
         /// <param name="accountId">The account ID</param>
-        /// <param name="domain">The domain name or id</param>
+        /// <param name="domain">The domain name</param>
         /// <returns>A whois renewal response with the renewal information</returns>
         /// <see>https://developer.dnsimple.com/v2/registrar/whois-privacy/#renewWhoisPrivacy</see>
         public SimpleResponse<WhoisPrivacyRenewal> RenewWhoisPrivacy(long accountId, string domain)

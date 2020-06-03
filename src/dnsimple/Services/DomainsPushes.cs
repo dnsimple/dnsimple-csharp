@@ -12,7 +12,7 @@ namespace dnsimple.Services
     public partial class DomainsService
     {
         /// <summary>
-        /// Initiate a push.
+        /// Initiates a pust of a domain to another DNSimple account.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or ID</param>
@@ -47,7 +47,7 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Accept a push for the target account
+        /// Accepts a push to the target account.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="pushId">The push id</param>
@@ -65,7 +65,7 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Reject a push for the target account.
+        /// Rejects a push to the target account.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="pushId">The push id</param>

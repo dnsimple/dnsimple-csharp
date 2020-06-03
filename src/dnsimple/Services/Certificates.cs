@@ -18,7 +18,7 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// List the certificates for a domain in the account.
+        /// Lists the certificates for a domain.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or ID</param>
@@ -35,7 +35,7 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Get the details of a certificate.
+        /// Retrieves the details of an existing certificate.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or ID</param>
@@ -50,8 +50,7 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Get the PEM-encoded certificate, along with the root certificate
-        /// and intermediate chain.
+        /// Gets the PEM-encoded certificate, along with the root certificate and intermediate chain.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or ID</param>
@@ -67,7 +66,7 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Get the PEM-encoded certificate private key.
+        /// Gets the PEM-encoded certificate private key.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or ID</param>
@@ -82,47 +81,8 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Purchase a Let’s Encrypt certificate with DNSimple.
+        /// Orders a Let's Encrypt certificate with DNSimple.
         /// </summary>
-        /// <remarks>
-        /// <para>
-        /// The default certificate name is www and covers both the root
-        /// domain (e.g. example.com) and the www subdomain (e.g. www.example.com).
-        /// You can choose a custom name (like api), which is valid only for
-        /// https://api.example.com. Custom names require a subscription to a
-        /// Professional or Business plan.
-        /// </para>
-        /// <para>
-        /// A certificate can be purchased for multiple subdomains. We call
-        /// them alternate names or Subject Alternative Name (SAN).
-        /// By default, a certificate doesn't have alternate names.
-        /// You can purchase a single certificate for both https://docs.example.com
-        /// and https://status.example.com, alongside https://example.com.
-        ///</para>
-        /// <para>
-        /// Alternate names require a subscription to a Professional or
-        /// Business plan.
-        /// </para>
-        /// <para>
-        /// To request a wildcard certificate that’s valid for an unlimited
-        /// number of names that belong to a single subdomain level, use *
-        /// (e.g. *.example.com).
-        /// Let’s Encrypt wildcard certificates is a feature that is only
-        /// available to the following new plans: Professional or Business.
-        /// If the feature is not enabled, you will receive an HTTP 412
-        /// response code.
-        /// </para>
-        /// <para>
-        /// By default, a certificate isn’t auto-renewed when it expires.
-        /// Certificates with auto-renewal disabled may be renewed manually.
-        /// You may also purchase the certificate once and select the
-        /// auto-renewal option. With auto-renewal enabled, our system
-        /// automatically renews a certificate before it expires. Notifications
-        /// for renewed certificates are sent via email, and a webhook is fired
-        /// when a new certificate is available. You’ll still have to install
-        /// the renewed certificate.
-        /// </para>
-        /// </remarks>
         /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or ID</param>
         /// <param name="order">The order object</param>
@@ -139,7 +99,7 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Issue a Let’s Encrypt certificate purchased with DNSimple.
+        /// Issues a Let's Encrypt certificate ordered with DNSimple.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or ID</param>
@@ -156,7 +116,7 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Renew a Let’s Encrypt certificate purchased with DNSimple.
+        /// Renews a Let's Encrypt certificate ordered with DNSimple.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or ID</param>
@@ -174,7 +134,7 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Issue a Let’s Encrypt certificate renewed with DNSimple.
+        /// Issues a Let’s Encrypt certificate renewal ordered with DNSimple.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or ID</param>

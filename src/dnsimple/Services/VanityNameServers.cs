@@ -16,23 +16,11 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Enable vanity name servers.
-        /// <para>
-        /// This method sets up the appropriate A and AAAA records for the
-        /// domain to provide vanity name servers, but it does not change the
-        /// delegation for the domain.
-        /// </para>
-        /// <para>
-        /// To change the delegation for domains to vanity name servers use
-        /// <c>RegistrarService</c> (<c>ChangeDomainDelegationToVanity()</c>,
-        /// <c>ChangeDomainDelegationFromVanity()</c>) to Delegate to Vanity Name
-        /// Servers or Delegate from Vanity Name Servers.
-        /// </para>
+        /// Enables Vanity Name Servers for the domain.
         /// </summary>
         /// <remarks>
-        /// The vanity name servers is a feature that is only available to the
-        /// following new plans: Business. If the feature is not enabled, a
-        /// <c>DnsimpleException</c> will be thrown.
+        /// The vanity name servers feature is only available on certain plans.
+        /// If the feature is not enabled for your plan, a <c>DnsimpleException</c> will be thrown.
         /// </remarks>
         /// <param name="accountId">The account ID</param>
         /// <param name="domain">Tne domain name or id</param>
@@ -47,17 +35,7 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Disable Vanity Name Servers for the domain.
-        /// <para>This method removes the A and AAAA records required for the
-        /// domain to provide vanity name servers, but it does not change
-        /// the delegation for the domain.
-        /// </para>
-        /// <para>
-        /// To change the delegation for domains to vanity name servers use
-        /// <c>RegistrarService</c> (<c>ChangeDomainDelegationToVanity()</c>,
-        /// <c>ChangeDomainDelegationFromVanity()</c>) to Delegate to Vanity Name
-        /// Servers or Delegate from Vanity Name Servers.
-        /// </para>
+        /// Disables Vanity Name Servers for the domain.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="domain">The domain name or id</param>

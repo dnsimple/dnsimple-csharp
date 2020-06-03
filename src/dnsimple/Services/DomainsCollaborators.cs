@@ -13,7 +13,7 @@ namespace dnsimple.Services
     public partial class DomainsService
     {
         /// <summary>
-        /// List collaborators for the domain in the account.
+        /// Lists collaborators for the domain.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or id</param>
@@ -27,17 +27,7 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Adds a collaborator for the domain in the account.
-        /// 
-        /// At the time of the add, a collaborator may or may not have a
-        /// DNSimple account.
-        ///
-        /// In case the collaborator doesn't have a DNSimple account, the system
-        /// will invite her/him to register to DNSimple first and then to accept
-        /// the collaboration invitation.
-        ///
-        /// In the other case, she/he is automatically added to the domain as
-        /// collaborator. She/he can decide to reject the invitation later.
+        /// Adds a collaborator to the domain.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or id</param>
@@ -62,7 +52,7 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Removes a collaborator from the domain in the account.
+        /// Removes a collaborator from the domain.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or id</param>

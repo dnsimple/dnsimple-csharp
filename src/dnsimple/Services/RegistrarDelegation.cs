@@ -13,10 +13,10 @@ namespace dnsimple.Services
     public partial class RegistrarService
     {
         /// <summary>
-        /// List name servers for the domain in the account.
+        /// Lists the name servers for the domain.
         /// </summary>
         /// <param name="accountId">The account ID</param>
-        /// <param name="domain">The domain id or name</param>
+        /// <param name="domain">The domain name</param>
         /// <returns>The list of name servers for the domain</returns>
         /// <see>https://developer.dnsimple.com/v2/registrar/delegation/#getDomainDelegation</see>
         public DelegationResponse GetDomainDelegation(long accountId, string domain)
@@ -27,10 +27,10 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Update name servers for the domain.
+        /// Changes the domain name servers.
         /// </summary>
         /// <param name="accountId">The account ID</param>
-        /// <param name="domain">The domain id or name</param>
+        /// <param name="domain">The domain name</param>
         /// <param name="delegation">A list of name server names as strings</param>
         /// <returns>The list of updated name servers for the domain</returns>
         /// <see>https://developer.dnsimple.com/v2/registrar/delegation/#changeDomainDelegation</see>
@@ -44,15 +44,10 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Update name servers for the domain.
+        /// Delegate a domain to vanity name servers.
         /// </summary>
-        /// <remarks>
-        /// This method required the vanity name servers feature, that
-        /// is only available for certain plans. If the feature is not enabled,
-        /// you will receive an HTTP 412 response code.
-        /// </remarks>
-        /// <param name="accountId">The account Id.</param>
-        /// <param name="domain">The domain id or name</param>
+        /// <param name="accountId">The account ID</param>
+        /// <param name="domain">The domain name</param>
         /// <param name="delegation">A list of name servers as strings</param>
         /// <returns>The list of nameservers updated to vanity for the domain</returns>
         /// <see>https://developer.dnsimple.com/v2/registrar/delegation/#changeDomainDelegationToVanity</see>
@@ -66,15 +61,10 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Update name servers for the domain from vanity.
+        /// De-delegate a domain from vanity name servers.
         /// </summary>
-        /// <remarks>
-        /// This method required the vanity name servers feature, that is only
-        /// available for certain plans. If the feature is not enabled,
-        /// you will receive an HTTP 412 response code.
-        /// </remarks>
         /// <param name="accountId">The account ID</param>
-        /// <param name="domain">The domain id or name</param>
+        /// <param name="domain">The domain name</param>
         /// <see>https://developer.dnsimple.com/v2/registrar/delegation/#changeDomainDelegationFromVanity</see>
         public EmptyResponse ChangeDomainDelegationFromVanity(long accountId, string domain)
         {

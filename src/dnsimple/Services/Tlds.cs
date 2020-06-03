@@ -16,7 +16,7 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Returns the list of TLDs supported for registration or transfer.
+        /// ListsTLDs supported for registration or transfer.
         /// </summary>
         /// <returns>The list of TLDs supported</returns>
         /// <see cref="TldData"/>
@@ -32,7 +32,7 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Retrieves the details of a supported TLD.
+        /// Retrieves the details of a TLD.
         /// </summary>
         /// <param name="tld">The TLD name</param>
         /// <returns>The information about the TLD requested</returns>
@@ -46,19 +46,8 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Lists the TLD Extended Attributes
+        /// Lists a TLD extended attributes.
         /// </summary>
-        /// <remarks>
-        /// <para>
-        /// Some TLDs require extended attributes when registering or
-        /// transferring a domain. This API interface provides information on
-        /// the extended attributes for any particular TLD.</para>
-        /// <para>
-        /// Extended attributes are extra TLD-specific attributes, required by
-        /// the TLD registry to collect extra information about the registrant
-        /// or legal agreements.
-        /// </para>
-        /// </remarks>
         /// <param name="tld">The TLD name</param>
         /// <returns>The extended attributes list for the TLD.</returns>
         /// <see cref="TldExtendedAttribute"/>

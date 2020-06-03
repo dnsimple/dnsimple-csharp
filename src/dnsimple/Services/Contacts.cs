@@ -89,7 +89,7 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Permanently deletes a contact.
+        /// Permanently deletes a contact from the account.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="contactId">The contact id</param>

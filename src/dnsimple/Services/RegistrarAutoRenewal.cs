@@ -11,7 +11,7 @@ namespace dnsimple.Services
         /// Enables auto renewal for the domain.
         /// </summary>
         /// <param name="accountId">The account ID</param>
-        /// <param name="domain">The domain name or id</param>
+        /// <param name="domain">The domain name</param>
         /// <see>https://developer.dnsimple.com/v2/registrar/auto-renewal/#enableDomainAutoRenewal</see>
         public EmptyResponse EnableDomainAutoRenewal(long accountId, string domain)
         {
@@ -22,7 +22,7 @@ namespace dnsimple.Services
         /// Disables auto renewal for the domain.
         /// </summary>
         /// <param name="accountId">The account ID</param>
-        /// <param name="domain">The domain name or id</param>
+        /// <param name="domain">The domain name</param>
         /// <see>https://developer.dnsimple.com/v2/registrar/auto-renewal/#disableDomainAutoRenewal</see>
         public EmptyResponse DisableDomainAutoRenewal(long accountId, string domain)
         {
