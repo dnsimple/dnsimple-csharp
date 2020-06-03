@@ -7,13 +7,13 @@ namespace dnsimple
     /// Default <c>Exception</c>
     /// </summary>
     /// <see cref="Exception"/>
-    public class DnSimpleException : Exception
+    public class DnsimpleException : Exception
     {
         /// <summary>
         /// Constructs and <c>Exception</c> with a message.
         /// </summary>
         /// <param name="message">A human readable message.</param>
-        public DnSimpleException(string message) : base(message)
+        public DnsimpleException(string message) : base(message)
         {
         }
     }
@@ -21,8 +21,8 @@ namespace dnsimple
     /// <summary>
     /// <c>Exception</c> thrown when the resource is not found.
     /// </summary>
-    /// <see cref="DnSimpleException"/>
-    public class NotFoundException : DnSimpleException
+    /// <see cref="DnsimpleException"/>
+    public class NotFoundException : DnsimpleException
     {
         /// <inheritdoc />
         public NotFoundException(string message) : base(message)
@@ -33,9 +33,9 @@ namespace dnsimple
     /// <summary>
     /// <c>Exception</c> thrown when the user failed to authenticate. 
     /// </summary>
-    /// <see cref="DnSimpleException"/>
+    /// <see cref="DnsimpleException"/>
     /// <see>https://developer.dnsimple.com/v2/oauth/</see>
-    public class AuthenticationException : DnSimpleException
+    public class AuthenticationException : DnsimpleException
     {
         /// <inheritdoc />
         public AuthenticationException(string message) : base(message)
@@ -46,11 +46,11 @@ namespace dnsimple
     /// <summary>
     /// <c>Exception</c> thrown when there are validation errors.
     /// </summary>
-    public class DnSimpleValidationException : DnSimpleException
+    public class DnsimpleValidationException : DnsimpleException
     {
         public JObject Validation { get; }
 
-        public DnSimpleValidationException(JToken error) : base(error["message"]?.ToString()) =>
+        public DnsimpleValidationException(JToken error) : base(error["message"]?.ToString()) =>
             Validation = (JObject) error["errors"];
     }
 }

@@ -106,7 +106,7 @@ namespace dnsimple_test.Services
             Assert.Multiple(() =>
             {
                 Assert.Throws(
-                    Is.TypeOf<DnSimpleValidationException>().And.Message
+                    Is.TypeOf<DnsimpleValidationException>().And.Message
                         .EqualTo(
                             "`example.com` is not a premium domain for registration"),
                     delegate
@@ -195,7 +195,7 @@ namespace dnsimple_test.Services
 
 
             Assert.Throws(
-                Is.TypeOf<DnSimpleException>().And.Message
+                Is.TypeOf<DnsimpleException>().And.Message
                     .EqualTo("Please provide an AuthCode"), delegate
                 {
                     client.Registrar.TransferDomain(accountId, domainName,
@@ -219,7 +219,7 @@ namespace dnsimple_test.Services
             };
 
 
-            Assert.Throws(Is.TypeOf<DnSimpleValidationException>(), delegate
+            Assert.Throws(Is.TypeOf<DnsimpleValidationException>(), delegate
             {
                 client.Registrar.TransferDomain(accountId, domainName,
                     transfer);
@@ -242,7 +242,7 @@ namespace dnsimple_test.Services
             };
 
 
-            Assert.Throws(Is.TypeOf<DnSimpleValidationException>()
+            Assert.Throws(Is.TypeOf<DnsimpleValidationException>()
                     .And
                     .Message
                     .EqualTo(
@@ -334,7 +334,7 @@ namespace dnsimple_test.Services
                 PremiumPrice = "14"
             };
 
-            Assert.Throws(Is.TypeOf<DnSimpleValidationException>()
+            Assert.Throws(Is.TypeOf<DnsimpleValidationException>()
                     .And
                     .Message
                     .EqualTo("example.com may not be renewed at this time"),

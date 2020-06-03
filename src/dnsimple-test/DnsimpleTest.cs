@@ -13,14 +13,14 @@ namespace dnsimple_test
             "createDelegationSignerRecord/validation-error.http";
 
         private const string Message = "Validation failed";
-        private DnSimpleValidationException _exception;
+        private DnsimpleValidationException _exception;
 
         [SetUp]
         public void Initialize()
         {
             var loader = new FixtureLoader("v2", FailToCreateRecordsFixture);
             _jToken = JObject.Parse(loader.ExtractJsonPayload());
-            _exception = new DnSimpleValidationException(_jToken);
+            _exception = new DnsimpleValidationException(_jToken);
         }
 
         [Test]

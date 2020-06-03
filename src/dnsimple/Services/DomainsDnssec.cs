@@ -53,7 +53,7 @@ namespace dnsimple.Services
         /// <param name="domainIdentifier">The domain name or ID</param>
         /// <remarks>Will throw a <c>DnSimpleException</c> if trying to
         /// disable DNSSEC for a domain that hasn't DNSSEC enabled.</remarks>
-        /// <see cref="DnSimpleException"/>
+        /// <see cref="DnsimpleException"/>
         /// <see>https://developer.dnsimple.com/v2/domains/dnssec/#disableDomainDnssec</see>
         public EmptyResponse DisableDnssec(long accountId, string domainIdentifier)
         {

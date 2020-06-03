@@ -93,7 +93,7 @@ namespace dnsimple.Services
         public SimpleResponse<DomainTransfer> TransferDomain(long accountId, string domainName, DomainTransferInput transferInput)
         {
             if (transferInput.AuthCode == null) {
-                throw new DnSimpleException("Please provide an AuthCode");
+                throw new DnsimpleException("Please provide an AuthCode");
             }
             var builder = BuildRequestForPath(TransferDomainPath(accountId, domainName));
             builder.Method(Method.POST);

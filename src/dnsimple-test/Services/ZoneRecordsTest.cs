@@ -304,7 +304,7 @@ namespace dnsimple_test.Services
             client.StatusCode(HttpStatusCode.GatewayTimeout);
 
             Assert.Throws(
-                Is.TypeOf<DnSimpleException>().And.Message
+                Is.TypeOf<DnsimpleException>().And.Message
                     .EqualTo("Could not query zone, connection timed out"),
                 delegate
                 {

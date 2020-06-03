@@ -166,7 +166,7 @@ namespace dnsimple_test.Services
                 client.Domains.CreateDelegationSignerRecord(accountId,
                     domainIdentifier, _record);
             }
-            catch (DnSimpleValidationException exception)
+            catch (DnsimpleValidationException exception)
             {
                 Assert.Multiple(() =>
                 {

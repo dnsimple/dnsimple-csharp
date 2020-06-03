@@ -246,7 +246,7 @@ namespace dnsimple_test.Services
             client.StatusCode(HttpStatusCode.BadRequest);
             
             Assert.Throws(
-                Is.TypeOf<DnSimpleValidationException>().And.Message
+                Is.TypeOf<DnsimpleValidationException>().And.Message
                     .EqualTo("The contact cannot be deleted because it's currently in use"),
                 delegate { client.Contacts.DeleteContact(accountId, contactId); });
         }

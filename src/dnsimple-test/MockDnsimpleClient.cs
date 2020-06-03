@@ -118,13 +118,13 @@ namespace dnsimple_test
             switch (StatusCode)
             {
                 case HttpStatusCode.BadRequest:
-                    throw new DnSimpleValidationException(JObject.Parse(rawPayload));
+                    throw new DnsimpleValidationException(JObject.Parse(rawPayload));
                 case HttpStatusCode.NotImplemented:
                     message = JObject.Parse(rawPayload)["message"]?.ToString();
-                    throw new DnSimpleException(message);
+                    throw new DnsimpleException(message);
                 case HttpStatusCode.GatewayTimeout:
                     message = JObject.Parse(rawPayload)["message"]?.ToString();
-                    throw new DnSimpleException(message);
+                    throw new DnsimpleException(message);
                 case HttpStatusCode.NotFound:
                     message = JObject.Parse(rawPayload)["message"]?.ToString();
                     throw new NotFoundException(message);

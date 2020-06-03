@@ -174,7 +174,7 @@ namespace dnsimple_test.Services
             Assert.Multiple(() =>
             {
                 Assert.Throws(
-                    Is.TypeOf<DnSimpleValidationException>().And.Message.EqualTo("The whois privacy for example.com has just been renewed, a new renewal cannot be started at this time"),
+                    Is.TypeOf<DnsimpleValidationException>().And.Message.EqualTo("The whois privacy for example.com has just been renewed, a new renewal cannot be started at this time"),
                     delegate
                     {
                         client.Registrar.RenewWhoisPrivacy(accountId, domain);
@@ -197,7 +197,7 @@ namespace dnsimple_test.Services
             Assert.Multiple(() =>
             {
                 Assert.Throws(
-                    Is.TypeOf<DnSimpleValidationException>().And.Message.EqualTo("WHOIS privacy not found for example.com"),
+                    Is.TypeOf<DnsimpleValidationException>().And.Message.EqualTo("WHOIS privacy not found for example.com"),
                     delegate
                     {
                         client.Registrar.RenewWhoisPrivacy(accountId, domain);

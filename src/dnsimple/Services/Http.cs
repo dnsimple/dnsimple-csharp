@@ -61,7 +61,7 @@ namespace dnsimple.Services
         /// A <c>JToken</c> object representing the JSON payload returned
         /// by the API call.
         /// </returns>
-        /// <exception cref="DnSimpleException"></exception>
+        /// <exception cref="DnsimpleException"></exception>
         /// <see cref="JToken"/>
         public virtual IRestResponse Execute(IRestRequest request)
         {
@@ -81,28 +81,28 @@ namespace dnsimple.Services
             {
                 case HttpStatusCode.BadRequest:
                     if(error["errors"] != null)
-                        throw new DnSimpleValidationException(error);
+                        throw new DnsimpleValidationException(error);
                     break;
                 case HttpStatusCode.NotFound:
                     throw new NotFoundException(message);
                 case HttpStatusCode.PaymentRequired:
-                    throw new DnSimpleException(message);
+                    throw new DnsimpleException(message);
                 case HttpStatusCode.PreconditionFailed:
-                    throw new DnSimpleException(message);
+                    throw new DnsimpleException(message);
                 case (HttpStatusCode) 429 :
-                    throw new DnSimpleException(message);
+                    throw new DnsimpleException(message);
                 case HttpStatusCode.Unauthorized:
                     throw new AuthenticationException(message);
                 case HttpStatusCode.InternalServerError:
-                    throw new DnSimpleException(message);
+                    throw new DnsimpleException(message);
                 case HttpStatusCode.NotImplemented:
-                    throw new DnSimpleException(message);
+                    throw new DnsimpleException(message);
                 case HttpStatusCode.ServiceUnavailable:
-                    throw new DnSimpleException(message);
+                    throw new DnsimpleException(message);
                 case HttpStatusCode.GatewayTimeout:
-                    throw new DnSimpleException(message);
+                    throw new DnsimpleException(message);
                 default:
-                    throw new DnSimpleException(message);
+                    throw new DnsimpleException(message);
             }
         }
     }

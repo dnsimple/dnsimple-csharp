@@ -62,7 +62,7 @@ namespace dnsimple_test.Services
             var client = new MockDnsimpleClient("disableDnssec/not-enabled.http");
             client.StatusCode(HttpStatusCode.NotImplemented);
             
-            Assert.Throws<DnSimpleException>(delegate
+            Assert.Throws<DnsimpleException>(delegate
             {
                 client.Domains.DisableDnssec(accountId, domainIdentifier);
                     
