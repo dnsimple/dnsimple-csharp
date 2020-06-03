@@ -38,15 +38,12 @@ namespace dnsimple.Services
         /// <param name="domain">Tne domain name or id</param>
         /// <returns>The vanity name server list</returns>
         /// <see>https://developer.dnsimple.com/v2/vanity/#enableVanityNameServers</see>
-        public ListResponse<VanityNameServer> EnableVanityNameServers(
-            long accountId, string domain)
+        public ListResponse<VanityNameServer> EnableVanityNameServers(long accountId, string domain)
         {
-            var builder = BuildRequestForPath(
-                VanityNameServersPath(accountId, domain));
+            var builder = BuildRequestForPath(VanityNameServersPath(accountId, domain));
             builder.Method(Method.PUT);
 
-            return new ListResponse<VanityNameServer>(
-                Execute(builder.Request));
+            return new ListResponse<VanityNameServer>(Execute(builder.Request));
         }
 
         /// <summary>
@@ -65,11 +62,9 @@ namespace dnsimple.Services
         /// <param name="accountId">The account ID</param>
         /// <param name="domain">The domain name or id</param>
         /// <returns><c>EmptyDnsimpleResponse</c></returns>
-        public EmptyResponse DisableVanityNameServers(long accountId,
-            string domain)
+        public EmptyResponse DisableVanityNameServers(long accountId, string domain)
         {
-            var builder = BuildRequestForPath(
-                    VanityNameServersPath(accountId, domain));
+            var builder = BuildRequestForPath(VanityNameServersPath(accountId, domain));
             builder.Method(Method.DELETE);
 
             return new EmptyResponse(Execute(builder.Request));

@@ -29,8 +29,7 @@ namespace dnsimple.Services
             return DomainAutoRenewal(accountId, domain, Method.DELETE);
         }
 
-        private EmptyResponse DomainAutoRenewal(long accountId, string domain,
-            Method method)
+        private EmptyResponse DomainAutoRenewal(long accountId, string domain, Method method)
         {
             var builder = BuildRequestForPath(AutoRenewalPath(accountId, domain));
             builder.Method(method);

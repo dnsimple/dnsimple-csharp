@@ -24,12 +24,11 @@ namespace dnsimple.Services
         /// <param name="accountId">The account ID</param>
         /// <param name="domainName">The domain name to check</param>
         /// <returns>The check domain response</returns>
-        public SimpleResponse<DomainCheck> CheckDomain(long accountId,
-            string domainName)
+        public SimpleResponse<DomainCheck> CheckDomain(long accountId, string domainName)
         {
-            return new SimpleResponse<DomainCheck>(Execute(
-                BuildRequestForPath(DomainCheckPath(accountId,
-                    domainName)).Request));
+            var builder = BuildRequestForPath(DomainCheckPath(accountId, domainName));
+
+            return new SimpleResponse<DomainCheck>(Execute(builder.Request));
         }
 
         /// <summary>
@@ -47,17 +46,12 @@ namespace dnsimple.Services
         /// different price, you should specify it with the action
         /// param.</remarks>
         /// <see>https://developer.dnsimple.com/v2/registrar/#getDomainPremiumPrice</see>
-        public SimpleResponse<DomainPremiumPrice> GetDomainPremiumPrice(long accountId,
-            string domainName, PremiumPriceCheckAction action)
+        public SimpleResponse<DomainPremiumPrice> GetDomainPremiumPrice(long accountId, string domainName, PremiumPriceCheckAction action)
         {
-            var builder = BuildRequestForPath(
-                    DomainPremiumPricePath(accountId, domainName));
-            builder.AddParameter(
-                new KeyValuePair<string, string>("action",
-                    action.ToString().ToLower()));
+            var builder = BuildRequestForPath(DomainPremiumPricePath(accountId, domainName));
+            builder.AddParameter(new KeyValuePair<string, string>("action", action.ToString().ToLower()));
 
-            return new SimpleResponse<DomainPremiumPrice>(
-               Execute(builder.Request));
+            return new SimpleResponse<DomainPremiumPrice>(Execute(builder.Request));
         }
 
         /// <summary>
@@ -73,16 +67,13 @@ namespace dnsimple.Services
         /// command.</remarks>
         /// <see cref="DomainRegistrationInfo"/>
         /// <see>https://developer.dnsimple.com/v2/registrar/#registerDomain</see>
-        public SimpleResponse<DomainRegistration> RegisterDomain(long accountId,
-            string domainName, DomainRegistrationInfo domain)
+        public SimpleResponse<DomainRegistration> RegisterDomain(long accountId, string domainName, DomainRegistrationInfo domain)
         {
-            var builder = BuildRequestForPath(
-                    DomainRegistrationPath(accountId, domainName));
+            var builder = BuildRequestForPath(DomainRegistrationPath(accountId, domainName));
             builder.Method(Method.POST);
             builder.AddJsonPayload(domain);
 
-            return new SimpleResponse<DomainRegistration>(
-                Execute(builder.Request));
+            return new SimpleResponse<DomainRegistration>(Execute(builder.Request));
         }
 
         /// <summary>
@@ -99,20 +90,16 @@ namespace dnsimple.Services
         /// 7 days.</remarks>
         /// <see cref="DomainTransfer"/>
         /// <see>https://developer.dnsimple.com/v2/registrar/#transferDomain</see>
-        public SimpleResponse<DomainTransfer> TransferDomain(long accountId,
-            string domainName, DomainTransferInput transferInput)
+        public SimpleResponse<DomainTransfer> TransferDomain(long accountId, string domainName, DomainTransferInput transferInput)
         {
-            if (transferInput.AuthCode == null)
-            {
+            if (transferInput.AuthCode == null) {
                 throw new DnSimpleException("Please provide an AuthCode");
             }
-            var builder = BuildRequestForPath(
-                    TransferDomainPath(accountId, domainName));
+            var builder = BuildRequestForPath(TransferDomainPath(accountId, domainName));
             builder.Method(Method.POST);
             builder.AddJsonPayload(transferInput);
 
-            return new SimpleResponse<DomainTransfer>(
-                Execute(builder.Request));
+            return new SimpleResponse<DomainTransfer>(Execute(builder.Request));
         }
 
         /// <summary>
@@ -124,12 +111,11 @@ namespace dnsimple.Services
         /// <returns>The domain transfer</returns>
         /// <see cref="DomainTransfer"/>
         /// <see>https://developer.dnsimple.com/v2/registrar/#getDomainTransfer</see>
-        public SimpleResponse<DomainTransfer> GetDomainTransfer(long accountId,
-            string domainName, long domainTransferId)
+        public SimpleResponse<DomainTransfer> GetDomainTransfer(long accountId, string domainName, long domainTransferId)
         {
-            return new SimpleResponse<DomainTransfer>(
-                Execute(BuildRequestForPath(DomainTransferPath(accountId, domainName, domainTransferId))
-                    .Request));
+            var builder = BuildRequestForPath(DomainTransferPath(accountId, domainName, domainTransferId)); 
+
+            return new SimpleResponse<DomainTransfer>(Execute(builder.Request));
         }
 
         /// <summary>
@@ -141,13 +127,12 @@ namespace dnsimple.Services
         /// <returns>The domain transfer</returns>
         /// <see cref="DomainTransfer"/>
         /// <see>https://developer.dnsimple.com/v2/registrar/#cancelDomainTransfer</see>
-        public SimpleResponse<DomainTransfer> CancelDomainTransfer(long accountId,
-            string domainName, long domainTransferId)
+        public SimpleResponse<DomainTransfer> CancelDomainTransfer(long accountId, string domainName, long domainTransferId)
         {
             var builder = BuildRequestForPath(DomainTransferPath(accountId, domainName, domainTransferId));
             builder.Method(Method.DELETE);
-            return new SimpleResponse<DomainTransfer>(
-                Execute(builder.Request));
+
+            return new SimpleResponse<DomainTransfer>(Execute(builder.Request));
         }
 
         /// <summary>
@@ -162,16 +147,13 @@ namespace dnsimple.Services
         /// upon successful renewal, so please be careful with this
         /// command.</remarks>
         /// <see>https://developer.dnsimple.com/v2/registrar/#renewDomain</see>
-        public SimpleResponse<DomainRenewal> RenewDomain(long accountId,
-            string domainName, DomainRenewalInput input)
+        public SimpleResponse<DomainRenewal> RenewDomain(long accountId, string domainName, DomainRenewalInput input)
         {
-            var builder = BuildRequestForPath(
-                    DomainRenewalPath(accountId, domainName));
+            var builder = BuildRequestForPath(DomainRenewalPath(accountId, domainName));
             builder.Method(Method.POST);
             builder.AddJsonPayload(input);
 
-            return new SimpleResponse<DomainRenewal>(
-                Execute(builder.Request));
+            return new SimpleResponse<DomainRenewal>(Execute(builder.Request));
         }
 
         /// <summary>
@@ -184,8 +166,7 @@ namespace dnsimple.Services
         /// <see>https://developer.dnsimple.com/v2/registrar/#authorizeDomainTransferOut</see>
         public EmptyResponse TransferDomainOut(long accountId, string domainName)
         {
-            var builder = BuildRequestForPath(
-                    DomainTransferOutPath(accountId, domainName));
+            var builder = BuildRequestForPath(DomainTransferOutPath(accountId, domainName));
             builder.Method(Method.POST);
 
             return new EmptyResponse(Execute(builder.Request));

@@ -11,55 +11,53 @@ namespace dnsimple.Services
     public partial class DomainsService
     {
         /// <summary>
-        /// Get the status of DNSSEC, indicating whether it is currently enabled or disabled.
+        /// Checks the DNSSEC status for an existing domain.
         /// </summary>
         /// <param name="accountId">The account ID</param>
-        /// <param name="domainIdentifier">The domain name or id</param>
+        /// <param name="domainIdentifier">The domain name or ID</param>
         /// <returns>The status of the DNSSEC wrapped in a response</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/dnssec/#getDomainDnssec</see>
-        public SimpleResponse<DnssecStatus> GetDnssec(long accountId,
-            string domainIdentifier)
+        public SimpleResponse<DnssecStatus> GetDnssec(long accountId, string domainIdentifier)
         {
-            return new SimpleResponse<DnssecStatus>(Execute(
-                BuildRequestForPath(DnssecPath(accountId, domainIdentifier))
-                    .Request));
+            var builder = BuildRequestForPath(DnssecPath(accountId, domainIdentifier)); 
+
+            return new SimpleResponse<DnssecStatus>(Execute(builder.Request));
         }
 
         /// <summary>
-        /// Enable DNSSEC for the domain in the account. This will sign the
-        /// zone. If the domain is registered it will also add the DS record
-        /// to the corresponding registry.
+        /// Enables DNSSEC for the domain.
+        ///
+        /// It will enable signing of the zone. If the domain is registered with DNSimple,
+        /// it will also add the DS record to the corresponding registry.
         /// </summary>
         /// <param name="accountId">The account ID</param>
-        /// <param name="domainIdentifier">The domain name or id</param>
+        /// <param name="domainIdentifier">The domain name or ID</param>
         /// <returns>The confirmation of the operation withe the status of the
         /// DNSSEC wrapped in a response</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/dnssec/#enableDomainDnssec</see>
-        public SimpleResponse<DnssecStatus> EnableDnssec(long accountId,
-            string domainIdentifier)
+        public SimpleResponse<DnssecStatus> EnableDnssec(long accountId, string domainIdentifier)
         {
-            var builder = BuildRequestForPath(
-                DnssecPath(accountId, domainIdentifier));
+            var builder = BuildRequestForPath(DnssecPath(accountId, domainIdentifier));
             builder.Method(Method.POST);
 
-            return new SimpleResponse<DnssecStatus>(
-                Execute(builder.Request));
+            return new SimpleResponse<DnssecStatus>(Execute(builder.Request));
         }
 
         /// <summary>
-        /// Disable DNSSEC for the domain in the account.
+        /// Disables DNSSEC for the domain.
+        ///
+        /// It will disable signing of the zone. If the domain is registered with DNSimple,
+        /// it will also remove the DS record at the registry corresponding to the disabled DNSSEC signing.
         /// </summary>
         /// <param name="accountId">The account ID</param>
-        /// <param name="domainIdentifier">The domain name or id</param>
+        /// <param name="domainIdentifier">The domain name or ID</param>
         /// <remarks>Will throw a <c>DnSimpleException</c> if trying to
         /// disable DNSSEC for a domain that hasn't DNSSEC enabled.</remarks>
         /// <see cref="DnSimpleException"/>
         /// <see>https://developer.dnsimple.com/v2/domains/dnssec/#disableDomainDnssec</see>
-        public EmptyResponse DisableDnssec(long accountId,
-            string domainIdentifier)
+        public EmptyResponse DisableDnssec(long accountId, string domainIdentifier)
         {
-            var builder = BuildRequestForPath(DnssecPath(accountId,
-                    domainIdentifier));
+            var builder = BuildRequestForPath(DnssecPath(accountId,domainIdentifier));
             builder.Method(Method.DELETE);
 
             return new EmptyResponse(Execute(builder.Request));

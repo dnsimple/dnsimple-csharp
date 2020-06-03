@@ -19,8 +19,7 @@ namespace dnsimple.Services
         /// <param name="email">The email address of the target DNSimple account.</param>
         /// <returns>The newly created push.</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/pushes/#initiateDomainPush</see>
-        public SimpleResponse<Push> InitiatePush(long accountId,
-            string domainIdentifier, string email)
+        public SimpleResponse<Push> InitiatePush(long accountId, string domainIdentifier, string email)
         {
             if(string.IsNullOrEmpty(email))
                 throw new ArgumentException("Email cannot be null or empty");
@@ -42,8 +41,9 @@ namespace dnsimple.Services
         /// <see>https://developer.dnsimple.com/v2/domains/pushes/#listPushes</see>
         public PaginatedResponse<Push> ListPushes(long accountId)
         {
-            return new PaginatedResponse<Push>(
-                Execute(BuildRequestForPath(PushPath(accountId)).Request));
+            var builder = BuildRequestForPath(PushPath(accountId)); 
+
+            return new PaginatedResponse<Push>(Execute(builder.Request));
         }
 
         /// <summary>

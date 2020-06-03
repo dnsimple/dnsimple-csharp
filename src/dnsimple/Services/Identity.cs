@@ -27,8 +27,9 @@ namespace dnsimple.Services
         /// <see>https://developer.dnsimple.com/v2/identity/#whoami</see>
         public SimpleResponse<Whoami> Whoami()
         {
-            return new SimpleResponse<Whoami>(
-                Execute(BuildRequestForPath("/whoami").Request));
+            var builder = BuildRequestForPath("/whoami"); 
+
+            return new SimpleResponse<Whoami>(Execute(builder.Request));
         }
     }
 
@@ -38,8 +39,7 @@ namespace dnsimple.Services
     /// </summary>
     /// <see cref="Account"/>
     /// <see cref="User"/>
-    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy),
-        ItemNullValueHandling = NullValueHandling.Ignore)] 
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy), ItemNullValueHandling = NullValueHandling.Ignore)] 
     public struct Whoami
     {
         /// <summary>

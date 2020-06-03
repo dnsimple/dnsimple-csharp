@@ -23,15 +23,12 @@ namespace dnsimple.Services
         /// <param name="options">Options passed to the list (sorting and
         ///  pagination)</param>
         /// <see>https://developer.dnsimple.com/v2/tlds/#listTlds</see>
-        public PaginatedResponse<TldData> ListTlds(
-            TldListOptions options = null)
+        public PaginatedResponse<TldData> ListTlds(TldListOptions options = null)
         {
             var builder = BuildRequestForPath(TldsPath());
-
             AddListOptionsToRequest(options, ref builder);
 
-            return new PaginatedResponse<TldData>(
-                Execute(builder.Request));
+            return new PaginatedResponse<TldData>(Execute(builder.Request));
         }
 
         /// <summary>
@@ -43,8 +40,9 @@ namespace dnsimple.Services
         /// <see>https://developer.dnsimple.com/v2/tlds/#getTld</see>
         public SimpleResponse<TldData> GetTld(string tld)
         {
-            return new SimpleResponse<TldData>(Execute(
-                BuildRequestForPath(GetTldPath(tld)).Request));
+            var builder = BuildRequestForPath(GetTldPath(tld));
+
+            return new SimpleResponse<TldData>(Execute(builder.Request));
         }
 
         /// <summary>
@@ -65,12 +63,11 @@ namespace dnsimple.Services
         /// <returns>The extended attributes list for the TLD.</returns>
         /// <see cref="TldExtendedAttribute"/>
         /// <see>https://developer.dnsimple.com/v2/tlds/#getTldExtendedAttributes</see>
-        public ListResponse<TldExtendedAttribute>
-            GetTldExtendedAttributes(string tld)
+        public ListResponse<TldExtendedAttribute> GetTldExtendedAttributes(string tld)
         {
-            return new ListResponse<TldExtendedAttribute>(
-                Execute(BuildRequestForPath(GetTldExtendedAttributesPath(tld))
-                    .Request));
+            var builder = BuildRequestForPath(GetTldExtendedAttributesPath(tld));
+
+            return new ListResponse<TldExtendedAttribute>(Execute(builder.Request));
         }
     }
 

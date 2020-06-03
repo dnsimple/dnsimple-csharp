@@ -13,12 +13,11 @@ namespace dnsimple.Services
         /// <param name="domainIdentifier">The domain name or ID</param>
         /// <returns>The list of services applied to the domain.</returns>
         /// <see>https://developer.dnsimple.com/v2/services/domains/#listDomainAppliedServices</see>
-        public PaginatedResponse<Service> AppliedServices(
-            long accountId, string domainIdentifier)
+        public PaginatedResponse<Service> AppliedServices(long accountId, string domainIdentifier)
         {
-            return new PaginatedResponse<Service>(
-                Execute(BuildRequestForPath(AppliedServicesPath(accountId, domainIdentifier))
-                    .Request));
+            var builder = BuildRequestForPath(AppliedServicesPath(accountId, domainIdentifier));
+
+            return new PaginatedResponse<Service>(Execute(builder.Request));
         }
 
         /// <summary>
@@ -29,11 +28,9 @@ namespace dnsimple.Services
         /// <param name="service">The service name or id</param>
         /// <returns><c>EmptyDnsimpleResponse</c></returns>
         /// <see>https://developer.dnsimple.com/v2/services/domains/#applyServiceToDomain</see>
-        public EmptyResponse ApplyService(long accountId, string domainIdentifier,
-            string service)
+        public EmptyResponse ApplyService(long accountId, string domainIdentifier, string service)
         {
-            var builder = BuildRequestForPath(ApplyServicePath(accountId, domainIdentifier,
-                    service));
+            var builder = BuildRequestForPath(ApplyServicePath(accountId, domainIdentifier, service));
             builder.Method(Method.POST);
 
             return new EmptyResponse(Execute(builder.Request));
@@ -49,8 +46,7 @@ namespace dnsimple.Services
         /// <see>https://developer.dnsimple.com/v2/services/domains/#unapplyServiceFromDomain</see>
         public EmptyResponse UnapplyService(long accountId, string domainIdentifier, string service)
         {
-            var builder = BuildRequestForPath(ApplyServicePath(accountId, domainIdentifier,
-                    service));
+            var builder = BuildRequestForPath(ApplyServicePath(accountId, domainIdentifier, service));
             builder.Method(Method.DELETE);
             
             return new EmptyResponse(Execute(builder.Request));

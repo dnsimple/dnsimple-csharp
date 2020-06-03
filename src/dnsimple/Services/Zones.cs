@@ -27,61 +27,55 @@ namespace dnsimple.Services
         /// <returns>A <c>ZonesResponse</c> containing a list of zones for
         /// the account.</returns>
         /// <see>https://developer.dnsimple.com/v2/zones/#listZones</see>
-        public PaginatedResponse<Zone> ListZones(long accountId,
-            ZonesListOptions options = null)
+        public PaginatedResponse<Zone> ListZones(long accountId, ZonesListOptions options = null)
         {
             var builder = BuildRequestForPath(ZonesPath(accountId));
-
             AddListOptionsToRequest(options, ref builder);
 
-            return new PaginatedResponse<Zone>(
-                Execute(builder.Request));
+            return new PaginatedResponse<Zone>(Execute(builder.Request));
         }
 
         /// <summary>
-        /// Retrieves a zone.
+        /// Retrieves the details of an existing zone.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="zoneName">The zone name</param>
         /// <returns>A <c>ZoneResponse</c> containing the zone.</returns>
         /// <see>https://developer.dnsimple.com/v2/zones/#getZone</see>
-        public SimpleResponse<Zone> GetZone(long accountId,
-            string zoneName)
+        public SimpleResponse<Zone> GetZone(long accountId, string zoneName)
         {
-            return new SimpleResponse<Zone>(
-                Execute(BuildRequestForPath(ZonePath(accountId, zoneName))
-                    .Request));
+            var builder = BuildRequestForPath(ZonePath(accountId, zoneName));
+                
+            return new SimpleResponse<Zone>(Execute(builder.Request));
         }
 
         /// <summary>
-        /// Retrieves a zone file.
+        /// Download the zonefile for an existing zone.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="zoneName">The zone name</param>
         /// <returns>A <c>ZoneFileResponse</c> containing the zone file content.</returns>
         /// <see>https://developer.dnsimple.com/v2/zones/#getZoneFile</see>
-        public SimpleResponse<ZoneFile> GetZoneFile(long accountId,
-            string zoneName)
+        public SimpleResponse<ZoneFile> GetZoneFile(long accountId, string zoneName)
         {
-            return new SimpleResponse<ZoneFile>(Execute(
-                BuildRequestForPath(ZoneFilePath(accountId, zoneName)).Request));
+            var builder = BuildRequestForPath(ZoneFilePath(accountId, zoneName));
+
+            return new SimpleResponse<ZoneFile>(Execute(builder.Request));
         }
 
         /// <summary>
-        /// Checks if a zone change is fully distributed to all our name servers
-        /// across the globe.
+        /// Checks if a zone is fully distributed to all our name servers across the globe.
         /// </summary>
+        /// <remarks>This feature is not available for testing in our Sandbox environment.</remarks>
         /// <param name="accountId">The account ID</param>
         /// <param name="zoneName">The zone name</param>
         /// <returns>A <c>ZoneDistributionResponse</c>.</returns>
         /// <see>https://developer.dnsimple.com/v2/zones/#checkZoneDistribution</see>
-        public SimpleResponse<ZoneDistribution> CheckZoneDistribution(
-            long accountId,
-            string zoneName)
+        public SimpleResponse<ZoneDistribution> CheckZoneDistribution(long accountId, string zoneName)
         {
-            return new SimpleResponse<ZoneDistribution>(
-                Execute(BuildRequestForPath(ZoneDistributionPath(accountId, zoneName))
-                    .Request));
+            var builder = BuildRequestForPath(ZoneDistributionPath(accountId, zoneName));
+
+            return new SimpleResponse<ZoneDistribution>(Execute(builder.Request));
         }
     }
 
@@ -103,7 +97,6 @@ namespace dnsimple.Services
     /// <summary>
     /// Represents a zone file.
     /// </summary>
-    /// <see>https://developer.dnsimple.com/v2/zones/#zones-attributes</see>
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public struct ZoneFile
     {
@@ -113,7 +106,6 @@ namespace dnsimple.Services
     /// <summary>
     /// Represents a zone distribution.
     /// </summary>
-    /// <see>https://developer.dnsimple.com/v2/zones/#zones-attributes</see>
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public struct ZoneDistribution
     {

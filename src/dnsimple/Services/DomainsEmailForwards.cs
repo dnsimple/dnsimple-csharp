@@ -20,10 +20,7 @@ namespace dnsimple.Services
         /// <param name="options">Options passed to the list (sorting, pagination)</param>
         /// <returns>A list of all email forwards for the domain</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/email-forwards/#listEmailForwards</see>
-        public PaginatedResponse<EmailForward> ListEmailForwards(
-            long accountId,
-            string domainIdentifier,
-            DomainEmailForwardsListOptions options = null)
+        public PaginatedResponse<EmailForward> ListEmailForwards(long accountId, string domainIdentifier, DomainEmailForwardsListOptions options = null)
         {
             var builder =
                 BuildRequestForPath(EmailForwardsPath(accountId,
@@ -31,8 +28,7 @@ namespace dnsimple.Services
 
             AddListOptionsToRequest(options, ref builder);
 
-            return new PaginatedResponse<EmailForward>(Execute(builder
-                .Request));
+            return new PaginatedResponse<EmailForward>(Execute(builder.Request));
         }
 
         /// <summary>
@@ -43,9 +39,7 @@ namespace dnsimple.Services
         /// <param name="record">The email forward to be added</param>
         /// <returns>The newly created email forward for the domain</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/email-forwards/#createEmailForward</see>
-        public SimpleResponse<EmailForward> CreateEmailForward(
-            long accountId,
-            string domainIdentifier, EmailForward record)
+        public SimpleResponse<EmailForward> CreateEmailForward(long accountId, string domainIdentifier, EmailForward record)
         {
             var builder = BuildRequestForPath(EmailForwardsPath(accountId, domainIdentifier));
             builder.Method(Method.POST);
@@ -54,8 +48,7 @@ namespace dnsimple.Services
             if(record.To.Trim().Equals("") || record.From.Trim().Equals(""))
                 throw new ArgumentException("From or To cannot be blank");
             
-            return new SimpleResponse<EmailForward>(
-                Execute(builder.Request));
+            return new SimpleResponse<EmailForward>(Execute(builder.Request));
         }
 
         /// <summary>
@@ -66,14 +59,11 @@ namespace dnsimple.Services
         /// <param name="emailForwardId">The email forward id</param>
         /// <returns>The email forward</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/email-forwards/#getEmailForward</see>
-        public SimpleResponse<EmailForward> GetEmailForward(
-            long accountId,
-            string domainIdentifier, int emailForwardId)
+        public SimpleResponse<EmailForward> GetEmailForward(long accountId, string domainIdentifier, int emailForwardId)
         {
-            return new SimpleResponse<EmailForward>(Execute(
-                BuildRequestForPath(EmailForwardPath(accountId,
-                        domainIdentifier,
-                        emailForwardId)).Request));
+            var builder = BuildRequestForPath(EmailForwardPath(accountId, domainIdentifier, emailForwardId)); 
+            
+            return new SimpleResponse<EmailForward>(Execute(builder.Request));
         }
 
         /// <summary>
@@ -83,12 +73,9 @@ namespace dnsimple.Services
         /// <param name="domainIdentifier">The domain name or ID</param>
         /// <param name="emailForwardId">The email forward id</param>
         /// <see>https://developer.dnsimple.com/v2/domains/email-forwards/#deleteEmailForward</see>
-        public EmptyResponse DeleteEmailForward(long accountId,
-            string domainIdentifier,
-            int emailForwardId)
+        public EmptyResponse DeleteEmailForward(long accountId, string domainIdentifier, int emailForwardId)
         {
-            var builder = BuildRequestForPath(
-                EmailForwardPath(accountId, domainIdentifier, emailForwardId));
+            var builder = BuildRequestForPath(EmailForwardPath(accountId, domainIdentifier, emailForwardId));
             builder.Method(Method.DELETE);
 
             return new EmptyResponse(Execute(builder.Request));

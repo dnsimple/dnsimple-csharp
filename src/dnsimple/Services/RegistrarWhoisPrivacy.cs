@@ -20,13 +20,11 @@ namespace dnsimple.Services
         /// <param name="domain">The domain name or id</param>
         /// <returns>The WHOIS privacy for the domain</returns>
         /// <see>https://developer.dnsimple.com/v2/registrar/whois-privacy/#getWhoisPrivacy</see>
-        public SimpleResponse<WhoisPrivacy> GetWhoisPrivacy(
-            long accountId,
-            string domain)
+        public SimpleResponse<WhoisPrivacy> GetWhoisPrivacy(long accountId, string domain)
         {
-            return new SimpleResponse<WhoisPrivacy>(
-                Execute(BuildRequestForPath(WhoisPrivacyPath(accountId, domain))
-                    .Request));
+            var builder = BuildRequestForPath(WhoisPrivacyPath(accountId, domain)); 
+
+            return new SimpleResponse<WhoisPrivacy>(Execute(builder.Request));
         }
 
         /// <summary>
@@ -44,16 +42,12 @@ namespace dnsimple.Services
         /// <param name="domain">The domain name or id</param>
         /// <returns>The WHOIS privacy for the domain</returns>
         /// <see>https://developer.dnsimple.com/v2/registrar/whois-privacy/#enableWhoisPrivacy</see>
-        public SimpleResponse<WhoisPrivacy> EnableWhoisPrivacy(
-            long accountId,
-            string domain)
+        public SimpleResponse<WhoisPrivacy> EnableWhoisPrivacy(long accountId, string domain)
         {
-            var builder =
-                BuildRequestForPath(WhoisPrivacyPath(accountId, domain));
+            var builder = BuildRequestForPath(WhoisPrivacyPath(accountId, domain));
             builder.Method(Method.PUT);
 
-            return new SimpleResponse<WhoisPrivacy>(
-                Execute(builder.Request));
+            return new SimpleResponse<WhoisPrivacy>(Execute(builder.Request));
         }
 
         /// <summary>
@@ -69,15 +63,12 @@ namespace dnsimple.Services
         /// <param name="domain">The domain name or id</param>
         /// <returns>The WHOIS privacy response for the domain</returns>
         /// <see>https://developer.dnsimple.com/v2/registrar/whois-privacy/#disableWhoisPrivacy</see>
-        public SimpleResponse<WhoisPrivacy> DisableWhoisPrivacy(
-            long accountId,
-            string domain)
+        public SimpleResponse<WhoisPrivacy> DisableWhoisPrivacy(long accountId, string domain)
         {
             var builder = BuildRequestForPath(WhoisPrivacyPath(accountId, domain));
             builder.Method(Method.DELETE);
 
-            return new SimpleResponse<WhoisPrivacy>(
-                Execute(builder.Request));
+            return new SimpleResponse<WhoisPrivacy>(Execute(builder.Request));
         }
 
         /// <summary>
@@ -87,15 +78,12 @@ namespace dnsimple.Services
         /// <param name="domain">The domain name or id</param>
         /// <returns>A whois renewal response with the renewal information</returns>
         /// <see>https://developer.dnsimple.com/v2/registrar/whois-privacy/#renewWhoisPrivacy</see>
-        public SimpleResponse<WhoisPrivacyRenewal>
-            RenewWhoisPrivacy(long accountId,
-                string domain)
+        public SimpleResponse<WhoisPrivacyRenewal> RenewWhoisPrivacy(long accountId, string domain)
         {
             var builder = BuildRequestForPath(WhoisRenewalPath(accountId, domain));
             builder.Method(Method.POST);
 
-            return new SimpleResponse<WhoisPrivacyRenewal>(
-                Execute(builder.Request));
+            return new SimpleResponse<WhoisPrivacyRenewal>(Execute(builder.Request));
         }
     }
 

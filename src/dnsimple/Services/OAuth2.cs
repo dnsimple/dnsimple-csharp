@@ -21,8 +21,7 @@ namespace dnsimple.Services
         /// instance of <c>HttpService</c>.
         /// </summary>
         /// <param name="http"></param>
-        public OAuth2Service(HttpService http) => 
-            Http = http;
+        public OAuth2Service(HttpService http) => Http = http;
 
         /// <summary>
         /// This method is to be called when you want to get a <c>TOKEN</c> to
@@ -51,15 +50,13 @@ namespace dnsimple.Services
         /// token to be used in subsequent calls of the Api</returns>
         /// 
         /// <see>https://developer.dnsimple.com/v2/oauth/</see>
-        public AccessToken ExchangeAuthorizationForToken(
-            Dictionary<OAuthParams, string> arguments)
+        public AccessToken ExchangeAuthorizationForToken(Dictionary<OAuthParams, string> arguments)
         {
             var request = BuildRequest("/oauth/access_token", arguments);
             return JObject.Parse(Http.Execute(request).Content).ToObject<AccessToken>();
         }
 
-        private RestRequest BuildRequest(string path,
-            IReadOnlyDictionary<OAuthParams, string> arguments)
+        private RestRequest BuildRequest(string path, IReadOnlyDictionary<OAuthParams, string> arguments)
         {
             var builder = Http.RequestBuilder(path);
             builder.Method(Method.POST);
@@ -93,8 +90,7 @@ namespace dnsimple.Services
             return new Collection<KeyValuePair<string, string>>
             {
                 new KeyValuePair<string, string>("Accept", "application/json"),
-                new KeyValuePair<string, string>("Content-Type",
-                    "application/x-www-form-urlencoded")
+                new KeyValuePair<string, string>("Content-Type", "application/x-www-form-urlencoded")
             };
         }
     }

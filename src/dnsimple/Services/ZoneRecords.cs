@@ -13,7 +13,7 @@ namespace dnsimple.Services
     public partial class ZonesService
     {
         /// <summary>
-        /// Lists the zone records.
+        /// Lists the records for a zone.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="zoneId">The zone name</param>
@@ -23,17 +23,13 @@ namespace dnsimple.Services
         /// records for the zone.</returns>
         /// <see cref="ZoneRecordsListOptions"/>
         /// <see>https://developer.dnsimple.com/v2/zones/records/#listZoneRecords</see>
-        public PaginatedResponse<ZoneRecord> ListRecords(
-            long accountId, string zoneId,
-            ZoneRecordsListOptions options = null)
+        public PaginatedResponse<ZoneRecord> ListRecords(long accountId, string zoneId, ZoneRecordsListOptions options = null)
         {
-            var builder =
-                BuildRequestForPath(ZoneRecordsPath(accountId, zoneId));
+            var builder = BuildRequestForPath(ZoneRecordsPath(accountId, zoneId));
 
             AddListOptionsToRequest(options, ref builder);
 
-            return new PaginatedResponse<ZoneRecord>(
-                Execute(builder.Request));
+            return new PaginatedResponse<ZoneRecord>(Execute(builder.Request));
         }
 
         /// <summary>
@@ -48,17 +44,13 @@ namespace dnsimple.Services
         /// <exception cref="DnSimpleValidationException">If the validation fails</exception>
         /// <see cref="ZoneRecord"/>
         /// <see>https://developer.dnsimple.com/v2/zones/records/#createZoneRecord</see>
-        public SimpleResponse<ZoneRecord> CreateRecord(
-            long accountId, string zoneId,
-            ZoneRecord input)
+        public SimpleResponse<ZoneRecord> CreateRecord(long accountId, string zoneId, ZoneRecord input)
         {
-            var builder =
-                BuildRequestForPath(ZoneRecordsPath(accountId, zoneId));
+            var builder = BuildRequestForPath(ZoneRecordsPath(accountId, zoneId));
             builder.Method(Method.POST);
             builder.AddJsonPayload(PrepareRecord(input));
 
-            return new SimpleResponse<ZoneRecord>(
-                Execute(builder.Request));
+            return new SimpleResponse<ZoneRecord>(Execute(builder.Request));
         }
 
         private static ZoneRecordToSend PrepareRecord(ZoneRecord record)
@@ -68,7 +60,7 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Retrieves a zone record.
+        /// Retrieves the details of an existing zone record.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="zoneId">The zone name</param>
@@ -76,20 +68,18 @@ namespace dnsimple.Services
         /// <returns>A <c>ZoneRecordResponse</c> containing the zone record.</returns>
         /// <see cref="ZoneRecord"/>
         /// <see>https://developer.dnsimple.com/v2/zones/records/#getZoneRecord</see>
-        public SimpleResponse<ZoneRecord> GetRecord(long accountId,
-            string zoneId,
-            long recordId)
+        public SimpleResponse<ZoneRecord> GetRecord(long accountId, string zoneId, long recordId)
         {
-            return new SimpleResponse<ZoneRecord>(Execute(
-                BuildRequestForPath(ZoneRecordPath(accountId, zoneId, recordId))
-                    .Request));
+            var builder = BuildRequestForPath(ZoneRecordPath(accountId, zoneId, recordId));
+                
+            return new SimpleResponse<ZoneRecord>(Execute(builder.Request));
         }
 
         /// <summary>
-        /// Updates an existing zone record.
+        /// Updates the zone record details.
         /// </summary>
         /// <param name="accountId">The account ID</param>
-        /// <param name="zoneId">The record name</param>
+        /// <param name="zoneId">The zone name</param>
         /// <param name="recordId">The record id</param>
         /// <param name="record">The zone record input</param>
         /// <returns>The newly updated <c>ZoneRecord</c> wrapped inside a
@@ -98,16 +88,13 @@ namespace dnsimple.Services
         /// <exception cref="DnSimpleValidationException">If the validation fails</exception>
         /// <see cref="ZoneRecord"/>
         /// <see>https://developer.dnsimple.com/v2/zones/records/#updateZoneRecord</see>
-        public SimpleResponse<ZoneRecord> UpdateRecord(
-            long accountId, string zoneId, long recordId, ZoneRecord record)
+        public SimpleResponse<ZoneRecord> UpdateRecord(long accountId, string zoneId, long recordId, ZoneRecord record)
         {
-            var builder = BuildRequestForPath(ZoneRecordPath(accountId, zoneId,
-                recordId));
+            var builder = BuildRequestForPath(ZoneRecordPath(accountId, zoneId, recordId));
             builder.Method(Method.PATCH);
             builder.AddJsonPayload(record);
 
-            return new SimpleResponse<ZoneRecord>(
-                Execute(builder.Request));
+            return new SimpleResponse<ZoneRecord>(Execute(builder.Request));
         }
 
         /// <summary>
@@ -117,19 +104,16 @@ namespace dnsimple.Services
         /// <param name="zoneId">The zone name</param>
         /// <param name="recordId">The record Id</param>
         /// <see>https://developer.dnsimple.com/v2/zones/records/#deleteZoneRecord</see>
-        public EmptyResponse DeleteRecord(long accountId, string zoneId,
-            long recordId)
+        public EmptyResponse DeleteRecord(long accountId, string zoneId, long recordId)
         {
-            var builder = BuildRequestForPath(ZoneRecordPath(accountId, zoneId,
-                recordId));
+            var builder = BuildRequestForPath(ZoneRecordPath(accountId, zoneId, recordId));
             builder.Method(Method.DELETE);
 
             return new EmptyResponse(Execute(builder.Request));
         }
 
         /// <summary>
-        /// Checks if a zone change is fully distributed to all our name servers
-        /// across the globe.
+        /// Checks if a zone change is fully distributed to all our name servers across the globe.
         /// </summary>
         /// <remarks>This feature is not available for testing in our Sandbox environment.</remarks>
         /// <param name="accountId">The account ID</param>
@@ -137,13 +121,11 @@ namespace dnsimple.Services
         /// <param name="recordId">The record id</param>
         /// <returns>A <c>ZoneDistributionResponse</c>.</returns>
         /// <see>https://developer.dnsimple.com/v2/zones/records/#checkZoneRecordDistribution</see>
-        public SimpleResponse<ZoneDistribution> CheckRecordDistribution(
-            long accountId, string zoneId, long recordId)
+        public SimpleResponse<ZoneDistribution> CheckRecordDistribution( long accountId, string zoneId, long recordId)
         {
-            return new SimpleResponse<ZoneDistribution>(Execute(
-                BuildRequestForPath(
-                        ZoneRecordDistributionPath(accountId, zoneId, recordId))
-                    .Request));
+            var builder = BuildRequestForPath(ZoneRecordDistributionPath(accountId, zoneId, recordId)); 
+
+            return new SimpleResponse<ZoneDistribution>(Execute(builder.Request));
         }
     }
 
@@ -212,8 +194,7 @@ namespace dnsimple.Services
         public DateTime UpdatedAt { get; set; }
     }
 
-    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy),
-        ItemNullValueHandling = NullValueHandling.Ignore)]
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy), ItemNullValueHandling = NullValueHandling.Ignore)]
     internal class ZoneRecordToSend
     {
         [JsonProperty(Required = Required.Always)]
@@ -236,10 +217,8 @@ namespace dnsimple.Services
             Content = record.Content;
             Ttl = record.Ttl;
             Priority = record.Priority;
-            if (record.Regions != null && record.Regions.Count > 0)
-            {
-                Regions = record.Regions.Select(region => region.ToString())
-                    .ToList();
+            if (record.Regions != null && record.Regions.Count > 0) {
+                Regions = record.Regions.Select(region => region.ToString()).ToList();
             }
         }
     }

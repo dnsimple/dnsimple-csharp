@@ -26,15 +26,12 @@ namespace dnsimple.Services
         /// pagination).</param>
         /// <returns>A list of all the one-click services available</returns>
         /// <see>https://developer.dnsimple.com/v2/services/#listServices</see>
-        public PaginatedResponse<Service> ListServices(
-            ListServicesOptions options = null)
+        public PaginatedResponse<Service> ListServices(ListServicesOptions options = null)
         {
             var builder = BuildRequestForPath(ServicesPath());
-
             AddListOptionsToRequest(options, ref builder);
 
-            return new PaginatedResponse<Service>(
-                Execute(builder.Request));
+            return new PaginatedResponse<Service>(Execute(builder.Request));
         }
 
         /// <summary>
@@ -45,8 +42,9 @@ namespace dnsimple.Services
         /// <see>https://developer.dnsimple.com/v2/services/#getService</see>
         public SimpleResponse<Service> GetService(string service)
         {
-            return new SimpleResponse<Service>(
-                Execute(BuildRequestForPath(ServicePath(service)).Request));
+            var builder = BuildRequestForPath(ServicePath(service));
+
+            return new SimpleResponse<Service>(Execute(builder.Request));
         }
     }
 

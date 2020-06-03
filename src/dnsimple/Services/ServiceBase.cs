@@ -90,8 +90,7 @@ namespace dnsimple.Services
 
         public SimpleResponse(IRestResponse response) : base(response)
         {
-            Data = JsonTools<T>.DeserializeObject("data",
-                JObject.Parse(response.Content));
+            Data = JsonTools<T>.DeserializeObject("data", JObject.Parse(response.Content));
         }
     }
 
@@ -110,8 +109,7 @@ namespace dnsimple.Services
 
         public ListResponse(IRestResponse response) : base(response)
         {
-            Data = JsonTools<T>.DeserializeList(
-                JObject.Parse(response.Content));
+            Data = JsonTools<T>.DeserializeList(JObject.Parse(response.Content));
         }
     }
 
@@ -134,8 +132,7 @@ namespace dnsimple.Services
         /// <see cref="Pagination"/>
         public Pagination Pagination { get; }
 
-        public PaginatedResponse(IRestResponse response) : base(
-            response)
+        public PaginatedResponse(IRestResponse response) : base(response)
         {
             var json = JObject.Parse(response.Content);
 

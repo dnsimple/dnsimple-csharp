@@ -20,51 +20,46 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// List templates in the account.
+        /// Lists the templates in the account.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="options">Options passed to the list (sorting and
         /// pagination).</param>
         /// <returns>A list of templates for the account</returns>
         /// <see>https://developer.dnsimple.com/v2/templates/#listTemplates</see>
-        public PaginatedResponse<Template> ListTemplates(
-            long accountId, ListTemplatesOptions options = null)
+        public PaginatedResponse<Template> ListTemplates(long accountId, ListTemplatesOptions options = null)
         {
             var builder = BuildRequestForPath(TemplatesPath(accountId));
 
             AddListOptionsToRequest(options, ref builder);
 
-            return new PaginatedResponse<Template>(
-                Execute(builder.Request));
+            return new PaginatedResponse<Template>(Execute(builder.Request));
         }
 
         /// <summary>
-        /// Create a template in the account
+        /// Creates a template.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="template">The template to be created</param>
         /// <returns>The newly created template</returns>
         /// <see>https://developer.dnsimple.com/v2/templates/#createTemplate</see>
-        public SimpleResponse<Template> CreateTemplate(
-            long accountId, Template template)
+        public SimpleResponse<Template> CreateTemplate(long accountId, Template template)
         {
             var builder = BuildRequestForPath(TemplatesPath(accountId));
             builder.Method(Method.POST);
             builder.AddJsonPayload(template);
 
-            return new SimpleResponse<Template>(
-                Execute(builder.Request));
+            return new SimpleResponse<Template>(Execute(builder.Request));
         }
 
         /// <summary>
-        /// Retrieve a template
+        /// Retrieves the details of an existing template.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="templateIdentifier">The template ID or short name (SID)</param>
         /// <returns>The template requested</returns>
         /// <see>https://developer.dnsimple.com/v2/templates/#getTemplate</see>
-        public SimpleResponse<Template> GetTemplate(long accountId,
-            string templateIdentifier)
+        public SimpleResponse<Template> GetTemplate(long accountId, string templateIdentifier)
         {
             var builder = BuildRequestForPath(TemplatePath(accountId, templateIdentifier));
             
@@ -72,34 +67,31 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Update a template
+        /// Updates the template details.
         /// </summary>
         /// <param name="accountId">The account ID</param>
-        /// <param name="template">The template id or shot name (sid)</param>
+        /// <param name="templateIdentifier">The template ID or short name (SID)</param>
         /// <param name="payload">The <c>Template</c> struct with the fields
         /// we want to update</param>
         /// <returns>The newly updated template</returns>
         /// <see>https://developer.dnsimple.com/v2/templates/#updateTemplate</see>
-        public SimpleResponse<Template> UpdateTemplate(
-            long accountId, string templateIdentifier, Template payload)
+        public SimpleResponse<Template> UpdateTemplate(long accountId, string templateIdentifier, Template payload)
         {
             var builder = BuildRequestForPath(TemplatePath(accountId, templateIdentifier));
             builder.Method(Method.PATCH);
             builder.AddJsonPayload(payload);
 
-            return new SimpleResponse<Template>(
-                Execute(builder.Request));
+            return new SimpleResponse<Template>(Execute(builder.Request));
         }
 
         /// <summary>
-        /// Deletes a template
+        /// Permanently deletes a template.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="templateIdentifier">The template ID or short name (SID)</param>
         /// <returns>An <c>EmptyDnsimpleResponse</c></returns>
         /// <see>https://developer.dnsimple.com/v2/templates/#deleteTemplate</see>
-        public EmptyResponse DeleteTemplate(long accountId,
-            string templateIdentifier)
+        public EmptyResponse DeleteTemplate(long accountId, string templateIdentifier)
         {
             var builder = BuildRequestForPath(TemplatePath(accountId, templateIdentifier));
             builder.Method(Method.DELETE);
@@ -111,8 +103,7 @@ namespace dnsimple.Services
     /// <summary>
     /// Represents a Template in DNSimple.
     /// </summary>
-    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy),
-        ItemNullValueHandling = NullValueHandling.Ignore)]
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy), ItemNullValueHandling = NullValueHandling.Ignore)]
     public struct Template
     {
         public long Id { get; set; }

@@ -41,8 +41,6 @@ namespace dnsimple
         public AuthenticatorBase Authenticator { get; }
 
         public OAuth2Credentials(string token) =>
-            Authenticator =
-                new OAuth2AuthorizationRequestHeaderAuthenticator(token,
-                    "Bearer");
+            Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(token, "Bearer");
     }
 }

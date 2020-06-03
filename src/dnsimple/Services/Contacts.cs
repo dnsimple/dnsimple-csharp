@@ -46,8 +46,7 @@ namespace dnsimple.Services
         /// <returns>The newly created contact for the account</returns>
         /// <see cref="Contact"/>
         /// <see>https://developer.dnsimple.com/v2/contacts/#createContact</see>
-        public SimpleResponse<Contact> CreateContact(long accountId,
-            Contact contact)
+        public SimpleResponse<Contact> CreateContact(long accountId, Contact contact)
         {
             var builder = BuildRequestForPath(ContactsPath(accountId));
             builder.Method(Method.POST);
@@ -57,23 +56,22 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Retrieves a contact of the account
+        /// Retrieves the details of an existing contact.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="contactId">The contact id</param>
         /// <returns>The contact requested</returns>
         /// <see cref="Contact"/>
         /// <see>https://developer.dnsimple.com/v2/contacts/#getContact</see>
-        public SimpleResponse<Contact> GetContact(long accountId,
-            long contactId)
+        public SimpleResponse<Contact> GetContact(long accountId, long contactId)
         {
-            return new SimpleResponse<Contact>(
-                Execute(BuildRequestForPath(ContactPath(accountId, contactId))
-                    .Request));
+            var builder = BuildRequestForPath(ContactPath(accountId, contactId));
+            
+            return new SimpleResponse<Contact>(Execute(builder.Request));
         }
 
         /// <summary>
-        /// Updates a contact
+        /// Updates the contact details.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="contactId">The contact id</param>
@@ -81,8 +79,7 @@ namespace dnsimple.Services
         /// <returns>The updated contact</returns>
         /// <see cref="Contact"/>
         /// <see>https://developer.dnsimple.com/v2/contacts/#updateContact</see>
-        public SimpleResponse<Contact> UpdateContact(long accountId,
-            long contactId, Contact contact)
+        public SimpleResponse<Contact> UpdateContact(long accountId, long contactId, Contact contact)
         {
             var builder = BuildRequestForPath(ContactPath(accountId, contactId));
             builder.Method(Method.PATCH);
@@ -92,7 +89,7 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Deletes a contact
+        /// Permanently deletes a contact.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="contactId">The contact id</param>

@@ -24,9 +24,9 @@ namespace dnsimple.Services
         /// <see>https://developer.dnsimple.com/v2/accounts/#listAccounts</see>
         public ListResponse<Account> List()
         {
-            return new ListResponse<Account>(
-                Execute(BuildRequestForPath("/accounts")
-                    .Request));
+            var builder = BuildRequestForPath("/accounts"); 
+            
+            return new ListResponse<Account>(Execute(builder.Request));
         }
     }
 }

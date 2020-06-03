@@ -356,8 +356,7 @@ namespace dnsimple
         /// </param>
         /// <seealso cref="BasicHttpCredentials"/>
         /// <seealso cref="OAuth2Credentials"/>
-        public void AddCredentials(ICredentials credentials) =>
-            RestClientWrapper.AddAuthenticator(credentials);
+        public void AddCredentials(ICredentials credentials) => RestClientWrapper.AddAuthenticator(credentials);
 
         /// <summary>
         /// Sets the user agent 
