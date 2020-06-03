@@ -85,17 +85,17 @@ namespace dnsimple.Services
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or ID</param>
-        /// <param name="order">The order object</param>
-        /// <returns>The certificate ordered</returns>
-        /// <see cref="CertificateOrder"/>
+        /// <param name="attributes">The order attributes</param>
+        /// <returns>The order details</returns>
+        /// <see cref="LetsencryptCertificateAttributes"/>
         /// <see>https://developer.dnsimple.com/v2/certificates/#purchaseLetsencryptCertificate</see>
-        public SimpleResponse<CertificateOrdered> PurchaseLetsEncryptCertificate(long accountId, string domainIdentifier, CertificateOrder order)
+        public SimpleResponse<CertificatePurchase> PurchaseLetsEncryptCertificate(long accountId, string domainIdentifier, LetsencryptCertificateAttributes attributes)
         {
             var builder = BuildRequestForPath(PurchaseLetsEncryptCertificatePath(accountId, domainIdentifier));
             builder.Method(Method.POST);
-            builder.AddJsonPayload(order);
+            builder.AddJsonPayload(attributes);
 
-            return new SimpleResponse<CertificateOrdered>(Execute(builder.Request));
+            return new SimpleResponse<CertificatePurchase>(Execute(builder.Request));
         }
 
         /// <summary>
@@ -121,20 +121,21 @@ namespace dnsimple.Services
         /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or ID</param>
         /// <param name="certificateId">The certificate id</param>
-        /// <param name="renewal">The renewal object.</param>
-        /// <returns>The renewal data.</returns>
+        /// <param name="attributes">The order attributes</param>
+        /// <returns>The order details</returns>
+        /// <see cref="LetsencryptCertificateAttributes"/>
         /// <see>https://developer.dnsimple.com/v2/certificates/#purchaseRenewalLetsencryptCertificate</see>
-        public SimpleResponse<LetsEncryptRenewal> PurchaseLetsEncryptCertificateRenewal(long accountId, string domainIdentifier, long certificateId, LetsEncryptRenewal renewal)
+        public SimpleResponse<CertificateRenewal> PurchaseLetsEncryptCertificateRenewal(long accountId, string domainIdentifier, long certificateId, LetsencryptCertificateAttributes attributes)
         {
             var builder = BuildRequestForPath(LetsEncryptCertificateRenewalPath(accountId, domainIdentifier, certificateId));
             builder.Method(Method.POST);
-            builder.AddJsonPayload(renewal);
+            builder.AddJsonPayload(attributes);
 
-            return new SimpleResponse<LetsEncryptRenewal>(Execute(builder.Request));
+            return new SimpleResponse<CertificateRenewal>(Execute(builder.Request));
         }
 
         /// <summary>
-        /// Issues a Let’s Encrypt certificate renewal ordered with DNSimple.
+        /// Issues a Let's Encrypt certificate renewal ordered with DNSimple.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or ID</param>
@@ -151,38 +152,10 @@ namespace dnsimple.Services
     }
 
     /// <summary>
-    /// Represents the letsencrypt renewal data.
-    /// </summary>
-    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy), ItemNullValueHandling = NullValueHandling.Ignore)]
-    public struct LetsEncryptRenewal
-    {
-        public long Id { get; set; }
-        public long OldCertificateId { get; set; }
-        public long NewCertificateId { get; set; }
-        public string State { get; set; }
-        public bool? AutoRenew { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
-    }
-
-    /// <summary>
-    /// Represents the certificate purchase order data.
+    /// Represents the certificate purchase data.
     /// </summary>
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public struct CertificateOrder
-    {
-        [JsonProperty(Required = Required.Always)]
-        public long? ContactId { get; set; }
-        public bool AutoRenew { get; set; }
-        public string Name { get; set; }
-        public List<string> AlternateNames { get; set; }
-    }
-
-    /// <summary>
-    /// Represents the order of a letsencrypt certificate.
-    /// </summary>
-    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public struct CertificateOrdered
+    public struct CertificatePurchase
     {
         public long Id { get; set; }
         public long CertificateId { get; set; }
@@ -194,7 +167,34 @@ namespace dnsimple.Services
     }
 
     /// <summary>
-    /// Represents a Certificate
+    /// Represents the certificate renewal data.
+    /// </summary>
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy), ItemNullValueHandling = NullValueHandling.Ignore)]
+    public struct CertificateRenewal
+    {
+        public long Id { get; set; }
+        public long OldCertificateId { get; set; }
+        public long NewCertificateId { get; set; }
+        public string State { get; set; }
+        public bool? AutoRenew { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+    }
+
+    /// <summary>
+    /// Represents the set of attributes to purchase a Let's Encrypt certificate.
+    /// </summary>
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    public struct LetsencryptCertificateAttributes
+    {
+        public long? ContactId { get; set; }
+        public bool AutoRenew { get; set; }
+        public string Name { get; set; }
+        public List<string> AlternateNames { get; set; }
+    }
+
+    /// <summary>
+    /// Represents a Certificate.
     /// </summary>
     /// <see>https://developer.dnsimple.com/v2/certificates/#certificate-attributes</see>
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
