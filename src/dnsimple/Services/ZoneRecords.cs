@@ -15,7 +15,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Lists the zone records.
         /// </summary>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="zoneId">The zone name</param>
         /// <param name="options">Options passed to the list (sorting,
         /// filtering, pagination)</param>
@@ -39,7 +39,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Creates a new zone record.
         /// </summary>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="zoneId">The zone name</param>
         /// <param name="input">The zone record input</param>
         /// <returns>The newly created <c>ZoneRecord</c> wrapped inside a
@@ -70,7 +70,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Retrieves a zone record.
         /// </summary>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="zoneId">The zone name</param>
         /// <param name="recordId">The record id</param>
         /// <returns>A <c>ZoneRecordResponse</c> containing the zone record.</returns>
@@ -88,7 +88,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Updates an existing zone record.
         /// </summary>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="zoneId">The record name</param>
         /// <param name="recordId">The record id</param>
         /// <param name="record">The zone record input</param>
@@ -113,7 +113,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Permanently deletes a zone record.
         /// </summary>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="zoneId">The zone name</param>
         /// <param name="recordId">The record Id</param>
         /// <see>https://developer.dnsimple.com/v2/zones/records/#deleteZoneRecord</see>
@@ -132,7 +132,7 @@ namespace dnsimple.Services
         /// across the globe.
         /// </summary>
         /// <remarks>This feature is not available for testing in our Sandbox environment.</remarks>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="zoneId">The zone name</param>
         /// <param name="recordId">The record id</param>
         /// <returns>A <c>ZoneDistributionResponse</c>.</returns>

@@ -21,7 +21,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Checks whether a domain is available for registration.
         /// </summary>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domainName">The domain name to check</param>
         /// <returns>The check domain response</returns>
         public SimpleResponse<DomainCheck> CheckDomain(long accountId,
@@ -35,7 +35,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Get the premium price for a domain.
         /// </summary>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domainName">The domain name</param>
         /// <param name="action">Optional action between "registration",
         /// "renewal", and "transfer". If omitted, it defaults to
@@ -63,7 +63,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Register a domain name with DNSimple.
         /// </summary>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domainName">The domain name</param>
         /// <param name="domain">The domain to register</param>
         /// <returns>The newly created domain</returns>
@@ -88,7 +88,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Transfer a domain name from another domain registrar into DNSimple.
         /// </summary>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domainName">The domain name</param>
         /// <param name="transferInput">The transfer command</param>
         /// <returns>The transferred domain</returns>
@@ -118,7 +118,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Retrieves the details of an existing domain transfer.
         /// </summary>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domainName">The domain name</param>
         /// <param name="domainTransferId">The domain transfer Id</param>
         /// <returns>The domain transfer</returns>
@@ -135,7 +135,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Cancels an in progress domain transfer.
         /// </summary>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domainName">The domain name</param>
         /// <param name="domainTransferId">The domain transfer Id</param>
         /// <returns>The domain transfer</returns>
@@ -153,7 +153,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Renew a domain name already registered with DNSimple.
         /// </summary>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domainName">The domain name</param>
         /// <param name="input">The domain renewal request</param>
         /// <returns>The renewed domain</returns>
@@ -177,7 +177,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Prepare a domain for transferring out.
         /// </summary>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domainName">The domain name</param>
         /// <remarks>This will unlock a domain and send the authorization code
         /// to the domain's administrative contact.</remarks>

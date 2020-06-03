@@ -16,7 +16,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Get the WHOIS privacy details for a domain.
         /// </summary>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domain">The domain name or id</param>
         /// <returns>The WHOIS privacy for the domain</returns>
         /// <see>https://developer.dnsimple.com/v2/registrar/whois-privacy/#getWhoisPrivacy</see>
@@ -40,7 +40,7 @@ namespace dnsimple.Services
         /// If WHOIS privacy was previously purchased and disabled, then
         /// calling this will enable the WHOIS privacy.
         /// </remarks>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domain">The domain name or id</param>
         /// <returns>The WHOIS privacy for the domain</returns>
         /// <see>https://developer.dnsimple.com/v2/registrar/whois-privacy/#enableWhoisPrivacy</see>
@@ -65,7 +65,7 @@ namespace dnsimple.Services
         /// If WHOIS privacy was previously purchased and enabled, then calling
         /// this will disable the WHOIS privacy.
         /// </remarks>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domain">The domain name or id</param>
         /// <returns>The WHOIS privacy response for the domain</returns>
         /// <see>https://developer.dnsimple.com/v2/registrar/whois-privacy/#disableWhoisPrivacy</see>
@@ -83,7 +83,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Renew whois privacy for the domain.
         /// </summary>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domain">The domain name or id</param>
         /// <returns>A whois renewal response with the renewal information</returns>
         /// <see>https://developer.dnsimple.com/v2/registrar/whois-privacy/#renewWhoisPrivacy</see>

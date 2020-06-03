@@ -13,7 +13,7 @@ namespace dnsimple.Services
         /// <summary>
         /// List records for the template.
         /// </summary>
-        /// <param name="accountId">The account id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="template">The template id or short name (sid)</param>
         /// <param name="options">Options passed to the list (sorting and
         /// pagination).</param>
@@ -35,7 +35,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Create a record for the template in the account
         /// </summary>
-        /// <param name="accountId">The account id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="template">The template id or short name (sid)</param>
         /// <param name="payload">The <c>TemplateRecord</c> to create</param>
         /// <returns>The newly created <c>TemplateRecord</c></returns>
@@ -56,7 +56,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Gets the record for the template in the account.
         /// </summary>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="template">The template id or short name (sid)</param>
         /// <param name="recordId">The record Id</param>
         /// <returns>The <c>TemplateRecord</c> requested</returns>
@@ -72,7 +72,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Delete the record for template in the account.
         /// </summary>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="template">The template id or short name (sid)</param>
         /// <param name="recordId">The record Id</param>
         /// <returns><c>EmptyDnsimpleResponse</c></returns>

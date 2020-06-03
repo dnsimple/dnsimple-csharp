@@ -15,7 +15,7 @@ namespace dnsimple.Services
         /// <summary>
         /// List collaborators for the domain in the account.
         /// </summary>
-        /// <param name="accountId">The account id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or id</param>
         /// <returns>A list of collaborators wrapped in a response</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/collaborators/#listDomainCollaborators</see>
@@ -42,7 +42,7 @@ namespace dnsimple.Services
         /// In the other case, she/he is automatically added to the domain as
         /// collaborator. She/he can decide to reject the invitation later.
         /// </summary>
-        /// <param name="accountId">The account id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or id</param>
         /// <param name="email">The email of the collaborator to be added/invited</param>
         /// <returns>The collaborator wrapped in a response.</returns>
@@ -72,7 +72,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Removes a collaborator from the domain in the account.
         /// </summary>
-        /// <param name="accountId">The account id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or id</param>
         /// <param name="collaboratorId">The collaborator id</param>
         /// <see>https://developer.dnsimple.com/v2/domains/collaborators/#removeDomainCollaborator</see>

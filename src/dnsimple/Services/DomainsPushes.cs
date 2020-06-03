@@ -14,7 +14,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Initiate a push.
         /// </summary>
-        /// <param name="accountId">The account id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or id</param>
         /// <param name="email">The email address of the target DNSimple account.</param>
         /// <returns>The newly created push.</returns>
@@ -37,7 +37,7 @@ namespace dnsimple.Services
         /// <summary>
         /// List pending pushes for the target account.
         /// </summary>
-        /// <param name="accountId">The account id</param>
+        /// <param name="accountId">The account ID</param>
         /// <returns>A list of the pending pushes.</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/pushes/#listPushes</see>
         public PaginatedResponse<Push> ListPushes(long accountId)
@@ -49,7 +49,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Accept a push for the target account
         /// </summary>
-        /// <param name="accountId">The account id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="pushId">The push id</param>
         /// <param name="contactId">A contact that belongs to the target
         /// DNSimple account. The contact will be used as new registrant for
@@ -67,7 +67,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Reject a push for the target account.
         /// </summary>
-        /// <param name="accountId">The account id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="pushId">The push id</param>
         /// <see>https://developer.dnsimple.com/v2/domains/pushes/#rejectPush</see>
         public EmptyResponse RejectPush(int accountId, int pushId)

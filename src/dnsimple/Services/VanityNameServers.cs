@@ -34,7 +34,7 @@ namespace dnsimple.Services
         /// following new plans: Business. If the feature is not enabled, a
         /// <c>DnsimpleException</c> will be thrown.
         /// </remarks>
-        /// <param name="accountId">The account id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domain">Tne domain name or id</param>
         /// <returns>The vanity name server list</returns>
         /// <see>https://developer.dnsimple.com/v2/vanity/#enableVanityNameServers</see>
@@ -62,7 +62,7 @@ namespace dnsimple.Services
         /// Servers or Delegate from Vanity Name Servers.
         /// </para>
         /// </summary>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domain">The domain name or id</param>
         /// <returns><c>EmptyDnsimpleResponse</c></returns>
         public EmptyResponse DisableVanityNameServers(long accountId,

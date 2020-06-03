@@ -21,7 +21,7 @@ namespace dnsimple.Services
         /// <summary>
         /// List webhooks in the account.
         /// </summary>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="options">Options passed to the list (sorting and
         /// pagination).</param>
         /// <returns>The list of webhooks in the account</returns>
@@ -39,7 +39,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Create a webhook in the account.
         /// </summary>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="webhook">The webhook to create</param>
         /// <returns>The newly created webhook</returns>
         /// <see cref="Webhook"/>
@@ -58,7 +58,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Returns a webhook for the account
         /// </summary>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="webhookId">The webhook id</param>
         /// <returns>The webhook requested</returns>
         public SimpleResponse<Webhook> GetWebhook(long accountId,
@@ -73,7 +73,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Delete a webhook.
         /// </summary>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="webhookId">The webhook Id</param>
         /// <returns><c>EmptyDnsimpleRequest</c></returns>
         public EmptyResponse DeleteWebhook(long accountId, long webhookId)

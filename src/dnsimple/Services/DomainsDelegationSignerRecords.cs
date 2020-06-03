@@ -14,7 +14,7 @@ namespace dnsimple.Services
         /// <summary>
         /// List delegation signer records for the domain in the account.
         /// </summary>
-        /// <param name="accountId">The account id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or id</param>
         /// <param name="options">Options passed to the list (sorting, pagination)</param>
         /// <returns>A list of delegation signer records wrapped in a response</returns>
@@ -39,7 +39,7 @@ namespace dnsimple.Services
         /// provider that is signing your zone. To enable DNSSEC on a domain
         /// that is hosted with DNSimple, use the DNSSEC enable endpoint.
         /// </summary>
-        /// <param name="accountId">The account id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or id</param>
         /// <param name="record">The delegation signer record to be added</param>
         /// <see cref="DelegationSignerRecord"/>
@@ -70,7 +70,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Retrieves a delegation signer record.
         /// </summary>
-        /// <param name="accountId">The account id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or id</param>
         /// <param name="recordId">The delegation signer record id</param>
         /// <returns>The delegation signer record</returns>
@@ -88,7 +88,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Deletes a delegation signer record
         /// </summary>
-        /// <param name="accountId">The account id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or id</param>
         /// <param name="recordId">the delegation signer record id</param>
         /// <see>https://developer.dnsimple.com/v2/domains/dnssec/#deleteDomainDelegationSignerRecord</see>

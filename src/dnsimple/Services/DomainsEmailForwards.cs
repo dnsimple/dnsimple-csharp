@@ -15,7 +15,7 @@ namespace dnsimple.Services
         /// <summary>
         /// List email forwards for the domain in the account.
         /// </summary>
-        /// <param name="accountId">The account id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or id</param>
         /// <param name="options">Options passed to the list (sorting, pagination)</param>
         /// <returns>A list of all email forwards for the domain</returns>
@@ -38,7 +38,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Creates a email forward for the domain
         /// </summary>
-        /// <param name="accountId">The account id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or id</param>
         /// <param name="record">The email forward to be added</param>
         /// <returns>The newly created email forward for the domain</returns>
@@ -47,9 +47,7 @@ namespace dnsimple.Services
             long accountId,
             string domainIdentifier, EmailForward record)
         {
-            var builder =
-                BuildRequestForPath(EmailForwardsPath(accountId,
-                    domainIdentifier));
+            var builder = BuildRequestForPath(EmailForwardsPath(accountId, domainIdentifier));
             builder.Method(Method.POST);
             builder.AddJsonPayload(record);
 
@@ -63,7 +61,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Retrieves an email forward.
         /// </summary>
-        /// <param name="accountId">The account id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or id</param>
         /// <param name="emailForwardId">The email forward id</param>
         /// <returns>The email forward</returns>
@@ -81,7 +79,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Deletes an email forward.
         /// </summary>
-        /// <param name="accountId">The account id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or id</param>
         /// <param name="emailForwardId">The email forward id</param>
         /// <see>https://developer.dnsimple.com/v2/domains/email-forwards/#deleteEmailForward</see>

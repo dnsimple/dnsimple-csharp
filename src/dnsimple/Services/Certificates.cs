@@ -20,7 +20,7 @@ namespace dnsimple.Services
         /// <summary>
         /// List the certificates for a domain in the account.
         /// </summary>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domainName">The domain name or id</param>
         /// <param name="options">Options passed to the list (sorting and
         ///  pagination)</param>
@@ -42,7 +42,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Get the details of a certificate.
         /// </summary>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domainName">The domain name or id</param>
         /// <param name="certificateId">The certificate id</param>
         /// <returns>The details of the certificate requested</returns>
@@ -60,7 +60,7 @@ namespace dnsimple.Services
         /// Get the PEM-encoded certificate, along with the root certificate
         /// and intermediate chain.
         /// </summary>
-        /// <param name="accountId">The account id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domainName">The domain name or id</param>
         /// <param name="certificateId">The certificate id</param>
         /// <returns>The PEM-encoded certificate, along with the root
@@ -79,7 +79,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Get the PEM-encoded certificate private key.
         /// </summary>
-        /// <param name="accountId">The account id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domainName">The domain name or id</param>
         /// <param name="certificateId">The certificate id</param>
         /// <returns>The private key for the certificate requested</returns>
@@ -135,7 +135,7 @@ namespace dnsimple.Services
         /// the renewed certificate.
         /// </para>
         /// </remarks>
-        /// <param name="accountId">The account id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domainName">The domain name or id</param>
         /// <param name="order">The order object</param>
         /// <returns>The certificate ordered</returns>
@@ -157,7 +157,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Issue a Let’s Encrypt certificate purchased with DNSimple.
         /// </summary>
-        /// <param name="accountId">The account id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domainName">The domain name or id</param>
         /// <param name="certificateId">The certificate id</param>
         /// <returns>The certificate data issued</returns>
@@ -179,7 +179,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Renew a Let’s Encrypt certificate purchased with DNSimple.
         /// </summary>
-        /// <param name="accountId">The account id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domainName">The domain name or id</param>
         /// <param name="certificateId">The certificate id</param>
         /// <param name="renewal">The renewal object.</param>
@@ -203,7 +203,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Issue a Let’s Encrypt certificate renewed with DNSimple.
         /// </summary>
-        /// <param name="accountId">The account id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domainName">The domain name or id</param>
         /// <param name="certificateId">The certificate id</param>
         /// <param name="certificateRenewalId">The certificate renewal id</param>

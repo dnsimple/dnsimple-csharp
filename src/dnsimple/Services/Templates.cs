@@ -22,7 +22,7 @@ namespace dnsimple.Services
         /// <summary>
         /// List templates in the account.
         /// </summary>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="options">Options passed to the list (sorting and
         /// pagination).</param>
         /// <returns>A list of templates for the account</returns>
@@ -41,7 +41,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Create a template in the account
         /// </summary>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="template">The template to be created</param>
         /// <returns>The newly created template</returns>
         /// <see>https://developer.dnsimple.com/v2/templates/#createTemplate</see>
@@ -59,7 +59,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Retrieve a template
         /// </summary>
-        /// <param name="accountId">The account id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="template">The template id or short name (sid)</param>
         /// <returns>The template requested</returns>
         /// <see>https://developer.dnsimple.com/v2/templates/#getTemplate</see>
@@ -74,7 +74,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Update a template
         /// </summary>
-        /// <param name="accountId">The account id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="template">The template id or shot name (sid)</param>
         /// <param name="payload">The <c>Template</c> struct with the fields
         /// we want to update</param>
@@ -95,7 +95,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Deletes a template
         /// </summary>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="template">The template name or id</param>
         /// <returns>An <c>EmptyDnsimpleResponse</c></returns>
         /// <see>https://developer.dnsimple.com/v2/templates/#deleteTemplate</see>

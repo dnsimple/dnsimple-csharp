@@ -8,7 +8,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Applies a template to a domain.
         /// </summary>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domain">The domain name or id</param>
         /// <param name="template">The template id or short name (sid)</param>
         /// <returns><c>EmptyDnsimpleResponse</c></returns>

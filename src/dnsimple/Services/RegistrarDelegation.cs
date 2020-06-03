@@ -15,7 +15,7 @@ namespace dnsimple.Services
         /// <summary>
         /// List name servers for the domain in the account.
         /// </summary>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domain">The domain id or name</param>
         /// <returns>The list of name servers for the domain</returns>
         /// <see>https://developer.dnsimple.com/v2/registrar/delegation/#getDomainDelegation</see>
@@ -29,7 +29,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Update name servers for the domain.
         /// </summary>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domain">The domain id or name</param>
         /// <param name="delegation">A list of name server names as strings</param>
         /// <returns>The list of updated name servers for the domain</returns>
@@ -77,7 +77,7 @@ namespace dnsimple.Services
         /// available for certain plans. If the feature is not enabled,
         /// you will receive an HTTP 412 response code.
         /// </remarks>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domain">The domain id or name</param>
         /// <see>https://developer.dnsimple.com/v2/registrar/delegation/#changeDomainDelegationFromVanity</see>
         public EmptyResponse ChangeDomainDelegationFromVanity(

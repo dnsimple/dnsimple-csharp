@@ -21,7 +21,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Lists the zones in the account.
         /// </summary>
-        /// <param name="accountId">The account id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="options">Options passed to the list (sorting,
         /// filtering, pagination)</param>
         /// <returns>A <c>ZonesResponse</c> containing a list of zones for
@@ -41,7 +41,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Retrieves a zone.
         /// </summary>
-        /// <param name="accountId">The account id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="zoneName">The zone name</param>
         /// <returns>A <c>ZoneResponse</c> containing the zone.</returns>
         /// <see>https://developer.dnsimple.com/v2/zones/#getZone</see>
@@ -56,7 +56,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Retrieves a zone file.
         /// </summary>
-        /// <param name="accountId">The account id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="zoneName">The zone name</param>
         /// <returns>A <c>ZoneFileResponse</c> containing the zone file content.</returns>
         /// <see>https://developer.dnsimple.com/v2/zones/#getZoneFile</see>
@@ -71,7 +71,7 @@ namespace dnsimple.Services
         /// Checks if a zone change is fully distributed to all our name servers
         /// across the globe.
         /// </summary>
-        /// <param name="accountId">The account id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="zoneName">The zone name</param>
         /// <returns>A <c>ZoneDistributionResponse</c>.</returns>
         /// <see>https://developer.dnsimple.com/v2/zones/#checkZoneDistribution</see>

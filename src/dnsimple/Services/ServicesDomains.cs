@@ -9,7 +9,7 @@ namespace dnsimple.Services
         /// <summary>
         /// List services applied to a domain.
         /// </summary>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domain">The domain name or id</param>
         /// <returns>The list of services applied to the domain.</returns>
         /// <see>https://developer.dnsimple.com/v2/services/domains/#listDomainAppliedServices</see>
@@ -24,7 +24,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Applies a service to a domain.
         /// </summary>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domain">The domain name or id</param>
         /// <param name="service">The service name or id</param>
         /// <returns><c>EmptyDnsimpleResponse</c></returns>
@@ -42,7 +42,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Un-applies a service from a domain.
         /// </summary>
-        /// <param name="accountId">The account Id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="domain">The domain name or id</param>
         /// <param name="service">The service name or id</param>
         /// <returns><c>EmptyDnsimpleResponse</c></returns>

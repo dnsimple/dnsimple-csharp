@@ -22,7 +22,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Lists the contacts in the account according to the options sent.
         /// </summary>
-        /// <param name="accountId">The account id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="options">Options passed to the list (sorting and
         /// pagination).</param>
         /// <returns>The list of contacts in the account.</returns>
@@ -41,7 +41,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Creates a contact.
         /// </summary>
-        /// <param name="accountId">The account id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="contact">The contact to create</param>
         /// <returns>The newly created contact for the account</returns>
         /// <see cref="Contact"/>
@@ -59,7 +59,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Retrieves a contact of the account
         /// </summary>
-        /// <param name="accountId">The account id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="contactId">The contact id</param>
         /// <returns>The contact requested</returns>
         /// <see cref="Contact"/>
@@ -75,7 +75,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Updates a contact
         /// </summary>
-        /// <param name="accountId">The account id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="contactId">The contact id</param>
         /// <param name="contact">The contact data we want to update</param>
         /// <returns>The updated contact</returns>
@@ -94,7 +94,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Deletes a contact
         /// </summary>
-        /// <param name="accountId">The account id</param>
+        /// <param name="accountId">The account ID</param>
         /// <param name="contactId">The contact id</param>
         /// <see>https://developer.dnsimple.com/v2/contacts/#deleteContact</see>
         /// <exception cref="DnSimpleValidationException">If the contact cannot
