@@ -15,7 +15,7 @@ namespace dnsimple.Services
         /// Initiate a push.
         /// </summary>
         /// <param name="accountId">The account ID</param>
-        /// <param name="domainIdentifier">The domain name or id</param>
+        /// <param name="domainIdentifier">The domain name or ID</param>
         /// <param name="email">The email address of the target DNSimple account.</param>
         /// <returns>The newly created push.</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/pushes/#initiateDomainPush</see>

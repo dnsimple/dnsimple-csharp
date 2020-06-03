@@ -10,14 +10,14 @@ namespace dnsimple.Services
         /// List services applied to a domain.
         /// </summary>
         /// <param name="accountId">The account ID</param>
-        /// <param name="domain">The domain name or id</param>
+        /// <param name="domainIdentifier">The domain name or ID</param>
         /// <returns>The list of services applied to the domain.</returns>
         /// <see>https://developer.dnsimple.com/v2/services/domains/#listDomainAppliedServices</see>
         public PaginatedResponse<Service> AppliedServices(
-            long accountId, string domain)
+            long accountId, string domainIdentifier)
         {
             return new PaginatedResponse<Service>(
-                Execute(BuildRequestForPath(AppliedServicesPath(accountId, domain))
+                Execute(BuildRequestForPath(AppliedServicesPath(accountId, domainIdentifier))
                     .Request));
         }
 
@@ -25,14 +25,14 @@ namespace dnsimple.Services
         /// Applies a service to a domain.
         /// </summary>
         /// <param name="accountId">The account ID</param>
-        /// <param name="domain">The domain name or id</param>
+        /// <param name="domainIdentifier">The domain name or ID</param>
         /// <param name="service">The service name or id</param>
         /// <returns><c>EmptyDnsimpleResponse</c></returns>
         /// <see>https://developer.dnsimple.com/v2/services/domains/#applyServiceToDomain</see>
-        public EmptyResponse ApplyService(long accountId, string domain,
+        public EmptyResponse ApplyService(long accountId, string domainIdentifier,
             string service)
         {
-            var builder = BuildRequestForPath(ApplyServicePath(accountId, domain,
+            var builder = BuildRequestForPath(ApplyServicePath(accountId, domainIdentifier,
                     service));
             builder.Method(Method.POST);
 
@@ -43,13 +43,13 @@ namespace dnsimple.Services
         /// Un-applies a service from a domain.
         /// </summary>
         /// <param name="accountId">The account ID</param>
-        /// <param name="domain">The domain name or id</param>
+        /// <param name="domainIdentifier">The domain name or ID</param>
         /// <param name="service">The service name or id</param>
         /// <returns><c>EmptyDnsimpleResponse</c></returns>
         /// <see>https://developer.dnsimple.com/v2/services/domains/#unapplyServiceFromDomain</see>
-        public EmptyResponse UnapplyService(long accountId, string domain, string service)
+        public EmptyResponse UnapplyService(long accountId, string domainIdentifier, string service)
         {
-            var builder = BuildRequestForPath(ApplyServicePath(accountId, domain,
+            var builder = BuildRequestForPath(ApplyServicePath(accountId, domainIdentifier,
                     service));
             builder.Method(Method.DELETE);
             

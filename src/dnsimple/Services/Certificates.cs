@@ -21,17 +21,17 @@ namespace dnsimple.Services
         /// List the certificates for a domain in the account.
         /// </summary>
         /// <param name="accountId">The account ID</param>
-        /// <param name="domainName">The domain name or id</param>
+        /// <param name="domainIdentifier">The domain name or ID</param>
         /// <param name="options">Options passed to the list (sorting and
         ///  pagination)</param>
         /// <returns>A <c>CertificatesResponse</c> containing a list of zones for the
         /// account.</returns>
         public PaginatedResponse<Certificate> ListCertificates(
             long accountId,
-            string domainName, CertificatesListOptions options = null)
+            string domainIdentifier, CertificatesListOptions options = null)
         {
             var builder = BuildRequestForPath(
-                CertificatesPath(accountId, domainName));
+                CertificatesPath(accountId, domainIdentifier));
 
             AddListOptionsToRequest(options, ref builder);
 
@@ -43,16 +43,16 @@ namespace dnsimple.Services
         /// Get the details of a certificate.
         /// </summary>
         /// <param name="accountId">The account ID</param>
-        /// <param name="domainName">The domain name or id</param>
+        /// <param name="domainIdentifier">The domain name or ID</param>
         /// <param name="certificateId">The certificate id</param>
         /// <returns>The details of the certificate requested</returns>
         /// <see>https://developer.dnsimple.com/v2/certificates/#getCertificate</see>
         public SimpleResponse<Certificate> GetCertificate(
             long accountId,
-            string domainName, long certificateId)
+            string domainIdentifier, long certificateId)
         {
             return new SimpleResponse<Certificate>(Execute(
-                BuildRequestForPath(CertificatePath(accountId, domainName,
+                BuildRequestForPath(CertificatePath(accountId, domainIdentifier,
                     certificateId)).Request));
         }
 
@@ -61,18 +61,18 @@ namespace dnsimple.Services
         /// and intermediate chain.
         /// </summary>
         /// <param name="accountId">The account ID</param>
-        /// <param name="domainName">The domain name or id</param>
+        /// <param name="domainIdentifier">The domain name or ID</param>
         /// <param name="certificateId">The certificate id</param>
         /// <returns>The PEM-encoded certificate, along with the root
         /// certificate and intermediate chain.</returns>
         /// <see>https://developer.dnsimple.com/v2/certificates/#downloadCertificate</see>
         public SimpleResponse<CertificateBundle>
             DownloadCertificate(long accountId,
-                string domainName, long certificateId)
+                string domainIdentifier, long certificateId)
         {
             return new SimpleResponse<CertificateBundle>(
                 Execute(BuildRequestForPath(
-                    PemCertificateDownloadPath(accountId, domainName,
+                    PemCertificateDownloadPath(accountId, domainIdentifier,
                         certificateId)).Request));
         }
 
@@ -80,17 +80,17 @@ namespace dnsimple.Services
         /// Get the PEM-encoded certificate private key.
         /// </summary>
         /// <param name="accountId">The account ID</param>
-        /// <param name="domainName">The domain name or id</param>
+        /// <param name="domainIdentifier">The domain name or ID</param>
         /// <param name="certificateId">The certificate id</param>
         /// <returns>The private key for the certificate requested</returns>
         /// <see>https://developer.dnsimple.com/v2/certificates/#getCertificatePrivateKey</see>
         public SimpleResponse<CertificateBundle> GetCertificatePrivateKey(
-            long accountId, string domainName, long certificateId)
+            long accountId, string domainIdentifier, long certificateId)
         {
             return new SimpleResponse<CertificateBundle>(
                 Execute(
                     BuildRequestForPath(CertificatePrivateKeyPath(accountId,
-                        domainName, certificateId)).Request));
+                        domainIdentifier, certificateId)).Request));
         }
 
         /// <summary>
@@ -136,17 +136,17 @@ namespace dnsimple.Services
         /// </para>
         /// </remarks>
         /// <param name="accountId">The account ID</param>
-        /// <param name="domainName">The domain name or id</param>
+        /// <param name="domainIdentifier">The domain name or ID</param>
         /// <param name="order">The order object</param>
         /// <returns>The certificate ordered</returns>
         /// <see cref="CertificateOrder"/>
         /// <see>https://developer.dnsimple.com/v2/certificates/#purchaseLetsencryptCertificate</see>
         public SimpleResponse<CertificateOrdered>
             PurchaseLetsEncryptCertificate(
-                long accountId, string domainName, CertificateOrder order)
+                long accountId, string domainIdentifier, CertificateOrder order)
         {
             var builder = BuildRequestForPath(
-                PurchaseLetsEncryptCertificatePath(accountId, domainName));
+                PurchaseLetsEncryptCertificatePath(accountId, domainIdentifier));
             builder.Method(Method.POST);
             builder.AddJsonPayload(order);
 
@@ -158,17 +158,17 @@ namespace dnsimple.Services
         /// Issue a Let’s Encrypt certificate purchased with DNSimple.
         /// </summary>
         /// <param name="accountId">The account ID</param>
-        /// <param name="domainName">The domain name or id</param>
+        /// <param name="domainIdentifier">The domain name or ID</param>
         /// <param name="certificateId">The certificate id</param>
         /// <returns>The certificate data issued</returns>
         /// <see>https://developer.dnsimple.com/v2/certificates/#issueLetsencryptCertificate</see>
         /// <see>https://dnsimple.com/letsencrypt</see>
         public SimpleResponse<Certificate> IssueLetsEncryptCertificate(
             long accountId,
-            string domainName, long certificateId)
+            string domainIdentifier, long certificateId)
         {
             var builder = BuildRequestForPath(
-                IssueLetsEncryptCertificatePath(accountId, domainName,
+                IssueLetsEncryptCertificatePath(accountId, domainIdentifier,
                     certificateId));
             builder.Method(Method.POST);
 
@@ -180,18 +180,18 @@ namespace dnsimple.Services
         /// Renew a Let’s Encrypt certificate purchased with DNSimple.
         /// </summary>
         /// <param name="accountId">The account ID</param>
-        /// <param name="domainName">The domain name or id</param>
+        /// <param name="domainIdentifier">The domain name or ID</param>
         /// <param name="certificateId">The certificate id</param>
         /// <param name="renewal">The renewal object.</param>
         /// <returns>The renewal data.</returns>
         /// <see>https://developer.dnsimple.com/v2/certificates/#purchaseRenewalLetsencryptCertificate</see>
         public SimpleResponse<LetsEncryptRenewal>
             PurchaseLetsEncryptCertificateRenewal(
-                long accountId, string domainName, long certificateId,
+                long accountId, string domainIdentifier, long certificateId,
                 LetsEncryptRenewal renewal)
         {
             var builder = BuildRequestForPath(
-                LetsEncryptCertificateRenewalPath(accountId, domainName,
+                LetsEncryptCertificateRenewalPath(accountId, domainIdentifier,
                     certificateId));
             builder.Method(Method.POST);
             builder.AddJsonPayload(renewal);
@@ -204,18 +204,18 @@ namespace dnsimple.Services
         /// Issue a Let’s Encrypt certificate renewed with DNSimple.
         /// </summary>
         /// <param name="accountId">The account ID</param>
-        /// <param name="domainName">The domain name or id</param>
+        /// <param name="domainIdentifier">The domain name or ID</param>
         /// <param name="certificateId">The certificate id</param>
         /// <param name="certificateRenewalId">The certificate renewal id</param>
         /// <returns>The certificate data issued in the renewal</returns>
         public SimpleResponse<Certificate>
             IssueLetsEncryptCertificateRenewal(long accountId,
-                string domainName, long certificateId,
+                string domainIdentifier, long certificateId,
                 long certificateRenewalId)
         {
             var builder = BuildRequestForPath(
                     IssueLetsEncryptCertificateRenewalPath(accountId,
-                        domainName, certificateId, certificateRenewalId));
+                        domainIdentifier, certificateId, certificateRenewalId));
             builder.Method(Method.POST);
 
             return new SimpleResponse<Certificate>(
