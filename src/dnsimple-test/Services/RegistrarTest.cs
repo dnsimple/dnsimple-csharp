@@ -127,7 +127,7 @@ namespace dnsimple_test.Services
             string expectedUrl)
         {
             var client = new MockDnsimpleClient(RegisterDomainFixture);
-            var domain = new DomainRegistrationInfo
+            var domain = new DomainRegistrationInput
             {
                 RegistrantId = 2,
                 WhoisPrivacy = false,

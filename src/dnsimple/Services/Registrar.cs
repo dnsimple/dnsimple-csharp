@@ -65,9 +65,9 @@ namespace dnsimple.Services
         /// successfully. You will be automatically charged the registration
         /// fee upon successful registration, so please be careful with this
         /// command.</remarks>
-        /// <see cref="DomainRegistrationInfo"/>
+        /// <see cref="DomainRegistrationInput"/>
         /// <see>https://developer.dnsimple.com/v2/registrar/#registerDomain</see>
-        public SimpleResponse<DomainRegistration> RegisterDomain(long accountId, string domainName, DomainRegistrationInfo domain)
+        public SimpleResponse<DomainRegistration> RegisterDomain(long accountId, string domainName, DomainRegistrationInput domain)
         {
             var builder = BuildRequestForPath(DomainRegistrationPath(accountId, domainName));
             builder.Method(Method.POST);
@@ -265,7 +265,7 @@ namespace dnsimple.Services
     /// Represents a domain registration.
     /// </summary>
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public struct DomainRegistrationInfo
+    public struct DomainRegistrationInput
     {
         [JsonProperty(Required = Required.Always)]
         public long RegistrantId { get; set; }
