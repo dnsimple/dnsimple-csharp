@@ -19,7 +19,7 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Checks whether a domain is available for registration.
+        /// Checks a domain name for availability.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="domainName">The domain name to check</param>
@@ -32,7 +32,7 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Get the premium price for a domain.
+        /// Retrieves the premium price for a domain.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="domainName">The domain name</param>
@@ -40,11 +40,6 @@ namespace dnsimple.Services
         /// "renewal", and "transfer". If omitted, it defaults to
         /// "registration".</param>
         /// <returns>The domain premium price response</returns>
-        /// <remarks>Please note that a premium price can be different for
-        /// registration, renewal, transfer. By default this endpoint returns
-        /// the premium price for registration. If you need to check a
-        /// different price, you should specify it with the action
-        /// param.</remarks>
         /// <see>https://developer.dnsimple.com/v2/registrar/#getDomainPremiumPrice</see>
         public SimpleResponse<DomainPremiumPrice> GetDomainPremiumPrice(long accountId, string domainName, PremiumPriceCheckAction action)
         {
@@ -55,16 +50,12 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Register a domain name with DNSimple.
+        /// Registers a domain name.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="domainName">The domain name</param>
         /// <param name="domain">The domain to register</param>
         /// <returns>The newly created domain</returns>
-        /// <remarks>Your account must be active for this command to complete
-        /// successfully. You will be automatically charged the registration
-        /// fee upon successful registration, so please be careful with this
-        /// command.</remarks>
         /// <see cref="DomainRegistrationInput"/>
         /// <see>https://developer.dnsimple.com/v2/registrar/#registerDomain</see>
         public SimpleResponse<DomainRegistration> RegisterDomain(long accountId, string domainName, DomainRegistrationInput domain)
@@ -77,17 +68,12 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Transfer a domain name from another domain registrar into DNSimple.
+        /// Transfer a domain name from another registrar.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="domainName">The domain name</param>
         /// <param name="transferInput">The transfer command</param>
         /// <returns>The transferred domain</returns>
-        /// <remarks>Your account must be active for this command to complete
-        /// successfully. You will be automatically charged the 1-year transfer
-        /// fee upon successful transfer, so please be careful with this
-        /// command. The transfer may take anywhere from a few minutes up to
-        /// 7 days.</remarks>
         /// <see cref="DomainTransfer"/>
         /// <see>https://developer.dnsimple.com/v2/registrar/#transferDomain</see>
         public SimpleResponse<DomainTransfer> TransferDomain(long accountId, string domainName, DomainTransferInput transferInput)
@@ -136,16 +122,12 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Renew a domain name already registered with DNSimple.
+        /// Explicitly renews a domain, if the registry supports this function.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="domainName">The domain name</param>
         /// <param name="input">The domain renewal request</param>
         /// <returns>The renewed domain</returns>
-        /// <remarks>Your account must be active for this command to complete
-        /// successfully. You will be automatically charged the renewal fee
-        /// upon successful renewal, so please be careful with this
-        /// command.</remarks>
         /// <see>https://developer.dnsimple.com/v2/registrar/#renewDomain</see>
         public SimpleResponse<DomainRenewal> RenewDomain(long accountId, string domainName, DomainRenewalInput input)
         {
@@ -157,12 +139,10 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Prepare a domain for transferring out.
+        /// Prepares a domain for transferring out.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="domainName">The domain name</param>
-        /// <remarks>This will unlock a domain and send the authorization code
-        /// to the domain's administrative contact.</remarks>
         /// <see>https://developer.dnsimple.com/v2/registrar/#authorizeDomainTransferOut</see>
         public EmptyResponse TransferDomainOut(long accountId, string domainName)
         {
@@ -185,7 +165,18 @@ namespace dnsimple.Services
     }
 
     /// <summary>
-    /// Represents a registered domain.
+    /// Represents the domain check.
+    /// </summary>
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    public struct DomainCheck
+    {
+        public string Domain { get; set; }
+        public bool Available { get; set; }
+        public bool Premium { get; set; }
+    }
+
+    /// <summary>
+    /// Represents a domain registration.
     /// </summary>
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public struct DomainRegistration
@@ -213,17 +204,6 @@ namespace dnsimple.Services
         public string State { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-    }
-
-    /// <summary>
-    /// Represents the domain check.
-    /// </summary>
-    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public struct DomainCheck
-    {
-        public string Domain { get; set; }
-        public bool Available { get; set; }
-        public bool Premium { get; set; }
     }
 
     /// <summary>
@@ -262,7 +242,7 @@ namespace dnsimple.Services
     // TODO : Add the extended attributes
 
     /// <summary>
-    /// Represents a domain registration.
+    /// Represents the data sent to register a domain.
     /// </summary>
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public struct DomainRegistrationInput
