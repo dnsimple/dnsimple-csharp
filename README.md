@@ -80,7 +80,7 @@ var client = new Client();
 client.AddCredentials(new OAuth2Credentials("..."));
 
 var accountId = client.Identity.Whoami().Data.Account.Id;
-var domain = client.Domains.CreateDomain(accountId, "example.com").Data;
+var domain = client.Domains.CreateDomain(accountId, new Domain{ Name = "example.com" }).Data;
 ```
 
 ### Retrieve a domain

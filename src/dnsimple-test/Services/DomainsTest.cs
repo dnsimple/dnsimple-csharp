@@ -133,8 +133,7 @@ namespace dnsimple_test.Services
         public void CreateDomain(string expectedUrl)
         {
             var client = new MockDnsimpleClient(CreateDomainFixture);
-            var domain = client.Domains.CreateDomain(1010, "example-alpha.com")
-                .Data;
+            var domain = client.Domains.CreateDomain(1010, new Domain{ Name = "example-alpha.com"}).Data;
 
             Assert.Multiple(() =>
             {

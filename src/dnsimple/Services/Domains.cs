@@ -53,20 +53,15 @@ namespace dnsimple.Services
         /// Adds a domain to the account.
         /// </summary>
         /// <param name="accountId">The account ID</param>
-        /// <param name="domainName">The name of the domain to be created</param>
+        /// <param name="domain">The domain to be created</param>
         /// <returns>A <c>DomainResponse</c> containing the data of the newly
         /// created domain.</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/#createDomain</see>
-        public SimpleResponse<Domain> CreateDomain(long accountId, string domainName)
+        public SimpleResponse<Domain> CreateDomain(long accountId, Domain domain)
         {
             var builder = BuildRequestForPath(DomainsPath(accountId));
             builder.Method(Method.POST);
-
-            var parameters = new Collection<KeyValuePair<string, string>>
-            {
-                new KeyValuePair<string, string>("name", domainName)
-            };
-            builder.AddParameters(parameters);
+            builder.AddJsonPayload(domain);
 
             return new SimpleResponse<Domain>(Execute(builder.Request));
         }
@@ -91,7 +86,8 @@ namespace dnsimple.Services
     /// Represents a <c>Domain</c>
     /// </summary>
     /// <see>https://developer.dnsimple.com/v2/domains/</see>
-    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy), 
+        ItemNullValueHandling = NullValueHandling.Ignore)]
     public struct Domain
     {
         public long Id { get; set; }
