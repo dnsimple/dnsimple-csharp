@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Net;
 using dnsimple;
@@ -154,6 +155,50 @@ namespace dnsimple_test.Services
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
+        
+        [Test]
+        [TestCase(1010, "ruby.codes",
+            "https://api.sandbox.dnsimple.com/v2/1010/registrar/domains/ruby.codes/registrations")]
+        public void RegisterDomainWithExtendedAttributes(long accountId, string domainName,
+            string expectedUrl)
+        {
+            var client = new MockDnsimpleClient(RegisterDomainFixture);
+            var domain = new DomainRegistrationInput
+            {
+                RegistrantId = 2,
+                WhoisPrivacy = false,
+                AutoRenew = false,
+                PremiumPrice = "",
+                ExtendedAttributes = new List<TldExtendedAttribute>
+                {
+                    new TldExtendedAttribute()
+                    {
+                        Name = "uk_legal_type",
+                        Description = "Legal type of registrant contact",
+                        Required = false,
+                        Options = new List<TldExtendedAttributeOption>
+                        { new TldExtendedAttributeOption()
+                            {
+                                Title = "UK Individual",
+                                Value = "IND",
+                                Description = "UK Individual (our default value)"
+                            }
+                        }
+                    }
+                }
+            };
+
+            client.Registrar.RegisterDomain(accountId, domainName, domain);
+            var payload = client.PayloadSent(); 
+
+            Assert.Multiple(() =>
+            {
+                StringAssert.Contains("uk_legal_type", payload);
+                StringAssert.Contains("UK Individual (our default value)", payload);
+
+                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+            });
+        }
 
         [Test]
         [TestCase(1010, "ruby.codes",
@@ -252,6 +297,48 @@ namespace dnsimple_test.Services
                     client.Registrar.TransferDomain(accountId, domainName,
                         transfer);
                 });
+        }
+        
+        [Test]
+        [TestCase(1010, "ruby.codes",
+            "https://api.sandbox.dnsimple.com/v2/1010/registrar/domains/ruby.codes/transfers")]
+        public void TransferDomainWithExtendedAttributes(long accountId, string domainName,
+            string expectedUrl)
+        {
+            var client = new MockDnsimpleClient(RegisterDomainFixture);
+            var transfer = new DomainTransferInput
+            {
+                RegistrantId = 2,
+                AuthCode = "authcode",
+                ExtendedAttributes = new List<TldExtendedAttribute>
+                {
+                    new TldExtendedAttribute()
+                    {
+                        Name = "uk_legal_type",
+                        Description = "Legal type of registrant contact",
+                        Required = false,
+                        Options = new List<TldExtendedAttributeOption>
+                        { new TldExtendedAttributeOption()
+                            {
+                                Title = "UK Individual",
+                                Value = "IND",
+                                Description = "UK Individual (our default value)"
+                            }
+                        }
+                    }
+                }
+            };
+
+            client.Registrar.TransferDomain(accountId, domainName, transfer);
+            var payload = client.PayloadSent(); 
+
+            Assert.Multiple(() =>
+            {
+                StringAssert.Contains("uk_legal_type", payload);
+                StringAssert.Contains("UK Individual (our default value)", payload);
+
+                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+            });
         }
 
         [Test]

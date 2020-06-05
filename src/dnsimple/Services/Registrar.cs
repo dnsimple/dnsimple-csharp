@@ -239,12 +239,11 @@ namespace dnsimple.Services
         public string Action { get; set; }
     }
 
-    // TODO : Add the extended attributes
-
     /// <summary>
     /// Represents the data sent to register a domain.
     /// </summary>
-    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy), 
+        ItemNullValueHandling = NullValueHandling.Ignore)]
     public struct DomainRegistrationInput
     {
         [JsonProperty(Required = Required.Always)]
@@ -253,6 +252,7 @@ namespace dnsimple.Services
         public bool WhoisPrivacy { get; set; }
         public bool AutoRenew { get; set; }
         public string PremiumPrice { get; set; }
+        public List<TldExtendedAttribute> ExtendedAttributes { get; set; }
     }
 
     /// <summary>
@@ -279,6 +279,7 @@ namespace dnsimple.Services
 
         public string AuthCode { get; set; }
         public string PremiumPrice { get; set; }
+        public List<TldExtendedAttribute> ExtendedAttributes { get; set; }
     }
 
 }

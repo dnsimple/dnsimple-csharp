@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Net;
 using dnsimple;
@@ -85,6 +86,11 @@ namespace dnsimple_test
         {
             return ((MockHttpService) Http).MethodSent;
         }
+
+        public string PayloadSent()
+        {
+            return ((MockHttpService) Http).PayloadSent;
+        }
     }
 
     public class MockHttpService : HttpService
@@ -95,13 +101,15 @@ namespace dnsimple_test
         public HttpStatusCode StatusCode { get; set; }
         public string RequestUrlSent { get; private set; }
         public Method MethodSent { get; private set; }
+        public string PayloadSent { get; private set; }
+
 
         public MockHttpService(string version, string fixture, string baseUrl)
         {
             _baseUrl = baseUrl;
             _fixtureLoader = new FixtureLoader(version, fixture);
         }
-        
+
         public override RequestBuilder RequestBuilder(string path)
         {
             return new RequestBuilder(path);
@@ -111,7 +119,16 @@ namespace dnsimple_test
         {
             RequestUrlSent = new RestClient($"{_baseUrl}/v2/").BuildUri(request).ToString();
             MethodSent = request.Method;
-            
+            try
+            {
+                PayloadSent = (string) request.Parameters.Find(x =>
+                    x.ContentType.Equals("application/json")).Value;
+            }
+            catch (Exception e)
+            {
+                // ignored
+            }
+
             var rawPayload = _fixtureLoader.ExtractJsonPayload();
 
             string message;

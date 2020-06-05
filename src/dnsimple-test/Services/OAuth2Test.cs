@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using dnsimple;
 using dnsimple.Services;
 using Moq;
-using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using RestSharp;
 
