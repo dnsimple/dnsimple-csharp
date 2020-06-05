@@ -24,10 +24,8 @@ namespace dnsimple.Services
             if(string.IsNullOrEmpty(email))
                 throw new ArgumentException("Email cannot be null or empty");
             
-            var builder = BuildRequestForPath(InitiatePushPath(accountId,
-                    domainIdentifier));
+            var builder = BuildRequestForPath(InitiatePushPath(accountId, domainIdentifier));
             builder.Method(Method.POST);
-
             builder.AddJsonPayload(PushPayload("new_account_email", email));
 
             return new SimpleResponse<Push>(Execute(builder.Request));
