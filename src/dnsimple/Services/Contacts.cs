@@ -94,9 +94,6 @@ namespace dnsimple.Services
         /// <param name="accountId">The account ID</param>
         /// <param name="contactId">The contact id</param>
         /// <see>https://developer.dnsimple.com/v2/contacts/#deleteContact</see>
-        /// <exception cref="DnsimpleValidationException">If the contact cannot
-        /// be deleted because it’s currently used by a domain or a
-        /// certificate.</exception>
         public EmptyResponse DeleteContact(long accountId, long contactId)
         {
             var builder = BuildRequestForPath(ContactPath(accountId, contactId));

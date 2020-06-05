@@ -40,8 +40,6 @@ namespace dnsimple.Services
         /// <param name="input">The zone record input</param>
         /// <returns>The newly created <c>ZoneRecord</c> wrapped inside a
         /// <c>ZoneRecordResponse</c></returns>
-        /// <exception cref="DnsimpleException">If Bad Request</exception>
-        /// <exception cref="DnsimpleValidationException">If the validation fails</exception>
         /// <see cref="ZoneRecord"/>
         /// <see>https://developer.dnsimple.com/v2/zones/records/#createZoneRecord</see>
         public SimpleResponse<ZoneRecord> CreateZoneRecord(long accountId, string zoneId, ZoneRecord input)
@@ -84,8 +82,6 @@ namespace dnsimple.Services
         /// <param name="record">The zone record input</param>
         /// <returns>The newly updated <c>ZoneRecord</c> wrapped inside a
         /// <c>ZoneRecordResponse</c></returns>
-        /// <exception cref="DnsimpleException">If bad request</exception>
-        /// <exception cref="DnsimpleValidationException">If the validation fails</exception>
         /// <see cref="ZoneRecord"/>
         /// <see>https://developer.dnsimple.com/v2/zones/records/#updateZoneRecord</see>
         public SimpleResponse<ZoneRecord> UpdateZoneRecord(long accountId, string zoneId, long recordId, ZoneRecord record)

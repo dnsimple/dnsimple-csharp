@@ -61,7 +61,6 @@ namespace dnsimple.Services
         /// A <c>JToken</c> object representing the JSON payload returned
         /// by the API call.
         /// </returns>
-        /// <exception cref="DnsimpleException"></exception>
         /// <see cref="JToken"/>
         public virtual IRestResponse Execute(IRestRequest request)
         {
