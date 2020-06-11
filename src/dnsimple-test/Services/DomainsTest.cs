@@ -22,11 +22,11 @@ namespace dnsimple_test.Services
         private const string GetDomainNotFoundFixture = "notfound-domain.http";
 
         private DateTime CreatedAt { get; } = DateTime.ParseExact(
-            "2014-12-06T15:56:55Z", "yyyy-MM-ddTHH:mm:ssZ",
+            "2020-06-04T19:47:05Z", "yyyy-MM-ddTHH:mm:ssZ",
             CultureInfo.CurrentCulture);
 
         private DateTime UpdatedAt { get; } = DateTime.ParseExact(
-            "2015-12-09T00:20:56Z", "yyyy-MM-ddTHH:mm:ssZ",
+            "2020-06-04T19:47:05Z", "yyyy-MM-ddTHH:mm:ssZ",
             CultureInfo.CurrentCulture);
 
         [SetUp]
@@ -45,18 +45,19 @@ namespace dnsimple_test.Services
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(2, domains.Count);
-                Assert.AreEqual(1, domains.First().Id);
-                Assert.AreEqual(1010, domains.First().AccountId);
-                Assert.IsNull(domains.First().RegistrantId);
+                Assert.AreEqual(181984, domains.First().Id);
+                Assert.AreEqual(1385, domains.First().AccountId);
+                Assert.AreEqual(2715, domains.First().RegistrantId);
                 Assert.AreEqual("example-alpha.com", domains.First().Name);
                 Assert.AreEqual("example-alpha.com",
                     domains.First().UnicodeName);
-                Assert.AreEqual("hosted", domains.First().State);
+                Assert.AreEqual("registered", domains.First().State);
                 Assert.IsFalse(domains.First().AutoRenew);
                 Assert.IsFalse(domains.First().PrivateWhois);
-                Assert.IsNull(domains.First().ExpiresOn);
-                Assert.AreEqual(CreatedAt, domains.First().CreatedAt);
-                Assert.AreEqual(UpdatedAt, domains.First().UpdatedAt);
+                Assert.AreEqual("2021-06-05", domains.First().ExpiresOn);
+                Assert.AreEqual(Convert.ToDateTime("2021-06-05T02:15:00Z"), domains.First().ExpiresAt);
+                Assert.AreEqual(Convert.ToDateTime("2020-06-04T19:15:14Z"), domains.First().CreatedAt);
+                Assert.AreEqual(Convert.ToDateTime("2020-06-04T19:15:21Z"), domains.First().UpdatedAt);
             });
         }
 
@@ -89,27 +90,28 @@ namespace dnsimple_test.Services
         }
 
         [Test]
-        [TestCase("1", "https://api.sandbox.dnsimple.com/v2/1010/domains/1")]
+        [TestCase("181984", "https://api.sandbox.dnsimple.com/v2/1385/domains/181984")]
         [TestCase("example-alpha.com",
-            "https://api.sandbox.dnsimple.com/v2/1010/domains/example-alpha.com")]
+            "https://api.sandbox.dnsimple.com/v2/1385/domains/example-alpha.com")]
         public void GetDomain(string domainIdentifier, string expectedUrl)
         {
             var client = new MockDnsimpleClient(GetDomainFixture);
-            var domain = client.Domains.GetDomain(1010, domainIdentifier).Data;
+            var domain = client.Domains.GetDomain(1385, domainIdentifier).Data;
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(1, domain.Id);
-                Assert.AreEqual(1010, domain.AccountId);
-                Assert.IsNull(domain.RegistrantId);
+                Assert.AreEqual(181984, domain.Id);
+                Assert.AreEqual(1385, domain.AccountId);
+                Assert.AreEqual(2715, domain.RegistrantId);
                 Assert.AreEqual("example-alpha.com", domain.Name);
                 Assert.AreEqual("example-alpha.com", domain.UnicodeName);
-                Assert.AreEqual("hosted", domain.State);
+                Assert.AreEqual("registered", domain.State);
                 Assert.IsFalse(domain.AutoRenew);
                 Assert.IsFalse(domain.PrivateWhois);
-                Assert.IsNull(domain.ExpiresOn);
-                Assert.AreEqual(CreatedAt, domain.CreatedAt);
-                Assert.AreEqual(UpdatedAt, domain.UpdatedAt);
+                Assert.AreEqual("2021-06-05", domain.ExpiresOn);
+                Assert.AreEqual(Convert.ToDateTime("2021-06-05T02:15:00Z"), domain.ExpiresAt);
+                Assert.AreEqual(Convert.ToDateTime("2020-06-04T19:15:14Z"), domain.CreatedAt);
+                Assert.AreEqual(Convert.ToDateTime("2020-06-04T19:15:21Z"), domain.UpdatedAt);
 
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
@@ -129,23 +131,24 @@ namespace dnsimple_test.Services
         }
 
         [Test]
-        [TestCase("https://api.sandbox.dnsimple.com/v2/1010/domains")]
+        [TestCase("https://api.sandbox.dnsimple.com/v2/1385/domains")]
         public void CreateDomain(string expectedUrl)
         {
             var client = new MockDnsimpleClient(CreateDomainFixture);
-            var domain = client.Domains.CreateDomain(1010, new Domain{ Name = "example-alpha.com"}).Data;
+            var domain = client.Domains.CreateDomain(1385, new Domain{ Name = "example-beta.com"}).Data;
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(1, domain.Id);
-                Assert.AreEqual(1010, domain.AccountId);
+                Assert.AreEqual(181985, domain.Id);
+                Assert.AreEqual(1385, domain.AccountId);
                 Assert.IsNull(domain.RegistrantId);
-                Assert.AreEqual("example-alpha.com", domain.Name);
-                Assert.AreEqual("example-alpha.com", domain.UnicodeName);
+                Assert.AreEqual("example-beta.com", domain.Name);
+                Assert.AreEqual("example-beta.com", domain.UnicodeName);
                 Assert.AreEqual("hosted", domain.State);
                 Assert.IsFalse(domain.AutoRenew);
                 Assert.IsFalse(domain.PrivateWhois);
                 Assert.IsNull(domain.ExpiresOn);
+                Assert.IsNull(domain.ExpiresAt);
                 Assert.AreEqual(CreatedAt, domain.CreatedAt);
                 Assert.AreEqual(UpdatedAt, domain.UpdatedAt);
 
@@ -184,7 +187,7 @@ namespace dnsimple_test.Services
                 new KeyValuePair<string, string>("registrant_id", "89")
             };
             var sorting = new KeyValuePair<string, string>("sort",
-                "id:asc,name:asc,expires_on:desc");
+                "id:asc,name:asc,expiration:desc");
             var pagination = new List<KeyValuePair<string, string>>
             {
                 new KeyValuePair<string, string>("per_page", "42"),
@@ -202,7 +205,7 @@ namespace dnsimple_test.Services
                 .FilterByRegistrantId(89)
                 .SortById(Order.asc)
                 .SortByName(Order.asc)
-                .SortByExpiresOn(Order.desc);
+                .SortByExpiration(Order.desc);
 
 
             Assert.Multiple(() =>

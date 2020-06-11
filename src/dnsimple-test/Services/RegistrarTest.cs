@@ -342,7 +342,7 @@ namespace dnsimple_test.Services
         }
 
         [Test]
-        [TestCase(1010, "ruby.codes", 358)]
+        [TestCase(1010, "ruby.codes", 361)]
         public void GetDomainTransfer(long accountId, string domainName, long domainTansferId)
         {
             var client = new MockDnsimpleClient(GetDomainTransferFixture);
@@ -350,20 +350,20 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(358, domainTransfer.Id);
-                Assert.AreEqual(180716, domainTransfer.DomainId);
-                Assert.AreEqual(2459, domainTransfer.RegistrantId);
+                Assert.AreEqual(361, domainTransfer.Id);
+                Assert.AreEqual(182245, domainTransfer.DomainId);
+                Assert.AreEqual(2715, domainTransfer.RegistrantId);
                 Assert.AreEqual("cancelled", domainTransfer.State);
                 Assert.False(domainTransfer.AutoRenew);
                 Assert.False(domainTransfer.WhoisPrivacy);
                 Assert.AreEqual("Canceled by customer", domainTransfer.StatusDescription);
-                Assert.AreEqual(Convert.ToDateTime("2020-05-18T16:54:15Z"), domainTransfer.CreatedAt);
-                Assert.AreEqual(Convert.ToDateTime("2020-05-18T17:00:02Z"), domainTransfer.UpdatedAt);
+                Assert.AreEqual(Convert.ToDateTime("2020-06-05T18:08:00Z"), domainTransfer.CreatedAt);
+                Assert.AreEqual(Convert.ToDateTime("2020-06-05T18:10:01Z"), domainTransfer.UpdatedAt);
             });
         }
 
         [Test]
-        [TestCase(1010, "ruby.codes", 358)]
+        [TestCase(1010, "ruby.codes", 361)]
         public void CancelDomainTransfer(long accountId, string domainName, long domainTansferId)
         {
             var client = new MockDnsimpleClient(CancelDomainTransferFixture);
@@ -371,15 +371,15 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(358, domainTransfer.Id);
-                Assert.AreEqual(180716, domainTransfer.DomainId);
-                Assert.AreEqual(2459, domainTransfer.RegistrantId);
+                Assert.AreEqual(361, domainTransfer.Id);
+                Assert.AreEqual(182245, domainTransfer.DomainId);
+                Assert.AreEqual(2715, domainTransfer.RegistrantId);
                 Assert.AreEqual("transferring", domainTransfer.State);
                 Assert.False(domainTransfer.AutoRenew);
                 Assert.False(domainTransfer.WhoisPrivacy);
                 Assert.IsNull(domainTransfer.StatusDescription);
-                Assert.AreEqual(Convert.ToDateTime("2020-05-18T16:54:15Z"), domainTransfer.CreatedAt);
-                Assert.AreEqual(Convert.ToDateTime("2020-05-18T16:54:22Z"), domainTransfer.UpdatedAt);
+                Assert.AreEqual(Convert.ToDateTime("2020-06-05T18:08:00Z"), domainTransfer.CreatedAt);
+                Assert.AreEqual(Convert.ToDateTime("2020-06-05T18:08:04Z"), domainTransfer.UpdatedAt);
             });
         }
 

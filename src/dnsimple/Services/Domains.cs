@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using dnsimple.Services.ListOptions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -96,7 +97,12 @@ namespace dnsimple.Services
         public string State { get; set; }
         public bool? AutoRenew { get; set; }
         public bool? PrivateWhois { get; set; }
-        public string ExpiresOn { get; set; }
+
+        [Obsolete("ExpiresOn is deprecated, please use ExpiresAt instead.")]
+        [JsonIgnore]
+        public string ExpiresOn => ExpiresAt?.ToUniversalTime().ToString("yyyy-MM-dd");
+
+        public DateTime? ExpiresAt { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }
