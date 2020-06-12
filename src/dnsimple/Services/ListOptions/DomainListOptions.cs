@@ -1,3 +1,5 @@
+using System;
+
 namespace dnsimple.Services.ListOptions
 {
     /// <summary>
@@ -34,9 +36,20 @@ namespace dnsimple.Services.ListOptions
         /// </summary>
         /// <param name="order">The order in which we want to sort (asc or desc)</param>
         /// <returns>The instance of the <c>DomainListOptions</c></returns>
+        [Obsolete("SortByExpiresOn is deprecated, please use SortByExpiration instead.")]
         public DomainListOptions SortByExpiresOn(Order order)
         {
-            AddSortCriteria(new Sort { Field = "expires_on", Order = order });
+            return this.SortByExpiration(order);
+        }
+
+        /// <summary>
+        /// Sets the order by which to sort by expiration.
+        /// </summary>
+        /// <param name="order">The order in which we want to sort (asc or desc)</param>
+        /// <returns>The instance of the <c>DomainListOptions</c></returns>
+        public DomainListOptions SortByExpiration(Order order)
+        {
+            AddSortCriteria(new Sort { Field = "expiration", Order = order });
             return this;
         }
 
