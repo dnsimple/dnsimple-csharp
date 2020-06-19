@@ -213,7 +213,11 @@ namespace dnsimple.Services
         public string AuthorityIdentifier { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-        public DateTime? ExpiresOn { get; set; }
+        public DateTime? ExpiresAt { get; set; }
+
+        [Obsolete("ExpiresOn is deprecated, please use ExpiresAt instead.")]
+        [JsonIgnore]
+        public string ExpiresOn => ExpiresAt?.ToUniversalTime().ToString("yyyy-MM-dd");
     }
 
     /// <summary>
