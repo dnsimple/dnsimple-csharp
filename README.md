@@ -32,8 +32,10 @@ PM> Install-Package DNSimple -Version <version>
 
 ### .NET CLI
 
+Note: Replace `X.Y.Z` with the actual version.
+
 ```xml
-<PackageReference Include="DNSimple" Version="0.8.3-alpha" />
+<PackageReference Include="DNSimple" Version="X.Y.Z" />
 ```
 
 
