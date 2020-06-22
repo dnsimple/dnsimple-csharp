@@ -15,25 +15,6 @@ namespace dnsimple_test.Services
     {
         private MockResponse _response;
 
-
-        private const string CertificateContent =
-            "-----BEGIN CERTIFICATE REQUEST-----\nMIICljCCAX4CAQAwGTEXMBUGA1U" +
-            "EAwwOd3d3LndlcHBvcy5uZXQwggEiMA0GCSqG\nSIb3DQEBAQUAA4IBDwAwggEKA" +
-            "oIBAQC3MJwx9ahBG3kAwRjQdRvYZqtovUaxY6jp\nhd09975gO+2eYPDbc1yhNft" +
-            "VJ4KBT0zdEqzX0CwIlxE1MsnZ2YOsC7IJO531hMBp\ndBxM4tSG07xPz70AVUi9r" +
-            "Y6YCUoJHmxoFbclpHFbtXZocR393WyzUK8047uM2mlz\n03AZKcMdyfeuo2/9Tcx" +
-            "pTSCkklGqwqS9wtTogckaDHJDoBunAkMioGfOSMe7Yi6E\nYRtG4yPJYsDaq2yPJ" +
-            "WV8+i0PFR1Wi5RCnPt0YdQWstHuZrxABi45+XVkzKtz3TUc\nYxrvPBucVa6uzd9" +
-            "53u8CixNFkiOefvb/dajsv1GIwH6/Cvc1ftz1AgMBAAGgODA2\nBgkqhkiG9w0BC" +
-            "Q4xKTAnMCUGA1UdEQQeMByCDnd3dy53ZXBwb3MubmV0ggp3ZXBw\nb3MubmV0MA0" +
-            "GCSqGSIb3DQEBCwUAA4IBAQCDnVBO9RdJX0eFeZzlv5c8yG8duhKP\n000000000" +
-            "0000/cbNj9qFPkKTK0vTXmS2XUFBChKPtLucp8+Z754UswX+QCsdc7U\nTTSG0Ck" +
-            "yilcSubdZUERGej1XfrVQhrokk7Fu0Jh3BdT6REP0SIDTpA8ku/aRQiAp\np+h19" +
-            "M37S7+w/DMGDAq2LSX8jOpJ1yIokRDyLZpmwyLxutC21DXMGoJ3xZeUFrUT\nqRN" +
-            "wzkn2dJzgTrPkzhaXalUBqv+nfXHqHaWljZa/O0NVCFrHCdTdd53/6EE2Yabv\nq" +
-            "5SFTkRCpaxrvM/7a8Tr4ixD1/VKD6rw3+WCvyS4GWK7knhiI1nZH3PI\n-----EN" +
-            "D CERTIFICATE REQUEST-----\n";
-
         private const string ListCertificatesFixture =
             "listCertificates/success.http";
 
@@ -57,34 +38,6 @@ namespace dnsimple_test.Services
 
         private const string IssueRenewalLetsEncryptCertificateFixture =
             "issueRenewalLetsencryptCertificate/success.http";
-
-        private DateTime CreatedAt { get; } = DateTime.ParseExact(
-            "2016-06-11T18:47:08Z", "yyyy-MM-ddTHH:mm:ssZ",
-            CultureInfo.CurrentCulture);
-
-        private DateTime UpdatedAt { get; } = DateTime.ParseExact(
-            "2016-06-11T18:47:37Z", "yyyy-MM-ddTHH:mm:ssZ",
-            CultureInfo.CurrentCulture);
-
-        private DateTime LetsEncryptCreatedAt { get; } = DateTime.ParseExact(
-            "2017-10-19T08:18:53Z", "yyyy-MM-ddTHH:mm:ssZ",
-            CultureInfo.CurrentCulture);
-
-        private DateTime LetsEncryptUpdatedAt { get; } = DateTime.ParseExact(
-            "2017-10-19T08:22:17Z", "yyyy-MM-ddTHH:mm:ssZ",
-            CultureInfo.CurrentCulture);
-
-        private DateTime LetsEncryptRenewalCreatedAt { get; } =
-            DateTime.ParseExact(
-                "2017-10-19T08:18:53Z", "yyyy-MM-ddTHH:mm:ssZ",
-                CultureInfo.CurrentCulture);
-
-        private DateTime LetsEncryptRenewalUpdatedAt { get; } =
-            DateTime.ParseExact(
-                "2017-10-19T08:18:53Z", "yyyy-MM-ddTHH:mm:ssZ",
-                CultureInfo.CurrentCulture);
-
-        private DateTime ExpiresOn = new DateTime(2016, 9, 9);
 
         [SetUp]
         public void Initialize()
