@@ -54,7 +54,6 @@ namespace dnsimple_test.Services
                 Assert.AreEqual("registered", domains.First().State);
                 Assert.IsFalse(domains.First().AutoRenew);
                 Assert.IsFalse(domains.First().PrivateWhois);
-                Assert.AreEqual("2021-06-05", domains.First().ExpiresOn);
                 Assert.AreEqual(Convert.ToDateTime("2021-06-05T02:15:00Z"), domains.First().ExpiresAt);
                 Assert.AreEqual(Convert.ToDateTime("2020-06-04T19:15:14Z"), domains.First().CreatedAt);
                 Assert.AreEqual(Convert.ToDateTime("2020-06-04T19:15:21Z"), domains.First().UpdatedAt);
@@ -108,7 +107,6 @@ namespace dnsimple_test.Services
                 Assert.AreEqual("registered", domain.State);
                 Assert.IsFalse(domain.AutoRenew);
                 Assert.IsFalse(domain.PrivateWhois);
-                Assert.AreEqual("2021-06-05", domain.ExpiresOn);
                 Assert.AreEqual(Convert.ToDateTime("2021-06-05T02:15:00Z"), domain.ExpiresAt);
                 Assert.AreEqual(Convert.ToDateTime("2020-06-04T19:15:14Z"), domain.CreatedAt);
                 Assert.AreEqual(Convert.ToDateTime("2020-06-04T19:15:21Z"), domain.UpdatedAt);
@@ -147,7 +145,6 @@ namespace dnsimple_test.Services
                 Assert.AreEqual("hosted", domain.State);
                 Assert.IsFalse(domain.AutoRenew);
                 Assert.IsFalse(domain.PrivateWhois);
-                Assert.IsNull(domain.ExpiresOn);
                 Assert.IsNull(domain.ExpiresAt);
                 Assert.AreEqual(CreatedAt, domain.CreatedAt);
                 Assert.AreEqual(UpdatedAt, domain.UpdatedAt);

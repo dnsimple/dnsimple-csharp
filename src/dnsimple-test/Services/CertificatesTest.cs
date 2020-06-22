@@ -133,7 +133,6 @@ namespace dnsimple_test.Services
                 Assert.AreEqual(Convert.ToDateTime("2020-06-18T20:15:09Z"), certificate.First().CreatedAt);
                 Assert.AreEqual(Convert.ToDateTime("2020-06-18T20:30:08Z"), certificate.First().UpdatedAt);
                 Assert.AreEqual(Convert.ToDateTime("2020-09-16T19:30:07Z"), certificate.First().ExpiresAt);
-                Assert.AreEqual("2020-09-16", certificate.First().ExpiresOn);
             });
         }
 
@@ -233,7 +232,6 @@ namespace dnsimple_test.Services
                 Assert.AreEqual(Convert.ToDateTime("2020-06-18T18:54:17Z"), certificate.CreatedAt);
                 Assert.AreEqual(Convert.ToDateTime("2020-06-18T19:10:14Z"), certificate.UpdatedAt);
                 Assert.AreEqual(Convert.ToDateTime("2020-09-16T18:10:13Z"), certificate.ExpiresAt);
-                Assert.AreEqual("2020-09-16", certificate.ExpiresOn);
                 
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
