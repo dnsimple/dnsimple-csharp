@@ -50,13 +50,13 @@ var client = new Client();
 var credentials = new OAuth2Credentials("...");
 client.AddCredentials(credentials);
 
-# Fetch your details
+// Fetch your details
 var response = client.Identity.Whoami();   // execute the call
 var account = response.Data.Account;       // extract the relevant data from the response or
 client.Identity.Whoami().Data.Account;     // execute the call and get the data in one line
 
-# You can also fetch it from the whoami response
-# as long as you authenticate with an Account access token
+// You can also fetch it from the whoami response
+// as long as you authenticate with an Account access token
 var whoami = client.Identity.Whoami();
 var accountId = whoami.Account.Id;
 ```
@@ -70,7 +70,7 @@ var client = new Client();
 client.AddCredentials(new OAuth2Credentials("..."));
 
 var accountId = client.Identity.Whoami().Data.Account.Id;
-var domains = client.Domains.ListDomains(accountId).Data.Domains;
+var domains = client.Domains.ListDomains(accountId).Data;
 ```
 
 ### Create a domain
