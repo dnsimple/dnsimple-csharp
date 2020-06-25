@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using dnsimple.Services;
 using dnsimple.Services.ListOptions;
@@ -14,25 +13,6 @@ namespace dnsimple_test.Services
     public class CertificatesTest
     {
         private MockResponse _response;
-
-
-        private const string CertificateContent =
-            "-----BEGIN CERTIFICATE REQUEST-----\nMIICljCCAX4CAQAwGTEXMBUGA1U" +
-            "EAwwOd3d3LndlcHBvcy5uZXQwggEiMA0GCSqG\nSIb3DQEBAQUAA4IBDwAwggEKA" +
-            "oIBAQC3MJwx9ahBG3kAwRjQdRvYZqtovUaxY6jp\nhd09975gO+2eYPDbc1yhNft" +
-            "VJ4KBT0zdEqzX0CwIlxE1MsnZ2YOsC7IJO531hMBp\ndBxM4tSG07xPz70AVUi9r" +
-            "Y6YCUoJHmxoFbclpHFbtXZocR393WyzUK8047uM2mlz\n03AZKcMdyfeuo2/9Tcx" +
-            "pTSCkklGqwqS9wtTogckaDHJDoBunAkMioGfOSMe7Yi6E\nYRtG4yPJYsDaq2yPJ" +
-            "WV8+i0PFR1Wi5RCnPt0YdQWstHuZrxABi45+XVkzKtz3TUc\nYxrvPBucVa6uzd9" +
-            "53u8CixNFkiOefvb/dajsv1GIwH6/Cvc1ftz1AgMBAAGgODA2\nBgkqhkiG9w0BC" +
-            "Q4xKTAnMCUGA1UdEQQeMByCDnd3dy53ZXBwb3MubmV0ggp3ZXBw\nb3MubmV0MA0" +
-            "GCSqGSIb3DQEBCwUAA4IBAQCDnVBO9RdJX0eFeZzlv5c8yG8duhKP\n000000000" +
-            "0000/cbNj9qFPkKTK0vTXmS2XUFBChKPtLucp8+Z754UswX+QCsdc7U\nTTSG0Ck" +
-            "yilcSubdZUERGej1XfrVQhrokk7Fu0Jh3BdT6REP0SIDTpA8ku/aRQiAp\np+h19" +
-            "M37S7+w/DMGDAq2LSX8jOpJ1yIokRDyLZpmwyLxutC21DXMGoJ3xZeUFrUT\nqRN" +
-            "wzkn2dJzgTrPkzhaXalUBqv+nfXHqHaWljZa/O0NVCFrHCdTdd53/6EE2Yabv\nq" +
-            "5SFTkRCpaxrvM/7a8Tr4ixD1/VKD6rw3+WCvyS4GWK7knhiI1nZH3PI\n-----EN" +
-            "D CERTIFICATE REQUEST-----\n";
 
         private const string ListCertificatesFixture =
             "listCertificates/success.http";
@@ -58,34 +38,6 @@ namespace dnsimple_test.Services
         private const string IssueRenewalLetsEncryptCertificateFixture =
             "issueRenewalLetsencryptCertificate/success.http";
 
-        private DateTime CreatedAt { get; } = DateTime.ParseExact(
-            "2016-06-11T18:47:08Z", "yyyy-MM-ddTHH:mm:ssZ",
-            CultureInfo.CurrentCulture);
-
-        private DateTime UpdatedAt { get; } = DateTime.ParseExact(
-            "2016-06-11T18:47:37Z", "yyyy-MM-ddTHH:mm:ssZ",
-            CultureInfo.CurrentCulture);
-
-        private DateTime LetsEncryptCreatedAt { get; } = DateTime.ParseExact(
-            "2017-10-19T08:18:53Z", "yyyy-MM-ddTHH:mm:ssZ",
-            CultureInfo.CurrentCulture);
-
-        private DateTime LetsEncryptUpdatedAt { get; } = DateTime.ParseExact(
-            "2017-10-19T08:22:17Z", "yyyy-MM-ddTHH:mm:ssZ",
-            CultureInfo.CurrentCulture);
-
-        private DateTime LetsEncryptRenewalCreatedAt { get; } =
-            DateTime.ParseExact(
-                "2017-10-19T08:18:53Z", "yyyy-MM-ddTHH:mm:ssZ",
-                CultureInfo.CurrentCulture);
-
-        private DateTime LetsEncryptRenewalUpdatedAt { get; } =
-            DateTime.ParseExact(
-                "2017-10-19T08:18:53Z", "yyyy-MM-ddTHH:mm:ssZ",
-                CultureInfo.CurrentCulture);
-
-        private DateTime ExpiresOn = new DateTime(2016, 9, 9);
-
         [SetUp]
         public void Initialize()
         {
@@ -98,24 +50,41 @@ namespace dnsimple_test.Services
         {
             var certificate =
                 new PaginatedResponse<Certificate>(_response).Data;
+        
+            var expectedCSR =
+                "-----BEGIN CERTIFICATE REQUEST-----\n" +
+                "MIICYDCCAUgCAQAwGzEZMBcGA1UEAwwQd3d3Mi5kbnNpbXBsZS51czCCASIwDQYJ\n" +
+                "KoZIhvcNAQEBBQADggEPADCCAQoCggEBAMjXrephLTu7OKVQ6F3LhmLkL6NL3ier\n" +
+                "1qaWPtJBbkBuzJIn8gmSG+6xGmywB6GKvP2IVkPQhPBpfc8wsTd26rbSBHnRIQal\n" +
+                "tk+W4aQZyIeXFARY+cRvpjeAtmpX0vwZkDMoEyhFomBfGxVfx6tSqdGlR88/x0By\n" +
+                "y5u7+xwkY+4jMt+wZi+wpXsScumB6DAC1PTYRvNFQy7Gcjqrc3EdzPsn3c9kLCNO\n" +
+                "3GCPJoWmT5Rtyd7FxjJiSIf7BDOi12BnblpSLwGvtu6Wrl+u9LJLj8zeCACwUiQG\n" +
+                "uvnP2lAl2YacNAgpql6C2eEnFjIub7Ul1QMUImQSDVy5dMd/UGQrOb0CAwEAAaAA\n" +
+                "MA0GCSqGSIb3DQEBCwUAA4IBAQA8oVxOrZCGeSFmKpNV4oilzPOepTVSWxXa19T7\n" +
+                "zD/azh6j6RBLZPpG4TFbpvjecum+1V7Y8ypIcwhRtlh5/zSbfJkjJsdCdZU9XZat\n" +
+                "T5YkOaxuCUCDajpRiyyKhHvrloTPKPXe5ygCq/Q23xm//VrXKArLSWVB9qWS6gDV\n" +
+                "k0y3/mIlTQ3mTgfYQySc3MPXvIgUoqmB8Ajfq1n3hSLgb1/OoKNfeVEWsON116cq\n" +
+                "bXvl63+XzPubj6KWZXZH/jhrs53fuLq3xyeeuOaPrn+2VceBVt4DCC9n0JS5wepl\n" +
+                "HDoVxtWTTNeJdP5xFB5V1KI+D4FEFBUGnQABEvajpU3vljh3\n" +
+                "-----END CERTIFICATE REQUEST-----\n";
 
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(2, certificate.Count);
-                Assert.AreEqual(1, certificate.First().Id);
-                Assert.AreEqual(10, certificate.First().DomainId);
-                Assert.AreEqual(3, certificate.First().ContactId);
-                Assert.AreEqual("www", certificate.First().Name);
-                Assert.AreEqual("www.weppos.net", certificate.First().CommonName);
+                Assert.AreEqual(101973, certificate.First().Id);
+                Assert.AreEqual(14279, certificate.First().DomainId);
+                Assert.AreEqual(11435, certificate.First().ContactId);
+                Assert.AreEqual("www2", certificate.First().Name);
+                Assert.AreEqual("www2.dnsimple.us", certificate.First().CommonName);
                 Assert.AreEqual(1, certificate.First().Years);
-                Assert.AreEqual(CertificateContent, certificate.First().Csr);
+                Assert.AreEqual(expectedCSR, certificate.First().Csr);
                 Assert.AreEqual("issued", certificate.First().State);
                 Assert.IsFalse(certificate.First().AutoRenew);
                 Assert.IsEmpty(certificate.First().AlternateNames);
                 Assert.AreEqual("letsencrypt", certificate.First().AuthorityIdentifier);
-                Assert.AreEqual(CreatedAt, certificate.First().CreatedAt);
-                Assert.AreEqual(UpdatedAt, certificate.First().UpdatedAt);
-                Assert.AreEqual(ExpiresOn, certificate.First().ExpiresOn);
+                Assert.AreEqual(Convert.ToDateTime("2020-06-18T20:15:09Z"), certificate.First().CreatedAt);
+                Assert.AreEqual(Convert.ToDateTime("2020-06-18T20:30:08Z"), certificate.First().UpdatedAt);
+                Assert.AreEqual(Convert.ToDateTime("2020-09-16T19:30:07Z"), certificate.First().ExpiresAt);
             });
         }
 
@@ -140,7 +109,7 @@ namespace dnsimple_test.Services
 
         [Test]
         [TestCase(1010, "ruby.codes",
-            "https://api.sandbox.dnsimple.com/v2/1010/domains/ruby.codes/certificates?sort=id:asc%2ccommon_name:desc%2cexpires_on:asc&per_page=42&page=7")]
+            "https://api.sandbox.dnsimple.com/v2/1010/domains/ruby.codes/certificates?sort=id:asc%2ccommon_name:desc%2cexpiration:asc&per_page=42&page=7")]
         public void ListCertificatesWithOptions(long accountId,
             string domainName, string expectedUrl)
         {
@@ -154,7 +123,7 @@ namespace dnsimple_test.Services
                     }
                 }.SortById(Order.asc)
                 .SortByCommonName(Order.desc)
-                .SortByExpiresOn(Order.asc);
+                .SortByExpiration(Order.asc);
 
             var response =
                 client.Certificates.ListCertificates(accountId, domainName,
@@ -170,8 +139,8 @@ namespace dnsimple_test.Services
         }
 
         [Test]
-        [TestCase(1010, "ruby.codes", 1,
-            "https://api.sandbox.dnsimple.com/v2/1010/domains/ruby.codes/certificates/1")]
+        [TestCase(1010, "bingo.pizza", 101967,
+            "https://api.sandbox.dnsimple.com/v2/1010/domains/bingo.pizza/certificates/101967")]
         public void GetCertificate(long accountId, string domainName,
             long certificateId, string expectedUrl)
         {
@@ -180,45 +149,42 @@ namespace dnsimple_test.Services
                 client.Certificates.GetCertificate(accountId, domainName,
                     certificateId).Data;
 
-            var expectedAlternateNames = new[] {"weppos.net", "www.weppos.net"};
             var expectedCertificate =
-                "-----BEGIN CERTIFICATE REQUEST-----\nMIICljCCAX4CAQAwGTE" +
-                "XMBUGA1UEAwwOd3d3LndlcHBvcy5uZXQwggEiMA0GCSqG\nSIb3DQEBA" +
-                "QUAA4IBDwAwggEKAoIBAQC3MJwx9ahBG3kAwRjQdRvYZqtovUaxY6jp\n" +
-                "hd09975gO+2eYPDbc1yhNftVJ4KBT0zdEqzX0CwIlxE1MsnZ2YOsC7IJO" +
-                "531hMBp\ndBxM4tSG07xPz70AVUi9rY6YCUoJHmxoFbclpHFbtXZocR39" +
-                "3WyzUK8047uM2mlz\n03AZKcMdyfeuo2/9TcxpTSCkklGqwqS9wtTogck" +
-                "aDHJDoBunAkMioGfOSMe7Yi6E\nYRtG4yPJYsDaq2yPJWV8+i0PFR1Wi5" +
-                "RCnPt0YdQWstHuZrxABi45+XVkzKtz3TUc\nYxrvPBucVa6uzd953u8Ci" +
-                "xNFkiOefvb/dajsv1GIwH6/Cvc1ftz1AgMBAAGgODA2\nBgkqhkiG9w0B" +
-                "CQ4xKTAnMCUGA1UdEQQeMByCDnd3dy53ZXBwb3MubmV0ggp3ZXBw\nb3M" +
-                "ubmV0MA0GCSqGSIb3DQEBCwUAA4IBAQCDnVBO9RdJX0eFeZzlv5c8yG8d" +
-                "uhKP\nl0Vl+V88fJylb/cbNj9qFPkKTK0vTXmS2XUFBChKPtLucp8+Z75" +
-                "4UswX+QCsdc7U\nTTSG0CkyilcSubdZUERGej1XfrVQhrokk7Fu0Jh3Bd" +
-                "T6REP0SIDTpA8ku/aRQiAp\np+h19M37S7+w/DMGDAq2LSX8jOpJ1yIok" +
-                "RDyLZpmwyLxutC21DXMGoJ3xZeUFrUT\nqRNwzkn2dJzgTrPkzhaXalUB" +
-                "qv+nfXHqHaWljZa/O0NVCFrHCdTdd53/6EE2Yabv\nq5SFTkRCpaxrvM/" +
-                "7a8Tr4ixD1/VKD6rw3+WC00000000000000000000\n-----END CERTI" +
-                "FICATE REQUEST-----\n";
+                "-----BEGIN CERTIFICATE REQUEST-----\n" +
+                "MIICmTCCAYECAQAwGjEYMBYGA1UEAwwPd3d3LmJpbmdvLnBpenphMIIBIjANBgkq\n" +
+                "hkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAw4+KoZ9IDCK2o5qAQpi+Icu5kksmjQzx\n" +
+                "5o5g4B6XhRxhsfHlK/i3iU5hc8CONjyVv8j82835RNsiKrflnxGa9SH68vbQfcn4\n" +
+                "IpbMz9c+Eqv5h0Euqlc3A4DBzp0unEu5QAUhR6Xu1TZIWDPjhrBOGiszRlLQcp4F\n" +
+                "zy6fD6j5/d/ylpzTp5v54j+Ey31Bz86IaBPtSpHI+Qk87Hs8DVoWxZk/6RlAkyur\n" +
+                "XDGWnPu9n3RMfs9ag5anFhggLIhCNtVN4+0vpgPQ59pqwYo8TfdYzK7WSKeL7geu\n" +
+                "CqVE3bHAqU6dLtgHOZfTkLwGycUh4p9aawuc6fsXHHYDpIL8s3vAvwIDAQABoDow\n" +
+                "OAYJKoZIhvcNAQkOMSswKTAnBgNVHREEIDAeggtiaW5nby5waXp6YYIPd3d3LmJp\n" +
+                "bmdvLnBpenphMA0GCSqGSIb3DQEBCwUAA4IBAQBwOLKv+PO5hSJkgqS6wL/wRqLh\n" +
+                "Q1zbcHRHAjRjnpRz06cDvN3X3aPI+lpKSNFCI0A1oKJG7JNtgxX3Est66cuO8ESQ\n" +
+                "PIb6WWN7/xlVlBCe7ZkjAFgN6JurFdclwCp/NI5wBCwj1yb3Ar5QQMFIZOezIgTI\n" +
+                "AWkQSfCmgkB96d6QlDWgidYDDjcsXugQveOQRPlHr0TsElu47GakxZdJCFZU+WPM\n" +
+                "odQQf5SaqiIK2YaH1dWO//4KpTS9QoTy1+mmAa27apHcmz6X6+G5dvpHZ1qH14V0\n" +
+                "JoMWIK+39HRPq6mDo1UMVet/xFUUrG/H7/tFlYIDVbSpVlpVAFITd/eQkaW/\n" +
+                "-----END CERTIFICATE REQUEST-----\n";
 
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(1, certificate.Id);
-                Assert.AreEqual(2, certificate.DomainId);
-                Assert.AreEqual(3, certificate.ContactId);
+                Assert.AreEqual(101967, certificate.Id);
+                Assert.AreEqual(289333, certificate.DomainId);
+                Assert.AreEqual(2511, certificate.ContactId);
                 Assert.AreEqual("www", certificate.Name);
-                Assert.AreEqual("www.weppos.net", certificate.CommonName);
+                Assert.AreEqual("www.bingo.pizza", certificate.CommonName);
                 Assert.AreEqual(1, certificate.Years);
                 Assert.AreEqual(expectedCertificate, certificate.Csr);
                 Assert.AreEqual("issued", certificate.State);
                 Assert.IsFalse(certificate.AutoRenew);
-                CollectionAssert.AreEquivalent(expectedAlternateNames, certificate.AlternateNames);
+                CollectionAssert.IsEmpty(certificate.AlternateNames);
                 Assert.AreEqual("letsencrypt", certificate.AuthorityIdentifier);
-                Assert.AreEqual(CreatedAt, certificate.CreatedAt);
-                Assert.AreEqual(UpdatedAt, certificate.UpdatedAt);
-                Assert.AreEqual(ExpiresOn, certificate.ExpiresOn);
-
+                Assert.AreEqual(Convert.ToDateTime("2020-06-18T18:54:17Z"), certificate.CreatedAt);
+                Assert.AreEqual(Convert.ToDateTime("2020-06-18T19:10:14Z"), certificate.UpdatedAt);
+                Assert.AreEqual(Convert.ToDateTime("2020-09-16T18:10:13Z"), certificate.ExpiresAt);
+                
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
@@ -357,8 +323,8 @@ namespace dnsimple_test.Services
         }
 
         [Test]
-        [TestCase(1010, "ruby.codes",
-            "https://api.sandbox.dnsimple.com/v2/1010/domains/ruby.codes/certificates/letsencrypt")]
+        [TestCase(1010, "bingo.pizza",
+            "https://api.sandbox.dnsimple.com/v2/1010/domains/bingo.pizza/certificates/letsencrypt")]
         public void PurchaseLetsEncryptCertificate(long accountId,
             string domainName, string expectedUrl)
         {
@@ -369,7 +335,7 @@ namespace dnsimple_test.Services
                 ContactId = 11,
                 AutoRenew = false,
                 Name = "SuperCertificate",
-                AlternateNames = new List<string>{"docs.rubycodes.com", "status.rubycodes.com"}
+                AlternateNames = new List<string>{"docs.bingo.pizza", "status.bingo.pizza"}
             };
 
             var certificateOrdered =
@@ -378,12 +344,12 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(300, certificateOrdered.Id);
-                Assert.AreEqual(300, certificateOrdered.CertificateId);
-                Assert.AreEqual("requesting", certificateOrdered.State);
+                Assert.AreEqual(101967, certificateOrdered.Id);
+                Assert.AreEqual(101967, certificateOrdered.CertificateId);
+                Assert.AreEqual("new", certificateOrdered.State);
                 Assert.IsFalse(certificateOrdered.AutoRenew);
-                Assert.AreEqual(LetsEncryptCreatedAt, certificateOrdered.CreatedAt);
-                Assert.AreEqual(LetsEncryptUpdatedAt, certificateOrdered.UpdatedAt);
+                Assert.AreEqual(Convert.ToDateTime("2020-06-18T18:54:17Z"), certificateOrdered.CreatedAt);
+                Assert.AreEqual(Convert.ToDateTime("2020-06-18T18:54:17Z"), certificateOrdered.UpdatedAt);
 
                 Assert.AreEqual(Method.POST, client.HttpMethodUsed());
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
@@ -391,8 +357,8 @@ namespace dnsimple_test.Services
         }
 
         [Test]
-        [TestCase(1010, "ruby.codes", 200,
-            "https://api.sandbox.dnsimple.com/v2/1010/domains/ruby.codes/certificates/letsencrypt/200/issue")]
+        [TestCase(1010, "bingo.pizza", 101967,
+            "https://api.sandbox.dnsimple.com/v2/1010/domains/bingo.pizza/certificates/letsencrypt/101967/issue")]
         public void IssueLetsEncryptCertificate(long accountId,
             string domainName, long certificateId, string expectedUrl)
         {
@@ -404,11 +370,11 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(200, certificate.Id);
-                Assert.AreEqual(300, certificate.DomainId);
-                Assert.AreEqual(100, certificate.ContactId);
+                Assert.AreEqual(101967, certificate.Id);
+                Assert.AreEqual(289333, certificate.DomainId);
+                Assert.AreEqual(2511, certificate.ContactId);
                 Assert.AreEqual("www", certificate.Name);
-                Assert.AreEqual("www.example.com", certificate.CommonName);
+                Assert.AreEqual("www.bingo.pizza", certificate.CommonName);
                 Assert.AreEqual(1, certificate.Years);
                 Assert.IsNull(certificate.Csr);
                 Assert.AreEqual("requesting", certificate.State);
@@ -422,8 +388,8 @@ namespace dnsimple_test.Services
         }
 
         [Test]
-        [TestCase(1010, "ruby.codes", 200,
-            "https://api.sandbox.dnsimple.com/v2/1010/domains/ruby.codes/certificates/letsencrypt/200/renewals")]
+        [TestCase(1010, "bingo.pizza", 101967,
+            "https://api.sandbox.dnsimple.com/v2/1010/domains/bingo.pizza/certificates/letsencrypt/101967/renewals")]
         public void PurchaseLetsEncryptCertificateRenewal(long accountId,
             string domainName, long certificateId, string expectedUrl)
         {
@@ -440,13 +406,13 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(999, renewalPurchased.Id);
-                Assert.AreEqual(200, renewalPurchased.OldCertificateId);
-                Assert.AreEqual(300, renewalPurchased.NewCertificateId);
+                Assert.AreEqual(65082, renewalPurchased.Id);
+                Assert.AreEqual(101967, renewalPurchased.OldCertificateId);
+                Assert.AreEqual(101972, renewalPurchased.NewCertificateId);
                 Assert.AreEqual("new", renewalPurchased.State);
                 Assert.IsFalse(renewalPurchased.AutoRenew);
-                Assert.AreEqual(LetsEncryptRenewalCreatedAt, renewalPurchased.CreatedAt);
-                Assert.AreEqual(LetsEncryptRenewalUpdatedAt, renewalPurchased.UpdatedAt);
+                Assert.AreEqual(Convert.ToDateTime("2020-06-18T19:56:20Z"), renewalPurchased.CreatedAt);
+                Assert.AreEqual(Convert.ToDateTime("2020-06-18T19:56:20Z"), renewalPurchased.UpdatedAt);
 
                 Assert.AreEqual(Method.POST, client.HttpMethodUsed());
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
@@ -454,8 +420,8 @@ namespace dnsimple_test.Services
         }
 
         [Test]
-        [TestCase(1010, "ruby.codes", 200, 22,
-            "https://api.sandbox.dnsimple.com/v2/1010/domains/ruby.codes/certificates/letsencrypt/200/renewals/22/issue")]
+        [TestCase(1010, "bingo.pizza", 101967, 65082,
+            "https://api.sandbox.dnsimple.com/v2/1010/domains/bingo.pizza/certificates/letsencrypt/101967/renewals/65082/issue")]
         public void IssueLetsEncryptCertificateRenewal(long accountId,
             string domainName, long certificateId, long certificateRenewalId,
             string expectedUrl)
@@ -471,11 +437,11 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(300, renewalIssued.Id);
-                Assert.AreEqual(300, renewalIssued.DomainId);
-                Assert.AreEqual(100, renewalIssued.ContactId);
+                Assert.AreEqual(101972, renewalIssued.Id);
+                Assert.AreEqual(289333, renewalIssued.DomainId);
+                Assert.AreEqual(2511, renewalIssued.ContactId);
                 Assert.AreEqual("www", renewalIssued.Name);
-                Assert.AreEqual("www.example.com", renewalIssued.CommonName);
+                Assert.AreEqual("www.bingo.pizza", renewalIssued.CommonName);
                 Assert.AreEqual(1, renewalIssued.Years);
                 Assert.IsNull(renewalIssued.Csr);
                 Assert.AreEqual("requesting", renewalIssued.State);

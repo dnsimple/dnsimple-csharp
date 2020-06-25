@@ -37,8 +37,18 @@ namespace dnsimple.Services.ListOptions
         /// <returns>The instance of <c>CertificatesListOptions</c></returns>
         public CertificatesListOptions SortByExpiresOn(Order order)
         {
-            AddSortCriteria(new Sort{ Field = "expires_on", Order = order });
-        return this;
+            return this.SortByExpiration(order);
+        }
+
+        /// <summary>
+        /// Sets the order by which to sort by expiration.
+        /// </summary>
+        /// <param name="order">The order in which we want to sort (asc or desc)</param>
+        /// <returns>The instance of the <c>CertificateListOptions</c></returns>
+        public CertificatesListOptions SortByExpiration(Order order)
+        {
+            AddSortCriteria(new Sort { Field = "expiration", Order = order });
+            return this;
         }
     }
 }

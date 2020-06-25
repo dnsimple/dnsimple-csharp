@@ -213,7 +213,7 @@ namespace dnsimple.Services
         public string AuthorityIdentifier { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-        public DateTime? ExpiresOn { get; set; }
+        public DateTime? ExpiresAt { get; set; }
     }
 
     /// <summary>
