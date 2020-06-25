@@ -96,11 +96,6 @@ namespace dnsimple.Services
         public string State { get; set; }
         public bool? AutoRenew { get; set; }
         public bool? PrivateWhois { get; set; }
-
-        [Obsolete("ExpiresOn is deprecated, please use ExpiresAt instead.")]
-        [JsonIgnore]
-        public string ExpiresOn => ExpiresAt?.ToUniversalTime().ToString("yyyy-MM-dd");
-
         public DateTime? ExpiresAt { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
