@@ -151,7 +151,6 @@ namespace dnsimple_test.Services
         [TestCase("First", null, "first@example.com", "+18001234567", "+18011234567", "Italian Street, 10", "Roma", "RM", "00100", "IT")]
         [TestCase("First", "User", null, "+18001234567", "+18011234567", "Italian Street, 10", "Roma", "RM", "00100", "IT")]
         [TestCase("First", "User", "first@example.com", null, "+18011234567", "Italian Street, 10", "Roma", "RM", "00100", "IT")]
-        [TestCase("First", "User", "first@example.com", "+18001234567", null, "Italian Street, 10", "Roma", "RM", "00100", "IT")]
         [TestCase("First", "User", "first@example.com", "+18001234567", "+18011234567", null, "Roma", "RM", "00100", "IT")]
         [TestCase("First", "User", "first@example.com", "+18001234567", "+18011234567", "Italian Street, 10", null, "RM", "00100", "IT")]
         [TestCase("First", "User", "first@example.com", "+18001234567", "+18011234567", "Italian Street, 10", "Roma", null, "00100", "IT")]

@@ -129,7 +129,6 @@ namespace dnsimple.Services
         [JsonProperty(Required = Required.Always)]
         public string Phone { get; set; }
 
-        [JsonProperty(Required = Required.Always)]
         public string Fax { get; set; }
 
         [JsonProperty(Required = Required.Always)]
