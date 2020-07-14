@@ -203,7 +203,6 @@ namespace dnsimple.Services
         public long Id { get; set; }
         public long DomainId { get; set; }
         public long ContactId { get; set; }
-        public string Name { get; set; }
         public string CommonName { get; set; }
         public long Years { get; set; }
         public string Csr { get; set; }
