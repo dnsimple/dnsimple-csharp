@@ -48,7 +48,7 @@ client.Identity.Whoami().Data.Account;     // execute the call and get the data 
 
 // You can also fetch it from the whoami response
 // as long as you authenticate with an Account access token
-var whoami = client.Identity.Whoami();
+var whoami = client.Identity.Whoami().Data;
 var accountId = whoami.Account.Id;
 ```
 
