@@ -333,7 +333,6 @@ namespace dnsimple
         {
             BaseUrl = baseUrl;
             RestClientWrapper.RestClient.BaseUrl = new Uri(VersionedBaseUrl());
-            RestClientWrapper.RestClient.UserAgent = DefaultUserAgent;
         }
 
         /// <summary>
