@@ -1,303 +1,734 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <Import Project="..\..\packages\NUnit.3.12.0\build\NUnit.props" Condition="Exists('..\..\packages\NUnit.3.12.0\build\NUnit.props')" />
-    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-    <PropertyGroup>
-        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-        <ProjectGuid>{FDC76E94-FB8F-4EE4-8842-3D168138F647}</ProjectGuid>
-        <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-        <OutputType>Library</OutputType>
-        <AppDesignerFolder>Properties</AppDesignerFolder>
-        <RootNamespace>dnsimple_test</RootNamespace>
-        <AssemblyName>dnsimple_test</AssemblyName>
-        <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-        <FileAlignment>512</FileAlignment>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-        <PlatformTarget>AnyCPU</PlatformTarget>
-        <DebugSymbols>true</DebugSymbols>
-        <DebugType>full</DebugType>
-        <Optimize>false</Optimize>
-        <OutputPath>bin\Debug\</OutputPath>
-        <DefineConstants>DEBUG;TRACE</DefineConstants>
-        <ErrorReport>prompt</ErrorReport>
-        <WarningLevel>4</WarningLevel>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-        <PlatformTarget>AnyCPU</PlatformTarget>
-        <DebugType>pdbonly</DebugType>
-        <Optimize>true</Optimize>
-        <OutputPath>bin\Release\</OutputPath>
-        <DefineConstants>TRACE</DefineConstants>
-        <ErrorReport>prompt</ErrorReport>
-        <WarningLevel>4</WarningLevel>
-    </PropertyGroup>
-    <ItemGroup>
-        <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc">
-          <HintPath>..\..\packages\Castle.Core.4.4.1\lib\net45\Castle.Core.dll</HintPath>
-          <Private>True</Private>
-        </Reference>
-        <Reference Include="Moq, Version=4.14.0.0, Culture=neutral, PublicKeyToken=69f491c39445e920">
-          <HintPath>..\..\packages\Moq.4.14.5\lib\net45\Moq.dll</HintPath>
-          <Private>True</Private>
-        </Reference>
-        <Reference Include="mscorlib" />
-        <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
-          <HintPath>..\..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-        </Reference>
-        <Reference Include="nunit.framework, Version=3.12.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb">
-          <HintPath>..\..\packages\NUnit.3.12.0\lib\net45\nunit.framework.dll</HintPath>
-          <Private>True</Private>
-        </Reference>
-        <Reference Include="RestSharp, Version=106.11.4.0, Culture=neutral, PublicKeyToken=598062e77f915f75">
-          <HintPath>..\..\packages\RestSharp.106.11.4\lib\net452\RestSharp.dll</HintPath>
-          <Private>True</Private>
-        </Reference>
-        <Reference Include="System" />
-        <Reference Include="System.Configuration" />
-        <Reference Include="System.Core" />
-        <Reference Include="System.Data" />
-        <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-          <HintPath>..\..\packages\System.Runtime.CompilerServices.Unsafe.4.7.1\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-          <Private>True</Private>
-        </Reference>
-        <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
-          <HintPath>..\..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
-          <Private>True</Private>
-        </Reference>
-        <Reference Include="System.Web" />
-        <Reference Include="System.Xml" />
-    </ItemGroup>
-    
-    <ItemGroup>
-        <ProjectReference Include="..\dnsimple\dnsimple.csproj" />
-    </ItemGroup>
-    <ItemGroup>
-        <Compile Include="DnsimpleTest.cs" />
-        <Compile Include="FixtureLoader.cs" />
-        <Compile Include="ClientTest.cs" />
-        <Compile Include="MockDnsimpleClient.cs" />
-        <Compile Include="Properties\AssemblyInfo.cs" />
-        <Compile Include="Services\AccountsTest.cs" />
-        <Compile Include="Services\CertificatesTest.cs" />
-        <Compile Include="Services\ContactsTest.cs" />
-        <Compile Include="Services\DomainsCollaboratorsTest.cs" />
-        <Compile Include="Services\DomainsDnssecTest.cs" />
-        <Compile Include="Services\DomainsDelegationSignerRecordsTest.cs" />
-        <Compile Include="Services\DomainsEmailForwardsTest.cs" />
-        <Compile Include="Services\DomainsPushesTest.cs" />
-        <Compile Include="Services\DomainsTest.cs" />
-        <Compile Include="Services\HttpTest.cs" />
-        <Compile Include="Services\IdentityServiceTest.cs" />
-        <Compile Include="Services\OAuth2Test.cs" />
-        <Compile Include="Services\RegistrarAutoRenewalTest.cs" />
-        <Compile Include="Services\RegistrarDelegationTest.cs" />
-        <Compile Include="Services\RegistrarTest.cs" />
-        <Compile Include="Services\RegistrarWhoisPrivacyTest.cs" />
-        <Compile Include="Services\ServicesDomainsTest.cs" />
-        <Compile Include="Services\ServicesTest.cs" />
-        <Compile Include="Services\TemplateDomainsTest.cs" />
-        <Compile Include="Services\TemplateRecordsTest.cs" />
-        <Compile Include="Services\TemplatesTest.cs" />
-        <Compile Include="Services\TldsTest.cs" />
-        <Compile Include="Services\VanityNameServersTest.cs" />
-        <Compile Include="Services\WebhooksTest.cs" />
-        <Compile Include="Services\ZoneRecordsTest.cs" />
-        <Compile Include="Services\ZonesTest.cs" />
-    </ItemGroup>
-    <ItemGroup>
-      <None Include="packages.config" />
-    </ItemGroup>
-    <ItemGroup>
-      <Content Include="fixtures\v2\api\acceptPush\success.http" />
-      <Content Include="fixtures\v2\api\accounts\success-account.http" />
-      <Content Include="fixtures\v2\api\accounts\success-user.http" />
-      <Content Include="fixtures\v2\api\addCollaborator\invite-success.http" />
-      <Content Include="fixtures\v2\api\addCollaborator\success.http" />
-      <Content Include="fixtures\v2\api\appliedServices\success.http" />
-      <Content Include="fixtures\v2\api\applyService\success.http" />
-      <Content Include="fixtures\v2\api\applyTemplate\success.http" />
-      <Content Include="fixtures\v2\api\authorizeDomainTransferOut\success.http" />
-      <Content Include="fixtures\v2\api\badgateway.http" />
-      <Content Include="fixtures\v2\api\changeDomainDelegationFromVanity\success.http" />
-      <Content Include="fixtures\v2\api\changeDomainDelegationToVanity\success.http" />
-      <Content Include="fixtures\v2\api\changeDomainDelegation\success.http" />
-      <Content Include="fixtures\v2\api\checkDomain\success.http" />
-      <Content Include="fixtures\v2\api\checkZoneDistribution\error.http" />
-      <Content Include="fixtures\v2\api\checkZoneDistribution\failure.http" />
-      <Content Include="fixtures\v2\api\checkZoneDistribution\success.http" />
-      <Content Include="fixtures\v2\api\checkZoneRecordDistribution\error.http" />
-      <Content Include="fixtures\v2\api\checkZoneRecordDistribution\failure.http" />
-      <Content Include="fixtures\v2\api\checkZoneRecordDistribution\success.http" />
-      <Content Include="fixtures\v2\api\createContact\created.http" />
-      <Content Include="fixtures\v2\api\createDelegationSignerRecord\created.http" />
-      <Content Include="fixtures\v2\api\createDelegationSignerRecord\validation-error.http" />
-      <Content Include="fixtures\v2\api\createDomain\created.http" />
-      <Content Include="fixtures\v2\api\createEmailForward\created.http" />
-      <Content Include="fixtures\v2\api\createTemplateRecord\created.http" />
-      <Content Include="fixtures\v2\api\createTemplate\created.http" />
-      <Content Include="fixtures\v2\api\createWebhook\created.http" />
-      <Content Include="fixtures\v2\api\createZoneRecord\created-apex.http" />
-      <Content Include="fixtures\v2\api\createZoneRecord\created.http" />
-      <Content Include="fixtures\v2\api\deleteContact\error-contact-in-use.http" />
-      <Content Include="fixtures\v2\api\deleteContact\success.http" />
-      <Content Include="fixtures\v2\api\deleteDelegationSignerRecord\success.http" />
-      <Content Include="fixtures\v2\api\deleteDomain\success.http" />
-      <Content Include="fixtures\v2\api\deleteEmailForward\success.http" />
-      <Content Include="fixtures\v2\api\deleteTemplateRecord\success.http" />
-      <Content Include="fixtures\v2\api\deleteTemplate\success.http" />
-      <Content Include="fixtures\v2\api\deleteWebhook\success.http" />
-      <Content Include="fixtures\v2\api\deleteZoneRecord\success.http" />
-      <Content Include="fixtures\v2\api\disableDnssec\not-enabled.http" />
-      <Content Include="fixtures\v2\api\disableDnssec\success.http" />
-      <Content Include="fixtures\v2\api\disableDomainAutoRenewal\success.http" />
-      <Content Include="fixtures\v2\api\disableVanityNameServers\success.http" />
-      <Content Include="fixtures\v2\api\disableWhoisPrivacy\success.http" />
-      <Content Include="fixtures\v2\api\downloadCertificate\success.http" />
-      <Content Include="fixtures\v2\api\enableDnssec\success.http" />
-      <Content Include="fixtures\v2\api\enableDomainAutoRenewal\success.http" />
-      <Content Include="fixtures\v2\api\enableVanityNameServers\success.http" />
-      <Content Include="fixtures\v2\api\enableWhoisPrivacy\created.http" />
-      <Content Include="fixtures\v2\api\enableWhoisPrivacy\success.http" />
-      <Content Include="fixtures\v2\api\getCertificatePrivateKey\success.http" />
-      <Content Include="fixtures\v2\api\getCertificate\success.http" />
-      <Content Include="fixtures\v2\api\getContact\success.http" />
-      <Content Include="fixtures\v2\api\getDelegationSignerRecord\success.http" />
-      <Content Include="fixtures\v2\api\getDnssec\success.http" />
-      <Content Include="fixtures\v2\api\getDomainDelegation\success-empty.http" />
-      <Content Include="fixtures\v2\api\getDomainDelegation\success.http" />
-      <Content Include="fixtures\v2\api\getDomainPremiumPrice\failure.http" />
-      <Content Include="fixtures\v2\api\getDomainPremiumPrice\success.http" />
-      <Content Include="fixtures\v2\api\getDomain\success.http" />
-      <Content Include="fixtures\v2\api\getEmailForward\success.http" />
-      <Content Include="fixtures\v2\api\getService\success.http" />
-      <Content Include="fixtures\v2\api\getTemplateRecord\success.http" />
-      <Content Include="fixtures\v2\api\getTemplate\success.http" />
-      <Content Include="fixtures\v2\api\getTldExtendedAttributes\success-attributes.http" />
-      <Content Include="fixtures\v2\api\getTldExtendedAttributes\success-noattributes.http" />
-      <Content Include="fixtures\v2\api\getTldExtendedAttributes\success.http" />
-      <Content Include="fixtures\v2\api\getTld\success.http" />
-      <Content Include="fixtures\v2\api\getWebhook\success.http" />
-      <Content Include="fixtures\v2\api\getWhoisPrivacy\success.http" />
-      <Content Include="fixtures\v2\api\getZoneFile\success.http" />
-      <Content Include="fixtures\v2\api\getZoneRecord\success.http" />
-      <Content Include="fixtures\v2\api\getZone\success.http" />
-      <Content Include="fixtures\v2\api\initiatePush\success.http" />
-      <Content Include="fixtures\v2\api\issueLetsencryptCertificate\success.http" />
-      <Content Include="fixtures\v2\api\issueRenewalLetsencryptCertificate\success.http" />
-      <Content Include="fixtures\v2\api\listAccounts\success-account.http" />
-      <Content Include="fixtures\v2\api\listAccounts\success-user.http" />
-      <Content Include="fixtures\v2\api\listCertificates\success.http" />
-      <Content Include="fixtures\v2\api\listCollaborators\success.http" />
-      <Content Include="fixtures\v2\api\listContacts\success.http" />
-      <Content Include="fixtures\v2\api\listDelegationSignerRecords\success.http" />
-      <Content Include="fixtures\v2\api\listDomains\success.http" />
-      <Content Include="fixtures\v2\api\listEmailForwards\success.http" />
-      <Content Include="fixtures\v2\api\listPushes\success.http" />
-      <Content Include="fixtures\v2\api\listServices\success.http" />
-      <Content Include="fixtures\v2\api\listTemplateRecords\success.http" />
-      <Content Include="fixtures\v2\api\listTemplates\success.http" />
-      <Content Include="fixtures\v2\api\listTlds\success.http" />
-      <Content Include="fixtures\v2\api\listWebhooks\success.http" />
-      <Content Include="fixtures\v2\api\listZoneRecords\success.http" />
-      <Content Include="fixtures\v2\api\listZones\success.http" />
-      <Content Include="fixtures\v2\api\method-not-allowed.http" />
-      <Content Include="fixtures\v2\api\notfound-certificate.http" />
-      <Content Include="fixtures\v2\api\notfound-collaborator.http" />
-      <Content Include="fixtures\v2\api\notfound-contact.http" />
-      <Content Include="fixtures\v2\api\notfound-delegationSignerRecord.http" />
-      <Content Include="fixtures\v2\api\notfound-domain.http" />
-      <Content Include="fixtures\v2\api\notfound-domainpush.http" />
-      <Content Include="fixtures\v2\api\notfound-emailforward.http" />
-      <Content Include="fixtures\v2\api\notfound-record.http" />
-      <Content Include="fixtures\v2\api\notfound-template.http" />
-      <Content Include="fixtures\v2\api\notfound-webhook.http" />
-      <Content Include="fixtures\v2\api\notfound-whoisprivacy.http" />
-      <Content Include="fixtures\v2\api\notfound-zone.http" />
-      <Content Include="fixtures\v2\api\oauthAccessToken\error-invalid-request.http" />
-      <Content Include="fixtures\v2\api\oauthAccessToken\success.http" />
-      <Content Include="fixtures\v2\api\pages-1of3.http" />
-      <Content Include="fixtures\v2\api\pages-2of3.http" />
-      <Content Include="fixtures\v2\api\pages-3of3.http" />
-      <Content Include="fixtures\v2\api\purchaseLetsencryptCertificate\success.http" />
-      <Content Include="fixtures\v2\api\purchaseRenewalLetsencryptCertificate\success.http" />
-      <Content Include="fixtures\v2\api\registerDomain\success.http" />
-      <Content Include="fixtures\v2\api\rejectPush\success.http" />
-      <Content Include="fixtures\v2\api\removeCollaborator\success.http" />
-      <Content Include="fixtures\v2\api\renewDomain\error-tooearly.http" />
-      <Content Include="fixtures\v2\api\renewDomain\success.http" />
-      <Content Include="fixtures\v2\api\renewWhoisPrivacy\success.http" />
-      <Content Include="fixtures\v2\api\renewWhoisPrivacy\whois-privacy-duplicated-order.http" />
-      <Content Include="fixtures\v2\api\renewWhoisPrivacy\whois-privacy-not-found.http" />
-      <Content Include="fixtures\v2\api\response.http" />
-      <Content Include="fixtures\v2\api\success-with-malformed-json.http" />
-      <Content Include="fixtures\v2\api\transferDomain\error-indnsimple.http" />
-      <Content Include="fixtures\v2\api\transferDomain\error-missing-authcode.http" />
-      <Content Include="fixtures\v2\api\transferDomain\success.http" />
-      <Content Include="fixtures\v2\api\unapplyService\success.http" />
-      <Content Include="fixtures\v2\api\updateContact\success.http" />
-      <Content Include="fixtures\v2\api\updateTemplate\success.http" />
-      <Content Include="fixtures\v2\api\updateZoneRecord\success.http" />
-      <Content Include="fixtures\v2\api\validation-error.http" />
-      <Content Include="fixtures\v2\api\whoami\success-account.http" />
-      <Content Include="fixtures\v2\api\whoami\success-user.http" />
-      <Content Include="fixtures\v2\api\whoami\success.http" />
-      <Content Include="fixtures\v2\webhooks\account.billing_settings_update\example.http" />
-      <Content Include="fixtures\v2\webhooks\account.remove_user\example.http" />
-      <Content Include="fixtures\v2\webhooks\account.update\example.http" />
-      <Content Include="fixtures\v2\webhooks\account.user_invitation_accept\example.http" />
-      <Content Include="fixtures\v2\webhooks\account.user_invite\example.http" />
-      <Content Include="fixtures\v2\webhooks\account_invitation.accept\example.http" />
-      <Content Include="fixtures\v2\webhooks\account_invitation.create\example.http" />
-      <Content Include="fixtures\v2\webhooks\certificate.issue\example.http" />
-      <Content Include="fixtures\v2\webhooks\certificate.remove_private_key\example.http" />
-      <Content Include="fixtures\v2\webhooks\contact.create\example.http" />
-      <Content Include="fixtures\v2\webhooks\contact.delete\example.http" />
-      <Content Include="fixtures\v2\webhooks\contact.update\example.http" />
-      <Content Include="fixtures\v2\webhooks\dnssec.create\example.http" />
-      <Content Include="fixtures\v2\webhooks\dnssec.delete\example.http" />
-      <Content Include="fixtures\v2\webhooks\dnssec.rotation_complete\example.http" />
-      <Content Include="fixtures\v2\webhooks\dnssec.rotation_start\example.http" />
-      <Content Include="fixtures\v2\webhooks\domain.auto_renewal_disable\example.http" />
-      <Content Include="fixtures\v2\webhooks\domain.auto_renewal_enable\example.http" />
-      <Content Include="fixtures\v2\webhooks\domain.create\example.http" />
-      <Content Include="fixtures\v2\webhooks\domain.delegation_change\example.http" />
-      <Content Include="fixtures\v2\webhooks\domain.delete\example.http" />
-      <Content Include="fixtures\v2\webhooks\domain.register\example.http" />
-      <Content Include="fixtures\v2\webhooks\domain.register\status-started.http" />
-      <Content Include="fixtures\v2\webhooks\domain.registrant_change\example.http" />
-      <Content Include="fixtures\v2\webhooks\domain.renew\example.http" />
-      <Content Include="fixtures\v2\webhooks\domain.resolution_disable\example.http" />
-      <Content Include="fixtures\v2\webhooks\domain.resolution_enable\example.http" />
-      <Content Include="fixtures\v2\webhooks\email_forward.create\example.http" />
-      <Content Include="fixtures\v2\webhooks\email_forward.delete\example.http" />
-      <Content Include="fixtures\v2\webhooks\email_forward.update\example.http" />
-      <Content Include="fixtures\v2\webhooks\subscription.renew\state-failed.http" />
-      <Content Include="fixtures\v2\webhooks\webhook.create\example.http" />
-      <Content Include="fixtures\v2\webhooks\webhook.delete\example.http" />
-      <Content Include="fixtures\v2\webhooks\whois_privacy.disable\example.http" />
-      <Content Include="fixtures\v2\webhooks\whois_privacy.enable\example.http" />
-      <Content Include="fixtures\v2\webhooks\whois_privacy.purchase\example.http" />
-      <Content Include="fixtures\v2\webhooks\zone.create\example.http" />
-      <Content Include="fixtures\v2\webhooks\zone.delete\example.http" />
-      <Content Include="fixtures\v2\webhooks\zone_record.create\example.http" />
-      <Content Include="fixtures\v2\webhooks\zone_record.delete\example.http" />
-      <Content Include="fixtures\v2\webhooks\zone_record.update\example.http" />
-    </ItemGroup>
-    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-    <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-      <PropertyGroup>
-        <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
-      </PropertyGroup>
-      <Error Condition="!Exists('..\..\packages\NUnit.3.12.0\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\NUnit.3.12.0\build\NUnit.props'))" />
-    </Target>
-    <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-         Other similar extension points exist, see Microsoft.Common.targets.
-    <Target Name="BeforeBuild">
-    </Target>
-    <Target Name="AfterBuild">
-    </Target>
-    -->
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>dnsimple_test</RootNamespace>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="fixtures\v2\api\acceptPush\success.http" />
+    <None Remove="fixtures\v2\api\accounts\success-account.http" />
+    <None Remove="fixtures\v2\api\accounts\success-user.http" />
+    <None Remove="fixtures\v2\api\addCollaborator\invite-success.http" />
+    <None Remove="fixtures\v2\api\addCollaborator\success.http" />
+    <None Remove="fixtures\v2\api\appliedServices\success.http" />
+    <None Remove="fixtures\v2\api\applyService\success.http" />
+    <None Remove="fixtures\v2\api\applyTemplate\success.http" />
+    <None Remove="fixtures\v2\api\authorizeDomainTransferOut\success.http" />
+    <None Remove="fixtures\v2\api\badgateway.http" />
+    <None Remove="fixtures\v2\api\changeDomainDelegationFromVanity\success.http" />
+    <None Remove="fixtures\v2\api\changeDomainDelegationToVanity\success.http" />
+    <None Remove="fixtures\v2\api\changeDomainDelegation\success.http" />
+    <None Remove="fixtures\v2\api\checkDomain\success.http" />
+    <None Remove="fixtures\v2\api\checkZoneDistribution\error.http" />
+    <None Remove="fixtures\v2\api\checkZoneDistribution\failure.http" />
+    <None Remove="fixtures\v2\api\checkZoneDistribution\success.http" />
+    <None Remove="fixtures\v2\api\checkZoneRecordDistribution\error.http" />
+    <None Remove="fixtures\v2\api\checkZoneRecordDistribution\failure.http" />
+    <None Remove="fixtures\v2\api\checkZoneRecordDistribution\success.http" />
+    <None Remove="fixtures\v2\api\createContact\created.http" />
+    <None Remove="fixtures\v2\api\createDelegationSignerRecord\created.http" />
+    <None Remove="fixtures\v2\api\createDelegationSignerRecord\validation-error.http" />
+    <None Remove="fixtures\v2\api\createDomain\created.http" />
+    <None Remove="fixtures\v2\api\createEmailForward\created.http" />
+    <None Remove="fixtures\v2\api\createTemplateRecord\created.http" />
+    <None Remove="fixtures\v2\api\createTemplate\created.http" />
+    <None Remove="fixtures\v2\api\createWebhook\created.http" />
+    <None Remove="fixtures\v2\api\createZoneRecord\created-apex.http" />
+    <None Remove="fixtures\v2\api\createZoneRecord\created.http" />
+    <None Remove="fixtures\v2\api\deleteContact\error-contact-in-use.http" />
+    <None Remove="fixtures\v2\api\deleteContact\success.http" />
+    <None Remove="fixtures\v2\api\deleteDelegationSignerRecord\success.http" />
+    <None Remove="fixtures\v2\api\deleteDomain\success.http" />
+    <None Remove="fixtures\v2\api\deleteEmailForward\success.http" />
+    <None Remove="fixtures\v2\api\deleteTemplateRecord\success.http" />
+    <None Remove="fixtures\v2\api\deleteTemplate\success.http" />
+    <None Remove="fixtures\v2\api\deleteWebhook\success.http" />
+    <None Remove="fixtures\v2\api\deleteZoneRecord\success.http" />
+    <None Remove="fixtures\v2\api\disableDnssec\not-enabled.http" />
+    <None Remove="fixtures\v2\api\disableDnssec\success.http" />
+    <None Remove="fixtures\v2\api\disableDomainAutoRenewal\success.http" />
+    <None Remove="fixtures\v2\api\disableVanityNameServers\success.http" />
+    <None Remove="fixtures\v2\api\disableWhoisPrivacy\success.http" />
+    <None Remove="fixtures\v2\api\downloadCertificate\success.http" />
+    <None Remove="fixtures\v2\api\enableDnssec\success.http" />
+    <None Remove="fixtures\v2\api\enableDomainAutoRenewal\success.http" />
+    <None Remove="fixtures\v2\api\enableVanityNameServers\success.http" />
+    <None Remove="fixtures\v2\api\enableWhoisPrivacy\created.http" />
+    <None Remove="fixtures\v2\api\enableWhoisPrivacy\success.http" />
+    <None Remove="fixtures\v2\api\getCertificatePrivateKey\success.http" />
+    <None Remove="fixtures\v2\api\getCertificate\success.http" />
+    <None Remove="fixtures\v2\api\getContact\success.http" />
+    <None Remove="fixtures\v2\api\getDelegationSignerRecord\success.http" />
+    <None Remove="fixtures\v2\api\getDnssec\success.http" />
+    <None Remove="fixtures\v2\api\getDomainDelegation\success-empty.http" />
+    <None Remove="fixtures\v2\api\getDomainDelegation\success.http" />
+    <None Remove="fixtures\v2\api\getDomainPremiumPrice\failure.http" />
+    <None Remove="fixtures\v2\api\getDomainPremiumPrice\success.http" />
+    <None Remove="fixtures\v2\api\getDomain\success.http" />
+    <None Remove="fixtures\v2\api\getEmailForward\success.http" />
+    <None Remove="fixtures\v2\api\getService\success.http" />
+    <None Remove="fixtures\v2\api\getTemplateRecord\success.http" />
+    <None Remove="fixtures\v2\api\getTemplate\success.http" />
+    <None Remove="fixtures\v2\api\getTldExtendedAttributes\success-attributes.http" />
+    <None Remove="fixtures\v2\api\getTldExtendedAttributes\success-noattributes.http" />
+    <None Remove="fixtures\v2\api\getTldExtendedAttributes\success.http" />
+    <None Remove="fixtures\v2\api\getTld\success.http" />
+    <None Remove="fixtures\v2\api\getWebhook\success.http" />
+    <None Remove="fixtures\v2\api\getWhoisPrivacy\success.http" />
+    <None Remove="fixtures\v2\api\getZoneFile\success.http" />
+    <None Remove="fixtures\v2\api\getZoneRecord\success.http" />
+    <None Remove="fixtures\v2\api\getZone\success.http" />
+    <None Remove="fixtures\v2\api\initiatePush\success.http" />
+    <None Remove="fixtures\v2\api\issueLetsencryptCertificate\success.http" />
+    <None Remove="fixtures\v2\api\issueRenewalLetsencryptCertificate\success.http" />
+    <None Remove="fixtures\v2\api\listAccounts\success-account.http" />
+    <None Remove="fixtures\v2\api\listAccounts\success-user.http" />
+    <None Remove="fixtures\v2\api\listCertificates\success.http" />
+    <None Remove="fixtures\v2\api\listCollaborators\success.http" />
+    <None Remove="fixtures\v2\api\listContacts\success.http" />
+    <None Remove="fixtures\v2\api\listDelegationSignerRecords\success.http" />
+    <None Remove="fixtures\v2\api\listDomains\success.http" />
+    <None Remove="fixtures\v2\api\listEmailForwards\success.http" />
+    <None Remove="fixtures\v2\api\listPushes\success.http" />
+    <None Remove="fixtures\v2\api\listServices\success.http" />
+    <None Remove="fixtures\v2\api\listTemplateRecords\success.http" />
+    <None Remove="fixtures\v2\api\listTemplates\success.http" />
+    <None Remove="fixtures\v2\api\listTlds\success.http" />
+    <None Remove="fixtures\v2\api\listWebhooks\success.http" />
+    <None Remove="fixtures\v2\api\listZoneRecords\success.http" />
+    <None Remove="fixtures\v2\api\listZones\success.http" />
+    <None Remove="fixtures\v2\api\method-not-allowed.http" />
+    <None Remove="fixtures\v2\api\notfound-certificate.http" />
+    <None Remove="fixtures\v2\api\notfound-collaborator.http" />
+    <None Remove="fixtures\v2\api\notfound-contact.http" />
+    <None Remove="fixtures\v2\api\notfound-delegationSignerRecord.http" />
+    <None Remove="fixtures\v2\api\notfound-domain.http" />
+    <None Remove="fixtures\v2\api\notfound-domainpush.http" />
+    <None Remove="fixtures\v2\api\notfound-emailforward.http" />
+    <None Remove="fixtures\v2\api\notfound-record.http" />
+    <None Remove="fixtures\v2\api\notfound-template.http" />
+    <None Remove="fixtures\v2\api\notfound-webhook.http" />
+    <None Remove="fixtures\v2\api\notfound-whoisprivacy.http" />
+    <None Remove="fixtures\v2\api\notfound-zone.http" />
+    <None Remove="fixtures\v2\api\oauthAccessToken\error-invalid-request.http" />
+    <None Remove="fixtures\v2\api\oauthAccessToken\success.http" />
+    <None Remove="fixtures\v2\api\pages-1of3.http" />
+    <None Remove="fixtures\v2\api\pages-2of3.http" />
+    <None Remove="fixtures\v2\api\pages-3of3.http" />
+    <None Remove="fixtures\v2\api\purchaseLetsencryptCertificate\success.http" />
+    <None Remove="fixtures\v2\api\purchaseRenewalLetsencryptCertificate\success.http" />
+    <None Remove="fixtures\v2\api\registerDomain\success.http" />
+    <None Remove="fixtures\v2\api\rejectPush\success.http" />
+    <None Remove="fixtures\v2\api\removeCollaborator\success.http" />
+    <None Remove="fixtures\v2\api\renewDomain\error-tooearly.http" />
+    <None Remove="fixtures\v2\api\renewDomain\success.http" />
+    <None Remove="fixtures\v2\api\renewWhoisPrivacy\success.http" />
+    <None Remove="fixtures\v2\api\renewWhoisPrivacy\whois-privacy-duplicated-order.http" />
+    <None Remove="fixtures\v2\api\renewWhoisPrivacy\whois-privacy-not-found.http" />
+    <None Remove="fixtures\v2\api\response.http" />
+    <None Remove="fixtures\v2\api\success-with-malformed-json.http" />
+    <None Remove="fixtures\v2\api\transferDomain\error-indnsimple.http" />
+    <None Remove="fixtures\v2\api\transferDomain\error-missing-authcode.http" />
+    <None Remove="fixtures\v2\api\transferDomain\success.http" />
+    <None Remove="fixtures\v2\api\unapplyService\success.http" />
+    <None Remove="fixtures\v2\api\updateContact\success.http" />
+    <None Remove="fixtures\v2\api\updateTemplate\success.http" />
+    <None Remove="fixtures\v2\api\updateZoneRecord\success.http" />
+    <None Remove="fixtures\v2\api\validation-error.http" />
+    <None Remove="fixtures\v2\api\whoami\success-account.http" />
+    <None Remove="fixtures\v2\api\whoami\success-user.http" />
+    <None Remove="fixtures\v2\api\whoami\success.http" />
+    <None Remove="fixtures\v2\webhooks\account.billing_settings_update\example.http" />
+    <None Remove="fixtures\v2\webhooks\account.remove_user\example.http" />
+    <None Remove="fixtures\v2\webhooks\account.update\example.http" />
+    <None Remove="fixtures\v2\webhooks\account.user_invitation_accept\example.http" />
+    <None Remove="fixtures\v2\webhooks\account.user_invite\example.http" />
+    <None Remove="fixtures\v2\webhooks\account_invitation.accept\example.http" />
+    <None Remove="fixtures\v2\webhooks\account_invitation.create\example.http" />
+    <None Remove="fixtures\v2\webhooks\certificate.issue\example.http" />
+    <None Remove="fixtures\v2\webhooks\certificate.remove_private_key\example.http" />
+    <None Remove="fixtures\v2\webhooks\contact.create\example.http" />
+    <None Remove="fixtures\v2\webhooks\contact.delete\example.http" />
+    <None Remove="fixtures\v2\webhooks\contact.update\example.http" />
+    <None Remove="fixtures\v2\webhooks\dnssec.create\example.http" />
+    <None Remove="fixtures\v2\webhooks\dnssec.delete\example.http" />
+    <None Remove="fixtures\v2\webhooks\dnssec.rotation_complete\example.http" />
+    <None Remove="fixtures\v2\webhooks\dnssec.rotation_start\example.http" />
+    <None Remove="fixtures\v2\webhooks\domain.auto_renewal_disable\example.http" />
+    <None Remove="fixtures\v2\webhooks\domain.auto_renewal_enable\example.http" />
+    <None Remove="fixtures\v2\webhooks\domain.create\example.http" />
+    <None Remove="fixtures\v2\webhooks\domain.delegation_change\example.http" />
+    <None Remove="fixtures\v2\webhooks\domain.delete\example.http" />
+    <None Remove="fixtures\v2\webhooks\domain.register\example.http" />
+    <None Remove="fixtures\v2\webhooks\domain.register\status-started.http" />
+    <None Remove="fixtures\v2\webhooks\domain.registrant_change\example.http" />
+    <None Remove="fixtures\v2\webhooks\domain.renew\example.http" />
+    <None Remove="fixtures\v2\webhooks\domain.resolution_disable\example.http" />
+    <None Remove="fixtures\v2\webhooks\domain.resolution_enable\example.http" />
+    <None Remove="fixtures\v2\webhooks\email_forward.create\example.http" />
+    <None Remove="fixtures\v2\webhooks\email_forward.delete\example.http" />
+    <None Remove="fixtures\v2\webhooks\email_forward.update\example.http" />
+    <None Remove="fixtures\v2\webhooks\subscription.renew\state-failed.http" />
+    <None Remove="fixtures\v2\webhooks\webhook.create\example.http" />
+    <None Remove="fixtures\v2\webhooks\webhook.delete\example.http" />
+    <None Remove="fixtures\v2\webhooks\whois_privacy.disable\example.http" />
+    <None Remove="fixtures\v2\webhooks\whois_privacy.enable\example.http" />
+    <None Remove="fixtures\v2\webhooks\whois_privacy.purchase\example.http" />
+    <None Remove="fixtures\v2\webhooks\zone.create\example.http" />
+    <None Remove="fixtures\v2\webhooks\zone.delete\example.http" />
+    <None Remove="fixtures\v2\webhooks\zone_record.create\example.http" />
+    <None Remove="fixtures\v2\webhooks\zone_record.delete\example.http" />
+    <None Remove="fixtures\v2\webhooks\zone_record.update\example.http" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="fixtures\v2\api\acceptPush\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\accounts\success-account.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\accounts\success-user.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\addCollaborator\invite-success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\addCollaborator\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\appliedServices\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\applyService\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\applyTemplate\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\authorizeDomainTransferOut\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\badgateway.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\changeDomainDelegationFromVanity\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\changeDomainDelegationToVanity\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\changeDomainDelegation\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\checkDomain\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\checkZoneDistribution\error.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\checkZoneDistribution\failure.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\checkZoneDistribution\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\checkZoneRecordDistribution\error.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\checkZoneRecordDistribution\failure.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\checkZoneRecordDistribution\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\createContact\created.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\createDelegationSignerRecord\created.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\createDelegationSignerRecord\validation-error.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\createDomain\created.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\createEmailForward\created.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\createTemplateRecord\created.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\createTemplate\created.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\createWebhook\created.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\createZoneRecord\created-apex.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\createZoneRecord\created.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\deleteContact\error-contact-in-use.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\deleteContact\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\deleteDelegationSignerRecord\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\deleteDomain\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\deleteEmailForward\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\deleteTemplateRecord\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\deleteTemplate\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\deleteWebhook\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\deleteZoneRecord\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\disableDnssec\not-enabled.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\disableDnssec\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\disableDomainAutoRenewal\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\disableVanityNameServers\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\disableWhoisPrivacy\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\downloadCertificate\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\enableDnssec\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\enableDomainAutoRenewal\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\enableVanityNameServers\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\enableWhoisPrivacy\created.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\enableWhoisPrivacy\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\getCertificatePrivateKey\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\getCertificate\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\getContact\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\getDelegationSignerRecord\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\getDnssec\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\getDomainDelegation\success-empty.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\getDomainDelegation\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\getDomainPremiumPrice\failure.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\getDomainPremiumPrice\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\getDomain\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\getEmailForward\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\getService\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\getTemplateRecord\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\getTemplate\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\getTldExtendedAttributes\success-attributes.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\getTldExtendedAttributes\success-noattributes.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\getTldExtendedAttributes\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\getTld\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\getWebhook\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\getWhoisPrivacy\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\getZoneFile\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\getZoneRecord\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\getZone\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\initiatePush\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\issueLetsencryptCertificate\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\issueRenewalLetsencryptCertificate\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\listAccounts\success-account.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\listAccounts\success-user.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\listCertificates\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\listCollaborators\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\listContacts\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\listDelegationSignerRecords\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\listDomains\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\listEmailForwards\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\listPushes\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\listServices\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\listTemplateRecords\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\listTemplates\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\listTlds\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\listWebhooks\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\listZoneRecords\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\listZones\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\method-not-allowed.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\notfound-certificate.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\notfound-collaborator.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\notfound-contact.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\notfound-delegationSignerRecord.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\notfound-domain.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\notfound-domainpush.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\notfound-emailforward.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\notfound-record.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\notfound-template.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\notfound-webhook.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\notfound-whoisprivacy.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\notfound-zone.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\oauthAccessToken\error-invalid-request.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\oauthAccessToken\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\pages-1of3.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\pages-2of3.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\pages-3of3.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\purchaseLetsencryptCertificate\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\purchaseRenewalLetsencryptCertificate\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\registerDomain\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\rejectPush\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\removeCollaborator\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\renewDomain\error-tooearly.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\renewDomain\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\renewWhoisPrivacy\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\renewWhoisPrivacy\whois-privacy-duplicated-order.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\renewWhoisPrivacy\whois-privacy-not-found.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\response.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\success-with-malformed-json.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\transferDomain\error-indnsimple.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\transferDomain\error-missing-authcode.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\transferDomain\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\unapplyService\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\updateContact\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\updateTemplate\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\updateZoneRecord\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\validation-error.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\whoami\success-account.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\whoami\success-user.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\whoami\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\account.billing_settings_update\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\account.remove_user\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\account.update\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\account.user_invitation_accept\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\account.user_invite\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\account_invitation.accept\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\account_invitation.create\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\certificate.issue\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\certificate.remove_private_key\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\contact.create\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\contact.delete\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\contact.update\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\dnssec.create\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\dnssec.delete\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\dnssec.rotation_complete\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\dnssec.rotation_start\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\domain.auto_renewal_disable\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\domain.auto_renewal_enable\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\domain.create\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\domain.delegation_change\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\domain.delete\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\domain.register\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\domain.register\status-started.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\domain.registrant_change\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\domain.renew\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\domain.resolution_disable\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\domain.resolution_enable\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\email_forward.create\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\email_forward.delete\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\email_forward.update\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\subscription.renew\state-failed.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\webhook.create\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\webhook.delete\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\whois_privacy.disable\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\whois_privacy.enable\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\whois_privacy.purchase\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\zone.create\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\zone.delete\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\zone_record.create\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\zone_record.delete\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\webhooks\zone_record.update\example.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Moq" Version="4.14.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="nunit" Version="3.12.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.15.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
+    <PackageReference Include="RestSharp" Version="106.11.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\dnsimple\dnsimple.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="fixtures\v2\api\cancelDomainTransfer\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="fixtures\v2\api\getDomainTransfer\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 
 </Project>

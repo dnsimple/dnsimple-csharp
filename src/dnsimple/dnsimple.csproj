@@ -1,116 +1,20 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-    <PropertyGroup>
-        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-        <ProjectGuid>{AFFDA199-7BEC-4C5A-AE8A-84D95E2F06D1}</ProjectGuid>
-        <OutputType>Library</OutputType>
-        <AppDesignerFolder>Properties</AppDesignerFolder>
-        <RootNamespace>dnsimple</RootNamespace>
-        <AssemblyName>dnsimple</AssemblyName>
-        <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-        <FileAlignment>512</FileAlignment>
-        <PackageId>DNSimple</PackageId>
-        <Author>Enrique Comba Riepenhausen</Author>
-        <Company>DNSimple</Company>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-        <PlatformTarget>AnyCPU</PlatformTarget>
-        <DebugSymbols>true</DebugSymbols>
-        <DebugType>full</DebugType>
-        <Optimize>false</Optimize>
-        <OutputPath>bin\Debug\</OutputPath>
-        <DefineConstants>DEBUG;TRACE</DefineConstants>
-        <ErrorReport>prompt</ErrorReport>
-        <WarningLevel>4</WarningLevel>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-        <PlatformTarget>AnyCPU</PlatformTarget>
-        <DebugType>pdbonly</DebugType>
-        <Optimize>true</Optimize>
-        <OutputPath>bin\Release\</OutputPath>
-        <DefineConstants>TRACE</DefineConstants>
-        <ErrorReport>prompt</ErrorReport>
-        <WarningLevel>4</WarningLevel>
-    </PropertyGroup>
-    <ItemGroup>
-        <Reference Include="mscorlib" />
-        <Reference Include="RestSharp.Serializers.NewtonsoftJson, Version=106.0.0.0, Culture=neutral, PublicKeyToken=598062e77f915f75">
-          <HintPath>..\..\packages\RestSharp.Serializers.NewtonsoftJson.106.10.1\lib\net452\RestSharp.Serializers.NewtonsoftJson.dll</HintPath>
-          <Private>True</Private>
-        </Reference>
-        <Reference Include="System" />
-        <Reference Include="System.ComponentModel.DataAnnotations" />
-        <Reference Include="System.Core" />
-        <Reference Include="System.Data" />
-        <Reference Include="System.Web" />
-        <Reference Include="System.Xml" />
-    </ItemGroup>
-    <ItemGroup>
-        <Compile Include="Credentials.cs" />
-        <Compile Include="DNSimple.cs" />
-        <Compile Include="DnsimpleException.cs" />
-        <Compile Include="Properties\AssemblyInfo.cs" />
-        <Compile Include="RequestBuilder.cs" />
-        <Compile Include="RestClientWrapper.cs" />
-        <Compile Include="Services\Accounts.cs" />
-        <Compile Include="Services\Certificates.cs" />
-        <Compile Include="Services\Contacts.cs" />
-        <Compile Include="Services\DomainsCollaborators.cs" />
-        <Compile Include="Services\Domains.cs" />
-        <Compile Include="Services\DomainsDnssec.cs" />
-        <Compile Include="Services\DomainsDelegationSignerRecords.cs" />
-        <Compile Include="Services\DomainsEmailForwards.cs" />
-        <Compile Include="Services\DomainsPushes.cs" />
-        <Compile Include="Services\Http.cs" />
-        <Compile Include="Services\Identity.cs" />
-        <Compile Include="Services\JsonTools.cs" />
-        <Compile Include="Services\ListOptions\CertificatesListOptions.cs" />
-        <Compile Include="Services\ListOptions\ContactsListOptions.cs" />
-        <Compile Include="Services\ListOptions\DomainEmailForwardsListOptions.cs" />
-        <Compile Include="Services\ListOptions\DomainListOptions.cs" />
-        <Compile Include="Services\ListOptions\ListDomainDelegationSignerRecordsOptions.cs" />
-        <Compile Include="Services\ListOptions\ListOptions.cs" />
-        <Compile Include="Services\ListOptions\ListServicesOptions.cs" />
-        <Compile Include="Services\ListOptions\ListTemplateRecordsOptions.cs" />
-        <Compile Include="Services\ListOptions\ListTemplatesOptions.cs" />
-        <Compile Include="Services\ListOptions\ListWebhooksOptions.cs" />
-        <Compile Include="Services\ListOptions\TldListOptions.cs" />
-        <Compile Include="Services\ListOptions\ZoneRecordsListOptions.cs" />
-        <Compile Include="Services\ListOptions\ZonesListOptions.cs" />
-        <Compile Include="Services\OAuth2.cs" />
-        <Compile Include="Services\Paths.cs" />
-        <Compile Include="Services\Registrar.cs" />
-        <Compile Include="Services\RegistrarAutoRenewal.cs" />
-        <Compile Include="Services\RegistrarDelegation.cs" />
-        <Compile Include="Services\RegistrarWhoisPrivacy.cs" />
-        <Compile Include="Services\ServiceBase.cs" />
-        <Compile Include="Services\Services.cs" />
-        <Compile Include="Services\ServicesDomains.cs" />
-        <Compile Include="Services\TemplateDomains.cs" />
-        <Compile Include="Services\TemplateRecords.cs" />
-        <Compile Include="Services\Templates.cs" />
-        <Compile Include="Services\Tlds.cs" />
-        <Compile Include="Services\VanityNameServers.cs" />
-        <Compile Include="Services\Webhooks.cs" />
-        <Compile Include="Services\ZoneRecords.cs" />
-        <Compile Include="Services\Zones.cs" />
-    </ItemGroup>
-    <ItemGroup>
-      <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-      <PackageReference Include="RestSharp" Version="106.11.4" />
-    </ItemGroup>
-    <ItemGroup>
-      <Content Include="icon.png" />
-    </ItemGroup>
-    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-    <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-         Other similar extension points exist, see Microsoft.Common.targets.
-    <Target Name="BeforeBuild">
-    </Target>
-    <Target Name="AfterBuild">
-    </Target>
-    -->
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="RestSharp" Version="106.11.4" />
+  </ItemGroup>
 
 </Project>

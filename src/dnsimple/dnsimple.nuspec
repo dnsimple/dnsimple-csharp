@@ -13,9 +13,9 @@
     <projectUrl>https://github.com/dnsimple/dnsimple-csharp</projectUrl>
     <description>The DNSimple API client for the .NET platform.</description>
     <summary>The DNSimple API client for C#.</summary>
-    <releaseNotes>Currently the following APIs are available on this client: 
-      Accounts, Identity, Certificates, Contacts, Domains (Collaborators, 
-      DNSSEC, Email Forwards, Pushes), Registration (Delegation, Auto Renewal, 
+    <releaseNotes>Currently the following APIs are available on this client:
+      Accounts, Identity, Certificates, Contacts, Domains (Collaborators,
+      DNSSEC, Email Forwards, Pushes), Registration (Delegation, Auto Renewal,
       Whois Privacy), Services (Domain Services), Templates, Tlds,
       Vanity Name Servers, Webhooks and Zones (Records).
     </releaseNotes>
