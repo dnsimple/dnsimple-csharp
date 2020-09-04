@@ -3,6 +3,7 @@ using dnsimple.Services;
 using dnsimple.Services.ListOptions;
 using NUnit.Framework;
 using RestSharp;
+using RestSharp.Extensions;
 using Pagination = dnsimple.Services.ListOptions.Pagination;
 
 namespace dnsimple_test.Services

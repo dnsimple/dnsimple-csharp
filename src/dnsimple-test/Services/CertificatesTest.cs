@@ -108,7 +108,7 @@ namespace dnsimple_test.Services
 
         [Test]
         [TestCase(1010, "ruby.codes",
-            "https://api.sandbox.dnsimple.com/v2/1010/domains/ruby.codes/certificates?sort=id:asc%2ccommon_name:desc%2cexpiration:asc&per_page=42&page=7")]
+            "https://api.sandbox.dnsimple.com/v2/1010/domains/ruby.codes/certificates?sort=id:asc,common_name:desc,expiration:asc&per_page=42&page=7")]
         public void ListCertificatesWithOptions(long accountId,
             string domainName, string expectedUrl)
         {

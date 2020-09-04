@@ -34,7 +34,7 @@ namespace dnsimple_test.Services
 
         private const string DeleteZoneRecordFixture =
             "deleteZoneRecord/success.http";
-        
+
         private const string CheckZoneRecordDistributionSuccessFixture =
             "checkZoneRecordDistribution/success.http";
         private const string CheckZoneRecordDistributionErrorFixture =
@@ -109,7 +109,7 @@ namespace dnsimple_test.Services
 
         [Test]
         [TestCase(1010, "example.com",
-            "https://api.sandbox.dnsimple.com/v2/1010/zones/example.com/records?sort=id:asc%2cname:desc%2ccontent:asc%2ctype:desc&name_like=example&name=boom&type=SOA&per_page=42&page=7")]
+            "https://api.sandbox.dnsimple.com/v2/1010/zones/example.com/records?sort=id:asc,name:desc,content:asc,type:desc&name_like=example&name=boom&type=SOA&per_page=42&page=7")]
         public void ListRecordsWithOptions(long account, string zoneId,
             string expectedUrl)
         {
@@ -252,7 +252,7 @@ namespace dnsimple_test.Services
                 {
                     client.Zones.DeleteZoneRecord(accountId, zoneId, recordId);
                 });
-                
+
                 Assert.AreEqual(Method.DELETE, client.HttpMethodUsed());
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
@@ -268,15 +268,15 @@ namespace dnsimple_test.Services
             var record =
                 client.Zones.CheckRecordDistribution(accountId, zoneId,
                     recordId).Data;
-            
+
             Assert.Multiple(() =>
             {
                 Assert.IsTrue(record.Distributed);
-                
+
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
-        
+
         [Test]
         [TestCase(1010, "example.com", 5,
             "https://api.sandbox.dnsimple.com/v2/1010/zones/example.com/records/5/distribution")]
@@ -287,15 +287,15 @@ namespace dnsimple_test.Services
             var record =
                 client.Zones.CheckRecordDistribution(accountId, zoneId,
                     recordId).Data;
-            
+
             Assert.Multiple(() =>
             {
                 Assert.IsFalse(record.Distributed);
-                
+
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
-        
+
         [Test]
         [TestCase(1010, "example.com", 5)]
         public void CheckRecordDistributionError(long accountId, string zoneId, long recordId)

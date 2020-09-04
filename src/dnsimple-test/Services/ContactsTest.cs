@@ -94,7 +94,7 @@ namespace dnsimple_test.Services
 
         [Test]
         [TestCase(1010,
-            "https://api.sandbox.dnsimple.com/v2/1010/contacts?sort=id:asc%2clabel:desc%2cemail:asc&per_page=42&page=7")]
+            "https://api.sandbox.dnsimple.com/v2/1010/contacts?sort=id:asc,label:desc,email:asc&per_page=42&page=7")]
         public void ListContactsWitSorting(long accountId, string expectedUrl)
         {
             var client = new MockDnsimpleClient(ListContactsFixture);

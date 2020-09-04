@@ -22,7 +22,7 @@ namespace dnsimple_test.Services
 
         private const string GetTemplateRecordFixture =
             "getTemplateRecord/success.http";
-        
+
         private const string DeleteTemplateRecordFixture =
             "deleteTemplateRecord/success.http";
 
@@ -84,7 +84,7 @@ namespace dnsimple_test.Services
 
         [Test]
         [TestCase(1010, "268",
-            "https://api.sandbox.dnsimple.com/v2/1010/templates/268/records?sort=id:asc%2cname:desc%2ccontent:asc%2ctype:desc&per_page=42&page=7")]
+            "https://api.sandbox.dnsimple.com/v2/1010/templates/268/records?sort=id:asc,name:desc,content:asc,type:desc&per_page=42&page=7")]
         public void ListTemplateRecordsSorted(long accountId, string template,
             string expectedUrl)
         {
@@ -118,11 +118,11 @@ namespace dnsimple_test.Services
                 Ttl = 600,
                 Priority = 10
             };
-            
+
             var record =
                 client.Templates.CreateTemplateRecord(accountId, template,
                     templateRecord).Data;
-            
+
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(300, record.Id);
@@ -132,7 +132,7 @@ namespace dnsimple_test.Services
                 Assert.AreEqual(templateRecord.Content, record.Content);
                 Assert.AreEqual(templateRecord.Ttl, record.Ttl);
                 Assert.AreEqual(templateRecord.Priority, record.Priority);
-                
+
                 Assert.AreEqual(Method.POST, client.HttpMethodUsed());
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
@@ -147,12 +147,12 @@ namespace dnsimple_test.Services
             var record =
                 client.Templates.GetTemplateRecord(accountId, template,
                     recordId).Data;
-            
+
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(recordId, record.Id);
                 Assert.AreEqual(268, record.TemplateId);
-                
+
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
@@ -166,7 +166,7 @@ namespace dnsimple_test.Services
 
             client.Templates.DeleteTemplateRecord(accountId, template,
                 recordId);
-            
+
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(Method.DELETE, client.HttpMethodUsed());
