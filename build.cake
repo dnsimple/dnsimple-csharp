@@ -1,5 +1,3 @@
-#tool nuget:?package=NUnit.ConsoleRunner&version=3.4.0
-
 var target = Argument("target", "Default");
 
 var buildDir = Directory("./src/dnsimple/bin");
@@ -28,9 +26,8 @@ Task("Test")
     .IsDependentOn("Build")
     .Does(() =>
 {
-    NUnit3("./src/**/bin/**/*_test.dll", new NUnit3Settings {
-        NoResults = true
-        });
+
+    DotNetCoreTest();
 });
 
 Task("Package")
@@ -48,5 +45,5 @@ Task("Package")
 
 Task("Default")
     .IsDependentOn("Test");
-    
+
 RunTarget(target);
