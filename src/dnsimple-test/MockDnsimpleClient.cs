@@ -125,7 +125,7 @@ namespace dnsimple_test
                 PayloadSent = (string) request.Parameters.Find(x =>
                     x.ContentType.Equals("application/json")).Value;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 // ignored
             }
