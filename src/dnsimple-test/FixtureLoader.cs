@@ -59,7 +59,7 @@ namespace dnsimple_test
         private string LoadFixture()
         {
             var path = Path.Combine(Environment.CurrentDirectory,
-                $"src/dnsimple-test/fixtures/{Version}/api/" + Fixture);
+                $"fixtures/{Version}/api/" + Fixture);
 
             return File.ReadAllText(path);
         }

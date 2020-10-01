@@ -12,28 +12,15 @@ cd dnsimple-csharp
 
 #### 2. Install dependencies
 
-- Linux
+- .NET Core SDK 
 
-    Please follow the instructions on the [Mono Project Page](https://www.mono-project.com/download/stable/#download-lin)
-    
-- macOS
+    From https://dotnet.microsoft.com/download/dotnet-core/
 
-    Install .NET [mono](https://www.mono-project.com/) either by [dowloading mono](https://www.mono-project.com/download/stable/#download-mac)
-    directly or by using [Homebrew](https://brew.sh)
-
-    ```
-    brew install mono
-    ```
-
-    Make sure your dotnet installation is working.
-
-    ```shell
-    mono --version
-    ```
-
-- Windows
-
-    Please follow the instructions on the [Microsoft Docs Website](https://docs.microsoft.com/en-us/dotnet/framework/install)
+    You can either use to install the .NET Core SDK
+        - Installers
+        - Binaries
+        - [Scripts](https://dotnet.microsoft.com/download/dotnet-core/scripts)
+        - Install [Visual Studio](https://visualstudio.microsoft.com/)
 
 #### 3. Build and test
 
@@ -46,7 +33,7 @@ To run the test suite:
     ```shell
     ./build.sh
     ```
-  
+ 
 - Windows
     ```shell
     PS> .\build.ps1

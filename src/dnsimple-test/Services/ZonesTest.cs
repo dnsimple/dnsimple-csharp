@@ -15,7 +15,7 @@ namespace dnsimple_test.Services
     public class ZonesTest
     {
         private MockResponse _response;
-        
+
         private const string ListZonesFixture = "listZones/success.http";
         private const string GetZoneFixture = "getZone/success.http";
         private const string GetZoneNotFoundFixture = "notfound-zone.http";
@@ -77,13 +77,13 @@ namespace dnsimple_test.Services
             {
                 Assert.AreEqual(2, response.Data.Count);
                 Assert.AreEqual(1, response.Pagination.CurrentPage);
-                
+
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
-        
+
         [Test]
-        [TestCase(1010, "https://api.sandbox.dnsimple.com/v2/1010/zones?sort=id:asc%2cname:desc&name_like=example.com&per_page=42&page=7")]
+        [TestCase(1010, "https://api.sandbox.dnsimple.com/v2/1010/zones?sort=id:asc,name:desc&name_like=example.com&per_page=42&page=7")]
         public void ListZonesWithOptions(long accountId, string expectedUrl)
         {
             var client = new MockDnsimpleClient(ListZonesFixture);
@@ -98,14 +98,14 @@ namespace dnsimple_test.Services
                 }.FilterByName("example.com")
                 .SortById(Order.asc)
                 .SortByName(Order.desc);
-            
+
             var response = client.Zones.ListZones(accountId, options);
 
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(2, response.Data.Count);
                 Assert.AreEqual(1, response.Pagination.CurrentPage);
-                
+
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
@@ -125,7 +125,7 @@ namespace dnsimple_test.Services
                 Assert.False(zone.Reverse);
                 Assert.AreEqual(CreatedAt, zone.CreatedAt);
                 Assert.AreEqual(UpdatedAt, zone.UpdatedAt);
-                
+
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
@@ -155,13 +155,13 @@ namespace dnsimple_test.Services
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(zoneFile, file.Zone);
-                
+
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
 
         [Test]
-        [TestCase(1010, "example.com", 
+        [TestCase(1010, "example.com",
             "https://api.sandbox.dnsimple.com/v2/1010/zones/example.com/distribution")]
         public void CheckZoneDistributionSuccess(long accountId,
             string zoneName, string expectedUrl)
@@ -174,7 +174,7 @@ namespace dnsimple_test.Services
             Assert.Multiple(() =>
             {
                 Assert.IsTrue(zone.Data.Distributed);
-                
+
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
@@ -234,7 +234,7 @@ namespace dnsimple_test.Services
                 }.FilterByName("example.com")
                 .SortById(Order.asc)
                 .SortByName(Order.desc);
-            
+
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(filters, options.UnpackFilters());

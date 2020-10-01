@@ -102,9 +102,9 @@ namespace dnsimple_test.Services
 
         [Test]
         [TestCase(1010, "100",
-            "https://api.sandbox.dnsimple.com/v2/1010/domains/100/ds_records?sort=id:asc%2ccreated_at:desc&per_page=5&page=3")]
+            "https://api.sandbox.dnsimple.com/v2/1010/domains/100/ds_records?sort=id:asc,created_at:desc&per_page=5&page=3")]
         [TestCase(1010, "example.com",
-            "https://api.sandbox.dnsimple.com/v2/1010/domains/example.com/ds_records?sort=id:asc%2ccreated_at:desc&per_page=5&page=3")]
+            "https://api.sandbox.dnsimple.com/v2/1010/domains/example.com/ds_records?sort=id:asc,created_at:desc&per_page=5&page=3")]
         public void ListDelegationSignerRecordsWithOptions(long accountId,
             string domainIdentifier, string expectedUrl)
         {

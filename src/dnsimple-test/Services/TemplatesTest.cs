@@ -27,7 +27,7 @@ namespace dnsimple_test.Services
 
         private const string DeleteTemplateFixture =
             "deleteTemplate/success.http";
-        
+
         private DateTime CreatedAt { get; } = DateTime.ParseExact(
             "2016-03-22T11:08:58Z", "yyyy-MM-ddTHH:mm:ssZ",
             CultureInfo.CurrentCulture);
@@ -42,13 +42,13 @@ namespace dnsimple_test.Services
             var loader = new FixtureLoader("v2", ListTemplatesFixture);
             _response = new MockResponse(loader);
         }
-        
+
         [Test]
         public void ListTemplatesResponse()
         {
             var templates = new PaginatedResponse<Template>(_response);
             var template = templates.Data.First();
-            
+
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(1, template.Id);
@@ -58,10 +58,10 @@ namespace dnsimple_test.Services
                 Assert.AreEqual("An alpha template.", template.Description);
                 Assert.AreEqual(CreatedAt, template.CreatedAt);
                 Assert.AreEqual(UpdatedAt, template.UpdatedAt);
-                
+
             });
         }
-        
+
         [Test]
         [TestCase(1010, "https://api.sandbox.dnsimple.com/v2/1010/templates")]
         public void ListTemplates(long accountId, string expectedUrl)
@@ -77,9 +77,9 @@ namespace dnsimple_test.Services
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
-        
+
         [Test]
-        [TestCase(1010, "https://api.sandbox.dnsimple.com/v2/1010/templates?sort=id:asc%2cname:desc%2csid:asc&per_page=42&page=7")]
+        [TestCase(1010, "https://api.sandbox.dnsimple.com/v2/1010/templates?sort=id:asc,name:desc,sid:asc&per_page=42&page=7")]
         public void ListTemplatesSorted(long accountId, string expectedUrl)
         {
             var client = new MockDnsimpleClient(ListTemplatesFixture);
@@ -90,11 +90,11 @@ namespace dnsimple_test.Services
                         PerPage = 42,
                         Page = 7
                     }
-                
+
                 }.SortById(Order.asc)
                 .SortByName(Order.desc)
                 .SortBySid(Order.asc);
-            
+
             client.Templates.ListTemplates(accountId, options);
 
             Assert.AreEqual(expectedUrl, client.RequestSentTo());
@@ -111,10 +111,10 @@ namespace dnsimple_test.Services
                 Sid = "beta",
                 Description = "A beta template."
             };
-            
+
             var template =
                 client.Templates.CreateTemplate(accountId, templateData).Data;
-            
+
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(1, template.Id);
@@ -122,7 +122,7 @@ namespace dnsimple_test.Services
                 Assert.AreEqual(templateData.Name, template.Name);
                 Assert.AreEqual(templateData.Sid, template.Sid);
                 Assert.AreEqual(templateData.Description, template.Description);
-                
+
                 Assert.AreEqual(Method.POST, client.HttpMethodUsed());
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
@@ -136,14 +136,14 @@ namespace dnsimple_test.Services
             var client = new MockDnsimpleClient(GetTemplateFixture);
             var template = client.Templates
                 .GetTemplate(accountId, templateIdentifier).Data;
-            
+
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(1, template.Id);
                 Assert.AreEqual(accountId, template.AccountId);
                 Assert.AreEqual("Alpha", template.Name);
                 Assert.AreEqual("alpha", template.Sid);
-                
+
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
@@ -158,9 +158,9 @@ namespace dnsimple_test.Services
             {
                 Description = "An alpha template"
             };
-            
+
             client.Templates.UpdateTemplate(accountId, template, update);
-            
+
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(Method.PATCH, client.HttpMethodUsed());
@@ -176,7 +176,7 @@ namespace dnsimple_test.Services
             var client = new MockDnsimpleClient(DeleteTemplateFixture);
 
             client.Templates.DeleteTemplate(accountId, template);
-            
+
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(Method.DELETE, client.HttpMethodUsed());

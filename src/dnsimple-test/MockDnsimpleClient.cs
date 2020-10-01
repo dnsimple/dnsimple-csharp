@@ -5,6 +5,7 @@ using dnsimple;
 using dnsimple.Services;
 using Newtonsoft.Json.Linq;
 using RestSharp;
+using RestSharp.Extensions;
 using ICredentials = dnsimple.ICredentials;
 
 namespace dnsimple_test
@@ -79,7 +80,7 @@ namespace dnsimple_test
 
         public string RequestSentTo()
         {
-            return ((MockHttpService) Http).RequestUrlSent;
+            return ((MockHttpService) Http).RequestUrlSent.UrlDecode();
         }
 
         public Method HttpMethodUsed()
@@ -124,7 +125,7 @@ namespace dnsimple_test
                 PayloadSent = (string) request.Parameters.Find(x =>
                     x.ContentType.Equals("application/json")).Value;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 // ignored
             }
