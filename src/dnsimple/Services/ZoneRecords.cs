@@ -134,6 +134,8 @@ namespace dnsimple.Services
         AAAA,
         ALIAS,
         CAA,
+        CDNSKEY,
+        CDS,
         CNAME,
         DNSKEY,
         DS,
