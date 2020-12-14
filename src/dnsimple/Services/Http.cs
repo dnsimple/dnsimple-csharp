@@ -81,7 +81,7 @@ namespace dnsimple.Services
                 case HttpStatusCode.BadRequest:
                     if(error["errors"] != null)
                         throw new DnsimpleValidationException(error);
-                    break;
+                    throw new DnsimpleException(message);
                 case HttpStatusCode.NotFound:
                     throw new NotFoundException(message);
                 case HttpStatusCode.PaymentRequired:
