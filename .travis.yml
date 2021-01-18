@@ -1,12 +1,12 @@
 language: csharp
 dotnet: 3.1.201
+
 mono:
   - latest
+
 matrix:
   include:
     - os: osx
-branches:
-  only:
-    - master
+
 script:
   - ./build.sh --target=Package
