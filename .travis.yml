@@ -1,12 +1,9 @@
+dist: bionic
 language: csharp
-dotnet: 3.1.201
-
-mono:
-  - latest
-
-matrix:
-  include:
-    - os: osx
-
+mono: none
+dotnet:
+  - 3.1.11
+solution: dnsimple-csharp.sln
 script:
-  - ./build.sh --target=Package
+  - dotnet restore
+  - dotnet test

@@ -12,7 +12,7 @@ cd dnsimple-csharp
 
 #### 2. Install dependencies
 
-- .NET Core SDK 
+- .NET Core SDK
 
     From https://dotnet.microsoft.com/download/dotnet-core/
 
@@ -24,16 +24,15 @@ cd dnsimple-csharp
 
 #### 3. Build and test
 
-[Run the test suite](#testing) to check everything is working as expected and to install the project specific 
+[Run the test suite](#testing) to check everything is working as expected and to install the project specific
 dependencies (the first time you'll run the script it will install all the dependencies for you).
 
-To run the test suite: 
+To run the test suite:
 
 - macOS / *NIX
     ```shell
     ./build.sh
     ```
- 
 - Windows
     ```shell
     PS> .\build.ps1
@@ -66,7 +65,7 @@ The following instructions uses `$VERSION` as a placeholder, where `$VERSION` is
     ```shell
     ./build.sh --target=Package
     ```
-    
+
  9. Upload the package to [NuGet](https://www.nuget.org/) by using the web interface or pushing the package
     ```shell
     nuget push <path/to/file.nupkg>
