@@ -9,7 +9,7 @@
     <icon>icon.png</icon>
     <license type="expression">MIT</license>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <repository type="Github" url="https://github.com/dnsimple/dnsimple-csharp" branch="master"/>
+    <repository type="Github" url="https://github.com/dnsimple/dnsimple-csharp" branch="main"/>
     <projectUrl>https://github.com/dnsimple/dnsimple-csharp</projectUrl>
     <description>The DNSimple API client for the .NET platform.</description>
     <summary>The DNSimple API client for C#.</summary>
