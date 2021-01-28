@@ -2,7 +2,7 @@
 
 A C# client for the [DNSimple API v2](https://developer.dnsimple.com/v2/).
 
-[![Build Status](https://travis-ci.com/dnsimple/dnsimple-csharp.svg?branch=master)](https://travis-ci.com/dnsimple/dnsimple-csharp)
+[![Build Status](https://travis-ci.com/dnsimple/dnsimple-csharp.svg?branch=main)](https://travis-ci.com/dnsimple/dnsimple-csharp)
 
 
 ## Installation
@@ -92,10 +92,10 @@ var domain = client.Domains.GetDomain(accountId, domainId).Data;
 
 ## Sandbox Environment
 
-We highly recommend testing against our [sandbox environment](https://developer.dnsimple.com/sandbox/) before using our production environment. 
+We highly recommend testing against our [sandbox environment](https://developer.dnsimple.com/sandbox/) before using our production environment.
 This will allow you to avoid real purchases, live charges on your credit card, and reduce the chance of your running up against rate limits.
 
-The client supports both the production and sandbox environment. 
+The client supports both the production and sandbox environment.
 To switch to sandbox pass the sandbox API host using the `ChangeBaseUrlTo(...)` method when you construct the client:
 
 ```c#

@@ -49,11 +49,11 @@ The following instructions uses `$VERSION` as a placeholder, where `$VERSION` is
     [assembly: AssemblyFileVersion("$VERSION")]
     ```
 3. Run the test suite and ensure all tests pass (`./build.sh`).
-4. Finalize the `## master` section in `CHANGELOG.md` assigning the version.
+4. Finalize the `## main` section in `CHANGELOG.md` assigning the version.
 5. Commit and push the changes
     ```shell
     git commit -a -m "Release $VERSION"
-    git push origin master
+    git push origin main
     ```
 6. Wait for the CI to complete.
 7. Create a signed tag.
