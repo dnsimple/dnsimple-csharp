@@ -29,46 +29,35 @@ dependencies (the first time you'll run the script it will install all the depen
 
 To run the test suite:
 
-- macOS / *NIX
-    ```shell
-    ./build.sh
-    ```
-- Windows
-    ```shell
-    PS> .\build.ps1
-    ```
+```shell
+dotnet test
+```
 
 ## Releasing
 
-The following instructions uses `$VERSION` as a placeholder, where `$VERSION` is a `MAJOR.MINOR.BUGFIX` release such as `1.2.0`.
+The following instructions uses $VERSION as a placeholder, where $VERSION is a MAJOR.MINOR.BUGFIX release such as 1.2.0.
 
 1. Run the test suite and ensure all the tests pass.
-2. Set the version in `AssemblyInfo.cs` (located in `./src/dnsimple/Properties`).
-    ```c#
-    [assembly: AssemblyVersion("$VERSION")]
-    [assembly: AssemblyFileVersion("$VERSION")]
-    ```
-3. Run the test suite and ensure all tests pass (`./build.sh`).
-4. Finalize the `## main` section in `CHANGELOG.md` assigning the version.
-5. Commit and push the changes
+1. Update `PackageReleaseNotes` in `dnsimple.csproj` (located in `./src/dnsimple`).
+1. Finalize the `## main` section in `CHANGELOG.md` assigning the version.
+1. Commit and push the changes
     ```shell
     git commit -a -m "Release $VERSION"
     git push origin main
     ```
-6. Wait for the CI to complete.
-7. Create a signed tag.
+1. Wait for the CI to complete.
+1. Create a signed tag.
     ```shell
     git tag -a v$VERSION -s -m "Release $VERSION"
     git push origin --tags
     ```
- 8. Create the NuGet Package
+1. Create the NuGet Package
     ```shell
-    ./build.sh --target=Package
+    dotnet pack /p:PackageVersion=$VERSION
     ```
-
- 9. Upload the package to [NuGet](https://www.nuget.org/) by using the web interface or pushing the package
+1. Upload the package to [NuGet](https://www.nuget.org/) by using the web interface or pushing the package
     ```shell
-    nuget push <path/to/file.nupkg>
+    dotnet nuget push <path/to/file.nupkg>
     ```
 
 ## Testing
@@ -76,4 +65,3 @@ The following instructions uses `$VERSION` as a placeholder, where `$VERSION` is
 Submit unit tests for your changes. You can test your changes on your machine by [running the test suite](#testing).
 
 When you submit a PR, tests will also be run on the [continuous integration environment via Travis](https://travis-ci.com/dnsimple/dnsimple-csharp).
-
