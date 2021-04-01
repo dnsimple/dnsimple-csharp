@@ -1,11 +1,14 @@
 dist: focal
+
 language: csharp
 mono: none
 dotnet: 5.0
-solution: dnsimple-csharp.sln
+before_install:
+  - sudo apt-get install dotnet-sdk-3.1
 script:
   - dotnet restore
   - dotnet test -f netcoreapp3.1
   - dotnet test -f net50
+
 notifications:
   email: false
