@@ -1,6 +1,7 @@
 dist: focal
 
 language: csharp
+solution: dnsimple-csharp.sln
 mono: none
 dotnet:
   - 3.1
