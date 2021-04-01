@@ -4,6 +4,14 @@ mono: none
 dotnet:
   - 3.1.11
 solution: dnsimple-csharp.sln
-script:
-  - dotnet restore
-  - dotnet test
+
+jobs:
+  include:
+    - stage: test
+      script:
+      - dotnet restore
+      - dotnet test
+    - stage: deploy
+      if: branch = main AND tag IS present AND tag =~ /^\d{1,4}.\d{1,4}.\d{1,4}/ AND type = push
+      script:
+      - dotnet pack /p:PackageVersion=$TRAVIS_TAG
