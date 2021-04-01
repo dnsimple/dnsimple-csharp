@@ -13,7 +13,7 @@ jobs:
       - dotnet restore
       - dotnet test -f netcoreapp3.1
       - dotnet test -f net50
-      
+
     - stage: deploy
       if: branch = main AND tag IS present AND tag =~ /^\d{1,4}.\d{1,4}.\d{1,4}/ AND type = push
       script:
