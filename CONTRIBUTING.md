@@ -14,12 +14,12 @@ cd dnsimple-csharp
 
 - .NET Core SDK
 
-    From https://dotnet.microsoft.com/download/dotnet-core/
+    From https://dotnet.microsoft.com/download/
 
     You can either use to install the .NET Core SDK
         - Installers
         - Binaries
-        - [Scripts](https://dotnet.microsoft.com/download/dotnet-core/scripts)
+        - [Scripts](https://dotnet.microsoft.com/download/dotnet/scripts)
         - Install [Visual Studio](https://visualstudio.microsoft.com/)
 
 #### 3. Build and test
@@ -57,7 +57,7 @@ The following instructions uses $VERSION as a placeholder, where $VERSION is a M
     ```
 1. Upload the package to [NuGet](https://www.nuget.org/) by using the web interface or pushing the package
     ```shell
-    dotnet nuget push <path/to/file.nupkg>
+    dotnet nuget push ./src/dnsimple/bin/Release/DNSimple.$VERSION.nupkg -k <TOKEN> -s https://api.nuget.org/v3/index.json
     ```
 
 ## Testing
