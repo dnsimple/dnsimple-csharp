@@ -50,6 +50,20 @@ namespace dnsimple.Services
         }
 
         /// <summary>
+        /// Get prices for a domain.
+        /// </summary>
+        /// <param name="accountId">The account ID</param>
+        /// <param name="domainName">The domain name to find the prices</param>
+        /// <returns>The domain prices response</returns>
+        /// <see>https://developer.dnsimple.com/v2/registrar/#getDomainPrices</see>
+        public SimpleResponse<DomainPrices> GetDomainPrices(long accountId, string domainName)
+        {
+            var builder = BuildRequestForPath(DomainPricesPath(accountId, domainName));
+
+            return new SimpleResponse<DomainPrices>(Execute(builder.Request));
+        }
+
+        /// <summary>
         /// Registers a domain name.
         /// </summary>
         /// <param name="accountId">The account ID</param>
@@ -99,7 +113,7 @@ namespace dnsimple.Services
         /// <see>https://developer.dnsimple.com/v2/registrar/#getDomainTransfer</see>
         public SimpleResponse<DomainTransfer> GetDomainTransfer(long accountId, string domainName, long domainTransferId)
         {
-            var builder = BuildRequestForPath(DomainTransferPath(accountId, domainName, domainTransferId)); 
+            var builder = BuildRequestForPath(DomainTransferPath(accountId, domainName, domainTransferId));
 
             return new SimpleResponse<DomainTransfer>(Execute(builder.Request));
         }
@@ -240,9 +254,23 @@ namespace dnsimple.Services
     }
 
     /// <summary>
+    /// Represents a domain prices
+    /// </summary>
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    public struct DomainPrices
+    {
+        public string Domain { get; set; }
+        public bool Premium { get; set; }
+        public float RegistrationPrice { get; set; }
+        public float RenewalPrice { get; set; }
+        public float TransferPrice { get; set; }
+    }
+
+
+    /// <summary>
     /// Represents the data sent to register a domain.
     /// </summary>
-    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy), 
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy),
         ItemNullValueHandling = NullValueHandling.Ignore)]
     public struct DomainRegistrationInput
     {

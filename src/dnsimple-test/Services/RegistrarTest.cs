@@ -19,6 +19,12 @@ namespace dnsimple_test.Services
         private const string GetDomainPremiumPriceFailureFixture =
             "getDomainPremiumPrice/failure.http";
 
+        private const string GetDomainPricesFixture =
+            "getDomainPrices/success.http";
+
+        private const string GetDomainPricesFailureFixture =
+            "getDomainPrices/failure.http";
+
         private const string RegisterDomainFixture =
             "registerDomain/success.http";
 
@@ -122,6 +128,28 @@ namespace dnsimple_test.Services
         }
 
         [Test]
+        [TestCase(1010, "bingo.pizza",
+            "https://api.sandbox.dnsimple.com/v2/1010/registrar/domains/bingo.pizza/prices")]
+        public void GetDomainPrices(long accountId, string domainName,
+            string expectedUrl)
+        {
+            var client = new MockDnsimpleClient(GetDomainPricesFixture);
+            var prices = client.Registrar
+                .GetDomainPrices(accountId, domainName).Data;
+
+            Assert.Multiple(() =>
+            {
+                Assert.AreEqual("bingo.pizza", prices.Domain);
+                Assert.AreEqual(true, prices.Premium);
+                Assert.AreEqual(20.0, prices.RegistrationPrice);
+                Assert.AreEqual(20.0, prices.RenewalPrice);
+                Assert.AreEqual(20.0, prices.TransferPrice);
+
+                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+            });
+        }
+
+        [Test]
         [TestCase(1010, "ruby.codes",
             "https://api.sandbox.dnsimple.com/v2/1010/registrar/domains/ruby.codes/registrations")]
         public void RegisterDomain(long accountId, string domainName,
@@ -155,7 +183,7 @@ namespace dnsimple_test.Services
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
-        
+
         [Test]
         [TestCase(1010, "ruby.codes",
             "https://api.sandbox.dnsimple.com/v2/1010/registrar/domains/ruby.codes/registrations")]
@@ -189,7 +217,7 @@ namespace dnsimple_test.Services
             };
 
             client.Registrar.RegisterDomain(accountId, domainName, domain);
-            var payload = client.PayloadSent(); 
+            var payload = client.PayloadSent();
 
             Assert.Multiple(() =>
             {
@@ -298,7 +326,7 @@ namespace dnsimple_test.Services
                         transfer);
                 });
         }
-        
+
         [Test]
         [TestCase(1010, "ruby.codes",
             "https://api.sandbox.dnsimple.com/v2/1010/registrar/domains/ruby.codes/transfers")]
@@ -330,7 +358,7 @@ namespace dnsimple_test.Services
             };
 
             client.Registrar.TransferDomain(accountId, domainName, transfer);
-            var payload = client.PayloadSent(); 
+            var payload = client.PayloadSent();
 
             Assert.Multiple(() =>
             {
