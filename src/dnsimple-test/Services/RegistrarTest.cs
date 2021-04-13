@@ -150,6 +150,32 @@ namespace dnsimple_test.Services
         }
 
         [Test]
+        [TestCase(1010, "bingo.pineapple",
+            "https://api.sandbox.dnsimple.com/v2/1010/registrar/domains/bingo.pineapple/prices")]
+        public void GetDomainPricesFailure(long accountId, string domainName,
+            string expectedUrl)
+        {
+            var client = new MockDnsimpleClient(GetDomainPricesFailureFixture);
+            client.StatusCode(HttpStatusCode.BadRequest);
+
+            Assert.Multiple(() =>
+            {
+                Assert.Throws(
+                    Is.TypeOf<DnsimpleValidationException>().And.Message
+                        .EqualTo(
+                            "TLD .PINEAPPLE is not supported"),
+                    delegate
+                    {
+                        client.Registrar
+                            .GetDomainPrices(accountId, domainName);
+                    });
+
+                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+            });
+        }
+
+
+        [Test]
         [TestCase(1010, "ruby.codes",
             "https://api.sandbox.dnsimple.com/v2/1010/registrar/domains/ruby.codes/registrations")]
         public void RegisterDomain(long accountId, string domainName,
