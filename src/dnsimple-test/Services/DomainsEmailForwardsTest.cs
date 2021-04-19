@@ -107,8 +107,8 @@ namespace dnsimple_test.Services
         }
 
         [Test]
-        [TestCase(1010, "228963",
-            "https://api.sandbox.dnsimple.com/v2/1010/domains/228963/email_forwards")]
+        [TestCase(1010, "235146",
+            "https://api.sandbox.dnsimple.com/v2/1010/domains/235146/email_forwards")]
         [TestCase(1010, "example.com",
             "https://api.sandbox.dnsimple.com/v2/1010/domains/example.com/email_forwards")]
         public void CreateEmailForward(long accountId, string domainIdentifier,
@@ -117,8 +117,8 @@ namespace dnsimple_test.Services
             var client = new MockDnsimpleClient(CreateEmailForwardFixture);
             var record = new EmailForward
             {
-                From = "jim@a-domain.com",
-                To = "jim@another.com"
+                From = "example@dnsimple.xyz",
+                To = "example@example.com"
             };
 
             var created =
@@ -127,8 +127,8 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(17706, created.Data.Id);
-                Assert.AreEqual(228963, created.Data.DomainId);
+                Assert.AreEqual(41872, created.Data.Id);
+                Assert.AreEqual(235146, created.Data.DomainId);
                 Assert.AreEqual(record.From, created.Data.From);
                 Assert.AreEqual(record.To, created.Data.To);
 
@@ -159,22 +159,22 @@ namespace dnsimple_test.Services
         }
 
         [Test]
-        [TestCase(1010, "228963",
-            "https://api.sandbox.dnsimple.com/v2/1010/domains/228963/email_forwards/17706")]
+        [TestCase(1010, "235146",
+            "https://api.sandbox.dnsimple.com/v2/1010/domains/235146/email_forwards/41872")]
         [TestCase(1010, "example.com",
-            "https://api.sandbox.dnsimple.com/v2/1010/domains/example.com/email_forwards/17706")]
+            "https://api.sandbox.dnsimple.com/v2/1010/domains/example.com/email_forwards/41872")]
         public void GetEmailForward(long accountId, string domainIdentifier,
             string expectedUrl)
         {
             var client = new MockDnsimpleClient(GetEmailForwardFixture);
             var emailForward =
                 client.Domains.GetEmailForward(accountId, domainIdentifier,
-                    17706).Data;
+                    41872).Data;
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(17706, emailForward.Id);
-                Assert.AreEqual(228963, emailForward.DomainId);
+                Assert.AreEqual(41872, emailForward.Id);
+                Assert.AreEqual(235146, emailForward.DomainId);
 
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
