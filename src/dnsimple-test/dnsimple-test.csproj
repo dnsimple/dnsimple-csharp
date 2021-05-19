@@ -182,12 +182,6 @@
     <Content Include="fixtures\v2\api\getDomainDelegation\success.http">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="fixtures\v2\api\getDomainPremiumPrice\failure.http">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="fixtures\v2\api\getDomainPremiumPrice\success.http">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="fixtures\v2\api\getDomainPrices\success.http">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
