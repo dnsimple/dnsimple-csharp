@@ -32,24 +32,6 @@ namespace dnsimple.Services
         }
 
         /// <summary>
-        /// Retrieves the premium price for a domain.
-        /// </summary>
-        /// <param name="accountId">The account ID</param>
-        /// <param name="domainName">The domain name</param>
-        /// <param name="action">Optional action between "registration",
-        /// "renewal", and "transfer". If omitted, it defaults to
-        /// "registration".</param>
-        /// <returns>The domain premium price response</returns>
-        /// <see>https://developer.dnsimple.com/v2/registrar/#getDomainPremiumPrice</see>
-        public SimpleResponse<DomainPremiumPrice> GetDomainPremiumPrice(long accountId, string domainName, PremiumPriceCheckAction action)
-        {
-            var builder = BuildRequestForPath(DomainPremiumPricePath(accountId, domainName));
-            builder.AddParameter(new KeyValuePair<string, string>("action", action.ToString().ToLower()));
-
-            return new SimpleResponse<DomainPremiumPrice>(Execute(builder.Request));
-        }
-
-        /// <summary>
         /// Get prices for a domain.
         /// </summary>
         /// <param name="accountId">The account ID</param>
@@ -240,17 +222,6 @@ namespace dnsimple.Services
 
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-    }
-
-    /// <summary>
-    /// Represents the data sent to the API to check the premium price of
-    /// a domain.
-    /// </summary>
-    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public struct DomainPremiumPrice
-    {
-        public string PremiumPrice { get; set; }
-        public string Action { get; set; }
     }
 
     /// <summary>

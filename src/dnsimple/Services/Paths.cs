@@ -170,12 +170,6 @@ namespace dnsimple.Services
             return $"{RegistrarPath(accountId, domainName)}/prices";
         }
 
-        public static string DomainPremiumPricePath(long accountId,
-            string domainName)
-        {
-            return $"{RegistrarPath(accountId, domainName)}/premium_price";
-        }
-
         public static string RegistrarPath(long accountId, string domainName)
         {
             return $"{accountId}/registrar/domains/{domainName}";

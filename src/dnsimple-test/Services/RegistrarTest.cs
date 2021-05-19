@@ -16,9 +16,6 @@ namespace dnsimple_test.Services
         private const string GetDomainPremiumPriceFixture =
             "getDomainPremiumPrice/success.http";
 
-        private const string GetDomainPremiumPriceFailureFixture =
-            "getDomainPremiumPrice/failure.http";
-
         private const string GetDomainPricesFixture =
             "getDomainPrices/success.http";
 
@@ -74,54 +71,6 @@ namespace dnsimple_test.Services
                 Assert.AreEqual(domainName, check.Domain);
                 Assert.IsTrue(check.Available);
                 Assert.IsTrue(check.Premium);
-
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
-            });
-        }
-
-        [Test]
-        [TestCase(1010, "ruby.codes", PremiumPriceCheckAction.Registration,
-            "https://api.sandbox.dnsimple.com/v2/1010/registrar/domains/ruby.codes/premium_price?action=registration")]
-        public void GetDomainPremiumPrice(long accountId, string domainName,
-            PremiumPriceCheckAction action, string expectedUrl)
-        {
-            var client = new MockDnsimpleClient(GetDomainPremiumPriceFixture);
-            var premiumPrice = client.Registrar
-                .GetDomainPremiumPrice(accountId, domainName, action).Data;
-
-            Assert.Multiple(() =>
-            {
-                Assert.AreEqual("109.00", premiumPrice.PremiumPrice);
-                Assert.AreEqual(action.ToString().ToLower(),
-                    premiumPrice.Action);
-
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
-            });
-        }
-
-        [Test]
-        [TestCase(1010, "dnsimple.com", PremiumPriceCheckAction.Registration,
-            "https://api.sandbox.dnsimple.com/v2/1010/registrar/domains/dnsimple.com/premium_price?action=registration")]
-        public void GetDomainPremiumPriceFailure(long accountId,
-            string domainName, PremiumPriceCheckAction action,
-            string expectedUrl)
-        {
-            var client =
-                new MockDnsimpleClient(GetDomainPremiumPriceFailureFixture);
-            client.StatusCode(HttpStatusCode.BadRequest);
-
-            Assert.Multiple(() =>
-            {
-                Assert.Throws(
-                    Is.TypeOf<DnsimpleValidationException>().And.Message
-                        .EqualTo(
-                            "`example.com` is not a premium domain for registration"),
-                    delegate
-                    {
-                        client.Registrar
-                            .GetDomainPremiumPrice(accountId, domainName,
-                                action);
-                    });
 
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
