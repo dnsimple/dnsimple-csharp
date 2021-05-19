@@ -53,7 +53,7 @@ The following instructions uses $VERSION as a placeholder, where $VERSION is a M
     ```
 1. Create the NuGet Package
     ```shell
-    dotnet pack /p:PackageVersion=$VERSION
+    dotnet pack /p:PackageVersion=$VERSION -c Release
     ```
 1. Upload the package to [NuGet](https://www.nuget.org/) by using the web interface or pushing the package
     ```shell
