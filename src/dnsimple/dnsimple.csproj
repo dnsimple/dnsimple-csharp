@@ -9,7 +9,7 @@
     <PackageLicenseUrl>https://github.com/dnsimple/dnsimple-csharp/blob/main/LICENSE.txt</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dnsimple/dnsimple-csharp</PackageProjectUrl>
     <PackageReleaseNotes>
-    NEW: Added `Registrar.GetDomainPrices` to retrieve whether a domain is premium and the prices to register, transfer, and renew. (dnsimple/dnsimple-csharp#46)
+    CHANGED: Removed deprecated `Registrar.GetDomainPremiumPrices`
     </PackageReleaseNotes>
     <PackageTags>dnsimple dns api domains</PackageTags>
     <PackageVersion></PackageVersion>

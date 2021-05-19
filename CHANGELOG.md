@@ -4,6 +4,10 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
 ## main
 
+## 0.12.0
+
+- CHANGED: Removed deprecated `Registrar.GetDomainPremiumPrices`
+
 ## 0.11.0
 
 - NEW: Added `Registrar.GetDomainPrices` to retrieve whether a domain is premium and the prices to register, transfer, and renew. (dnsimple/dnsimple-csharp#46)
