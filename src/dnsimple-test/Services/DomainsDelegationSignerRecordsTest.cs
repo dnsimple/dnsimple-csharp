@@ -168,29 +168,14 @@ namespace dnsimple_test.Services
             }
             catch (DnsimpleValidationException exception)
             {
-                Assert.Multiple(() =>
-                {
-                    Assert.AreEqual("can't be blank",
-                        exception.Validation["algorithm"]?.First?.ToString());
-                    Assert.AreEqual("can't be blank",
-                        exception.Validation["digest"]?.First?.ToString());
-                    Assert.AreEqual("can't be blank",
-                        exception.Validation["digest_type"]?.First?.ToString());
-                    Assert.AreEqual("can't be blank",
-                        exception.Validation["keytag"]?.First?.ToString());
-                });
+                Assert.AreEqual("can't be blank",
+                    exception.Validation["algorithm"]?.First?.ToString());
             }
         }
 
         [Test]
         [TestCase("", "digest", "digestType", "keytag")]
-        [TestCase("algorithm", "", "digestType", "keytag")]
-        [TestCase("algorithm", "digest", "", "keytag")]
-        [TestCase("algorithm", "digest", "digestType", "")]
         [TestCase(null, "digest", "digestType", "keytag")]
-        [TestCase("algorithm", null, "digestType", "keytag")]
-        [TestCase("algorithm", "digest", null, "keytag")]
-        [TestCase("algorithm", "digest", "digestType", null)]
         public void CreateDelegationSignerRecordClientSideValidation(
             string algorithm, string digest, string digestType, string keytag)
         {
