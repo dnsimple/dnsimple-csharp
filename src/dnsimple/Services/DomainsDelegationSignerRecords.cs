@@ -92,10 +92,9 @@ namespace dnsimple.Services
         public string Algorithm { get; set; }
 
         public string Digest { get; set; }
-
         public string DigestType { get; set; }
-
         public string Keytag { get; set; }
+        public string PublicKey { get; set; }
 
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }

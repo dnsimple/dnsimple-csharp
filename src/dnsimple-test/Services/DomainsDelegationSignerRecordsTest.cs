@@ -212,6 +212,11 @@ namespace dnsimple_test.Services
             {
                 Assert.AreEqual(24, record.Id);
                 Assert.AreEqual(1010, record.DomainId);
+                Assert.AreEqual("8", record.Algorithm);
+                Assert.AreEqual("C1F6E04A5A61FBF65BF9DC8294C363CF11C89E802D926BDAB79C55D27BEFA94F", record.Digest);
+                Assert.AreEqual("2", record.DigestType);
+                Assert.AreEqual("44620", record.Keytag);
+                Assert.AreEqual(null, record.PublicKey);
 
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
