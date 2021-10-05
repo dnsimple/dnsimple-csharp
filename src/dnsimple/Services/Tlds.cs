@@ -98,5 +98,6 @@ namespace dnsimple.Services
         public bool? RegistrationEnabled { get; set; }
         public bool? RenewalEnabled { get; set; }
         public bool? TransferEnabled { get; set; }
+        public string DnssecInterfaceType { get; set; }
     }
 }

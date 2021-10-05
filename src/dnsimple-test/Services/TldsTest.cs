@@ -16,7 +16,7 @@ namespace dnsimple_test.Services
 
         private const string GetTldExtendedAttributesFixture =
             "getTldExtendedAttributes/success.http";
-        
+
         private const string GetTldExtendedAttributesNoAttributesFixture =
             "getTldExtendedAttributes/success-noattributes.http";
 
@@ -26,12 +26,12 @@ namespace dnsimple_test.Services
             var loader = new FixtureLoader("v2", ListTldsFixture);
             _response = new MockResponse(loader);
         }
-        
+
         [Test]
         public void TldsResponse()
         {
             var tlds = new PaginatedResponse<TldData>(_response).Data;
-            
+
             Assert.Multiple(() =>
             {
                 Assert.AreEqual("ac", tlds.First().Tld);
@@ -45,23 +45,23 @@ namespace dnsimple_test.Services
                 Assert.IsFalse(tlds.First().TransferEnabled);
             });
         }
-        
+
         [Test]
         [TestCase("https://api.sandbox.dnsimple.com/v2/tlds")]
         public void ListTlds(string expectedUrl)
         {
             var client = new MockDnsimpleClient(ListTldsFixture);
             var response = client.Tlds.ListTlds();
-            
+
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(2, response.Data.Count);
                 Assert.AreEqual(1, response.Pagination.CurrentPage);
-                
+
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
-        
+
         [Test]
         [TestCase("https://api.sandbox.dnsimple.com/v2/tlds?sort=tld:asc&per_page=42&page=7")]
         public void ListTldsSorted(string expectedUrl)
@@ -75,10 +75,10 @@ namespace dnsimple_test.Services
                     Page = 7
                 }
             }.SortByTld(Order.asc);
-            
+
             client.Tlds.ListTlds(options);
-            
-            
+
+
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
@@ -91,7 +91,7 @@ namespace dnsimple_test.Services
         {
             var client = new MockDnsimpleClient(GetTldFixture);
             var tld = client.Tlds.GetTld(tldName).Data;
-            
+
             Assert.Multiple(() =>
             {
                 Assert.AreEqual("com", tld.Tld);
@@ -103,7 +103,8 @@ namespace dnsimple_test.Services
                 Assert.IsTrue(tld.RegistrationEnabled);
                 Assert.IsTrue(tld.RenewalEnabled);
                 Assert.IsTrue(tld.TransferEnabled);
-                
+                Assert.AreEqual("ds", tld.DnssecInterfaceType);
+
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
@@ -116,20 +117,20 @@ namespace dnsimple_test.Services
             var attributes = client.Tlds.GetTldExtendedAttributes(tldName).Data;
             var attribute = attributes.First();
             var options = attribute.Options;
-            
+
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(4, attributes.Count);
-                
+
                 Assert.AreEqual("uk_legal_type", attribute.Name);
                 Assert.AreEqual("Legal type of registrant contact", attribute.Description);
                 Assert.IsFalse(attribute.Required);
-                
+
                 Assert.AreEqual(17, options.Count);
                 Assert.AreEqual("UK Individual", options.First().Title);
                 Assert.AreEqual("IND", options.First().Value);
                 Assert.AreEqual("UK Individual (our default value)", options.First().Description);
-                
+
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
