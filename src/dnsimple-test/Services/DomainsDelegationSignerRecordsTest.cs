@@ -168,29 +168,14 @@ namespace dnsimple_test.Services
             }
             catch (DnsimpleValidationException exception)
             {
-                Assert.Multiple(() =>
-                {
-                    Assert.AreEqual("can't be blank",
-                        exception.Validation["algorithm"]?.First?.ToString());
-                    Assert.AreEqual("can't be blank",
-                        exception.Validation["digest"]?.First?.ToString());
-                    Assert.AreEqual("can't be blank",
-                        exception.Validation["digest_type"]?.First?.ToString());
-                    Assert.AreEqual("can't be blank",
-                        exception.Validation["keytag"]?.First?.ToString());
-                });
+                Assert.AreEqual("can't be blank",
+                    exception.Validation["algorithm"]?.First?.ToString());
             }
         }
 
         [Test]
         [TestCase("", "digest", "digestType", "keytag")]
-        [TestCase("algorithm", "", "digestType", "keytag")]
-        [TestCase("algorithm", "digest", "", "keytag")]
-        [TestCase("algorithm", "digest", "digestType", "")]
         [TestCase(null, "digest", "digestType", "keytag")]
-        [TestCase("algorithm", null, "digestType", "keytag")]
-        [TestCase("algorithm", "digest", null, "keytag")]
-        [TestCase("algorithm", "digest", "digestType", null)]
         public void CreateDelegationSignerRecordClientSideValidation(
             string algorithm, string digest, string digestType, string keytag)
         {
@@ -227,6 +212,11 @@ namespace dnsimple_test.Services
             {
                 Assert.AreEqual(24, record.Id);
                 Assert.AreEqual(1010, record.DomainId);
+                Assert.AreEqual("8", record.Algorithm);
+                Assert.AreEqual("C1F6E04A5A61FBF65BF9DC8294C363CF11C89E802D926BDAB79C55D27BEFA94F", record.Digest);
+                Assert.AreEqual("2", record.DigestType);
+                Assert.AreEqual("44620", record.Keytag);
+                Assert.AreEqual(null, record.PublicKey);
 
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });

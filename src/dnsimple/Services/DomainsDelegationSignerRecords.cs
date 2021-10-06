@@ -42,12 +42,8 @@ namespace dnsimple.Services
             builder.Method(Method.POST);
             builder.AddJsonPayload(record);
 
-            if (record.Algorithm.Trim().Equals("") ||
-                record.Digest.Trim().Equals("") ||
-                record.DigestType.Trim().Equals("") ||
-                record.Keytag.Trim().Equals(""))
-                throw new ArgumentException(
-                    "Algorithm, Digest, DigestType and Keytag cannot be null or empty");
+            if (record.Algorithm.Trim().Equals(""))
+                throw new ArgumentException("Algorithm cannot be null or empty");
 
             return new SimpleResponse<DelegationSignerRecord>(Execute(builder.Request));
         }
@@ -62,7 +58,7 @@ namespace dnsimple.Services
         /// <see>https://developer.dnsimple.com/v2/domains/dnssec/#getDomainDelegationSignerRecord</see>
         public SimpleResponse<DelegationSignerRecord> GetDelegationSignerRecord(long accountId, string domainIdentifier, long recordId)
         {
-            var builder = BuildRequestForPath(DsRecordPath(accountId, domainIdentifier, recordId)); 
+            var builder = BuildRequestForPath(DsRecordPath(accountId, domainIdentifier, recordId));
 
             return new SimpleResponse<DelegationSignerRecord>(Execute(builder.Request));
         }
@@ -95,14 +91,10 @@ namespace dnsimple.Services
         [JsonProperty(Required = Required.Always)]
         public string Algorithm { get; set; }
 
-        [JsonProperty(Required = Required.Always)]
         public string Digest { get; set; }
-
-        [JsonProperty(Required = Required.Always)]
         public string DigestType { get; set; }
-
-        [JsonProperty(Required = Required.Always)]
         public string Keytag { get; set; }
+        public string PublicKey { get; set; }
 
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
