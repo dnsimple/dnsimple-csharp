@@ -29,7 +29,7 @@ PM> Install-Package DNSimple -Version <version>
 > dotnet add package DNSimple --version <version>
 ```
 
-### .NET CLI
+### NuGet
 
 Note: Replace `X.Y.Z` with the actual version.
 
