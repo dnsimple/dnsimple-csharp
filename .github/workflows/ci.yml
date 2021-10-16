@@ -38,10 +38,12 @@ jobs:
           - '5.0.x'
     steps:
       - uses: actions/checkout@v2
-      - name: Setup .NET
+      - name: Setup dotnet ${{ matrix.dotnet-version }}
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
+      - name: Display dotnet version
+        run: dotnet --version
       - name: Restore dependencies
         run: dotnet restore
       - name: Build
