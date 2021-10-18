@@ -51,12 +51,23 @@ jobs:
       - name: Test
         run: dotnet test --no-build --verbosity normal
 
+  release:
+    name: Release
+    if: startsWith(github.ref, 'refs/tags/')
+    needs:
+      - build
+    steps:
+      - name: Set VERSION variable from tag
+        run: echo "VERSION=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
+      - name: Pack
+        run: dotnet pack /p:PackageVersion=${VERSION}
 
   slack-workflow-status:
     if: always()
     name: Post Workflow Status To Slack
     needs:
       - build
+      - release
     runs-on: ubuntu-latest
     steps:
       - name: Slack Workflow Notification
