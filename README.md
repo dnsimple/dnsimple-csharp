@@ -23,20 +23,6 @@ Where `<version>` denotes the version of the client you want to install.
 PM> Install-Package DNSimple -Version <version>
 ```
 
-### .NET CLI
-
-```shell
-> dotnet add package DNSimple --version <version>
-```
-
-### .NET CLI
-
-Note: Replace `X.Y.Z` with the actual version.
-
-```xml
-<PackageReference Include="DNSimple" Version="X.Y.Z" />
-```
-
 ## Usage
 
 This library is a C# client you can use to interact with the [DNSimple API v2](https://developer.dnsimple.com/v2/). Here are some examples.
