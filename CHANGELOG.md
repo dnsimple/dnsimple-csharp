@@ -4,6 +4,8 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
 ## main
 
+## 0.13.0
+
 - CHANGED: Added support for DS record key-data interface (dnsimple/dnsimple-chsarp#58)
 
 ## 0.12.0
