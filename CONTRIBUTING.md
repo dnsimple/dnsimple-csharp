@@ -56,18 +56,6 @@ The following instructions uses $VERSION as a placeholder, where $VERSION is a M
     git push origin --tags
     ```
 
-1. Create the NuGet Package
-
-    ```shell
-    dotnet pack /p:PackageVersion=$VERSION -c Release
-    ```
-
-1. Upload the package to [NuGet](https://www.nuget.org/) by using the web interface or pushing the package
-
-    ```shell
-    dotnet nuget push ./src/dnsimple/bin/Release/DNSimple.$VERSION.nupkg -k <TOKEN> -s https://api.nuget.org/v3/index.json
-    ```
-
 ## Testing
 
 Submit unit tests for your changes. You can test your changes on your machine by [running the test suite](#testing).
