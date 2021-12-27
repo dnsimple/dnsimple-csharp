@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <Authors>DNSimple</Authors>
-    <Copyright>2021</Copyright>
+    <Copyright>2022</Copyright>
     <Description>The DNSimple API client for the .NET platform.</Description>
     <PackageId>DNSimple</PackageId>
     <PackageLicenseUrl>https://github.com/dnsimple/dnsimple-csharp/blob/main/LICENSE.txt</PackageLicenseUrl>
