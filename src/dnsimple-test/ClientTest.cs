@@ -111,15 +111,10 @@ namespace dnsimple_test
         [Test, Description("https://github.com/dnsimple/dnsimple-csharp/issues/21")]
         public void AvoidSettingUserAgentOnChangeBaseUrlTo()
         {
-            var restClientWrapper = new RestClientWrapper();
-            var client = new Client(restClientWrapper);
-
-            client.SetUserAgent("MySuperAPP");
-            var userAgent = restClientWrapper.RestClient.UserAgent;
-
-            client.ChangeBaseUrlTo("https://api.sandbox.dnsimple.com");
+            _client.SetUserAgent("MyBestAPP");
+            _client.ChangeBaseUrlTo("https://api.sandbox.dnsimple.com");
             
-            Assert.AreEqual(userAgent, restClientWrapper.RestClient.UserAgent);
+            Assert.AreEqual($"MyBestAPP {Client.DefaultUserAgent}", _client.UserAgent);
         }
     }
 }
