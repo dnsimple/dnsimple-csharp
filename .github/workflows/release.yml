@@ -8,12 +8,12 @@ on:
 
 jobs:
   publish:
-    name: Publish to NuGet
     runs-on: ubuntu-latest
     steps:
-      - uses: rohith/publish-nuget@v2
-        with:
-          PROJECT_FILE_PATH: src/dnsimple/dnsimple.csproj
-          PACKAGE_NAME: DNSimple
-          TAG_FORMAT: v*.*.*
-          NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
+      - uses: actions/checkout@v2
+      - name: Set env version
+        run: echo ::set-env name=RELEASE_VERSION::$(echo ${GITHUB_REF:11})
+      - name: build
+        run: dotnet pack /p:PackageVersion=$RELEASE_VERSION -c Release
+      - name: Publish to NuGet
+        run: dotnet nuget push ./src/dnsimple/bin/Release/DNSimple.$RELEASE_VERSION.nupkg -k ${{ secrett.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
