@@ -16,4 +16,4 @@ jobs:
       - name: build
         run: dotnet pack /p:PackageVersion=$RELEASE_VERSION -c Release
       - name: Publish to NuGet
-        run: dotnet nuget push ./src/dnsimple/bin/Release/DNSimple.$RELEASE_VERSION.nupkg -k ${{ secrett.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
+        run: dotnet nuget push ./src/dnsimple/bin/Release/DNSimple.$RELEASE_VERSION.nupkg -k ${{ secrett.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json # yamllint disable-line
