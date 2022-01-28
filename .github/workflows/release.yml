@@ -11,9 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Set env version
-        run: echo ::set-env name=RELEASE_VERSION::$(echo ${GITHUB_REF:11})
+      - uses: battila7/get-version-action@v2
       - name: build
-        run: dotnet pack /p:PackageVersion=$RELEASE_VERSION -c Release
+        run: dotnet pack /p:PackageVersion=${{ steps.get_version.outputs.version-without-v }} -c Release
       - name: Publish to NuGet
-        run: dotnet nuget push ./src/dnsimple/bin/Release/DNSimple.$RELEASE_VERSION.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json # yamllint disable-line
+        run: dotnet nuget push ./src/dnsimple/bin/Release/DNSimple.${{ steps.get_version.outputs.version-without-v }}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json # yamllint disable-line
