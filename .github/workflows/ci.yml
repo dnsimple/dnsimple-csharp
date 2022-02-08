@@ -60,4 +60,4 @@ jobs:
         uses: Gamesight/slack-workflow-status@master
         with:
           repo_token: ${{secrets.GITHUB_TOKEN}}
-          slack_webhook_url: ${{secrets.SLACK_WEBHOOK_URL_DEVELOPMENT}}
+          slack_webhook_url: ${{secrets.SLACK_WEBHOOK_URL_DEVELOPMENT}} # yamllint disable-line
