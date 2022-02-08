@@ -55,7 +55,6 @@ jobs:
     name: Post Workflow Status To Slack
     needs:
       - build
-      - release
     runs-on: ubuntu-latest
     steps:
       - name: Slack Workflow Notification
