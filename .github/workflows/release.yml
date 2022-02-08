@@ -13,6 +13,6 @@ jobs:
       - uses: actions/checkout@v2
       - uses: battila7/get-version-action@v2
       - name: build
-        run: dotnet pack /p:PackageVersion=${{ steps.get_version.outputs.version-without-v }} -c Release
+        run: dotnet pack /p:PackageVersion=${{ steps.get_version.outputs.version-without-v }} -c Release # yamllint disable-line
       - name: Publish to NuGet
         run: dotnet nuget push ./src/dnsimple/bin/Release/DNSimple.${{ steps.get_version.outputs.version-without-v }}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json # yamllint disable-line
