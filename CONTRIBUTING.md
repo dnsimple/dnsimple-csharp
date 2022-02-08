@@ -40,6 +40,7 @@ The following instructions uses $VERSION as a placeholder, where $VERSION is a M
 
 1. Run the test suite and ensure all the tests pass.
 1. Update `PackageReleaseNotes` in `dnsimple.csproj` (located in `./src/dnsimple`).
+1. Update `PackageVersion` in `dnsimple.csproj` (located in `./src/dnsimple`) with the current version.
 1. Finalize the `## main` section in `CHANGELOG.md` assigning the version.
 1. Commit and push the changes
 
