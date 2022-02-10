@@ -14,6 +14,6 @@ jobs:
       - name: Set VERSION variable from tag
         run: echo "VERSION=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
       - name: Pack
-        run: dotnet pack /p:PackageVersion=${{ steps.get_version.outputs.version-without-v }} -c Release # yamllint disable-line
+        run: dotnet pack -c Release -o out
       - name: Publish to NuGet
-        run: dotnet nuget push ./src/dnsimple/bin/Release/DNSimple.${{ steps.get_version.outputs.version-without-v }}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json # yamllint disable-line
+        run: dotnet nuget push ./out/*.nupkg -k ${{ secrets.NUGET_API_KEY }} --skip-duplicate --no-symbols true 
