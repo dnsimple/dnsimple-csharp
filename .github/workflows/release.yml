@@ -16,4 +16,4 @@ jobs:
       - name: Pack
         run: dotnet pack -c Release -o out
       - name: Publish to NuGet
-        run: dotnet nuget push ./out/*.nupkg -k ${{ secrets.NUGET_API_KEY }} --skip-duplicate --no-symbols true 
+        run: dotnet nuget push ./out/*.nupkg -k ${{ secrets.NUGET_API_KEY }} --skip-duplicate --no-symbols true # yamllint disable
