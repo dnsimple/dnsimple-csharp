@@ -9,10 +9,10 @@
     <PackageLicenseUrl>https://github.com/dnsimple/dnsimple-csharp/blob/main/LICENSE.txt</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dnsimple/dnsimple-csharp</PackageProjectUrl>
     <PackageReleaseNotes>
-      CHANGED: Bumped up dependency versions
+      FIXED: `Registrar.ChangeDomainDelegation` not serialising delegation list properly
     </PackageReleaseNotes>
     <PackageTags>dnsimple dns api domains</PackageTags>
-    <PackageVersion>0.13.4</PackageVersion>
+    <PackageVersion>0.13.5</PackageVersion>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
