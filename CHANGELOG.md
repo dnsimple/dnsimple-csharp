@@ -4,6 +4,8 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
 ## main
 
+- FIXED: `Registrar.ChangeDomainDelegation` not serialising delegation list properly
+
 ## 0.13.1
 
 - CHANGED: Bumped up dependency versions.
