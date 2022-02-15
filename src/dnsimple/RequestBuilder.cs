@@ -74,6 +74,13 @@ namespace dnsimple
         /// body of the request.</param>
         public void AddJsonPayload(object payload)
             => Request.AddJsonBody(JsonConvert.SerializeObject(payload));
+        
+        /// <summary>
+        /// Adds a JSON payload to the body of the request.
+        /// </summary>
+        /// <param name="payload">The object to be send in the body of the request.</param>
+        public void AddJsonPayloadRaw(object payload)
+            => Request.AddJsonBody(payload);       
 
         /// <summary>
         /// Sets the HTTP method to be used.

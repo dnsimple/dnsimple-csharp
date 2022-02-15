@@ -38,7 +38,7 @@ namespace dnsimple.Services
         {
             var builder = BuildRequestForPath(DelegationPath(accountId, domain));
             builder.Method(Method.PUT);
-            builder.AddJsonPayload(delegation);
+            builder.AddJsonPayloadRaw(delegation);
 
             return new DelegationResponse(Execute(builder.Request));
         }
@@ -55,7 +55,7 @@ namespace dnsimple.Services
         {
             var builder = BuildRequestForPath(VanityDelegationPath(accountId, domain));
             builder.Method(Method.PUT);
-            builder.AddJsonPayload(delegation);
+            builder.AddJsonPayloadRaw(delegation);
 
             return new ListResponse<VanityDelegation>(Execute(builder.Request));
         }
