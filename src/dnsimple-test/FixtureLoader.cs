@@ -67,10 +67,10 @@ namespace dnsimple_test
         public List<Parameter> ExtractHeaders()
         {
             var headers = new List<Parameter>();
-            var lines = GetLines();
-            foreach (var line in lines)
+
+            foreach (var line in GetLines())
             {
-                if(line.IsNullOrEmpty())
+                if(String.IsNullOrEmpty(line))
                     break;
                 if (line.Contains(':'))
                 {
@@ -81,6 +81,5 @@ namespace dnsimple_test
 
             return headers;
         }
-        
     }
 }
