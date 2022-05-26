@@ -75,7 +75,7 @@ namespace dnsimple.Services
         /// <see>https://developer.dnsimple.com/v2/certificates/#getCertificatePrivateKey</see>
         public SimpleResponse<CertificateBundle> GetCertificatePrivateKey(long accountId, string domainIdentifier, long certificateId)
         {
-            var builder = BuildRequestForPath(CertificatePrivateKeyPath(accountId, domainIdentifier, certificateId)); 
+            var builder = BuildRequestForPath(CertificatePrivateKeyPath(accountId, domainIdentifier, certificateId));
 
             return new SimpleResponse<CertificateBundle>(Execute(builder.Request));
         }
@@ -187,6 +187,7 @@ namespace dnsimple.Services
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public struct LetsencryptCertificateAttributes
     {
+        [ObsoleteAttribute("ContactId is deprecated and its value is ignored and will be removed in the next major version.")]
         public long? ContactId { get; set; }
         public bool AutoRenew { get; set; }
         public string Name { get; set; }
@@ -202,6 +203,7 @@ namespace dnsimple.Services
     {
         public long Id { get; set; }
         public long DomainId { get; set; }
+        [ObsoleteAttribute("ContactId is deprecated and its value is ignored and will be removed in the next major version.")]
         public long ContactId { get; set; }
         public string CommonName { get; set; }
         public long Years { get; set; }
@@ -225,13 +227,13 @@ namespace dnsimple.Services
     {
         [JsonProperty("server")]
         public string ServerCertificate { get; set; }
-        
+
         [JsonProperty("root")]
         public string RootCertificate { get; set; }
-        
+
         [JsonProperty("chain")]
         public List<string> IntermediateCertificates { get; set; }
-        
+
         public string PrivateKey { get; set; }
     }
 }
