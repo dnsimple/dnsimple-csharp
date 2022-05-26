@@ -50,7 +50,7 @@ namespace dnsimple_test.Services
         {
             var certificate =
                 new PaginatedResponse<Certificate>(_response).Data;
-        
+
             var expectedCSR =
                 "-----BEGIN CERTIFICATE REQUEST-----\n" +
                 "MIICYDCCAUgCAQAwGzEZMBcGA1UEAwwQd3d3Mi5kbnNpbXBsZS51czCCASIwDQYJ\n" +
@@ -73,7 +73,6 @@ namespace dnsimple_test.Services
                 Assert.AreEqual(2, certificate.Count);
                 Assert.AreEqual(101973, certificate.First().Id);
                 Assert.AreEqual(14279, certificate.First().DomainId);
-                Assert.AreEqual(11435, certificate.First().ContactId);
                 Assert.AreEqual("www2.dnsimple.us", certificate.First().CommonName);
                 Assert.AreEqual(1, certificate.First().Years);
                 Assert.AreEqual(expectedCSR, certificate.First().Csr);
@@ -171,7 +170,6 @@ namespace dnsimple_test.Services
             {
                 Assert.AreEqual(101967, certificate.Id);
                 Assert.AreEqual(289333, certificate.DomainId);
-                Assert.AreEqual(2511, certificate.ContactId);
                 Assert.AreEqual("www.bingo.pizza", certificate.CommonName);
                 Assert.AreEqual(1, certificate.Years);
                 Assert.AreEqual(expectedCertificate, certificate.Csr);
@@ -182,7 +180,7 @@ namespace dnsimple_test.Services
                 Assert.AreEqual(Convert.ToDateTime("2020-06-18T18:54:17Z"), certificate.CreatedAt);
                 Assert.AreEqual(Convert.ToDateTime("2020-06-18T19:10:14Z"), certificate.UpdatedAt);
                 Assert.AreEqual(Convert.ToDateTime("2020-09-16T18:10:13Z"), certificate.ExpiresAt);
-                
+
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
@@ -330,7 +328,6 @@ namespace dnsimple_test.Services
                 new MockDnsimpleClient(PurchaseLetsEncryptCertificateFixture);
             var certificateAttributes = new LetsencryptCertificateAttributes
             {
-                ContactId = 11,
                 AutoRenew = false,
                 Name = "SuperCertificate",
                 AlternateNames = new List<string>{"docs.bingo.pizza", "status.bingo.pizza"}
@@ -370,7 +367,6 @@ namespace dnsimple_test.Services
             {
                 Assert.AreEqual(101967, certificate.Id);
                 Assert.AreEqual(289333, certificate.DomainId);
-                Assert.AreEqual(2511, certificate.ContactId);
                 Assert.AreEqual("www.bingo.pizza", certificate.CommonName);
                 Assert.AreEqual(1, certificate.Years);
                 Assert.IsNull(certificate.Csr);
@@ -436,7 +432,6 @@ namespace dnsimple_test.Services
             {
                 Assert.AreEqual(101972, renewalIssued.Id);
                 Assert.AreEqual(289333, renewalIssued.DomainId);
-                Assert.AreEqual(2511, renewalIssued.ContactId);
                 Assert.AreEqual("www.bingo.pizza", renewalIssued.CommonName);
                 Assert.AreEqual(1, renewalIssued.Years);
                 Assert.IsNull(renewalIssued.Csr);
