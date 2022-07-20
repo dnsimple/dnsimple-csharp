@@ -1,13 +1,18 @@
----
-name: ci
+name: CI
 
 on:
   push:
+    branches: [ main ]
   pull_request:
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   markdownlint-cli:
+    name: Lint markdown
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -19,6 +24,7 @@ jobs:
           config_file: ".markdownlint.yaml"
 
   yamllint:
+    name: Lint YAML
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -26,7 +32,7 @@ jobs:
       - name: Run YAML Lint
         uses: actionshub/yamllint@main
 
-  build:
+  test:
     needs: [markdownlint-cli, yamllint]
     runs-on: ubuntu-latest
     name: .NET ${{ matrix.dotnet-version }}
@@ -53,7 +59,7 @@ jobs:
     if: always()
     name: Post Workflow Status To Slack
     needs:
-      - build
+      - test
     runs-on: ubuntu-latest
     steps:
       - name: Slack Workflow Notification
