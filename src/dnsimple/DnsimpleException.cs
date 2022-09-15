@@ -49,13 +49,9 @@ namespace dnsimple
     public class DnsimpleValidationException : DnsimpleException
     {
         public JObject Validation { get; }
-        public JObject AttributeErrors { get; }
 
-        public DnsimpleValidationException(JToken error) : base(error["message"]?.ToString())
-        {
-            var errors = (JObject)error["errors"];
-            Validation = errors;
-            AttributeErrors = errors;
-        }
+        public DnsimpleValidationException(JToken error) : base(error["message"]?.ToString()) => Validation = (JObject)error["errors"];
+
+        public JObject GetAttributeErrors() => Validation;
     }
 }

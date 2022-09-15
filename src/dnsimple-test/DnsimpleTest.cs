@@ -42,9 +42,9 @@ namespace dnsimple_test
         }
         
         [Test]
-        public void HasAnAliasForAttributeErrors()
+        public void HasAGetterForAttributeErrors()
         {
-            Assert.AreEqual(_exception.Validation, _exception.AttributeErrors);
+            Assert.AreEqual(_exception.Validation, _exception.GetAttributeErrors());
         }
     }
 }
