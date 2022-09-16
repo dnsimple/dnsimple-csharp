@@ -42,7 +42,7 @@ namespace dnsimple
         {
         }
     }
-    
+
     /// <summary>
     /// <c>Exception</c> thrown when there are validation errors.
     /// </summary>
@@ -50,7 +50,8 @@ namespace dnsimple
     {
         public JObject Validation { get; }
 
-        public DnsimpleValidationException(JToken error) : base(error["message"]?.ToString()) =>
-            Validation = (JObject) error["errors"];
+        public DnsimpleValidationException(JToken error) : base(error["message"]?.ToString()) => Validation = (JObject)error["errors"];
+
+        public JObject GetAttributeErrors() => Validation;
     }
 }

@@ -40,5 +40,11 @@ namespace dnsimple_test
             Assert.AreEqual(expectation,
                 _exception.Validation[field]?.First?.ToString());
         }
+        
+        [Test]
+        public void HasAGetterForAttributeErrors()
+        {
+            Assert.AreEqual(_exception.Validation, _exception.GetAttributeErrors());
+        }
     }
 }
