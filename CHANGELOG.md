@@ -4,6 +4,8 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
 ## main
 
+## 0.13.6
+
 - CHANGED: Deprecate Certificate's `contact_id` (dnsimple/dnsimple-csharp#85)
 - CHANGED: Add getter for attribute errors in `DnsimpleValidationException` (dnsimple/dnsimple-csharp#96)
 
