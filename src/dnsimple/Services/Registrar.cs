@@ -64,6 +64,22 @@ namespace dnsimple.Services
         }
 
         /// <summary>
+        /// Retrieve the details of an existing domain registration.
+        /// </summary>
+        /// <param name="accountId">The account ID</param>
+        /// <param name="domainName">The domain name</param>
+        /// <param name="domainRegistrationId">The domain registration Id</param>
+        /// <returns>The domain registration</returns>
+        /// <see cref="DomainRegistration"/>
+        /// <see>https://developer.dnsimple.com/v2/registrar/#getDomainRegistration</see>
+        public SimpleResponse<DomainRegistration> GetDomainRegistration(long accountId, string domainName, long domainRegistrationId)
+        {
+            var builder = BuildRequestForPath(DomainRegistrationPath(accountId, domainName, domainRegistrationId));
+
+            return new SimpleResponse<DomainRegistration>(Execute(builder.Request));
+        }
+
+        /// <summary>
         /// Transfer a domain name from another registrar.
         /// </summary>
         /// <param name="accountId">The account ID</param>
