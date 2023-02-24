@@ -56,7 +56,7 @@ namespace dnsimple.Services
         /// <see>https://developer.dnsimple.com/v2/registrar/#registerDomain</see>
         public SimpleResponse<DomainRegistration> RegisterDomain(long accountId, string domainName, DomainRegistrationInput domain)
         {
-            var builder = BuildRequestForPath(DomainRegistrationPath(accountId, domainName));
+            var builder = BuildRequestForPath(RegisterDomainPath(accountId, domainName));
             builder.Method(Method.POST);
             builder.AddJsonPayload(domain);
 

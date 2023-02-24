@@ -153,8 +153,7 @@ namespace dnsimple.Services
             return $"{RegistrarPath(accountId, domainName)}/transfers/{domainTransferId}";
         }
 
-        public static string DomainRegistrationPath(long accountId,
-            string domainName)
+        public static string RegisterDomainPath(long accountId, string domainName)
         {
             return $"{RegistrarPath(accountId, domainName)}/registrations";
         }
