@@ -138,7 +138,7 @@ namespace dnsimple.Services
                 $"{RegistrarPath(accountId, domainName)}/authorize_transfer_out";
         }
 
-        public static string DomainRenewalPath(long accountId, string domainName)
+        public static string RenewDomainPath(long accountId, string domainName)
         {
             return $"{RegistrarPath(accountId, domainName)}/renewals";
         }

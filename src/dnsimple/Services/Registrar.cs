@@ -127,7 +127,7 @@ namespace dnsimple.Services
         /// <see>https://developer.dnsimple.com/v2/registrar/#renewDomain</see>
         public SimpleResponse<DomainRenewal> RenewDomain(long accountId, string domainName, DomainRenewalInput input)
         {
-            var builder = BuildRequestForPath(DomainRenewalPath(accountId, domainName));
+            var builder = BuildRequestForPath(RenewDomainPath(accountId, domainName));
             builder.Method(Method.POST);
             builder.AddJsonPayload(input);
 
