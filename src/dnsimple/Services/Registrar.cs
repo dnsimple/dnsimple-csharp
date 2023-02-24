@@ -151,6 +151,22 @@ namespace dnsimple.Services
         }
 
         /// <summary>
+        /// Retrieves the details of an existing domain renewal.
+        /// </summary>
+        /// <param name="accountId">The account ID</param>
+        /// <param name="domainName">The domain name</param>
+        /// <param name="domainRenewalId">The domain renewal Id</param>
+        /// <returns>The domain renewal</returns>
+        /// <see cref="DomainRenewal"/>
+        /// <see>https://developer.dnsimple.com/v2/registrar/#getDomainRenewal</see>
+        public SimpleResponse<DomainRenewal> GetDomainRenewal(long accountId, string domainName, long domainRenewalId)
+        {
+            var builder = BuildRequestForPath(DomainRenewalPath(accountId, domainName, domainRenewalId));
+
+            return new SimpleResponse<DomainRenewal>(Execute(builder.Request));
+        }
+
+        /// <summary>
         /// Prepares a domain for transferring out.
         /// </summary>
         /// <param name="accountId">The account ID</param>
