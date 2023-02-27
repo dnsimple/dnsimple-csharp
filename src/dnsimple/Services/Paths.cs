@@ -138,9 +138,14 @@ namespace dnsimple.Services
                 $"{RegistrarPath(accountId, domainName)}/authorize_transfer_out";
         }
 
-        public static string DomainRenewalPath(long accountId, string domainName)
+        public static string RenewDomainPath(long accountId, string domainName)
         {
             return $"{RegistrarPath(accountId, domainName)}/renewals";
+        }
+
+        public static string DomainRenewalPath(long accountId, string domainName, long domainRenewalId)
+        {
+            return $"{RegistrarPath(accountId, domainName)}/renewals/{domainRenewalId}";
         }
 
         public static string TransferDomainPath(long accountId, string domainName)
@@ -153,8 +158,12 @@ namespace dnsimple.Services
             return $"{RegistrarPath(accountId, domainName)}/transfers/{domainTransferId}";
         }
 
-        public static string DomainRegistrationPath(long accountId,
-            string domainName)
+        public static string DomainRegistrationPath(long accountId, string domainName, long domainRegistrationId)
+        {
+            return $"{RegistrarPath(accountId, domainName)}/registrations/{domainRegistrationId}";
+        }
+
+        public static string RegisterDomainPath(long accountId, string domainName)
         {
             return $"{RegistrarPath(accountId, domainName)}/registrations";
         }

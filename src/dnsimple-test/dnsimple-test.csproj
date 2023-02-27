@@ -353,6 +353,9 @@
     <Content Include="fixtures\v2\api\registerDomain\success.http">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="fixtures\v2\api\getDomainRegistration\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="fixtures\v2\api\rejectPush\success.http">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -363,6 +366,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="fixtures\v2\api\renewDomain\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\getDomainRenewal\success.http">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="fixtures\v2\api\renewWhoisPrivacy\success.http">

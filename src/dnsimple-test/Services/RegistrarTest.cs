@@ -25,6 +25,9 @@ namespace dnsimple_test.Services
         private const string RegisterDomainFixture =
             "registerDomain/success.http";
 
+        private const string GetDomainRegistrationFixture =
+            "getDomainRegistration/success.http";
+
         private const string TransferDomainFixture =
             "transferDomain/success.http";
 
@@ -41,6 +44,8 @@ namespace dnsimple_test.Services
             "cancelDomainTransfer/success.http";
 
         private const string RenewDomainFixture = "renewDomain/success.http";
+
+        private const string GetDomainRenewalFixture = "getDomainRenewal/success.http";
 
         private const string RenewDomainTooEarlyFixture =
             "renewDomain/error-tooearly.http";
@@ -154,6 +159,32 @@ namespace dnsimple_test.Services
                 Assert.IsFalse(registeredDomain.WhoisPrivacy);
                 Assert.AreEqual(CreatedAt, registeredDomain.CreatedAt);
                 Assert.AreEqual(UpdatedAt, registeredDomain.UpdatedAt);
+
+                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+            });
+        }
+
+        [Test]
+        [TestCase(1010, "ruby.codes", 361,
+            "https://api.sandbox.dnsimple.com/v2/1010/registrar/domains/ruby.codes/registrations/361")]
+        public void GetDomainRegistration(long accountId, string domainName,
+            long domainRegistrationId, string expectedUrl)
+        {
+            var client = new MockDnsimpleClient(GetDomainRegistrationFixture);
+            var domain = client.Registrar.GetDomainRegistration(accountId,
+                domainName, domainRegistrationId).Data;
+
+            Assert.Multiple(() =>
+            {
+                Assert.AreEqual(361, domain.Id);
+                Assert.AreEqual(104040, domain.DomainId);
+                Assert.AreEqual(2715, domain.RegistrantId);
+                Assert.AreEqual(1, domain.Period);
+                Assert.AreEqual("registering", domain.State);
+                Assert.IsFalse(domain.AutoRenew);
+                Assert.IsFalse(domain.WhoisPrivacy);
+                Assert.AreEqual(CreatedAt, domain.CreatedAt);
+                Assert.AreEqual(UpdatedAt, domain.UpdatedAt);
 
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
@@ -406,6 +437,28 @@ namespace dnsimple_test.Services
             {
                 Assert.AreEqual("new", domain.State);
                 Assert.AreEqual(1, domain.Period);
+
+                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+            });
+        }
+
+        [Test]
+        [TestCase(1010, "example.com", 1,
+            "https://api.sandbox.dnsimple.com/v2/1010/registrar/domains/example.com/renewals/1")]
+        public void GetDomainRenewal(long accountId, string domainName, long domainRenewalId,
+            string expectedUrl)
+        {
+            var client = new MockDnsimpleClient(GetDomainRenewalFixture);
+            var domainRenewal = client.Registrar.GetDomainRenewal(accountId, domainName, domainRenewalId).Data;
+
+            Assert.Multiple(() =>
+            {
+                Assert.AreEqual(1, domainRenewal.Id);
+                Assert.AreEqual(999, domainRenewal.DomainId);
+                Assert.AreEqual(1, domainRenewal.Period);
+                Assert.AreEqual("renewed", domainRenewal.State);
+                Assert.AreEqual(Convert.ToDateTime("2016-12-09T19:46:45Z"), domainRenewal.CreatedAt);
+                Assert.AreEqual(Convert.ToDateTime("2016-12-12T19:46:45Z"), domainRenewal.UpdatedAt);
 
                 Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
