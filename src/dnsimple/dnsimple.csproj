@@ -9,11 +9,11 @@
     <PackageLicenseUrl>https://github.com/dnsimple/dnsimple-csharp/blob/main/LICENSE.txt</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dnsimple/dnsimple-csharp</PackageProjectUrl>
     <PackageReleaseNotes>
-      CHANGED: Deprecate Certificate's `contact_id` (dnsimple/dnsimple-csharp#85)
-      CHANGED: Add getter for attribute errors in `DnsimpleValidationException` (dnsimple/dnsimple-csharp#96)
+      NEW: Adds getDomainRenewal and getDomainRegistration API endpoints (dnsimple/dnsimple-csharp#113)
+      NEW: Support for issuing RSA certificates via the `signing_algorithm` param (dnsimple/dnsimple-developer#459)
     </PackageReleaseNotes>
     <PackageTags>dnsimple dns api domains</PackageTags>
-    <PackageVersion>0.13.6</PackageVersion>
+    <PackageVersion>0.14.0</PackageVersion>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 

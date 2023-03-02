@@ -4,6 +4,11 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
 ## main
 
+## 0.14.0
+
+- NEW: Adds getDomainRenewal and getDomainRegistration API endpoints (dnsimple/dnsimple-csharp#113)
+- NEW: Support for issuing RSA certificates via the `signing_algorithm` param (dnsimple/dnsimple-developer#459)
+
 ## 0.13.6
 
 - CHANGED: Deprecate Certificate's `contact_id` (dnsimple/dnsimple-csharp#85)
