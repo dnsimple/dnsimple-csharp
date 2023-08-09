@@ -117,8 +117,8 @@ namespace dnsimple_test.Services
             var client = new MockDnsimpleClient(CreateEmailForwardFixture);
             var record = new EmailForward
             {
-                From = "example@dnsimple.xyz",
-                To = "example@example.com"
+                AliasName = "example@dnsimple.xyz",
+                DestinationEmail = "example@example.com"
             };
 
             var created =
@@ -129,6 +129,10 @@ namespace dnsimple_test.Services
             {
                 Assert.AreEqual(41872, created.Data.Id);
                 Assert.AreEqual(235146, created.Data.DomainId);
+                Assert.AreEqual(record.AliasName, created.Data.AliasName);
+                Assert.AreEqual(record.DestinationEmail, created.Data.DestinationEmail);
+
+                // Deprecated
                 Assert.AreEqual(record.From, created.Data.From);
                 Assert.AreEqual(record.To, created.Data.To);
 
@@ -146,8 +150,8 @@ namespace dnsimple_test.Services
             var client = new MockDnsimpleClient(CreateEmailForwardFixture);
             var record = new EmailForward
             {
-                From = from,
-                To = to
+                AliasName = from,
+                DestinationEmail = to
             };
 
             Assert.Throws(Is.InstanceOf<Exception>(),
