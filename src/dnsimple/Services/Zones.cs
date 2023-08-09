@@ -2,6 +2,7 @@ using System;
 using dnsimple.Services.ListOptions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using RestSharp;
 using static dnsimple.Services.Paths;
 
 namespace dnsimple.Services
@@ -45,7 +46,7 @@ namespace dnsimple.Services
         public SimpleResponse<Zone> GetZone(long accountId, string zoneName)
         {
             var builder = BuildRequestForPath(ZonePath(accountId, zoneName));
-                
+
             return new SimpleResponse<Zone>(Execute(builder.Request));
         }
 
@@ -76,6 +77,36 @@ namespace dnsimple.Services
             var builder = BuildRequestForPath(ZoneDistributionPath(accountId, zoneName));
 
             return new SimpleResponse<ZoneDistribution>(Execute(builder.Request));
+        }
+
+        /// <summary>
+        /// Activate DNS resolution for the zone in the account.
+        /// </summary>
+        /// <param name="accountId">The account ID</param>
+        /// <param name="zoneName">The zone name</param>
+        /// <returns>A <c>ZoneResponse</c> containing the zone.</returns>
+        /// <see>https://developer.dnsimple.com/v2/zones/#activateZoneService</see>
+        public SimpleResponse<Zone> ActivateDns(long accountId, string zoneName)
+        {
+            var builder = BuildRequestForPath(ZoneResolutionPath(accountId, zoneName));
+            builder.Method(Method.PUT);
+
+            return new SimpleResponse<Zone>(Execute(builder.Request));
+        }
+
+        /// <summary>
+        /// Deactivate DNS resolution for the zone in the account.
+        /// </summary>
+        /// <param name="accountId">The account ID</param>
+        /// <param name="zoneName">The zone name</param>
+        /// <returns>A <c>ZoneResponse</c> containing the zone.</returns>
+        /// <see>https://developer.dnsimple.com/v2/zones/#deactivateZoneService</see>
+        public SimpleResponse<Zone> DeactivateDns(long accountId, string zoneName)
+        {
+            var builder = BuildRequestForPath(ZoneResolutionPath(accountId, zoneName));
+            builder.Method(Method.DELETE);
+
+            return new SimpleResponse<Zone>(Execute(builder.Request));
         }
     }
 

@@ -328,6 +328,11 @@ namespace dnsimple.Services
             return $"{ZonePath(accountId, zoneName)}/file";
         }
 
+        public static string ZoneResolutionPath(long accountId, string zoneName)
+        {
+            return $"{ZonePath(accountId, zoneName)}/activation";
+        }
+
         public static string ZonePath(long accountId, string zoneName)
         {
             return $"{ZonesPath(accountId)}/{zoneName}";
