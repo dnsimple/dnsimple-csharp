@@ -4,6 +4,18 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
 ## main
 
+## 0.15.0 (Unreleased)
+
+FEATURES:
+
+- NEW: Added `Dnsimple.Zones.ActivateDns` to activate DNS services (resolution) for a zone. (dnsimple/dnsimple-csharp#128)
+- NEW: Added `Dnsimple.Zones.DeactivateDns` to deactivate DNS services (resolution) for a zone. (dnsimple/dnsimple-csharp#128)
+
+IMPROVEMENTS:
+
+- `EmailForward` `From` is deprecated. Please use `AliasName` instead for creating email forwards. (dnsimple/dnsimple-csharp#128)
+- `EmailForward` `To` is deprecated. Please use `DestinationEmail` instead for creating email forwards. (dnsimple/dnsimple-csharp#128)
+
 ## 0.14.0
 
 - NEW: Adds getDomainRenewal and getDomainRegistration API endpoints (dnsimple/dnsimple-csharp#113)
