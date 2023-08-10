@@ -45,9 +45,9 @@ namespace dnsimple.Services
             builder.Method(Method.POST);
             builder.AddJsonPayload(record);
 
-            if(record.To.Trim().Equals("") || record.From.Trim().Equals(""))
-                throw new ArgumentException("From or To cannot be blank");
-            
+            if (record.To.Trim().Equals("") || record.From.Trim().Equals(""))
+                throw new ArgumentException("AliasName or DestinationEmail cannot be blank");
+
             return new SimpleResponse<EmailForward>(Execute(builder.Request));
         }
 
@@ -61,8 +61,8 @@ namespace dnsimple.Services
         /// <see>https://developer.dnsimple.com/v2/domains/email-forwards/#getEmailForward</see>
         public SimpleResponse<EmailForward> GetEmailForward(long accountId, string domainIdentifier, int emailForwardId)
         {
-            var builder = BuildRequestForPath(EmailForwardPath(accountId, domainIdentifier, emailForwardId)); 
-            
+            var builder = BuildRequestForPath(EmailForwardPath(accountId, domainIdentifier, emailForwardId));
+
             return new SimpleResponse<EmailForward>(Execute(builder.Request));
         }
 
@@ -91,11 +91,39 @@ namespace dnsimple.Services
         public long Id { get; set; }
         public long DomainId { get; set; }
 
-        [JsonProperty(Required = Required.Always)]
-        public string From { get; set; }
+        public string AliasName { get; set; }
 
-        [JsonProperty(Required = Required.Always)]
-        public string To { get; set; }
+        public string From
+        {
+            get
+            {
+                // If To is accessed, return the value from AliasName
+                return AliasName;
+            }
+            [Obsolete("From is deprecated. Please use AliasName instead.")]
+            set
+            {
+                // If To is set, set the value to AliasName
+                AliasName = value;
+            }
+        }
+
+        public string DestinationEmail { get; set; }
+
+        public string To
+        {
+            get
+            {
+                // If From is accessed, return the value from DestinationEmail
+                return DestinationEmail;
+            }
+            [Obsolete("To is deprecated. Please use DestinationEmail instead.")]
+            set
+            {
+                // If From is set, set the value to DestinationEmail
+                DestinationEmail = value;
+            }
+        }
 
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }

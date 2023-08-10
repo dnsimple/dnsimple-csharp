@@ -7,6 +7,7 @@ using dnsimple;
 using dnsimple.Services;
 using dnsimple.Services.ListOptions;
 using NUnit.Framework;
+using RestSharp;
 using Pagination = dnsimple.Services.ListOptions.Pagination;
 
 namespace dnsimple_test.Services
@@ -20,6 +21,8 @@ namespace dnsimple_test.Services
         private const string GetZoneFixture = "getZone/success.http";
         private const string GetZoneNotFoundFixture = "notfound-zone.http";
         private const string GetZoneFileFixture = "getZoneFile/success.http";
+        private const string ActivateDNSFixture = "activateZoneService/success.http";
+        private const string DeactivateDNSFixture = "deactivateZoneService/success.http";
         private const string CheckZoneDistributionSuccessFixture =
             "checkZoneDistribution/success.http";
         private const string CheckZoneDistributionErrorFixture =
@@ -89,13 +92,13 @@ namespace dnsimple_test.Services
             var client = new MockDnsimpleClient(ListZonesFixture);
 
             var options = new ZonesListOptions
+            {
+                Pagination = new Pagination
                 {
-                    Pagination = new Pagination
-                    {
-                        PerPage = 42,
-                        Page = 7
-                    }
-                }.FilterByName("example.com")
+                    PerPage = 42,
+                    Page = 7
+                }
+            }.FilterByName("example.com")
                 .SortById(Order.asc)
                 .SortByName(Order.desc);
 
@@ -225,13 +228,13 @@ namespace dnsimple_test.Services
             };
 
             var options = new ZonesListOptions
+            {
+                Pagination = new Pagination
                 {
-                    Pagination = new Pagination
-                    {
-                        PerPage = 42,
-                        Page = 7
-                    }
-                }.FilterByName("example.com")
+                    PerPage = 42,
+                    Page = 7
+                }
+            }.FilterByName("example.com")
                 .SortById(Order.asc)
                 .SortByName(Order.desc);
 
@@ -240,6 +243,50 @@ namespace dnsimple_test.Services
                 Assert.AreEqual(filters, options.UnpackFilters());
                 Assert.AreEqual(sorting, options.UnpackSorting());
                 Assert.AreEqual(pagination, options.UnpackPagination());
+            });
+        }
+
+        [Test]
+        [TestCase(1010, "example.com")]
+        public void ActivateDns(long accountId, string zoneName)
+        {
+            var client = new MockDnsimpleClient(ActivateDNSFixture);
+            var zone = client.Zones.ActivateDns(accountId, zoneName).Data;
+            var expectedUrl = $"https://api.sandbox.dnsimple.com/v2/{accountId}/zones/{zoneName}/activation";
+
+            Assert.Multiple(() =>
+            {
+                Assert.AreEqual(1, zone.Id);
+                Assert.AreEqual(1010, zone.AccountId);
+                Assert.AreEqual("example.com", zone.Name);
+                Assert.IsFalse(zone.Reverse);
+                Assert.AreEqual(CreatedAt, zone.CreatedAt);
+                Assert.AreEqual(UpdatedAt, zone.UpdatedAt);
+
+                Assert.AreEqual(Method.PUT, client.HttpMethodUsed());
+                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+            });
+        }
+
+        [Test]
+        [TestCase(1010, "example.com")]
+        public void DeactivateDns(long accountId, string zoneName)
+        {
+            var client = new MockDnsimpleClient(DeactivateDNSFixture);
+            var zone = client.Zones.DeactivateDns(accountId, zoneName).Data;
+            var expectedUrl = $"https://api.sandbox.dnsimple.com/v2/{accountId}/zones/{zoneName}/activation";
+
+            Assert.Multiple(() =>
+            {
+                Assert.AreEqual(1, zone.Id);
+                Assert.AreEqual(1010, zone.AccountId);
+                Assert.AreEqual("example.com", zone.Name);
+                Assert.IsFalse(zone.Reverse);
+                Assert.AreEqual(CreatedAt, zone.CreatedAt);
+                Assert.AreEqual(UpdatedAt, zone.UpdatedAt);
+
+                Assert.AreEqual(Method.DELETE, client.HttpMethodUsed());
+                Assert.AreEqual(expectedUrl, client.RequestSentTo());
             });
         }
     }

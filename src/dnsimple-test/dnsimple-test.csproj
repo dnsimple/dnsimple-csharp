@@ -38,6 +38,12 @@
     <Content Include="fixtures\v2\api\applyTemplate\success.http">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="fixtures\v2\api\activateZoneService\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\deactivateZoneService\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="fixtures\v2\api\authorizeDomainTransferOut\success.http">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
