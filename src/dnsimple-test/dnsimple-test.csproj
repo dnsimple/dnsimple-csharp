@@ -257,6 +257,15 @@
     <Content Include="fixtures\v2\api\listCertificates\success.http">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="fixtures\v2\api\listCharges\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\listCharges\fail-400-bad-filter.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\listCharges\fail-403.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="fixtures\v2\api\listCollaborators\success.http">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
