@@ -25,14 +25,7 @@ cd dnsimple-csharp
 
 ### 3. Build and test
 
-[Run the test suite](#testing) to check everything is working as expected and to install the project specific
-dependencies (the first time you'll run the script it will install all the dependencies for you).
-
-To run the test suite:
-
-```shell
-dotnet test
-```
+[Run the test suite](#testing) to check everything is working as expected and to install the project specific dependencies (the first time you'll run the script it will install all the dependencies for you).
 
 ## Releasing
 
@@ -59,6 +52,10 @@ The following instructions uses $VERSION as a placeholder, where $VERSION is a M
 
 ## Testing
 
-Submit unit tests for your changes. You can test your changes on your machine by [running the test suite](#testing).
+Submit unit tests for your changes. You can test your changes on your machine by running:
+
+```shell
+dotnet test
+```
 
 When you submit a PR, tests will also be run on the [continuous integration environment via GitHub Actions](https://github.com/dnsimple/dnsimple-csharp/actions).
