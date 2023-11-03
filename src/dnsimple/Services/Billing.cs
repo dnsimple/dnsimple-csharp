@@ -40,8 +40,8 @@ namespace dnsimple.Services
     public struct Charge
     {
         public DateTime InvoicedAt { get; set; }
-        public float TotalAmount { get; set; }
-        public float BalanceAmount { get; set; }
+        public decimal TotalAmount { get; set; }
+        public decimal BalanceAmount { get; set; }
         public string Reference { get; set; }
         public string State { get; set; }
         public List<ChargeItem> Items { get; set; }
@@ -55,7 +55,7 @@ namespace dnsimple.Services
     public struct ChargeItem
     {
         public string Description { get; set; }
-        public float Amount { get; set; }
+        public decimal Amount { get; set; }
         public long ProductId { get; set; }
         public string ProductType { get; set; }
         public string ProductReference { get; set; }

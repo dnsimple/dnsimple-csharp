@@ -42,12 +42,12 @@ namespace dnsimple_test.Services
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(3, charges.Count);
-                Assert.AreEqual(14.5f, charges.First().TotalAmount);
-                Assert.AreEqual(0.0f, charges.First().BalanceAmount);
+                Assert.AreEqual(14.50m, charges.First().TotalAmount);
+                Assert.AreEqual(0.00m, charges.First().BalanceAmount);
                 Assert.AreEqual("1-2", charges.First().Reference);
                 Assert.AreEqual("collected", charges.First().State);
                 Assert.AreEqual("Register bubble-registered.com", charges.First().Items.First().Description);
-                Assert.AreEqual(14.5f, charges.First().Items.First().Amount);
+                Assert.AreEqual(14.50m, charges.First().Items.First().Amount);
                 Assert.AreEqual(1, charges.First().Items.First().ProductId);
                 Assert.AreEqual("domain-registration", charges.First().Items.First().ProductType);
             });
