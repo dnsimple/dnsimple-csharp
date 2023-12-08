@@ -2,6 +2,11 @@ namespace dnsimple.Services
 {
     public readonly struct Paths
     {
+        public static string ChargesPath(long accountId)
+        {
+            return $"/{accountId}/billing/charges";
+        }
+        
         public static string CollaboratorsPath(long accountId,
             string domainIdentifier)
         {

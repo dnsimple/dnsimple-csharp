@@ -17,6 +17,7 @@ namespace dnsimple_test
         private string Fixture { get; }
 
         public AccountsService Accounts { get; }
+        public BillingService Billing { get; }
         public CertificatesService Certificates { get; }
         public ContactsService Contacts { get; }
         public DomainsService Domains { get; }
@@ -38,6 +39,7 @@ namespace dnsimple_test
             UserAgent = "Testing user agent";
 
             Accounts = new AccountsService(this);
+            Billing = new BillingService(this);
             Certificates = new CertificatesService(this);
             Contacts = new ContactsService(this);
             Domains = new DomainsService(this);
