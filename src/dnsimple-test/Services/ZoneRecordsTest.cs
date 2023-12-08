@@ -7,6 +7,7 @@ using dnsimple;
 using dnsimple.Services;
 using dnsimple.Services.ListOptions;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using RestSharp;
 using Pagination = dnsimple.Services.ListOptions.Pagination;
 
@@ -67,15 +68,15 @@ namespace dnsimple_test.Services
             {
                 Assert.That(record.Id, Is.EqualTo(1));
                 Assert.That(record.ZoneId, Is.EqualTo("example.com"));
-                Assert.IsNull(record.ParentId);
+                Assert.That(record.ParentId, Is.Null);
                 Assert.That(record.Name, Is.EqualTo(""));
                 Assert.That(
                     record.Content, Is.EqualTo("ns1.dnsimple.com admin.dnsimple.com 1458642070 86400 7200 604800 300"));
                 Assert.That(record.Ttl, Is.EqualTo(3600));
-                Assert.IsNull(record.Priority);
+                Assert.That(record.Priority, Is.Null);
                 Assert.That(record.Type, Is.EqualTo(ZoneRecordType.SOA));
-                Assert.Contains("global", record.Regions);
-                Assert.IsTrue(record.SystemRecord);
+                Assert.That(record.Regions, Contains.Item("global"));
+                Assert.That(record.SystemRecord, Is.True);
                 Assert.That(record.CreatedAt, Is.EqualTo(CreatedAt));
                 Assert.That(record.UpdatedAt, Is.EqualTo(UpdatedAt));
             });
@@ -164,7 +165,7 @@ namespace dnsimple_test.Services
                 Assert.That(created.Content, Is.EqualTo("127.0.0.1"));
                 Assert.That(created.Ttl, Is.EqualTo(600));
                 Assert.That(created.Type, Is.EqualTo(ZoneRecordType.A));
-                Assert.Contains("global", created.Regions);
+                Assert.That(created.Regions, Contains.Item("global"));
 
                 Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.POST));
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
@@ -185,15 +186,15 @@ namespace dnsimple_test.Services
             {
                 Assert.That(record.Id, Is.EqualTo(recordId));
                 Assert.That(record.ZoneId, Is.EqualTo(zoneId));
-                Assert.IsNull(record.ParentId);
-                Assert.IsEmpty(record.Name);
+                Assert.That(record.ParentId, Is.Null);
+                Assert.That(record.Name, Is.Empty);
                 Assert.That(record.Content, Is.EqualTo("mxa.example.com"));
                 Assert.That(record.Ttl, Is.EqualTo(600));
                 Assert.That(record.Priority, Is.EqualTo(10));
                 Assert.That(record.Type, Is.EqualTo(ZoneRecordType.MX));
-                Assert.Contains("SV1", record.Regions);
-                Assert.Contains("IAD", record.Regions);
-                Assert.IsFalse(record.SystemRecord);
+                Assert.That(record.Regions, Contains.Item("SV1"));
+                Assert.That(record.Regions, Contains.Item("IAD"));
+                Assert.That(record.SystemRecord, Is.False);
 
                 Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.GET));
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
@@ -223,14 +224,14 @@ namespace dnsimple_test.Services
             {
                 Assert.That(record.Id, Is.EqualTo(recordId));
                 Assert.That(record.ZoneId, Is.EqualTo(zoneId));
-                Assert.IsNull(record.ParentId);
-                Assert.IsEmpty(record.Name);
+                Assert.That(record.ParentId, Is.Null);
+                Assert.That(record.Name, Is.Empty);
                 Assert.That(record.Content, Is.EqualTo("mxb.example.com"));
                 Assert.That(record.Ttl, Is.EqualTo(3600));
                 Assert.That(record.Priority, Is.EqualTo(20));
                 Assert.That(record.Type, Is.EqualTo(ZoneRecordType.MX));
-                Assert.Contains("global", record.Regions);
-                Assert.IsFalse(record.SystemRecord);
+                Assert.That(record.Regions, Contains.Item("global"));
+                Assert.That(record.SystemRecord, Is.False);
 
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
                 Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.PATCH));
@@ -270,7 +271,7 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.IsTrue(record.Distributed);
+                Assert.That(record.Distributed, Is.True);
 
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
@@ -289,7 +290,7 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.IsFalse(record.Distributed);
+                Assert.That(record.Distributed, Is.False);
 
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });

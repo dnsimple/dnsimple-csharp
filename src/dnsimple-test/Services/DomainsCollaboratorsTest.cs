@@ -38,7 +38,7 @@ namespace dnsimple_test.Services
             Assert.That(response.Data.First().DomainName, Is.EqualTo("example.com"));
             Assert.That(response.Data.First().UserId, Is.EqualTo(999));
             Assert.That(response.Data.First().UserEmail, Is.EqualTo("existing-user@example.com"));
-            Assert.IsFalse(response.Data.First().Invitation);
+            Assert.That(response.Data.First().Invitation, Is.False);
 
             Assert.That(response.Data.Count, Is.EqualTo(2));
         }
@@ -73,7 +73,7 @@ namespace dnsimple_test.Services
             {
                 Assert.That(collaborator.UserId, Is.EqualTo(999));
                 Assert.That(collaborator.UserEmail, Is.EqualTo("existing-user@example.com"));
-                Assert.IsFalse(collaborator.Invitation);
+                Assert.That(collaborator.Invitation, Is.False);
 
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
@@ -107,8 +107,8 @@ namespace dnsimple_test.Services
             Assert.Multiple(() =>
             {
                 Assert.That(collaborator.Data.UserEmail, Is.EqualTo("invited-user@example.com"));
-                Assert.IsNull(collaborator.Data.UserId);
-                Assert.IsTrue(collaborator.Data.Invitation);
+                Assert.That(collaborator.Data.UserId, Is.Null);
+                Assert.That(collaborator.Data.Invitation, Is.True);
 
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });

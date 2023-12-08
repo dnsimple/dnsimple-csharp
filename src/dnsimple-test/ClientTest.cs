@@ -27,19 +27,19 @@ namespace dnsimple_test
         [Test]
         public void HasHttpService()
         {
-            Assert.IsInstanceOf(typeof(HttpService), _client.Http);
+            Assert.That(_client.Http, Is.InstanceOf<HttpService>());
         }
 
         [Test]
         public void HasIdentityService()
         {
-            Assert.IsInstanceOf(typeof(IdentityService), _client.Identity);
+            Assert.That(_client.Identity, Is.InstanceOf<IdentityService>());
         }
 
         [Test]
         public void HasOAuthService()
         {
-            Assert.IsInstanceOf(typeof(OAuth2Service), _client.OAuth);
+            Assert.That(_client.OAuth, Is.InstanceOf<OAuth2Service>());
         }
 
         [Test]
@@ -51,7 +51,7 @@ namespace dnsimple_test
         [Test]
         public void ReturnsInstanceOfTheIdentityService()
         {
-            Assert.IsInstanceOf(typeof(IdentityService), _client.Identity);
+            Assert.That(_client.Identity, Is.InstanceOf<IdentityService>());
         }
 
         [Test]

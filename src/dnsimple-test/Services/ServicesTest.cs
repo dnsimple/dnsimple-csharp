@@ -43,12 +43,13 @@ namespace dnsimple_test.Services
                 Assert.That(service.Name, Is.EqualTo("Service 1"));
                 Assert.That(service.Sid, Is.EqualTo("service1"));
                 Assert.That(service.Description, Is.EqualTo("First service example."));
-                Assert.IsNull(service.SetupDescription);
-                Assert.IsFalse(service.RequiresSetup);
-                Assert.IsNull(service.DefaultSubdomain);
+                Assert.That(service.SetupDescription, Is.Null);
+                Assert.That(service.RequiresSetup, Is.False);
+                Assert.That(service.DefaultSubdomain, Is.Null);
                 Assert.That(service.CreatedAt, Is.EqualTo(CreatedAt));
                 Assert.That(service.UpdatedAt, Is.EqualTo(UpdatedAt));
-                Assert.IsEmpty(service.Settings);
+                Assert.That(service.Settings, Is.Empty);
+
 
                 Assert.That(services.Last().Settings.Count, Is.EqualTo(1));
                 Assert.That(serviceSetting.Name, Is.EqualTo("username"));
@@ -56,7 +57,7 @@ namespace dnsimple_test.Services
                 Assert.That(serviceSetting.Append, Is.EqualTo(".service2.com"));
                 Assert.That(serviceSetting.Description, Is.EqualTo("Your Service2 username is used to connect services to your account."));
                 Assert.That(serviceSetting.Example, Is.EqualTo("username"));
-                Assert.IsFalse(serviceSetting.Password);
+                Assert.That(serviceSetting.Password, Is.False);
             });
         }
 
@@ -109,9 +110,9 @@ namespace dnsimple_test.Services
                 Assert.That(service.Name, Is.EqualTo("Service 1"));
                 Assert.That(service.Sid, Is.EqualTo("service1"));
                 Assert.That(service.Description, Is.EqualTo("First service example."));
-                Assert.IsNull(service.SetupDescription);
-                Assert.IsTrue(service.RequiresSetup);
-                Assert.IsNull(service.DefaultSubdomain);
+                Assert.That(service.SetupDescription, Is.Null);
+                Assert.That(service.RequiresSetup, Is.True);
+                Assert.That(service.DefaultSubdomain, Is.Null);
                 Assert.That(service.CreatedAt, Is.EqualTo(CreatedAt));
                 Assert.That(service.UpdatedAt, Is.EqualTo(UpdatedAt));
 
@@ -120,7 +121,7 @@ namespace dnsimple_test.Services
                 Assert.That(setting.Append, Is.EqualTo(".service1.com"));
                 Assert.That(setting.Description, Is.EqualTo("Your Service 1 username is used to connect services to your account."));
                 Assert.That(setting.Example, Is.EqualTo("username"));
-                Assert.IsFalse(setting.Password);
+                Assert.That(setting.Password, Is.False);
             });
         }
     }

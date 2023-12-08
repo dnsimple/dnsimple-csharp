@@ -66,7 +66,7 @@ namespace dnsimple_test.Services
                 Assert.That(contact.Phone, Is.EqualTo("+18001234567"));
                 Assert.That(contact.Fax, Is.EqualTo("+18011234567"));
                 Assert.That(contact.Address1, Is.EqualTo("Italian Street, 10"));
-                Assert.IsEmpty(contact.Address2);
+                Assert.That(contact.Address2, Is.Empty);
                 Assert.That(contact.City, Is.EqualTo("Roma"));
                 Assert.That(contact.StateProvince, Is.EqualTo("RM"));
                 Assert.That(contact.PostalCode, Is.EqualTo("00100"));

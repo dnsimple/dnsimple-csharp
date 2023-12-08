@@ -69,7 +69,7 @@ namespace dnsimple_test.Services
                 Assert.That(privacy.Id, Is.EqualTo(1));
                 Assert.That(privacy.DomainId, Is.EqualTo(2));
                 Assert.That(privacy.ExpiresOn, Is.EqualTo(ExpiresOn));
-                Assert.IsTrue(privacy.Enabled);
+                Assert.That(privacy.Enabled, Is.True);
                 Assert.That(privacy.CreatedAt, Is.EqualTo(CreatedAt));
                 Assert.That(privacy.UpdatedAt, Is.EqualTo(UpdatedAt));
 
@@ -89,7 +89,7 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.IsTrue(privacy.Enabled);
+                Assert.That(privacy.Enabled, Is.True);
 
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
                 Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.PUT));
@@ -108,7 +108,7 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.IsNull(privacy.Enabled);
+                Assert.That(privacy.Enabled, Is.Null);
 
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
                 Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.PUT));
@@ -127,7 +127,7 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.IsFalse(privacy.Enabled);
+                Assert.That(privacy.Enabled, Is.False);
 
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
                 Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.DELETE));
@@ -151,7 +151,7 @@ namespace dnsimple_test.Services
                 Assert.That(renewedDomain.WhoisPrivacyId, Is.EqualTo(999));
                 Assert.That(renewedDomain.State, Is.EqualTo("new"));
                 Assert.That(renewedDomain.ExpiresOn, Is.EqualTo(RenewalExpiresOn));
-                Assert.IsTrue(renewedDomain.Enabled);
+                Assert.That(renewedDomain.Enabled, Is.True);
                 Assert.That(renewedDomain.CreatedAt, Is.EqualTo(RenewalCreatedAt));
                 Assert.That(renewedDomain.UpdatedAt, Is.EqualTo(RenewalUpdatedAt));
 

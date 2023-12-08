@@ -52,10 +52,10 @@ namespace dnsimple_test.Services
             {
                 Assert.That(record.Id, Is.EqualTo(296));
                 Assert.That(record.TemplateId, Is.EqualTo(268));
-                Assert.IsEmpty(record.Name);
+                Assert.That(record.Name, Is.Empty);
                 Assert.That(record.Content, Is.EqualTo("192.168.1.1"));
                 Assert.That(record.Ttl, Is.EqualTo(3600));
-                Assert.IsNull(record.Priority);
+                Assert.That(record.Priority, Is.Null);
                 Assert.That(record.Type, Is.EqualTo("A"));
                 Assert.That(record.CreatedAt, Is.EqualTo(CreatedAt));
                 Assert.That(record.UpdatedAt, Is.EqualTo(UpdatedAt));

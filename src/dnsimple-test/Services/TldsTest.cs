@@ -36,13 +36,13 @@ namespace dnsimple_test.Services
             {
                 Assert.That(tlds.First().Tld, Is.EqualTo("ac"));
                 Assert.That(tlds.First().TldType, Is.EqualTo(2));
-                Assert.IsFalse(tlds.First().WhoisPrivacy);
-                Assert.IsTrue(tlds.First().AutoRenewOnly);
-                Assert.IsFalse(tlds.First().Idn);
+                Assert.That(tlds.First().WhoisPrivacy, Is.False);
+                Assert.That(tlds.First().AutoRenewOnly, Is.True);
+                Assert.That(tlds.First().Idn, Is.False);
                 Assert.That(tlds.First().MinimumRegistration, Is.EqualTo(1));
-                Assert.IsTrue(tlds.First().RegistrationEnabled);
-                Assert.IsTrue(tlds.First().RenewalEnabled);
-                Assert.IsFalse(tlds.First().TransferEnabled);
+                Assert.That(tlds.First().RegistrationEnabled, Is.True);
+                Assert.That(tlds.First().RenewalEnabled, Is.True);
+                Assert.That(tlds.First().TransferEnabled, Is.False);
             });
         }
 
@@ -96,13 +96,13 @@ namespace dnsimple_test.Services
             {
                 Assert.That(tld.Tld, Is.EqualTo("com"));
                 Assert.That(tld.TldType, Is.EqualTo(1));
-                Assert.IsTrue(tld.WhoisPrivacy);
-                Assert.IsFalse(tld.AutoRenewOnly);
-                Assert.IsTrue(tld.Idn);
+                Assert.That(tld.WhoisPrivacy, Is.True);
+                Assert.That(tld.AutoRenewOnly, Is.False);
+                Assert.That(tld.Idn, Is.True);
                 Assert.That(tld.MinimumRegistration, Is.EqualTo(1));
-                Assert.IsTrue(tld.RegistrationEnabled);
-                Assert.IsTrue(tld.RenewalEnabled);
-                Assert.IsTrue(tld.TransferEnabled);
+                Assert.That(tld.RegistrationEnabled, Is.True);
+                Assert.That(tld.RenewalEnabled, Is.True);
+                Assert.That(tld.TransferEnabled, Is.True);
                 Assert.That(tld.DnssecInterfaceType, Is.EqualTo("ds"));
 
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
@@ -124,7 +124,7 @@ namespace dnsimple_test.Services
 
                 Assert.That(attribute.Name, Is.EqualTo("uk_legal_type"));
                 Assert.That(attribute.Description, Is.EqualTo("Legal type of registrant contact"));
-                Assert.IsFalse(attribute.Required);
+                Assert.That(attribute.Required, Is.False);
 
                 Assert.That(options.Count, Is.EqualTo(17));
                 Assert.That(options.First().Title, Is.EqualTo("UK Individual"));
@@ -139,7 +139,7 @@ namespace dnsimple_test.Services
         public void GetTldExtendedAttributesNoAttributes()
         {
             var client = new MockDnsimpleClient(GetTldExtendedAttributesNoAttributesFixture);
-            Assert.IsEmpty(client.Tlds.GetTldExtendedAttributes("boom").Data);
+            Assert.That(client.Tlds.GetTldExtendedAttributes("boom").Data, Is.Empty);
         }
     }
 }

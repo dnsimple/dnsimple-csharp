@@ -74,8 +74,8 @@ namespace dnsimple_test.Services
             Assert.Multiple(() =>
             {
                 Assert.That(check.Domain, Is.EqualTo(domainName));
-                Assert.IsTrue(check.Available);
-                Assert.IsTrue(check.Premium);
+                Assert.That(check.Available, Is.True);
+                Assert.That(check.Premium, Is.True);
 
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
@@ -155,8 +155,8 @@ namespace dnsimple_test.Services
                 Assert.That(registeredDomain.RegistrantId, Is.EqualTo(2));
                 Assert.That(registeredDomain.Period, Is.EqualTo(1));
                 Assert.That(registeredDomain.State, Is.EqualTo("new"));
-                Assert.IsFalse(registeredDomain.AutoRenew);
-                Assert.IsFalse(registeredDomain.WhoisPrivacy);
+                Assert.That(registeredDomain.AutoRenew, Is.False);
+                Assert.That(registeredDomain.WhoisPrivacy, Is.False);
                 Assert.That(registeredDomain.CreatedAt, Is.EqualTo(CreatedAt));
                 Assert.That(registeredDomain.UpdatedAt, Is.EqualTo(UpdatedAt));
 
@@ -181,8 +181,8 @@ namespace dnsimple_test.Services
                 Assert.That(domain.RegistrantId, Is.EqualTo(2715));
                 Assert.That(domain.Period, Is.EqualTo(1));
                 Assert.That(domain.State, Is.EqualTo("registering"));
-                Assert.IsFalse(domain.AutoRenew);
-                Assert.IsFalse(domain.WhoisPrivacy);
+                Assert.That(domain.AutoRenew, Is.False);
+                Assert.That(domain.WhoisPrivacy, Is.False);
                 Assert.That(domain.CreatedAt, Is.EqualTo(CreatedAt));
                 Assert.That(domain.UpdatedAt, Is.EqualTo(UpdatedAt));
 
@@ -388,8 +388,8 @@ namespace dnsimple_test.Services
                 Assert.That(domainTransfer.DomainId, Is.EqualTo(182245));
                 Assert.That(domainTransfer.RegistrantId, Is.EqualTo(2715));
                 Assert.That(domainTransfer.State, Is.EqualTo("cancelled"));
-                Assert.False(domainTransfer.AutoRenew);
-                Assert.False(domainTransfer.WhoisPrivacy);
+                Assert.That(domainTransfer.AutoRenew, Is.False);
+                Assert.That(domainTransfer.WhoisPrivacy, Is.False);
                 Assert.That(domainTransfer.StatusDescription, Is.EqualTo("Canceled by customer"));
                 Assert.That(domainTransfer.CreatedAt, Is.EqualTo(Convert.ToDateTime("2020-06-05T18:08:00Z")));
                 Assert.That(domainTransfer.UpdatedAt, Is.EqualTo(Convert.ToDateTime("2020-06-05T18:10:01Z")));
@@ -409,9 +409,9 @@ namespace dnsimple_test.Services
                 Assert.That(domainTransfer.DomainId, Is.EqualTo(182245));
                 Assert.That(domainTransfer.RegistrantId, Is.EqualTo(2715));
                 Assert.That(domainTransfer.State, Is.EqualTo("transferring"));
-                Assert.False(domainTransfer.AutoRenew);
-                Assert.False(domainTransfer.WhoisPrivacy);
-                Assert.IsNull(domainTransfer.StatusDescription);
+                Assert.That(domainTransfer.AutoRenew, Is.False);
+                Assert.That(domainTransfer.WhoisPrivacy, Is.False);
+                Assert.That(domainTransfer.StatusDescription, Is.Null);
                 Assert.That(domainTransfer.CreatedAt, Is.EqualTo(Convert.ToDateTime("2020-06-05T18:08:00Z")));
                 Assert.That(domainTransfer.UpdatedAt, Is.EqualTo(Convert.ToDateTime("2020-06-05T18:08:04Z")));
             });

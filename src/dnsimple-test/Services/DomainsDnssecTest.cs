@@ -28,7 +28,7 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.IsTrue(response.Data.Enabled);
+                Assert.That(response.Data.Enabled, Is.True);
                 Assert.That(response.Data.CreatedAt, Is.EqualTo(CreatedAt));
                 Assert.That(response.Data.UpdatedAt, Is.EqualTo(UpdatedAt));
 
@@ -83,7 +83,7 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.IsTrue(response.Data.Enabled);
+                Assert.That(response.Data.Enabled, Is.True);
                 Assert.That(response.Data.CreatedAt, Is.EqualTo(dateTime));
                 Assert.That(response.Data.UpdatedAt, Is.EqualTo(dateTime));
 

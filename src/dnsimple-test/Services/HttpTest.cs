@@ -20,8 +20,8 @@ namespace dnsimple_test.Services
         public void ReturnsARequestBuilder()
         {
             var http = new HttpService(new RestClient(), new RequestBuilder());
-            Assert.IsInstanceOf(typeof(RequestBuilder),
-                http.RequestBuilder(""));
+            Assert.That(http.RequestBuilder(""), Is.InstanceOf<RequestBuilder>());
+
         }
 
         [Test]
@@ -146,7 +146,7 @@ namespace dnsimple_test.Services
         {
             _builder.Method(Method.HEAD);
 
-            Assert.IsNull(_builder.Reset().Request);
+            Assert.That(_builder.Reset().Request, Is.Null);
         }
 
         [Test]

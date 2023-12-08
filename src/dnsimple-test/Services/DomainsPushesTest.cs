@@ -33,7 +33,7 @@ namespace dnsimple_test.Services
             {
                 Assert.That(push.Data.Id, Is.EqualTo(1));
                 Assert.That(push.Data.DomainId, Is.EqualTo(100));
-                Assert.IsNull(push.Data.ContactId);
+                Assert.That(push.Data.ContactId, Is.Null);
                 Assert.That(push.Data.AccountId, Is.EqualTo(2020));
                 Assert.That(push.Data.CreatedAt, Is.EqualTo(CreatedAt));
                 Assert.That(push.Data.UpdatedAt, Is.EqualTo(UpdatedAt));

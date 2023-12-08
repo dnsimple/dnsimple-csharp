@@ -51,8 +51,8 @@ namespace dnsimple_test.Services
                 Assert.That(domains.First().Name, Is.EqualTo("example-alpha.com"));
                 Assert.That(domains.First().UnicodeName, Is.EqualTo("example-alpha.com"));
                 Assert.That(domains.First().State, Is.EqualTo("registered"));
-                Assert.IsFalse(domains.First().AutoRenew);
-                Assert.IsFalse(domains.First().PrivateWhois);
+                Assert.That(domains.First().AutoRenew, Is.False);
+                Assert.That(domains.First().PrivateWhois, Is.False);
                 Assert.That(domains.First().ExpiresAt, Is.EqualTo(Convert.ToDateTime("2021-06-05T02:15:00Z")));
                 Assert.That(domains.First().CreatedAt, Is.EqualTo(Convert.ToDateTime("2020-06-04T19:15:14Z")));
                 Assert.That(domains.First().UpdatedAt, Is.EqualTo(Convert.ToDateTime("2020-06-04T19:15:21Z")));
@@ -104,8 +104,8 @@ namespace dnsimple_test.Services
                 Assert.That(domain.Name, Is.EqualTo("example-alpha.com"));
                 Assert.That(domain.UnicodeName, Is.EqualTo("example-alpha.com"));
                 Assert.That(domain.State, Is.EqualTo("registered"));
-                Assert.IsFalse(domain.AutoRenew);
-                Assert.IsFalse(domain.PrivateWhois);
+                Assert.That(domain.AutoRenew, Is.False);
+                Assert.That(domain.PrivateWhois, Is.False);
                 Assert.That(domain.ExpiresAt, Is.EqualTo(Convert.ToDateTime("2021-06-05T02:15:00Z")));
                 Assert.That(domain.CreatedAt, Is.EqualTo(Convert.ToDateTime("2020-06-04T19:15:14Z")));
                 Assert.That(domain.UpdatedAt, Is.EqualTo(Convert.ToDateTime("2020-06-04T19:15:21Z")));
@@ -138,13 +138,13 @@ namespace dnsimple_test.Services
             {
                 Assert.That(domain.Id, Is.EqualTo(181985));
                 Assert.That(domain.AccountId, Is.EqualTo(1385));
-                Assert.IsNull(domain.RegistrantId);
+                Assert.That(domain.RegistrantId, Is.Null);
                 Assert.That(domain.Name, Is.EqualTo("example-beta.com"));
                 Assert.That(domain.UnicodeName, Is.EqualTo("example-beta.com"));
                 Assert.That(domain.State, Is.EqualTo("hosted"));
-                Assert.IsFalse(domain.AutoRenew);
-                Assert.IsFalse(domain.PrivateWhois);
-                Assert.IsNull(domain.ExpiresAt);
+                Assert.That(domain.AutoRenew, Is.False);
+                Assert.That(domain.PrivateWhois, Is.False);
+                Assert.That(domain.ExpiresAt, Is.Null);
                 Assert.That(domain.CreatedAt, Is.EqualTo(CreatedAt));
                 Assert.That(domain.UpdatedAt, Is.EqualTo(UpdatedAt));
 
