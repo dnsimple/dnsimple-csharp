@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using dnsimple.Services.ListOptions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using RestSharp;
@@ -90,7 +91,8 @@ namespace dnsimple.Services
         /// <see>https://developer.dnsimple.com/v2/registrar/#transferDomain</see>
         public SimpleResponse<DomainTransfer> TransferDomain(long accountId, string domainName, DomainTransferInput transferInput)
         {
-            if (transferInput.AuthCode == null) {
+            if (transferInput.AuthCode == null)
+            {
                 throw new DnsimpleException("Please provide an AuthCode");
             }
             var builder = BuildRequestForPath(TransferDomainPath(accountId, domainName));
@@ -114,6 +116,80 @@ namespace dnsimple.Services
             var builder = BuildRequestForPath(DomainTransferPath(accountId, domainName, domainTransferId));
 
             return new SimpleResponse<DomainTransfer>(Execute(builder.Request));
+        }
+
+        /// <summary>
+        /// Checks what are the requirements for a registrant change.
+        /// </summary>
+        /// <param name="accountId">The account ID</param>
+        /// <param name="input">The check registrant change command</param>
+        /// <returns>RegistrantChangeCheck</returns>
+        public SimpleResponse<RegistrantChangeCheck> CheckRegistrantChange(long accountId, CheckRegistrantChangeInput input)
+        {
+            var builder = BuildRequestForPath(CheckRegistrantChangePath(accountId));
+            builder.Method(Method.POST);
+            builder.AddJsonPayload(input);
+
+            return new SimpleResponse<RegistrantChangeCheck>(Execute(builder.Request));
+        }
+
+        /// <summary>
+        /// Retrieves the details of an existing registrant change.
+        /// </summary>
+        /// <param name="accountId">The account ID</param>
+        /// <param name="registrantChangeId">The registrant change ID</param>
+        /// <returns>RegistrantChange</returns>
+        public SimpleResponse<RegistrantChange> GetRegistrantChange(long accountId, long registrantChangeId)
+        {
+            var builder = BuildRequestForPath(RegistrantChangePath(accountId, registrantChangeId));
+
+            return new SimpleResponse<RegistrantChange>(Execute(builder.Request));
+        }
+
+        /// <summary>
+        /// Start registrant change.
+        /// </summary>
+        /// <param name="accountId">The account ID</param>
+        /// <param name="input" cref="CreateRegistrantChangeInput">the attributes to start a registrant change</param>
+        /// <returns>RegistrantChange</returns>
+        public SimpleResponse<RegistrantChange> CreateRegistrantChange(long accountId, CreateRegistrantChangeInput input)
+        {
+            var builder = BuildRequestForPath(RegistrantChangesPath(accountId));
+            builder.Method(Method.POST);
+            builder.AddJsonPayload(input);
+
+            return new SimpleResponse<RegistrantChange>(Execute(builder.Request));
+        }
+
+
+        /// <summary>
+        /// Lists the registrant changes for the account.
+        /// </summary>
+        /// <param name="accountId">The account ID</param>
+        /// <param name="options" cref="RegistrantChangesListOptions">Options passed to the list (sorting and
+        /// pagination).</param>
+        /// <returns>A list of all the registrant changes for the account <c>RegistrantChange</c></returns>
+        public PaginatedResponse<RegistrantChange> ListRegistrantChanges(long accountId, RegistrantChangesListOptions options = null)
+        {
+            var builder = BuildRequestForPath(RegistrantChangesPath(accountId));
+            AddListOptionsToRequest(options, ref builder);
+
+            return new PaginatedResponse<RegistrantChange>(Execute(builder.Request));
+        }
+
+        /// <summary>
+        /// Cancels a registrant change.
+        /// </summary>
+        /// <param name="accountId">The account ID</param>
+        /// <param name="registrantChangeId">The registrant change ID</param>
+        /// <returns>Returns an empty response if cancellation was successful immediately.
+        /// If cancellation is not immediate, returns a registrant change.</returns>
+        public SimpleResponseOrEmpty<RegistrantChange> DeleteRegistrantChange(long accountId, long registrantChangeId)
+        {
+            var builder = BuildRequestForPath(RegistrantChangePath(accountId, registrantChangeId));
+            builder.Method(Method.DELETE);
+
+            return new SimpleResponseOrEmpty<RegistrantChange>(Execute(builder.Request));
         }
 
         /// <summary>
@@ -201,6 +277,36 @@ namespace dnsimple.Services
         public string Domain { get; set; }
         public bool Available { get; set; }
         public bool Premium { get; set; }
+    }
+
+    /// <summary>
+    /// Represents a domain registrant change check.
+    /// </summary>
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    public struct RegistrantChangeCheck
+    {
+        public long ContactId { get; set; }
+        public long DomainId { get; set; }
+        public List<TldExtendedAttribute> ExtendedAttributes { get; set; }
+        public bool RegistryOwnerChange { get; set; }
+    }
+
+    /// <summary>
+    /// Represents a registrant change.
+    /// </summary>
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    public struct RegistrantChange
+    {
+        public long Id { get; set; }
+        public long AccountId { get; set; }
+        public long ContactId { get; set; }
+        public long DomainId { get; set; }
+        public string State { get; set; }
+        public Dictionary<string, string> ExtendedAttributes { get; set; }
+        public bool RegistryOwnerChange { get; set; }
+        public string IrtLockLiftedBy { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 
     /// <summary>
@@ -311,6 +417,51 @@ namespace dnsimple.Services
         public string AuthCode { get; set; }
         public string PremiumPrice { get; set; }
         public List<TldExtendedAttribute> ExtendedAttributes { get; set; }
+    }
+
+    /// <summary>
+    /// Represents the data sent to check requirements for registrant change.
+    /// </summary>
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    public struct CheckRegistrantChangeInput
+    {
+        /// <summary>
+        /// The contact ID to be used as the new registrant.
+        /// </summary>
+        [JsonProperty(Required = Required.Always)]
+        public long ContactId { get; set; }
+
+        /// <summary>
+        /// The domain ID for which the registrant change is being requested.
+        /// Can be a string or an int.
+        /// </summary>
+        [JsonProperty(Required = Required.Always)]
+        public object DomainId { get; set; }
+    }
+
+    /// <summary>
+    /// Represents the data sent to create a registrant change.
+    /// </summary>
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    public struct CreateRegistrantChangeInput
+    {
+        /// <summary>
+        /// The contact ID to be used as the new registrant.
+        /// </summary>
+        [JsonProperty(Required = Required.Always)]
+        public long ContactId { get; set; }
+
+        /// <summary>
+        /// The domain ID for which the registrant change is being requested.
+        /// Can be a string or an int.
+        /// </summary>
+        [JsonProperty(Required = Required.Always)]
+        public object DomainId { get; set; }
+
+        /// <summary>
+        /// The extended attributes to be used as the new registrant.
+        /// </summary>
+        public Dictionary<string, string> ExtendedAttributes { get; set; }
     }
 
 }

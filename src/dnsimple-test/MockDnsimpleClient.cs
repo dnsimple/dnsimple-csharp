@@ -52,12 +52,12 @@ namespace dnsimple_test
             Webhooks = new WebhooksService(this);
             Zones = new ZonesService(this);
         }
-        
+
         public void StatusCode(HttpStatusCode statusCode)
         {
             ((MockHttpService)Http).StatusCode = statusCode;
         }
-        
+
         public void ChangeBaseUrlTo(string baseUrl)
         {
             // Not needed at the moment, but having to implement...
@@ -80,17 +80,17 @@ namespace dnsimple_test
 
         public string RequestSentTo()
         {
-            return ((MockHttpService) Http).RequestUrlSent.UrlDecode();
+            return ((MockHttpService)Http).RequestUrlSent.UrlDecode();
         }
 
         public Method HttpMethodUsed()
         {
-            return ((MockHttpService) Http).MethodSent;
+            return ((MockHttpService)Http).MethodSent;
         }
 
         public string PayloadSent()
         {
-            return ((MockHttpService) Http).PayloadSent;
+            return ((MockHttpService)Http).PayloadSent;
         }
     }
 
@@ -98,7 +98,7 @@ namespace dnsimple_test
     {
         private readonly FixtureLoader _fixtureLoader;
         private readonly string _baseUrl;
-        
+
         public HttpStatusCode StatusCode { get; set; }
         public string RequestUrlSent { get; private set; }
         public Method MethodSent { get; private set; }
@@ -122,7 +122,7 @@ namespace dnsimple_test
             MethodSent = request.Method;
             try
             {
-                PayloadSent = (string) request.Parameters.Find(x =>
+                PayloadSent = (string)request.Parameters.Find(x =>
                     x.ContentType.Equals("application/json")).Value;
             }
             catch (Exception)
@@ -156,10 +156,11 @@ namespace dnsimple_test
     {
         public MockResponse(FixtureLoader loader)
         {
+            StatusCode = loader.ExtractStatusCode();
             Content = loader.ExtractJsonPayload();
             Headers = loader.ExtractHeaders();
         }
-        
+
         public void SetHeaders(List<Parameter> headers)
         {
             Headers = headers;
