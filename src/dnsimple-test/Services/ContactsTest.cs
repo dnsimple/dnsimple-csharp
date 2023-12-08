@@ -55,24 +55,24 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(1, contact.Id);
-                Assert.AreEqual(1010, contact.AccountId);
-                Assert.AreEqual("Default", contact.Label);
-                Assert.AreEqual("First", contact.FirstName);
-                Assert.AreEqual("User", contact.LastName);
-                Assert.AreEqual("CEO", contact.JobTitle);
-                Assert.AreEqual("Awesome Company", contact.OrganizationName);
-                Assert.AreEqual("first@example.com", contact.Email);
-                Assert.AreEqual("+18001234567", contact.Phone);
-                Assert.AreEqual("+18011234567", contact.Fax);
-                Assert.AreEqual("Italian Street, 10", contact.Address1);
-                Assert.IsEmpty(contact.Address2);
-                Assert.AreEqual("Roma", contact.City);
-                Assert.AreEqual("RM", contact.StateProvince);
-                Assert.AreEqual("00100", contact.PostalCode);
-                Assert.AreEqual("IT", contact.Country);
-                Assert.AreEqual(CreatedAt, contact.CreatedAt);
-                Assert.AreEqual(UpdatedAt, contact.UpdatedAt);
+                Assert.That(contact.Id, Is.EqualTo(1));
+                Assert.That(contact.AccountId, Is.EqualTo(1010));
+                Assert.That(contact.Label, Is.EqualTo("Default"));
+                Assert.That(contact.FirstName, Is.EqualTo("First"));
+                Assert.That(contact.LastName, Is.EqualTo("User"));
+                Assert.That(contact.JobTitle, Is.EqualTo("CEO"));
+                Assert.That(contact.OrganizationName, Is.EqualTo("Awesome Company"));
+                Assert.That(contact.Email, Is.EqualTo("first@example.com"));
+                Assert.That(contact.Phone, Is.EqualTo("+18001234567"));
+                Assert.That(contact.Fax, Is.EqualTo("+18011234567"));
+                Assert.That(contact.Address1, Is.EqualTo("Italian Street, 10"));
+                Assert.That(contact.Address2, Is.Empty);
+                Assert.That(contact.City, Is.EqualTo("Roma"));
+                Assert.That(contact.StateProvince, Is.EqualTo("RM"));
+                Assert.That(contact.PostalCode, Is.EqualTo("00100"));
+                Assert.That(contact.Country, Is.EqualTo("IT"));
+                Assert.That(contact.CreatedAt, Is.EqualTo(CreatedAt));
+                Assert.That(contact.UpdatedAt, Is.EqualTo(UpdatedAt));
             });
         }
 
@@ -85,10 +85,10 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(2, response.Data.Count);
-                Assert.AreEqual(2, response.Pagination.TotalEntries);
+                Assert.That(response.Data.Count, Is.EqualTo(2));
+                Assert.That(response.Pagination.TotalEntries, Is.EqualTo(2));
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -99,18 +99,18 @@ namespace dnsimple_test.Services
         {
             var client = new MockDnsimpleClient(ListContactsFixture);
             var options = new ContactsListOptions
+            {
+                Pagination = new Pagination
                 {
-                    Pagination = new Pagination
-                    {
-                        PerPage = 42,
-                        Page = 7
-                    }
-                }.SortById(Order.asc).SortByLabel(Order.desc)
+                    PerPage = 42,
+                    Page = 7
+                }
+            }.SortById(Order.asc).SortByLabel(Order.desc)
                 .SortByEmail(Order.asc);
 
             client.Contacts.ListContacts(accountId, options);
 
-            Assert.AreEqual(expectedUrl, client.RequestSentTo());
+            Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
         }
 
         [Test]
@@ -138,11 +138,11 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(1, created.Id);
-                Assert.AreEqual(contact.Email, created.Email);
+                Assert.That(created.Id, Is.EqualTo(1));
+                Assert.That(created.Email, Is.EqualTo(contact.Email));
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
-                Assert.AreEqual(Method.POST, client.HttpMethodUsed());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.POST));
             });
         }
 
@@ -188,12 +188,12 @@ namespace dnsimple_test.Services
         {
             var client = new MockDnsimpleClient(GetContactFixture);
             var contact = client.Contacts.GetContact(accountId, contactId).Data;
-            
-            
+
+
             Assert.Multiple(() =>
             {
-                Assert.AreEqual("Awesome Company", contact.OrganizationName);
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(contact.OrganizationName, Is.EqualTo("Awesome Company"));
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -206,16 +206,16 @@ namespace dnsimple_test.Services
             {
                 Email = "changed@example.com"
             };
-            
+
             var updated = client.Contacts.UpdateContact(accountId, contactId, contact).Data;
-            
+
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(contactId, updated.Id);
-                Assert.AreEqual(accountId, updated.AccountId);
+                Assert.That(updated.Id, Is.EqualTo(contactId));
+                Assert.That(updated.AccountId, Is.EqualTo(accountId));
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
-                Assert.AreEqual(Method.PATCH, client.HttpMethodUsed());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.PATCH));
             });
         }
 
@@ -224,16 +224,16 @@ namespace dnsimple_test.Services
         public void DeleteContact(long accountId, long contactId, string expectedUrl)
         {
             var client = new MockDnsimpleClient(DeleteContactFixture);
-            
+
             Assert.Multiple(() =>
             {
                 Assert.DoesNotThrow(delegate
                 {
-                    client.Contacts.DeleteContact(accountId, contactId); 
+                    client.Contacts.DeleteContact(accountId, contactId);
                 });
-                
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
-                Assert.AreEqual(Method.DELETE, client.HttpMethodUsed());
+
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.DELETE));
             });
         }
 
@@ -243,7 +243,7 @@ namespace dnsimple_test.Services
         {
             var client = new MockDnsimpleClient(DeleteContactFailedFixture);
             client.StatusCode(HttpStatusCode.BadRequest);
-            
+
             Assert.Throws(
                 Is.TypeOf<DnsimpleValidationException>().And.Message
                     .EqualTo("The contact cannot be deleted because it's currently in use"),

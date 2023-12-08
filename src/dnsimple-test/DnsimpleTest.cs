@@ -26,7 +26,7 @@ namespace dnsimple_test
         [Test]
         public void ContainsMessage()
         {
-            Assert.AreEqual(Message, _exception.Message);
+            Assert.That(_exception.Message, Is.EqualTo(Message));
         }
 
         [Test]
@@ -37,14 +37,13 @@ namespace dnsimple_test
         public void ContainsTheValidationErrors(string expectation,
             string field)
         {
-            Assert.AreEqual(expectation,
-                _exception.Validation[field]?.First?.ToString());
+            Assert.That(_exception.Validation[field]?.First?.ToString(), Is.EqualTo(expectation));
         }
-        
+
         [Test]
         public void HasAGetterForAttributeErrors()
         {
-            Assert.AreEqual(_exception.Validation, _exception.GetAttributeErrors());
+            Assert.That(_exception.GetAttributeErrors(), Is.EqualTo(_exception.Validation));
         }
     }
 }

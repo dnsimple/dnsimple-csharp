@@ -51,8 +51,7 @@ namespace dnsimple_test.Services
             };
             var accessTokenData =
                 oauthService.ExchangeAuthorizationForToken(_authArguments);
-            Assert.AreEqual("zKQ7OLqF5N1gylcJweA9WodA000BUNJD",
-                accessTokenData.Token);
+            Assert.That(accessTokenData.Token, Is.EqualTo("zKQ7OLqF5N1gylcJweA9WodA000BUNJD"));
         }
     }
 }

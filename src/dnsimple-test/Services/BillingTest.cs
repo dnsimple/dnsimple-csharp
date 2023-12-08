@@ -41,15 +41,15 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(3, charges.Count);
-                Assert.AreEqual(14.50m, charges.First().TotalAmount);
-                Assert.AreEqual(0.00m, charges.First().BalanceAmount);
-                Assert.AreEqual("1-2", charges.First().Reference);
-                Assert.AreEqual("collected", charges.First().State);
-                Assert.AreEqual("Register bubble-registered.com", charges.First().Items.First().Description);
-                Assert.AreEqual(14.50m, charges.First().Items.First().Amount);
-                Assert.AreEqual(1, charges.First().Items.First().ProductId);
-                Assert.AreEqual("domain-registration", charges.First().Items.First().ProductType);
+                Assert.That(charges.Count, Is.EqualTo(3));
+                Assert.That(charges.First().TotalAmount, Is.EqualTo(14.50m));
+                Assert.That(charges.First().BalanceAmount, Is.EqualTo(0.00m));
+                Assert.That(charges.First().Reference, Is.EqualTo("1-2"));
+                Assert.That(charges.First().State, Is.EqualTo("collected"));
+                Assert.That(charges.First().Items.First().Description, Is.EqualTo("Register bubble-registered.com"));
+                Assert.That(charges.First().Items.First().Amount, Is.EqualTo(14.50m));
+                Assert.That(charges.First().Items.First().ProductId, Is.EqualTo(1));
+                Assert.That(charges.First().Items.First().ProductType, Is.EqualTo("domain-registration"));
             });
         }
 
@@ -63,10 +63,10 @@ namespace dnsimple_test.Services
             listOptions.FilterByStartDate("2023-01-01");
             listOptions.FilterByEndDate("2023-08-31");
             listOptions.SortByInvoiceDate(Order.asc);
-            
+
             client.Domains.ListDomains(1010, listOptions);
 
-            Assert.AreEqual(expectedUrl, client.RequestSentTo());
+            Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
         }
 
         [Test]
@@ -86,22 +86,22 @@ namespace dnsimple_test.Services
             };
 
             var options = new ListChargesOptions
+            {
+                Pagination = new Pagination
                 {
-                    Pagination = new Pagination
-                    {
-                        PerPage = 30,
-                        Page = 1
-                    }
-                }.FilterByStartDate("2023-01-01")
+                    PerPage = 30,
+                    Page = 1
+                }
+            }.FilterByStartDate("2023-01-01")
                 .FilterByEndDate("2023-08-31")
                 .SortByInvoiceDate(Order.asc);
 
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(filters, options.UnpackFilters());
-                Assert.AreEqual(pagination, options.UnpackPagination());
-                Assert.AreEqual(sorting, options.UnpackSorting());
+                Assert.That(options.UnpackFilters(), Is.EqualTo(filters));
+                Assert.That(options.UnpackPagination(), Is.EqualTo(pagination));
+                Assert.That(options.UnpackSorting(), Is.EqualTo(sorting));
             });
         }
 

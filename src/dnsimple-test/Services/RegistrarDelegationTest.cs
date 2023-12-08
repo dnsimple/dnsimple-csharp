@@ -21,10 +21,10 @@ namespace dnsimple_test.Services
 
         private const string ChangeDomainDelegationToVanityFixture =
             "changeDomainDelegationToVanity/success.http";
-        
+
         private const string ChangeDomainDelegationFromVanityFixture =
             "changeDomainDelegationFromVanity/success.http";
-        
+
         private DateTime CreatedAt { get; } = DateTime.ParseExact(
             "2016-07-11T09:40:19Z", "yyyy-MM-ddTHH:mm:ssZ",
             CultureInfo.CurrentCulture);
@@ -55,8 +55,8 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(expected, domainNameServers);
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(domainNameServers, Is.EqualTo(expected));
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -71,7 +71,7 @@ namespace dnsimple_test.Services
                 client.Registrar.GetDomainDelegation(accountId, domain)
                     .Data;
 
-            Assert.AreEqual(new List<string>(), domainNameServers);
+            Assert.That(domainNameServers, Is.EqualTo(new List<string>()));
         }
 
         [Test]
@@ -93,13 +93,13 @@ namespace dnsimple_test.Services
             var newDelegation = client.Registrar.ChangeDomainDelegation(
                 accountId, domain,
                 delegation);
-            
+
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(delegation, newDelegation.Data);
-                
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
-                Assert.AreEqual(Method.PUT, client.HttpMethodUsed());
+                Assert.That(newDelegation.Data, Is.EqualTo(delegation));
+
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.PUT));
             });
         }
 
@@ -116,21 +116,21 @@ namespace dnsimple_test.Services
 
             var vanityDelegation =
                 client.Registrar.ChangeDomainDelegationToVanity(accountId,
-                    domain, delegation).Data;    
-            
+                    domain, delegation).Data;
+
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(2, vanityDelegation.Count);
-                
-                Assert.AreEqual(1, vanityDelegation.First().Id);
-                Assert.AreEqual("ns1.example.com", vanityDelegation.First().Name);
-                Assert.AreEqual("127.0.0.1", vanityDelegation.First().Ipv4);
-                Assert.AreEqual("::1", vanityDelegation.First().Ipv6);
-                Assert.AreEqual(CreatedAt, vanityDelegation.First().CreatedAt);
-                Assert.AreEqual(UpdatedAt, vanityDelegation.First().UpdatedAt);
-                
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
-                Assert.AreEqual(Method.PUT, client.HttpMethodUsed());
+                Assert.That(vanityDelegation.Count, Is.EqualTo(2));
+
+                Assert.That(vanityDelegation.First().Id, Is.EqualTo(1));
+                Assert.That(vanityDelegation.First().Name, Is.EqualTo("ns1.example.com"));
+                Assert.That(vanityDelegation.First().Ipv4, Is.EqualTo("127.0.0.1"));
+                Assert.That(vanityDelegation.First().Ipv6, Is.EqualTo("::1"));
+                Assert.That(vanityDelegation.First().CreatedAt, Is.EqualTo(CreatedAt));
+                Assert.That(vanityDelegation.First().UpdatedAt, Is.EqualTo(UpdatedAt));
+
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.PUT));
             });
         }
 
@@ -140,7 +140,7 @@ namespace dnsimple_test.Services
         public void ChangeDomainDelegationFromVanity(long accountId, string domain, string expectedUrl)
         {
             var client = new MockDnsimpleClient(ChangeDomainDelegationFromVanityFixture);
-            
+
             Assert.Multiple(() =>
             {
                 Assert.DoesNotThrow(delegate
@@ -148,9 +148,9 @@ namespace dnsimple_test.Services
                     client.Registrar.ChangeDomainDelegationFromVanity(
                         accountId, domain);
                 });
-                
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
-                Assert.AreEqual(Method.DELETE, client.HttpMethodUsed());
+
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.DELETE));
             });
         }
     }

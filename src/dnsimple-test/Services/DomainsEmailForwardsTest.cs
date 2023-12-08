@@ -49,14 +49,13 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(2, emailForwards.Count);
-                Assert.AreEqual(17702, emailForwards.First().Id);
-                Assert.AreEqual(228963, emailForwards.First().DomainId);
-                Assert.AreEqual(".*@a-domain.com", emailForwards.First().From);
-                Assert.AreEqual("jane.smith@example.com",
-                    emailForwards.First().To);
-                Assert.AreEqual(CreatedAt, emailForwards.First().CreatedAt);
-                Assert.AreEqual(UpdatedAt, emailForwards.First().UpdatedAt);
+                Assert.That(emailForwards.Count, Is.EqualTo(2));
+                Assert.That(emailForwards.First().Id, Is.EqualTo(17702));
+                Assert.That(emailForwards.First().DomainId, Is.EqualTo(228963));
+                Assert.That(emailForwards.First().From, Is.EqualTo(".*@a-domain.com"));
+                Assert.That(emailForwards.First().To, Is.EqualTo("jane.smith@example.com"));
+                Assert.That(emailForwards.First().CreatedAt, Is.EqualTo(CreatedAt));
+                Assert.That(emailForwards.First().UpdatedAt, Is.EqualTo(UpdatedAt));
             });
         }
 
@@ -74,10 +73,10 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(2, emailForwards.Data.Count);
-                Assert.AreEqual(1, emailForwards.Pagination.CurrentPage);
+                Assert.That(emailForwards.Data.Count, Is.EqualTo(2));
+                Assert.That(emailForwards.Pagination.CurrentPage, Is.EqualTo(1));
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -99,10 +98,10 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(2, emailForwards.Data.Count);
-                Assert.AreEqual(1, emailForwards.Pagination.CurrentPage);
+                Assert.That(emailForwards.Data.Count, Is.EqualTo(2));
+                Assert.That(emailForwards.Pagination.CurrentPage, Is.EqualTo(1));
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -127,16 +126,16 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(41872, created.Data.Id);
-                Assert.AreEqual(235146, created.Data.DomainId);
-                Assert.AreEqual(record.AliasName, created.Data.AliasName);
-                Assert.AreEqual(record.DestinationEmail, created.Data.DestinationEmail);
+                Assert.That(created.Data.Id, Is.EqualTo(41872));
+                Assert.That(created.Data.DomainId, Is.EqualTo(235146));
+                Assert.That(created.Data.AliasName, Is.EqualTo(record.AliasName));
+                Assert.That(created.Data.DestinationEmail, Is.EqualTo(record.DestinationEmail));
 
                 // Deprecated
-                Assert.AreEqual(record.From, created.Data.From);
-                Assert.AreEqual(record.To, created.Data.To);
+                Assert.That(created.Data.From, Is.EqualTo(record.From));
+                Assert.That(created.Data.To, Is.EqualTo(record.To));
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -177,10 +176,10 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(41872, emailForward.Id);
-                Assert.AreEqual(235146, emailForward.DomainId);
+                Assert.That(emailForward.Id, Is.EqualTo(41872));
+                Assert.That(emailForward.DomainId, Is.EqualTo(235146));
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -203,7 +202,7 @@ namespace dnsimple_test.Services
                         228963);
                 });
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -232,8 +231,8 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(sorting, options.UnpackSorting());
-                Assert.AreEqual(pagination, options.UnpackPagination());
+                Assert.That(options.UnpackSorting(), Is.EqualTo(sorting));
+                Assert.That(options.UnpackPagination(), Is.EqualTo(pagination));
             });
         }
     }
