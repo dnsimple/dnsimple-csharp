@@ -21,44 +21,43 @@ namespace dnsimple_test
         {
             _client.ChangeBaseUrlTo("https://api.sandbox.dnsimple.com");
 
-            Assert.AreEqual("https://api.sandbox.dnsimple.com",
-                _client.BaseUrl);
+            Assert.That(_client.BaseUrl, Is.EqualTo("https://api.sandbox.dnsimple.com"));
         }
 
         [Test]
         public void HasHttpService()
         {
-            Assert.IsInstanceOf(typeof(HttpService), _client.Http);
+            Assert.That(_client.Http, Is.InstanceOf<HttpService>());
         }
 
         [Test]
         public void HasIdentityService()
         {
-            Assert.IsInstanceOf(typeof(IdentityService), _client.Identity);
+            Assert.That(_client.Identity, Is.InstanceOf<IdentityService>());
         }
 
         [Test]
         public void HasOAuthService()
         {
-            Assert.IsInstanceOf(typeof(OAuth2Service), _client.OAuth);
+            Assert.That(_client.OAuth, Is.InstanceOf<OAuth2Service>());
         }
 
         [Test]
         public void HasVersion()
         {
-            Assert.AreEqual("v2", _client.Version);
+            Assert.That(_client.Version, Is.EqualTo("v2"));
         }
 
         [Test]
         public void ReturnsInstanceOfTheIdentityService()
         {
-            Assert.IsInstanceOf(typeof(IdentityService), _client.Identity);
+            Assert.That(_client.Identity, Is.InstanceOf<IdentityService>());
         }
 
         [Test]
         public void TheDefaultBaseUrlIsProduction()
         {
-            Assert.AreEqual("https://api.dnsimple.com", _client.BaseUrl);
+            Assert.That(_client.BaseUrl, Is.EqualTo("https://api.dnsimple.com"));
         }
 
         [Test]
@@ -96,8 +95,7 @@ namespace dnsimple_test
         [Test]
         public void VersionedBaseUrl()
         {
-            Assert.AreEqual("https://api.dnsimple.com/v2/",
-                _client.VersionedBaseUrl());
+            Assert.That(_client.VersionedBaseUrl(), Is.EqualTo("https://api.dnsimple.com/v2/"));
         }
 
         [Test]
@@ -105,7 +103,7 @@ namespace dnsimple_test
         {
             _client.SetUserAgent("MySuperAPP");
 
-            Assert.AreEqual($"MySuperAPP {Client.DefaultUserAgent}", _client.UserAgent);
+            Assert.That(_client.UserAgent, Is.EqualTo($"MySuperAPP {Client.DefaultUserAgent}"));
         }
 
         [Test, Description("https://github.com/dnsimple/dnsimple-csharp/issues/21")]
@@ -113,8 +111,8 @@ namespace dnsimple_test
         {
             _client.SetUserAgent("MyBestAPP");
             _client.ChangeBaseUrlTo("https://api.sandbox.dnsimple.com");
-            
-            Assert.AreEqual($"MyBestAPP {Client.DefaultUserAgent}", _client.UserAgent);
+
+            Assert.That(_client.UserAgent, Is.EqualTo($"MyBestAPP {Client.DefaultUserAgent}"));
         }
     }
 }

@@ -27,14 +27,13 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(1, account.Id);
-                Assert.AreEqual("example-account@example.com", account.Email);
-                Assert.AreEqual("dnsimple-professional",
-                    account.PlanIdentifier);
-                Assert.AreEqual(CreatedAt, account.CreatedAt);
-                Assert.AreEqual(UpdatedAt, account.UpdatedAt);
-                
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(account.Id, Is.EqualTo(1));
+                Assert.That(account.Email, Is.EqualTo("example-account@example.com"));
+                Assert.That(account.PlanIdentifier, Is.EqualTo("dnsimple-professional"));
+                Assert.That(account.CreatedAt, Is.EqualTo(CreatedAt));
+                Assert.That(account.UpdatedAt, Is.EqualTo(UpdatedAt));
+
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -48,10 +47,10 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(1, user.Id);
-                Assert.AreEqual("example-user@example.com", user.Email);
-                Assert.AreEqual(CreatedAt, user.CreatedAt);
-                Assert.AreEqual(UpdatedAt, user.UpdatedAt);
+                Assert.That(user.Id, Is.EqualTo(1));
+                Assert.That(user.Email, Is.EqualTo("example-user@example.com"));
+                Assert.That(user.CreatedAt, Is.EqualTo(CreatedAt));
+                Assert.That(user.UpdatedAt, Is.EqualTo(UpdatedAt));
             });
         }
     }

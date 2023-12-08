@@ -44,19 +44,18 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(2, domains.Count);
-                Assert.AreEqual(181984, domains.First().Id);
-                Assert.AreEqual(1385, domains.First().AccountId);
-                Assert.AreEqual(2715, domains.First().RegistrantId);
-                Assert.AreEqual("example-alpha.com", domains.First().Name);
-                Assert.AreEqual("example-alpha.com",
-                    domains.First().UnicodeName);
-                Assert.AreEqual("registered", domains.First().State);
-                Assert.IsFalse(domains.First().AutoRenew);
-                Assert.IsFalse(domains.First().PrivateWhois);
-                Assert.AreEqual(Convert.ToDateTime("2021-06-05T02:15:00Z"), domains.First().ExpiresAt);
-                Assert.AreEqual(Convert.ToDateTime("2020-06-04T19:15:14Z"), domains.First().CreatedAt);
-                Assert.AreEqual(Convert.ToDateTime("2020-06-04T19:15:21Z"), domains.First().UpdatedAt);
+                Assert.That(domains.Count, Is.EqualTo(2));
+                Assert.That(domains.First().Id, Is.EqualTo(181984));
+                Assert.That(domains.First().AccountId, Is.EqualTo(1385));
+                Assert.That(domains.First().RegistrantId, Is.EqualTo(2715));
+                Assert.That(domains.First().Name, Is.EqualTo("example-alpha.com"));
+                Assert.That(domains.First().UnicodeName, Is.EqualTo("example-alpha.com"));
+                Assert.That(domains.First().State, Is.EqualTo("registered"));
+                Assert.That(domains.First().AutoRenew, Is.False);
+                Assert.That(domains.First().PrivateWhois, Is.False);
+                Assert.That(domains.First().ExpiresAt, Is.EqualTo(Convert.ToDateTime("2021-06-05T02:15:00Z")));
+                Assert.That(domains.First().CreatedAt, Is.EqualTo(Convert.ToDateTime("2020-06-04T19:15:14Z")));
+                Assert.That(domains.First().UpdatedAt, Is.EqualTo(Convert.ToDateTime("2020-06-04T19:15:21Z")));
             });
         }
 
@@ -69,8 +68,8 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(2, domains.Data.Count);
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(domains.Data.Count, Is.EqualTo(2));
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -85,7 +84,7 @@ namespace dnsimple_test.Services
             listOptions.SortById(Order.asc);
             client.Domains.ListDomains(1010, listOptions);
 
-            Assert.AreEqual(expectedUrl, client.RequestSentTo());
+            Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
         }
 
         [Test]
@@ -99,19 +98,19 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(181984, domain.Id);
-                Assert.AreEqual(1385, domain.AccountId);
-                Assert.AreEqual(2715, domain.RegistrantId);
-                Assert.AreEqual("example-alpha.com", domain.Name);
-                Assert.AreEqual("example-alpha.com", domain.UnicodeName);
-                Assert.AreEqual("registered", domain.State);
-                Assert.IsFalse(domain.AutoRenew);
-                Assert.IsFalse(domain.PrivateWhois);
-                Assert.AreEqual(Convert.ToDateTime("2021-06-05T02:15:00Z"), domain.ExpiresAt);
-                Assert.AreEqual(Convert.ToDateTime("2020-06-04T19:15:14Z"), domain.CreatedAt);
-                Assert.AreEqual(Convert.ToDateTime("2020-06-04T19:15:21Z"), domain.UpdatedAt);
+                Assert.That(domain.Id, Is.EqualTo(181984));
+                Assert.That(domain.AccountId, Is.EqualTo(1385));
+                Assert.That(domain.RegistrantId, Is.EqualTo(2715));
+                Assert.That(domain.Name, Is.EqualTo("example-alpha.com"));
+                Assert.That(domain.UnicodeName, Is.EqualTo("example-alpha.com"));
+                Assert.That(domain.State, Is.EqualTo("registered"));
+                Assert.That(domain.AutoRenew, Is.False);
+                Assert.That(domain.PrivateWhois, Is.False);
+                Assert.That(domain.ExpiresAt, Is.EqualTo(Convert.ToDateTime("2021-06-05T02:15:00Z")));
+                Assert.That(domain.CreatedAt, Is.EqualTo(Convert.ToDateTime("2020-06-04T19:15:14Z")));
+                Assert.That(domain.UpdatedAt, Is.EqualTo(Convert.ToDateTime("2020-06-04T19:15:21Z")));
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -133,23 +132,23 @@ namespace dnsimple_test.Services
         public void CreateDomain(string expectedUrl)
         {
             var client = new MockDnsimpleClient(CreateDomainFixture);
-            var domain = client.Domains.CreateDomain(1385, new Domain{ Name = "example-beta.com"}).Data;
+            var domain = client.Domains.CreateDomain(1385, new Domain { Name = "example-beta.com" }).Data;
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(181985, domain.Id);
-                Assert.AreEqual(1385, domain.AccountId);
-                Assert.IsNull(domain.RegistrantId);
-                Assert.AreEqual("example-beta.com", domain.Name);
-                Assert.AreEqual("example-beta.com", domain.UnicodeName);
-                Assert.AreEqual("hosted", domain.State);
-                Assert.IsFalse(domain.AutoRenew);
-                Assert.IsFalse(domain.PrivateWhois);
-                Assert.IsNull(domain.ExpiresAt);
-                Assert.AreEqual(CreatedAt, domain.CreatedAt);
-                Assert.AreEqual(UpdatedAt, domain.UpdatedAt);
+                Assert.That(domain.Id, Is.EqualTo(181985));
+                Assert.That(domain.AccountId, Is.EqualTo(1385));
+                Assert.That(domain.RegistrantId, Is.Null);
+                Assert.That(domain.Name, Is.EqualTo("example-beta.com"));
+                Assert.That(domain.UnicodeName, Is.EqualTo("example-beta.com"));
+                Assert.That(domain.State, Is.EqualTo("hosted"));
+                Assert.That(domain.AutoRenew, Is.False);
+                Assert.That(domain.PrivateWhois, Is.False);
+                Assert.That(domain.ExpiresAt, Is.Null);
+                Assert.That(domain.CreatedAt, Is.EqualTo(CreatedAt));
+                Assert.That(domain.UpdatedAt, Is.EqualTo(UpdatedAt));
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -171,7 +170,7 @@ namespace dnsimple_test.Services
                         domainIdentifier);
                 });
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -192,13 +191,13 @@ namespace dnsimple_test.Services
             };
 
             var options = new DomainListOptions
+            {
+                Pagination = new Pagination
                 {
-                    Pagination = new Pagination
-                    {
-                        PerPage = 42,
-                        Page = 7
-                    }
-                }.FilterByName("example.com")
+                    PerPage = 42,
+                    Page = 7
+                }
+            }.FilterByName("example.com")
                 .FilterByRegistrantId(89)
                 .SortById(Order.asc)
                 .SortByName(Order.asc)
@@ -207,9 +206,9 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(filters, options.UnpackFilters());
-                Assert.AreEqual(sorting, options.UnpackSorting());
-                Assert.AreEqual(pagination, options.UnpackPagination());
+                Assert.That(options.UnpackFilters(), Is.EqualTo(filters));
+                Assert.That(options.UnpackSorting(), Is.EqualTo(sorting));
+                Assert.That(options.UnpackPagination(), Is.EqualTo(pagination));
             });
         }
     }

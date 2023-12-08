@@ -20,8 +20,8 @@ namespace dnsimple_test.Services
         public void ReturnsARequestBuilder()
         {
             var http = new HttpService(new RestClient(), new RequestBuilder());
-            Assert.IsInstanceOf(typeof(RequestBuilder),
-                http.RequestBuilder(""));
+            Assert.That(http.RequestBuilder(""), Is.InstanceOf<RequestBuilder>());
+
         }
 
         [Test]
@@ -50,16 +50,16 @@ namespace dnsimple_test.Services
         public void SetsTheHeaders()
         {
             var response = new MockDnsimpleClient("response.http").Identity.Whoami();
-            
+
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(4000, response.RateLimit);
-                Assert.AreEqual(3991, response.RateLimitRemaining);
-                Assert.AreEqual(1450451976, response.RateLimitReset);
+                Assert.That(response.RateLimit, Is.EqualTo(4000));
+                Assert.That(response.RateLimitRemaining, Is.EqualTo(3991));
+                Assert.That(response.RateLimitReset, Is.EqualTo(1450451976));
             });
         }
     }
-    
+
     [TestFixture]
     public class RequestBuilderTest
     {
@@ -91,21 +91,21 @@ namespace dnsimple_test.Services
 
             var request = _builder.Request;
 
-            Assert.AreEqual(2, request.Parameters.Count);
+            Assert.That(request.Parameters.Count, Is.EqualTo(2));
         }
 
         [Test]
         public void BuildsRequestWithOneParameter()
         {
             var parameter = new KeyValuePair<string, string>("sort", "name:desc");
-            
+
             _builder.AddParameter(parameter);
 
             var request = _builder.Request;
 
-            Assert.AreEqual(1, request.Parameters.Count);
+            Assert.That(request.Parameters.Count, Is.EqualTo(1));
         }
-        
+
         [Test]
         public void BuildsRequestWithParameters()
         {
@@ -122,14 +122,14 @@ namespace dnsimple_test.Services
 
             var request = _builder.Request;
 
-            Assert.AreEqual(4, request.Parameters.Count);
+            Assert.That(request.Parameters.Count, Is.EqualTo(4));
         }
-        
+
         [Test]
         public void WhenThereAreNoOptions()
         {
             _builder.AddParameters(new List<KeyValuePair<string, string>>());
-            Assert.AreEqual(0, _builder.Request.Parameters.Count);
+            Assert.That(_builder.Request.Parameters.Count, Is.EqualTo(0));
         }
 
         [Test]
@@ -138,7 +138,7 @@ namespace dnsimple_test.Services
             const string path = "some/other/path";
             _builder.Reset().AddPath(path);
 
-            Assert.AreEqual(path, _builder.Request.Resource);
+            Assert.That(_builder.Request.Resource, Is.EqualTo(path));
         }
 
         [Test]
@@ -146,7 +146,7 @@ namespace dnsimple_test.Services
         {
             _builder.Method(Method.HEAD);
 
-            Assert.IsNull(_builder.Reset().Request);
+            Assert.That(_builder.Reset().Request, Is.Null);
         }
 
         [Test]
@@ -155,7 +155,7 @@ namespace dnsimple_test.Services
             _builder.Method(Method.POST);
             var request = _builder.Request;
 
-            Assert.AreEqual(Method.POST, request.Method);
+            Assert.That(request.Method, Is.EqualTo(Method.POST));
         }
 
         [Test]
@@ -172,10 +172,9 @@ namespace dnsimple_test.Services
             _builder.AddJsonPayload(record);
             var request = _builder.Request;
 
-            Assert.AreEqual(record,
-                JsonConvert
+            Assert.That(JsonConvert
                     .DeserializeObject<DelegationSignerRecord>(
-                        request.Parameters.First().Value.ToString()));
+                        request.Parameters.First().Value.ToString()), Is.EqualTo(record));
         }
     }
 
@@ -198,10 +197,10 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(1, pagination.CurrentPage);
-                Assert.AreEqual(2, pagination.PerPage);
-                Assert.AreEqual(5, pagination.TotalEntries);
-                Assert.AreEqual(3, pagination.TotalPages);
+                Assert.That(pagination.CurrentPage, Is.EqualTo(1));
+                Assert.That(pagination.PerPage, Is.EqualTo(2));
+                Assert.That(pagination.TotalEntries, Is.EqualTo(5));
+                Assert.That(pagination.TotalPages, Is.EqualTo(3));
             });
         }
     }
