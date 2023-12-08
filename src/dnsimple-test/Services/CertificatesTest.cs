@@ -70,19 +70,19 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(2, certificate.Count);
-                Assert.AreEqual(101973, certificate.First().Id);
-                Assert.AreEqual(14279, certificate.First().DomainId);
-                Assert.AreEqual("www2.dnsimple.us", certificate.First().CommonName);
-                Assert.AreEqual(1, certificate.First().Years);
-                Assert.AreEqual(expectedCSR, certificate.First().Csr);
-                Assert.AreEqual("issued", certificate.First().State);
+                Assert.That(certificate.Count, Is.EqualTo(2));
+                Assert.That(certificate.First().Id, Is.EqualTo(101973));
+                Assert.That(certificate.First().DomainId, Is.EqualTo(14279));
+                Assert.That(certificate.First().CommonName, Is.EqualTo("www2.dnsimple.us"));
+                Assert.That(certificate.First().Years, Is.EqualTo(1));
+                Assert.That(certificate.First().Csr, Is.EqualTo(expectedCSR));
+                Assert.That(certificate.First().State, Is.EqualTo("issued"));
                 Assert.IsFalse(certificate.First().AutoRenew);
                 Assert.IsEmpty(certificate.First().AlternateNames);
-                Assert.AreEqual("letsencrypt", certificate.First().AuthorityIdentifier);
-                Assert.AreEqual(Convert.ToDateTime("2020-06-18T20:15:09Z"), certificate.First().CreatedAt);
-                Assert.AreEqual(Convert.ToDateTime("2020-06-18T20:30:08Z"), certificate.First().UpdatedAt);
-                Assert.AreEqual(Convert.ToDateTime("2020-09-16T19:30:07Z"), certificate.First().ExpiresAt);
+                Assert.That(certificate.First().AuthorityIdentifier, Is.EqualTo("letsencrypt"));
+                Assert.That(certificate.First().CreatedAt, Is.EqualTo(Convert.ToDateTime("2020-06-18T20:15:09Z")));
+                Assert.That(certificate.First().UpdatedAt, Is.EqualTo(Convert.ToDateTime("2020-06-18T20:30:08Z")));
+                Assert.That(certificate.First().ExpiresAt, Is.EqualTo(Convert.ToDateTime("2020-09-16T19:30:07Z")));
             });
         }
 
@@ -98,10 +98,10 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(2, response.Data.Count);
-                Assert.AreEqual(1, response.Pagination.CurrentPage);
+                Assert.That(response.Data.Count, Is.EqualTo(2));
+                Assert.That(response.Pagination.CurrentPage, Is.EqualTo(1));
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -113,13 +113,13 @@ namespace dnsimple_test.Services
         {
             var client = new MockDnsimpleClient(ListCertificatesFixture);
             var options = new CertificatesListOptions
+            {
+                Pagination = new Pagination
                 {
-                    Pagination = new Pagination
-                    {
-                        PerPage = 42,
-                        Page = 7
-                    }
-                }.SortById(Order.asc)
+                    PerPage = 42,
+                    Page = 7
+                }
+            }.SortById(Order.asc)
                 .SortByCommonName(Order.desc)
                 .SortByExpiration(Order.asc);
 
@@ -129,10 +129,10 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(2, response.Data.Count);
-                Assert.AreEqual(1, response.Pagination.CurrentPage);
+                Assert.That(response.Data.Count, Is.EqualTo(2));
+                Assert.That(response.Pagination.CurrentPage, Is.EqualTo(1));
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -168,20 +168,20 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(101967, certificate.Id);
-                Assert.AreEqual(289333, certificate.DomainId);
-                Assert.AreEqual("www.bingo.pizza", certificate.CommonName);
-                Assert.AreEqual(1, certificate.Years);
-                Assert.AreEqual(expectedCertificate, certificate.Csr);
-                Assert.AreEqual("issued", certificate.State);
+                Assert.That(certificate.Id, Is.EqualTo(101967));
+                Assert.That(certificate.DomainId, Is.EqualTo(289333));
+                Assert.That(certificate.CommonName, Is.EqualTo("www.bingo.pizza"));
+                Assert.That(certificate.Years, Is.EqualTo(1));
+                Assert.That(certificate.Csr, Is.EqualTo(expectedCertificate));
+                Assert.That(certificate.State, Is.EqualTo("issued"));
                 Assert.IsFalse(certificate.AutoRenew);
-                CollectionAssert.IsEmpty(certificate.AlternateNames);
-                Assert.AreEqual("letsencrypt", certificate.AuthorityIdentifier);
-                Assert.AreEqual(Convert.ToDateTime("2020-06-18T18:54:17Z"), certificate.CreatedAt);
-                Assert.AreEqual(Convert.ToDateTime("2020-06-18T19:10:14Z"), certificate.UpdatedAt);
-                Assert.AreEqual(Convert.ToDateTime("2020-09-16T18:10:13Z"), certificate.ExpiresAt);
+                Assert.That(certificate.AlternateNames, Is.Empty);
+                Assert.That(certificate.AuthorityIdentifier, Is.EqualTo("letsencrypt"));
+                Assert.That(certificate.CreatedAt, Is.EqualTo(Convert.ToDateTime("2020-06-18T18:54:17Z")));
+                Assert.That(certificate.UpdatedAt, Is.EqualTo(Convert.ToDateTime("2020-06-18T19:10:14Z")));
+                Assert.That(certificate.ExpiresAt, Is.EqualTo(Convert.ToDateTime("2020-09-16T18:10:13Z")));
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -260,11 +260,11 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(serverCertificate, certificate.ServerCertificate);
+                Assert.That(certificate.ServerCertificate, Is.EqualTo(serverCertificate));
                 Assert.IsNull(certificate.RootCertificate);
                 Assert.Contains(chainCertificate, certificate.IntermediateCertificates);
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -313,8 +313,8 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(expectedPrivateKey, privateKey.PrivateKey);
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(privateKey.PrivateKey, Is.EqualTo(expectedPrivateKey));
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -330,7 +330,7 @@ namespace dnsimple_test.Services
             {
                 AutoRenew = false,
                 Name = "SuperCertificate",
-                AlternateNames = new List<string>{"docs.bingo.pizza", "status.bingo.pizza"}
+                AlternateNames = new List<string> { "docs.bingo.pizza", "status.bingo.pizza" }
             };
 
             var certificateOrdered =
@@ -339,15 +339,15 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(101967, certificateOrdered.Id);
-                Assert.AreEqual(101967, certificateOrdered.CertificateId);
-                Assert.AreEqual("new", certificateOrdered.State);
+                Assert.That(certificateOrdered.Id, Is.EqualTo(101967));
+                Assert.That(certificateOrdered.CertificateId, Is.EqualTo(101967));
+                Assert.That(certificateOrdered.State, Is.EqualTo("new"));
                 Assert.IsFalse(certificateOrdered.AutoRenew);
-                Assert.AreEqual(Convert.ToDateTime("2020-06-18T18:54:17Z"), certificateOrdered.CreatedAt);
-                Assert.AreEqual(Convert.ToDateTime("2020-06-18T18:54:17Z"), certificateOrdered.UpdatedAt);
+                Assert.That(certificateOrdered.CreatedAt, Is.EqualTo(Convert.ToDateTime("2020-06-18T18:54:17Z")));
+                Assert.That(certificateOrdered.UpdatedAt, Is.EqualTo(Convert.ToDateTime("2020-06-18T18:54:17Z")));
 
-                Assert.AreEqual(Method.POST, client.HttpMethodUsed());
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.POST));
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -365,18 +365,18 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(101967, certificate.Id);
-                Assert.AreEqual(289333, certificate.DomainId);
-                Assert.AreEqual("www.bingo.pizza", certificate.CommonName);
-                Assert.AreEqual(1, certificate.Years);
+                Assert.That(certificate.Id, Is.EqualTo(101967));
+                Assert.That(certificate.DomainId, Is.EqualTo(289333));
+                Assert.That(certificate.CommonName, Is.EqualTo("www.bingo.pizza"));
+                Assert.That(certificate.Years, Is.EqualTo(1));
                 Assert.IsNull(certificate.Csr);
-                Assert.AreEqual("requesting", certificate.State);
+                Assert.That(certificate.State, Is.EqualTo("requesting"));
                 Assert.IsFalse(certificate.AutoRenew);
-                CollectionAssert.IsEmpty(certificate.AlternateNames);
-                Assert.AreEqual("letsencrypt", certificate.AuthorityIdentifier);
+                Assert.That(certificate.AlternateNames, Is.Empty);
+                Assert.That(certificate.AuthorityIdentifier, Is.EqualTo("letsencrypt"));
 
-                Assert.AreEqual(Method.POST, client.HttpMethodUsed());
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.POST));
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -399,16 +399,16 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(65082, renewalPurchased.Id);
-                Assert.AreEqual(101967, renewalPurchased.OldCertificateId);
-                Assert.AreEqual(101972, renewalPurchased.NewCertificateId);
-                Assert.AreEqual("new", renewalPurchased.State);
+                Assert.That(renewalPurchased.Id, Is.EqualTo(65082));
+                Assert.That(renewalPurchased.OldCertificateId, Is.EqualTo(101967));
+                Assert.That(renewalPurchased.NewCertificateId, Is.EqualTo(101972));
+                Assert.That(renewalPurchased.State, Is.EqualTo("new"));
                 Assert.IsFalse(renewalPurchased.AutoRenew);
-                Assert.AreEqual(Convert.ToDateTime("2020-06-18T19:56:20Z"), renewalPurchased.CreatedAt);
-                Assert.AreEqual(Convert.ToDateTime("2020-06-18T19:56:20Z"), renewalPurchased.UpdatedAt);
+                Assert.That(renewalPurchased.CreatedAt, Is.EqualTo(Convert.ToDateTime("2020-06-18T19:56:20Z")));
+                Assert.That(renewalPurchased.UpdatedAt, Is.EqualTo(Convert.ToDateTime("2020-06-18T19:56:20Z")));
 
-                Assert.AreEqual(Method.POST, client.HttpMethodUsed());
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.POST));
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -430,18 +430,18 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(101972, renewalIssued.Id);
-                Assert.AreEqual(289333, renewalIssued.DomainId);
-                Assert.AreEqual("www.bingo.pizza", renewalIssued.CommonName);
-                Assert.AreEqual(1, renewalIssued.Years);
+                Assert.That(renewalIssued.Id, Is.EqualTo(101972));
+                Assert.That(renewalIssued.DomainId, Is.EqualTo(289333));
+                Assert.That(renewalIssued.CommonName, Is.EqualTo("www.bingo.pizza"));
+                Assert.That(renewalIssued.Years, Is.EqualTo(1));
                 Assert.IsNull(renewalIssued.Csr);
-                Assert.AreEqual("requesting", renewalIssued.State);
+                Assert.That(renewalIssued.State, Is.EqualTo("requesting"));
                 Assert.IsFalse(renewalIssued.AutoRenew);
-                CollectionAssert.IsEmpty(renewalIssued.AlternateNames);
-                Assert.AreEqual("letsencrypt", renewalIssued.AuthorityIdentifier);
+                Assert.That(renewalIssued.AlternateNames, Is.Empty);
+                Assert.That(renewalIssued.AuthorityIdentifier, Is.EqualTo("letsencrypt"));
 
-                Assert.AreEqual(Method.POST, client.HttpMethodUsed());
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.POST));
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
     }

@@ -12,7 +12,7 @@ namespace dnsimple_test.Services
         private DateTime CreatedAt { get; } = DateTime.ParseExact(
                     "2017-03-03T13:49:58Z", "yyyy-MM-ddTHH:mm:ssZ",
                     CultureInfo.CurrentCulture);
-        
+
         private DateTime UpdatedAt { get; } = DateTime.ParseExact(
                     "2017-03-03T13:49:58Z", "yyyy-MM-ddTHH:mm:ssZ",
                     CultureInfo.CurrentCulture);
@@ -25,14 +25,14 @@ namespace dnsimple_test.Services
             var client =
                 new MockDnsimpleClient("enableDnssec/success.http");
             var response = client.Domains.EnableDnssec(accountId, domainIdentifier);
-            
+
             Assert.Multiple(() =>
             {
                 Assert.IsTrue(response.Data.Enabled);
-                Assert.AreEqual(CreatedAt, response.Data.CreatedAt);
-                Assert.AreEqual(UpdatedAt, response.Data.UpdatedAt);
+                Assert.That(response.Data.CreatedAt, Is.EqualTo(CreatedAt));
+                Assert.That(response.Data.UpdatedAt, Is.EqualTo(UpdatedAt));
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -42,18 +42,18 @@ namespace dnsimple_test.Services
         public void DisableDnssec(long accountId, string domainIdentifier, string expectedUrl)
         {
             var client = new MockDnsimpleClient("disableDnssec/success.http");
-            
+
             Assert.Multiple(() =>
             {
                 Assert.DoesNotThrow(delegate
                 {
                     client.Domains.DisableDnssec(accountId, domainIdentifier);
                 });
-                
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
-        
+
         [Test]
         [TestCase(1010, "100")]
         [TestCase(1010, "example.com")]
@@ -61,11 +61,11 @@ namespace dnsimple_test.Services
         {
             var client = new MockDnsimpleClient("disableDnssec/not-enabled.http");
             client.StatusCode(HttpStatusCode.NotImplemented);
-            
+
             Assert.Throws<DnsimpleException>(delegate
             {
                 client.Domains.DisableDnssec(accountId, domainIdentifier);
-                    
+
             }, "DNSSEC cannot be disabled because it is not enabled");
         }
 
@@ -77,17 +77,17 @@ namespace dnsimple_test.Services
             var dateTime = DateTime.ParseExact(
                 "2017-02-03T17:43:22Z", "yyyy-MM-ddTHH:mm:ssZ",
                 CultureInfo.CurrentCulture);
-            
+
             var client = new MockDnsimpleClient("getDnssec/success.http");
             var response = client.Domains.GetDnssec(accountId, domainIdentifier);
-            
+
             Assert.Multiple(() =>
             {
                 Assert.IsTrue(response.Data.Enabled);
-                Assert.AreEqual(dateTime, response.Data.CreatedAt);
-                Assert.AreEqual(dateTime, response.Data.UpdatedAt);
-                
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(response.Data.CreatedAt, Is.EqualTo(dateTime));
+                Assert.That(response.Data.UpdatedAt, Is.EqualTo(dateTime));
+
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
     }

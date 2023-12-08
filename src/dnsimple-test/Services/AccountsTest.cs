@@ -14,7 +14,7 @@ namespace dnsimple_test.Services
         {
             var loader =
                 new FixtureLoader("v2", "accounts/success-user.http");
-                
+
             _response = new MockResponse(loader);
         }
 
@@ -25,11 +25,9 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(123, accountsData.Data.First().Id);
-                Assert.AreEqual("john@example.com",
-                    accountsData.Data.First().Email);
-                Assert.AreEqual("dnsimple-personal",
-                    accountsData.Data.First().PlanIdentifier);
+                Assert.That(accountsData.Data.First().Id, Is.EqualTo(123));
+                Assert.That(accountsData.Data.First().Email, Is.EqualTo("john@example.com"));
+                Assert.That(accountsData.Data.First().PlanIdentifier, Is.EqualTo("dnsimple-personal"));
             });
         }
 
@@ -38,9 +36,9 @@ namespace dnsimple_test.Services
         {
             var accountsResponse = new ListResponse<Account>(_response);
 
-            Assert.AreEqual(2, accountsResponse.Data.Count);
+            Assert.That(accountsResponse.Data.Count, Is.EqualTo(2));
         }
-        
+
         [Test]
         [TestCase("https://api.sandbox.dnsimple.com/v2/accounts")]
         public void ReturnsAListOfAccountsForUser(string expectedUrl)
@@ -48,17 +46,16 @@ namespace dnsimple_test.Services
             var client = new MockDnsimpleClient("accounts/success-user.http");
 
             var accounts = client.Accounts.List();
-            
+
             var lastAccount = accounts.Data.Last();
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(456, lastAccount.Id);
-                Assert.AreEqual("ops@company.com", lastAccount.Email);
-                Assert.AreEqual("dnsimple-professional",
-                    lastAccount.PlanIdentifier);
-                
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(lastAccount.Id, Is.EqualTo(456));
+                Assert.That(lastAccount.Email, Is.EqualTo("ops@company.com"));
+                Assert.That(lastAccount.PlanIdentifier, Is.EqualTo("dnsimple-professional"));
+
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
     }

@@ -65,17 +65,16 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(1, records.Count);
-                Assert.AreEqual(24, records.First().Id);
-                Assert.AreEqual(1010, records.First().DomainId);
-                Assert.AreEqual("8", records.First().Algorithm);
-                Assert.AreEqual(
-                    "C1F6E04A5A61FBF65BF9DC8294C363CF11C89E802D926BDAB79C55D27BEFA94F",
-                    records.First().Digest);
-                Assert.AreEqual("2", records.First().DigestType);
-                Assert.AreEqual("44620", records.First().Keytag);
-                Assert.AreEqual(CreatedAt, records.First().CreatedAt);
-                Assert.AreEqual(UpdatedAt, records.First().UpdatedAt);
+                Assert.That(records.Count, Is.EqualTo(1));
+                Assert.That(records.First().Id, Is.EqualTo(24));
+                Assert.That(records.First().DomainId, Is.EqualTo(1010));
+                Assert.That(records.First().Algorithm, Is.EqualTo("8"));
+                Assert.That(
+                    records.First().Digest, Is.EqualTo("C1F6E04A5A61FBF65BF9DC8294C363CF11C89E802D926BDAB79C55D27BEFA94F"));
+                Assert.That(records.First().DigestType, Is.EqualTo("2"));
+                Assert.That(records.First().Keytag, Is.EqualTo("44620"));
+                Assert.That(records.First().CreatedAt, Is.EqualTo(CreatedAt));
+                Assert.That(records.First().UpdatedAt, Is.EqualTo(UpdatedAt));
             });
         }
 
@@ -93,10 +92,10 @@ namespace dnsimple_test.Services
                     domainIdentifier);
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(1, records.Data.Count);
-                Assert.AreEqual(1, records.Pagination.CurrentPage);
+                Assert.That(records.Data.Count, Is.EqualTo(1));
+                Assert.That(records.Pagination.CurrentPage, Is.EqualTo(1));
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -110,7 +109,7 @@ namespace dnsimple_test.Services
         {
             var options = new ListDomainDelegationSignerRecordsOptions
             {
-                Pagination = new Pagination {Page = 3, PerPage = 5}
+                Pagination = new Pagination { Page = 3, PerPage = 5 }
             };
             options.SortById(Order.asc).SortByCreatedAt(Order.desc);
 
@@ -121,10 +120,10 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(1, records.Data.Count);
-                Assert.AreEqual(1, records.Pagination.CurrentPage);
+                Assert.That(records.Data.Count, Is.EqualTo(1));
+                Assert.That(records.Pagination.CurrentPage, Is.EqualTo(1));
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -144,11 +143,11 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(2, created.Data.Id);
-                Assert.AreEqual(1010, created.Data.DomainId);
-                Assert.AreEqual("13", created.Data.Algorithm);
+                Assert.That(created.Data.Id, Is.EqualTo(2));
+                Assert.That(created.Data.DomainId, Is.EqualTo(1010));
+                Assert.That(created.Data.Algorithm, Is.EqualTo("13"));
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -168,8 +167,7 @@ namespace dnsimple_test.Services
             }
             catch (DnsimpleValidationException exception)
             {
-                Assert.AreEqual("can't be blank",
-                    exception.Validation["algorithm"]?.First?.ToString());
+                Assert.That(exception.Validation["algorithm"]?.First?.ToString(), Is.EqualTo("can't be blank"));
             }
         }
 
@@ -210,15 +208,15 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(24, record.Id);
-                Assert.AreEqual(1010, record.DomainId);
-                Assert.AreEqual("8", record.Algorithm);
-                Assert.AreEqual("C1F6E04A5A61FBF65BF9DC8294C363CF11C89E802D926BDAB79C55D27BEFA94F", record.Digest);
-                Assert.AreEqual("2", record.DigestType);
-                Assert.AreEqual("44620", record.Keytag);
-                Assert.AreEqual(null, record.PublicKey);
+                Assert.That(record.Id, Is.EqualTo(24));
+                Assert.That(record.DomainId, Is.EqualTo(1010));
+                Assert.That(record.Algorithm, Is.EqualTo("8"));
+                Assert.That(record.Digest, Is.EqualTo("C1F6E04A5A61FBF65BF9DC8294C363CF11C89E802D926BDAB79C55D27BEFA94F"));
+                Assert.That(record.DigestType, Is.EqualTo("2"));
+                Assert.That(record.Keytag, Is.EqualTo("44620"));
+                Assert.That(record.PublicKey, Is.EqualTo(null));
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -240,7 +238,7 @@ namespace dnsimple_test.Services
                         domainIdentifier, 24);
                 });
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
     }

@@ -19,7 +19,7 @@ namespace dnsimple_test.Services
         private DateTime UpdatedAt { get; } = DateTime.ParseExact(
             "2016-08-11T10:16:03Z", "yyyy-MM-ddTHH:mm:ssZ",
             CultureInfo.CurrentCulture);
-        
+
         [Test]
         [TestCase(1010, "100", "https://api.sandbox.dnsimple.com/v2/1010/domains/100/pushes")]
         [TestCase(1010, "example.com", "https://api.sandbox.dnsimple.com/v2/1010/domains/example.com/pushes")]
@@ -28,17 +28,17 @@ namespace dnsimple_test.Services
             var client = new MockDnsimpleClient(InitiatePushFixture);
             var push = client.Domains.InitiatePush(accountId, domainIdentifier,
                 "admin@target-account.test");
-            
+
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(1, push.Data.Id);
-                Assert.AreEqual(100, push.Data.DomainId);
+                Assert.That(push.Data.Id, Is.EqualTo(1));
+                Assert.That(push.Data.DomainId, Is.EqualTo(100));
                 Assert.IsNull(push.Data.ContactId);
-                Assert.AreEqual(2020, push.Data.AccountId);
-                Assert.AreEqual(CreatedAt, push.Data.CreatedAt);
-                Assert.AreEqual(UpdatedAt, push.Data.UpdatedAt);
-                
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(push.Data.AccountId, Is.EqualTo(2020));
+                Assert.That(push.Data.CreatedAt, Is.EqualTo(CreatedAt));
+                Assert.That(push.Data.UpdatedAt, Is.EqualTo(UpdatedAt));
+
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -48,7 +48,7 @@ namespace dnsimple_test.Services
         public void InitiatePushValidationFail(string email)
         {
             var client = new MockDnsimpleClient(InitiatePushFixture);
-            
+
             Assert.Throws(Is.TypeOf<ArgumentException>().And.Message.EqualTo("Email cannot be null or empty"),
                 delegate
                 {
@@ -64,13 +64,13 @@ namespace dnsimple_test.Services
         {
             var client = new MockDnsimpleClient(ListPushesFixture);
             var pushes = client.Domains.ListPushes(accountId);
-            
+
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(2, pushes.Data.Count);
-                Assert.AreEqual(1, pushes.Pagination.CurrentPage);
-                
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(pushes.Data.Count, Is.EqualTo(2));
+                Assert.That(pushes.Pagination.CurrentPage, Is.EqualTo(1));
+
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -79,15 +79,15 @@ namespace dnsimple_test.Services
         public void AcceptPush(long accountId, long pushId, long contactId, string expectedUrl)
         {
             var client = new MockDnsimpleClient(AcceptPushFixture);
-            
+
             Assert.Multiple(() =>
             {
                 Assert.DoesNotThrow(() =>
                 {
                     client.Domains.AcceptPush(accountId, pushId, contactId);
                 });
-                
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -96,15 +96,15 @@ namespace dnsimple_test.Services
         public void RejectPush(string expectedUrl)
         {
             var client = new MockDnsimpleClient(RejectPushFixture);
-            
+
             Assert.Multiple(() =>
             {
                 Assert.DoesNotThrow(() =>
                 {
                     client.Domains.RejectPush(1010, 2);
                 });
-                
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
     }

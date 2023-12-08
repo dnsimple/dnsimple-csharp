@@ -65,20 +65,19 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(1, record.Id);
-                Assert.AreEqual("example.com", record.ZoneId);
+                Assert.That(record.Id, Is.EqualTo(1));
+                Assert.That(record.ZoneId, Is.EqualTo("example.com"));
                 Assert.IsNull(record.ParentId);
-                Assert.AreEqual("", record.Name);
-                Assert.AreEqual(
-                    "ns1.dnsimple.com admin.dnsimple.com 1458642070 86400 7200 604800 300",
-                    record.Content);
-                Assert.AreEqual(3600, record.Ttl);
+                Assert.That(record.Name, Is.EqualTo(""));
+                Assert.That(
+                    record.Content, Is.EqualTo("ns1.dnsimple.com admin.dnsimple.com 1458642070 86400 7200 604800 300"));
+                Assert.That(record.Ttl, Is.EqualTo(3600));
                 Assert.IsNull(record.Priority);
-                Assert.AreEqual(ZoneRecordType.SOA, record.Type);
+                Assert.That(record.Type, Is.EqualTo(ZoneRecordType.SOA));
                 Assert.Contains("global", record.Regions);
                 Assert.IsTrue(record.SystemRecord);
-                Assert.AreEqual(CreatedAt, record.CreatedAt);
-                Assert.AreEqual(UpdatedAt, record.UpdatedAt);
+                Assert.That(record.CreatedAt, Is.EqualTo(CreatedAt));
+                Assert.That(record.UpdatedAt, Is.EqualTo(UpdatedAt));
             });
         }
 
@@ -87,7 +86,7 @@ namespace dnsimple_test.Services
         {
             var response = new PaginatedResponse<ZoneRecord>(_response);
 
-            Assert.AreEqual(5, response.Data.Count);
+            Assert.That(response.Data.Count, Is.EqualTo(5));
         }
 
         [Test]
@@ -100,10 +99,10 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(5, response.Data.Count);
-                Assert.AreEqual(1, response.Pagination.CurrentPage);
+                Assert.That(response.Data.Count, Is.EqualTo(5));
+                Assert.That(response.Pagination.CurrentPage, Is.EqualTo(1));
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -116,13 +115,13 @@ namespace dnsimple_test.Services
             var client = new MockDnsimpleClient(ListZoneRecordsFixture);
 
             var options = new ZoneRecordsListOptions
+            {
+                Pagination = new Pagination
                 {
-                    Pagination = new Pagination
-                    {
-                        PerPage = 42,
-                        Page = 7
-                    }
-                }.FilterByName("example")
+                    PerPage = 42,
+                    Page = 7
+                }
+            }.FilterByName("example")
                 .FilterByExactName("boom")
                 .FilterByType(ZoneRecordType.SOA)
                 .SortById(Order.asc)
@@ -132,7 +131,7 @@ namespace dnsimple_test.Services
 
             client.Zones.ListZoneRecords(account, zoneId, options);
 
-            Assert.AreEqual(expectedUrl, client.RequestSentTo());
+            Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
         }
 
         [Test]
@@ -159,16 +158,16 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(1, created.Id);
-                Assert.AreEqual("example.com", created.ZoneId);
-                Assert.AreEqual(name, created.Name);
-                Assert.AreEqual("127.0.0.1", created.Content);
-                Assert.AreEqual(600, created.Ttl);
-                Assert.AreEqual(ZoneRecordType.A, created.Type);
+                Assert.That(created.Id, Is.EqualTo(1));
+                Assert.That(created.ZoneId, Is.EqualTo("example.com"));
+                Assert.That(created.Name, Is.EqualTo(name));
+                Assert.That(created.Content, Is.EqualTo("127.0.0.1"));
+                Assert.That(created.Ttl, Is.EqualTo(600));
+                Assert.That(created.Type, Is.EqualTo(ZoneRecordType.A));
                 Assert.Contains("global", created.Regions);
 
-                Assert.AreEqual(Method.POST, client.HttpMethodUsed());
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.POST));
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -184,20 +183,20 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(recordId, record.Id);
-                Assert.AreEqual(zoneId, record.ZoneId);
+                Assert.That(record.Id, Is.EqualTo(recordId));
+                Assert.That(record.ZoneId, Is.EqualTo(zoneId));
                 Assert.IsNull(record.ParentId);
                 Assert.IsEmpty(record.Name);
-                Assert.AreEqual("mxa.example.com", record.Content);
-                Assert.AreEqual(600, record.Ttl);
-                Assert.AreEqual(10, record.Priority);
-                Assert.AreEqual(ZoneRecordType.MX, record.Type);
+                Assert.That(record.Content, Is.EqualTo("mxa.example.com"));
+                Assert.That(record.Ttl, Is.EqualTo(600));
+                Assert.That(record.Priority, Is.EqualTo(10));
+                Assert.That(record.Type, Is.EqualTo(ZoneRecordType.MX));
                 Assert.Contains("SV1", record.Regions);
                 Assert.Contains("IAD", record.Regions);
                 Assert.IsFalse(record.SystemRecord);
 
-                Assert.AreEqual(Method.GET, client.HttpMethodUsed());
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.GET));
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -222,19 +221,19 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(recordId, record.Id);
-                Assert.AreEqual(zoneId, record.ZoneId);
+                Assert.That(record.Id, Is.EqualTo(recordId));
+                Assert.That(record.ZoneId, Is.EqualTo(zoneId));
                 Assert.IsNull(record.ParentId);
                 Assert.IsEmpty(record.Name);
-                Assert.AreEqual("mxb.example.com", record.Content);
-                Assert.AreEqual(3600, record.Ttl);
-                Assert.AreEqual(20, record.Priority);
-                Assert.AreEqual(ZoneRecordType.MX, record.Type);
+                Assert.That(record.Content, Is.EqualTo("mxb.example.com"));
+                Assert.That(record.Ttl, Is.EqualTo(3600));
+                Assert.That(record.Priority, Is.EqualTo(20));
+                Assert.That(record.Type, Is.EqualTo(ZoneRecordType.MX));
                 Assert.Contains("global", record.Regions);
                 Assert.IsFalse(record.SystemRecord);
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
-                Assert.AreEqual(Method.PATCH, client.HttpMethodUsed());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.PATCH));
             });
         }
 
@@ -253,8 +252,8 @@ namespace dnsimple_test.Services
                     client.Zones.DeleteZoneRecord(accountId, zoneId, recordId);
                 });
 
-                Assert.AreEqual(Method.DELETE, client.HttpMethodUsed());
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.DELETE));
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -273,7 +272,7 @@ namespace dnsimple_test.Services
             {
                 Assert.IsTrue(record.Distributed);
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -292,7 +291,7 @@ namespace dnsimple_test.Services
             {
                 Assert.IsFalse(record.Distributed);
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -331,13 +330,13 @@ namespace dnsimple_test.Services
             };
 
             var options = new ZoneRecordsListOptions
+            {
+                Pagination = new Pagination
                 {
-                    Pagination = new Pagination
-                    {
-                        PerPage = 42,
-                        Page = 7
-                    }
-                }.FilterByName("example")
+                    PerPage = 42,
+                    Page = 7
+                }
+            }.FilterByName("example")
                 .FilterByExactName("boom")
                 .FilterByType(ZoneRecordType.SOA)
                 .SortById(Order.asc)
@@ -347,9 +346,9 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(filters, options.UnpackFilters());
-                Assert.AreEqual(sorting, options.UnpackSorting());
-                Assert.AreEqual(pagination, options.UnpackPagination());
+                Assert.That(options.UnpackFilters(), Is.EqualTo(filters));
+                Assert.That(options.UnpackSorting(), Is.EqualTo(sorting));
+                Assert.That(options.UnpackPagination(), Is.EqualTo(pagination));
             });
         }
     }

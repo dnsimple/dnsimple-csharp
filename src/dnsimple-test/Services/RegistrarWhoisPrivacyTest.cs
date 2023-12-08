@@ -24,10 +24,10 @@ namespace dnsimple_test.Services
 
         private const string RenewWhoisPrivacyFixture =
             "renewWhoisPrivacy/success.http";
-                                      
+
         private const string WhoisPrivacyDuplicatedOrderFixture =
             "renewWhoisPrivacy/whois-privacy-duplicated-order.http";
-        
+
         private const string WhoisPrivacyNotFoundFixture =
             "renewWhoisPrivacy/whois-privacy-not-found.http";
 
@@ -38,11 +38,11 @@ namespace dnsimple_test.Services
         private DateTime UpdatedAt { get; } = DateTime.ParseExact(
             "2016-02-13T14:34:52Z", "yyyy-MM-ddTHH:mm:ssZ",
             CultureInfo.CurrentCulture);
-        
+
         private DateTime ExpiresOn { get; } = DateTime.ParseExact(
             "2017-02-13", "yyyy-MM-dd",
             CultureInfo.CurrentCulture);
-        
+
         private DateTime RenewalCreatedAt { get; } = DateTime.ParseExact(
             "2019-01-10T12:12:48Z", "yyyy-MM-ddTHH:mm:ssZ",
             CultureInfo.CurrentCulture);
@@ -50,11 +50,11 @@ namespace dnsimple_test.Services
         private DateTime RenewalUpdatedAt { get; } = DateTime.ParseExact(
             "2019-01-10T12:12:48Z", "yyyy-MM-ddTHH:mm:ssZ",
             CultureInfo.CurrentCulture);
-        
+
         private DateTime RenewalExpiresOn { get; } = DateTime.ParseExact(
             "2020-01-10", "yyyy-MM-dd",
             CultureInfo.CurrentCulture);
-        
+
         [Test]
         [TestCase(1010, "42", "https://api.sandbox.dnsimple.com/v2/1010/registrar/domains/42/whois_privacy")]
         [TestCase(1010, "ruby.codes", "https://api.sandbox.dnsimple.com/v2/1010/registrar/domains/ruby.codes/whois_privacy")]
@@ -63,17 +63,17 @@ namespace dnsimple_test.Services
             var client = new MockDnsimpleClient(GetWhoisPrivacyFixture);
 
             var privacy = client.Registrar.GetWhoisPrivacy(accountId, domain).Data;
-            
+
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(1, privacy.Id);
-                Assert.AreEqual(2, privacy.DomainId);
-                Assert.AreEqual(ExpiresOn, privacy.ExpiresOn);
+                Assert.That(privacy.Id, Is.EqualTo(1));
+                Assert.That(privacy.DomainId, Is.EqualTo(2));
+                Assert.That(privacy.ExpiresOn, Is.EqualTo(ExpiresOn));
                 Assert.IsTrue(privacy.Enabled);
-                Assert.AreEqual(CreatedAt, privacy.CreatedAt);
-                Assert.AreEqual(UpdatedAt, privacy.UpdatedAt);
-                
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(privacy.CreatedAt, Is.EqualTo(CreatedAt));
+                Assert.That(privacy.UpdatedAt, Is.EqualTo(UpdatedAt));
+
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -86,16 +86,16 @@ namespace dnsimple_test.Services
 
             var privacy =
                 client.Registrar.EnableWhoisPrivacy(accountId, domain).Data;
-            
+
             Assert.Multiple(() =>
             {
                 Assert.IsTrue(privacy.Enabled);
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
-                Assert.AreEqual(Method.PUT, client.HttpMethodUsed());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.PUT));
             });
         }
-        
+
         [Test]
         [TestCase(1010, "42", "https://api.sandbox.dnsimple.com/v2/1010/registrar/domains/42/whois_privacy")]
         [TestCase(1010, "ruby.codes", "https://api.sandbox.dnsimple.com/v2/1010/registrar/domains/ruby.codes/whois_privacy")]
@@ -105,13 +105,13 @@ namespace dnsimple_test.Services
 
             var privacy =
                 client.Registrar.EnableWhoisPrivacy(accountId, domain).Data;
-            
+
             Assert.Multiple(() =>
             {
                 Assert.IsNull(privacy.Enabled);
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
-                Assert.AreEqual(Method.PUT, client.HttpMethodUsed());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.PUT));
             });
         }
 
@@ -124,13 +124,13 @@ namespace dnsimple_test.Services
 
             var privacy =
                 client.Registrar.DisableWhoisPrivacy(accountId, domain).Data;
-            
+
             Assert.Multiple(() =>
             {
                 Assert.IsFalse(privacy.Enabled);
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
-                Assert.AreEqual(Method.DELETE, client.HttpMethodUsed());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.DELETE));
             });
         }
 
@@ -140,23 +140,23 @@ namespace dnsimple_test.Services
         public void RenewWhoisPrivacy(long accountId, string domain, string expectedUrl)
         {
             var client = new MockDnsimpleClient(RenewWhoisPrivacyFixture);
-            
+
             var renewedDomain =
                 client.Registrar.RenewWhoisPrivacy(accountId, domain).Data;
-            
+
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(1, renewedDomain.Id);
-                Assert.AreEqual(100, renewedDomain.DomainId);
-                Assert.AreEqual(999, renewedDomain.WhoisPrivacyId);
-                Assert.AreEqual("new", renewedDomain.State);
-                Assert.AreEqual(RenewalExpiresOn, renewedDomain.ExpiresOn);
+                Assert.That(renewedDomain.Id, Is.EqualTo(1));
+                Assert.That(renewedDomain.DomainId, Is.EqualTo(100));
+                Assert.That(renewedDomain.WhoisPrivacyId, Is.EqualTo(999));
+                Assert.That(renewedDomain.State, Is.EqualTo("new"));
+                Assert.That(renewedDomain.ExpiresOn, Is.EqualTo(RenewalExpiresOn));
                 Assert.IsTrue(renewedDomain.Enabled);
-                Assert.AreEqual(RenewalCreatedAt, renewedDomain.CreatedAt);
-                Assert.AreEqual(RenewalUpdatedAt, renewedDomain.UpdatedAt);
+                Assert.That(renewedDomain.CreatedAt, Is.EqualTo(RenewalCreatedAt));
+                Assert.That(renewedDomain.UpdatedAt, Is.EqualTo(RenewalUpdatedAt));
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
-                Assert.AreEqual(Method.POST, client.HttpMethodUsed());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.POST));
             });
         }
 
@@ -170,7 +170,7 @@ namespace dnsimple_test.Services
         {
             var client = new MockDnsimpleClient(WhoisPrivacyDuplicatedOrderFixture);
             client.StatusCode(HttpStatusCode.BadRequest);
-            
+
             Assert.Multiple(() =>
             {
                 Assert.Throws(
@@ -179,12 +179,12 @@ namespace dnsimple_test.Services
                     {
                         client.Registrar.RenewWhoisPrivacy(accountId, domain);
                     });
-                
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
-                Assert.AreEqual(Method.POST, client.HttpMethodUsed());
+
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.POST));
             });
         }
-        
+
         [Test]
         [TestCase(1010, "100")]
         [TestCase(1010, "ruby.codes")]
@@ -193,7 +193,7 @@ namespace dnsimple_test.Services
         {
             var client = new MockDnsimpleClient(WhoisPrivacyNotFoundFixture);
             client.StatusCode(HttpStatusCode.BadRequest);
-            
+
             Assert.Multiple(() =>
             {
                 Assert.Throws(
@@ -202,8 +202,8 @@ namespace dnsimple_test.Services
                     {
                         client.Registrar.RenewWhoisPrivacy(accountId, domain);
                     });
-                
-                Assert.AreEqual(Method.POST, client.HttpMethodUsed());
+
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.POST));
             });
         }
     }

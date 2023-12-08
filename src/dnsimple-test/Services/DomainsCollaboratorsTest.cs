@@ -32,19 +32,15 @@ namespace dnsimple_test.Services
         public void CollaboratorsResponse()
         {
             var response = new PaginatedResponse<Collaborator>(_response);
-            
-            Assert.AreEqual(100, response.Data.First().Id);
-            Assert.AreEqual(1,
-                response.Data.First().DomainId);
-            Assert.AreEqual("example.com",
-                response.Data.First().DomainName);
-            Assert.AreEqual(999,
-                response.Data.First().UserId);
-            Assert.AreEqual("existing-user@example.com",
-                response.Data.First().UserEmail);
+
+            Assert.That(response.Data.First().Id, Is.EqualTo(100));
+            Assert.That(response.Data.First().DomainId, Is.EqualTo(1));
+            Assert.That(response.Data.First().DomainName, Is.EqualTo("example.com"));
+            Assert.That(response.Data.First().UserId, Is.EqualTo(999));
+            Assert.That(response.Data.First().UserEmail, Is.EqualTo("existing-user@example.com"));
             Assert.IsFalse(response.Data.First().Invitation);
 
-            Assert.AreEqual(2, response.Data.Count);
+            Assert.That(response.Data.Count, Is.EqualTo(2));
         }
 
         [Test]
@@ -58,9 +54,8 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(100,
-                    collaborators.Data.First().Id);
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(collaborators.Data.First().Id, Is.EqualTo(100));
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -76,12 +71,11 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(999, collaborator.UserId);
-                Assert.AreEqual("existing-user@example.com",
-                    collaborator.UserEmail);
+                Assert.That(collaborator.UserId, Is.EqualTo(999));
+                Assert.That(collaborator.UserEmail, Is.EqualTo("existing-user@example.com"));
                 Assert.IsFalse(collaborator.Invitation);
-                
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -91,11 +85,12 @@ namespace dnsimple_test.Services
         public void AddCollaboratorCannotBeNullOrEmpty(string collaborator)
         {
             var client = new MockDnsimpleClient(AddCollaboratorFixture);
-            
+
             Assert.Throws(
                 Is.TypeOf<ArgumentException>(),
-                delegate { 
-                    client.Domains.AddCollaborator(AccountId, "ruby.codes",collaborator);
+                delegate
+                {
+                    client.Domains.AddCollaborator(AccountId, "ruby.codes", collaborator);
                 }
             );
         }
@@ -111,17 +106,16 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual("invited-user@example.com",
-                    collaborator.Data.UserEmail);
+                Assert.That(collaborator.Data.UserEmail, Is.EqualTo("invited-user@example.com"));
                 Assert.IsNull(collaborator.Data.UserId);
                 Assert.IsTrue(collaborator.Data.Invitation);
-                
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
         [Test]
-        [TestCase("example.com", 100,"https://api.sandbox.dnsimple.com/v2/1010/domains/example.com/collaborators/100")]
+        [TestCase("example.com", 100, "https://api.sandbox.dnsimple.com/v2/1010/domains/example.com/collaborators/100")]
         public void RemoveCollaborator(string domainIdentifier, long collaboratorId, string expectedUrl)
         {
             var client = new MockDnsimpleClient(RemoveCollaboratorFixture);
@@ -134,10 +128,10 @@ namespace dnsimple_test.Services
                         domainIdentifier,
                         collaboratorId);
                 });
-                
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
-            
+
         }
     }
 }

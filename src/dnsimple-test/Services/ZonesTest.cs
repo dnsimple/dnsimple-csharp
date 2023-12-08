@@ -52,12 +52,12 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(1, zones.First().Id);
-                Assert.AreEqual(1010, zones.First().AccountId);
-                Assert.AreEqual("example-alpha.com", zones.First().Name);
+                Assert.That(zones.First().Id, Is.EqualTo(1));
+                Assert.That(zones.First().AccountId, Is.EqualTo(1010));
+                Assert.That(zones.First().Name, Is.EqualTo("example-alpha.com"));
                 Assert.IsFalse(zones.First().Reverse);
-                Assert.AreEqual(CreatedAt, zones.First().CreatedAt);
-                Assert.AreEqual(UpdatedAt, zones.First().UpdatedAt);
+                Assert.That(zones.First().CreatedAt, Is.EqualTo(CreatedAt));
+                Assert.That(zones.First().UpdatedAt, Is.EqualTo(UpdatedAt));
             });
         }
 
@@ -66,7 +66,7 @@ namespace dnsimple_test.Services
         {
             var response = new PaginatedResponse<Zone>(_response);
 
-            Assert.AreEqual(2, response.Data.Count);
+            Assert.That(response.Data.Count, Is.EqualTo(2));
         }
 
         [Test]
@@ -78,10 +78,10 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(2, response.Data.Count);
-                Assert.AreEqual(1, response.Pagination.CurrentPage);
+                Assert.That(response.Data.Count, Is.EqualTo(2));
+                Assert.That(response.Pagination.CurrentPage, Is.EqualTo(1));
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -106,10 +106,10 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(2, response.Data.Count);
-                Assert.AreEqual(1, response.Pagination.CurrentPage);
+                Assert.That(response.Data.Count, Is.EqualTo(2));
+                Assert.That(response.Pagination.CurrentPage, Is.EqualTo(1));
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -122,14 +122,14 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(1, zone.Id);
-                Assert.AreEqual(accountId, zone.AccountId);
-                Assert.AreEqual(zoneName, zone.Name);
+                Assert.That(zone.Id, Is.EqualTo(1));
+                Assert.That(zone.AccountId, Is.EqualTo(accountId));
+                Assert.That(zone.Name, Is.EqualTo(zoneName));
                 Assert.False(zone.Reverse);
-                Assert.AreEqual(CreatedAt, zone.CreatedAt);
-                Assert.AreEqual(UpdatedAt, zone.UpdatedAt);
+                Assert.That(zone.CreatedAt, Is.EqualTo(CreatedAt));
+                Assert.That(zone.UpdatedAt, Is.EqualTo(UpdatedAt));
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -157,9 +157,9 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(zoneFile, file.Zone);
+                Assert.That(file.Zone, Is.EqualTo(zoneFile));
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -178,7 +178,7 @@ namespace dnsimple_test.Services
             {
                 Assert.IsTrue(zone.Data.Distributed);
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -240,9 +240,9 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(filters, options.UnpackFilters());
-                Assert.AreEqual(sorting, options.UnpackSorting());
-                Assert.AreEqual(pagination, options.UnpackPagination());
+                Assert.That(options.UnpackFilters(), Is.EqualTo(filters));
+                Assert.That(options.UnpackSorting(), Is.EqualTo(sorting));
+                Assert.That(options.UnpackPagination(), Is.EqualTo(pagination));
             });
         }
 
@@ -256,15 +256,15 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(1, zone.Id);
-                Assert.AreEqual(1010, zone.AccountId);
-                Assert.AreEqual("example.com", zone.Name);
+                Assert.That(zone.Id, Is.EqualTo(1));
+                Assert.That(zone.AccountId, Is.EqualTo(1010));
+                Assert.That(zone.Name, Is.EqualTo("example.com"));
                 Assert.IsFalse(zone.Reverse);
-                Assert.AreEqual(CreatedAt, zone.CreatedAt);
-                Assert.AreEqual(UpdatedAt, zone.UpdatedAt);
+                Assert.That(zone.CreatedAt, Is.EqualTo(CreatedAt));
+                Assert.That(zone.UpdatedAt, Is.EqualTo(UpdatedAt));
 
-                Assert.AreEqual(Method.PUT, client.HttpMethodUsed());
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.PUT));
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -278,15 +278,15 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(1, zone.Id);
-                Assert.AreEqual(1010, zone.AccountId);
-                Assert.AreEqual("example.com", zone.Name);
+                Assert.That(zone.Id, Is.EqualTo(1));
+                Assert.That(zone.AccountId, Is.EqualTo(1010));
+                Assert.That(zone.Name, Is.EqualTo("example.com"));
                 Assert.IsFalse(zone.Reverse);
-                Assert.AreEqual(CreatedAt, zone.CreatedAt);
-                Assert.AreEqual(UpdatedAt, zone.UpdatedAt);
+                Assert.That(zone.CreatedAt, Is.EqualTo(CreatedAt));
+                Assert.That(zone.UpdatedAt, Is.EqualTo(UpdatedAt));
 
-                Assert.AreEqual(Method.DELETE, client.HttpMethodUsed());
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.DELETE));
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
     }
