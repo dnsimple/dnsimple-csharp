@@ -319,7 +319,7 @@ namespace dnsimple_test.Services
                 Assert.That(registrantChange.ContactId, Is.EqualTo(101));
                 Assert.That(registrantChange.DomainId, Is.EqualTo(101));
                 Assert.That(registrantChange.State, Is.EqualTo("cancelling"));
-                Assert.IsInstanceOf<Dictionary<string, string>>(registrantChange.ExtendedAttributes);
+                Assert.That(registrantChange.ExtendedAttributes, Is.InstanceOf<Dictionary<string, string>>());
                 Assert.That(registrantChange.RegistryOwnerChange, Is.EqualTo(true));
                 Assert.That(registrantChange.IrtLockLiftedBy, Is.EqualTo(null));
 
