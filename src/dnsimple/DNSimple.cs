@@ -69,6 +69,13 @@ namespace dnsimple
         AccountsService Accounts { get; }
 
         /// <summary>
+        /// Instance of the <c>BillingService</c>
+        /// </summary>
+        /// <see cref="BillingService"/>
+        /// <see>https://developer.dnsimple.com/v2/billing/</see>
+        BillingService Billing { get; }
+
+        /// <summary>
         /// Instance of the <c>ContactsService</c>
         /// </summary>
         /// <see cref="ContactsService"/>
@@ -259,6 +266,9 @@ namespace dnsimple
 
         /// <inheritdoc />
         public AccountsService Accounts { get; private set; }
+
+        /// <inheritdoc />
+        public BillingService Billing { get; private set; }
 
         /// <inheritdoc />
         public CertificatesService Certificates { get; private set; }

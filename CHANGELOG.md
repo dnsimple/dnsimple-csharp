@@ -4,6 +4,12 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
 ## main
 
+## 0.16.0
+
+FEATURES:
+
+- NEW: Added `Dnsimple.Billing.ListCharges` to list billing charges for an account. (dnsimple/dnsimple-csharp#133)
+
 ## 0.15.0
 
 FEATURES:
