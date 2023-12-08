@@ -164,12 +164,12 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(101, check.ContactId);
-                Assert.AreEqual(101, check.DomainId);
-                Assert.IsInstanceOf<List<TldExtendedAttribute>>(check.ExtendedAttributes);
-                Assert.AreEqual(true, check.RegistryOwnerChange);
+                Assert.That(check.ContactId, Is.EqualTo(101));
+                Assert.That(check.DomainId, Is.EqualTo(101));
+                Assert.That(check.ExtendedAttributes, Is.InstanceOf<List<TldExtendedAttribute>>());
+                Assert.That(check.RegistryOwnerChange, Is.EqualTo(true));
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -179,23 +179,23 @@ namespace dnsimple_test.Services
         public void GetRegistrantChange(long accountId, long registrantChangeId, string expectedUrl)
         {
             var client = new MockDnsimpleClient(GetRegistrantChangeFixture);
-            var check = client.Registrar.GetRegistrantChange(accountId, registrantChangeId)
+            var registrantChange = client.Registrar.GetRegistrantChange(accountId, registrantChangeId)
                 .Data;
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(101, check.Id);
-                Assert.AreEqual(101, check.AccountId);
-                Assert.AreEqual(101, check.ContactId);
-                Assert.AreEqual(101, check.DomainId);
-                Assert.AreEqual("new", check.State);
-                Assert.IsInstanceOf<Dictionary<string, string>>(check.ExtendedAttributes);
-                Assert.AreEqual(true, check.RegistryOwnerChange);
-                Assert.AreEqual(null, check.IrtLockLiftedBy);
-                Assert.AreEqual(CreatedAt, check.CreatedAt);
-                Assert.AreEqual(UpdatedAt, check.UpdatedAt);
+                Assert.That(registrantChange.Id, Is.EqualTo(101));
+                Assert.That(registrantChange.AccountId, Is.EqualTo(101));
+                Assert.That(registrantChange.ContactId, Is.EqualTo(101));
+                Assert.That(registrantChange.DomainId, Is.EqualTo(101));
+                Assert.That(registrantChange.State, Is.EqualTo("new"));
+                Assert.That(registrantChange.ExtendedAttributes, Is.InstanceOf<Dictionary<string, string>>());
+                Assert.That(registrantChange.RegistryOwnerChange, Is.EqualTo(true));
+                Assert.That(registrantChange.IrtLockLiftedBy, Is.EqualTo(null));
+                Assert.That(registrantChange.CreatedAt, Is.EqualTo(CreatedAt));
+                Assert.That(registrantChange.UpdatedAt, Is.EqualTo(UpdatedAt));
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -220,18 +220,18 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(101, check.Id);
-                Assert.AreEqual(101, check.AccountId);
-                Assert.AreEqual(101, check.ContactId);
-                Assert.AreEqual(101, check.DomainId);
-                Assert.AreEqual("new", check.State);
-                Assert.IsInstanceOf<Dictionary<string, string>>(check.ExtendedAttributes);
-                Assert.AreEqual(true, check.RegistryOwnerChange);
-                Assert.AreEqual(null, check.IrtLockLiftedBy);
-                Assert.AreEqual(CreatedAt, check.CreatedAt);
-                Assert.AreEqual(UpdatedAt, check.UpdatedAt);
+                Assert.That(check.Id, Is.EqualTo(101));
+                Assert.That(check.AccountId, Is.EqualTo(101));
+                Assert.That(check.ContactId, Is.EqualTo(101));
+                Assert.That(check.DomainId, Is.EqualTo(101));
+                Assert.That(check.State, Is.EqualTo("new"));
+                Assert.That(check.ExtendedAttributes, Is.InstanceOf<Dictionary<string, string>>());
+                Assert.That(check.RegistryOwnerChange, Is.EqualTo(true));
+                Assert.That(check.IrtLockLiftedBy, Is.EqualTo(null));
+                Assert.That(check.CreatedAt, Is.EqualTo(CreatedAt));
+                Assert.That(check.UpdatedAt, Is.EqualTo(UpdatedAt));
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -248,16 +248,16 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(101, registrantChange.Id);
-                Assert.AreEqual(101, registrantChange.AccountId);
-                Assert.AreEqual(101, registrantChange.ContactId);
-                Assert.AreEqual(101, registrantChange.DomainId);
-                Assert.AreEqual("new", registrantChange.State);
-                Assert.IsInstanceOf<Dictionary<string, string>>(registrantChange.ExtendedAttributes);
-                Assert.AreEqual(true, registrantChange.RegistryOwnerChange);
-                Assert.AreEqual(null, registrantChange.IrtLockLiftedBy);
+                Assert.That(registrantChange.Id, Is.EqualTo(101));
+                Assert.That(registrantChange.AccountId, Is.EqualTo(101));
+                Assert.That(registrantChange.ContactId, Is.EqualTo(101));
+                Assert.That(registrantChange.DomainId, Is.EqualTo(101));
+                Assert.That(registrantChange.State, Is.EqualTo("new"));
+                Assert.That(registrantChange.ExtendedAttributes, Is.InstanceOf<Dictionary<string, string>>());
+                Assert.That(registrantChange.RegistryOwnerChange, Is.EqualTo(true));
+                Assert.That(registrantChange.IrtLockLiftedBy, Is.EqualTo(null));
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -279,7 +279,7 @@ namespace dnsimple_test.Services
 
             client.Registrar.ListRegistrantChanges(accountId, options);
 
-            Assert.AreEqual(expectedUrl, client.RequestSentTo());
+            Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
         }
 
 
@@ -294,10 +294,10 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(true, response.IsEmpty);
+                Assert.That(response.IsEmpty, Is.EqualTo(true));
                 // data is an empty RegistrantChange object
-                Assert.AreEqual(0, data.Id);
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(data.Id, Is.EqualTo(0));
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -313,17 +313,17 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(false, response.IsEmpty);
-                Assert.AreEqual(101, registrantChange.Id);
-                Assert.AreEqual(101, registrantChange.AccountId);
-                Assert.AreEqual(101, registrantChange.ContactId);
-                Assert.AreEqual(101, registrantChange.DomainId);
-                Assert.AreEqual("cancelling", registrantChange.State);
+                Assert.That(response.IsEmpty, Is.EqualTo(false));
+                Assert.That(registrantChange.Id, Is.EqualTo(101));
+                Assert.That(registrantChange.AccountId, Is.EqualTo(101));
+                Assert.That(registrantChange.ContactId, Is.EqualTo(101));
+                Assert.That(registrantChange.DomainId, Is.EqualTo(101));
+                Assert.That(registrantChange.State, Is.EqualTo("cancelling"));
                 Assert.IsInstanceOf<Dictionary<string, string>>(registrantChange.ExtendedAttributes);
-                Assert.AreEqual(true, registrantChange.RegistryOwnerChange);
-                Assert.AreEqual(null, registrantChange.IrtLockLiftedBy);
+                Assert.That(registrantChange.RegistryOwnerChange, Is.EqualTo(true));
+                Assert.That(registrantChange.IrtLockLiftedBy, Is.EqualTo(null));
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
