@@ -25,7 +25,7 @@ namespace dnsimple_test.Services
         private DateTime UpdatedAt { get; } = DateTime.ParseExact(
             "2016-07-14T13:22:17Z", "yyyy-MM-ddTHH:mm:ssZ",
             CultureInfo.CurrentCulture);
-        
+
         [SetUp]
         public void Initialize()
         {
@@ -39,15 +39,15 @@ namespace dnsimple_test.Services
             var vanityServers =
                 new ListResponse<VanityNameServer>(_response);
             var vanityServer = vanityServers.Data.First();
-            
+
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(1, vanityServer.Id);
-                Assert.AreEqual("ns1.example.com", vanityServer.Name);
-                Assert.AreEqual("127.0.0.1", vanityServer.Ipv4);
-                Assert.AreEqual("::1", vanityServer.Ipv6);
-                Assert.AreEqual(CreatedAt, vanityServer.CreatedAt);
-                Assert.AreEqual(UpdatedAt, vanityServer.UpdatedAt);
+                Assert.That(vanityServer.Id, Is.EqualTo(1));
+                Assert.That(vanityServer.Name, Is.EqualTo("ns1.example.com"));
+                Assert.That(vanityServer.Ipv4, Is.EqualTo("127.0.0.1"));
+                Assert.That(vanityServer.Ipv6, Is.EqualTo("::1"));
+                Assert.That(vanityServer.CreatedAt, Is.EqualTo(CreatedAt));
+                Assert.That(vanityServer.UpdatedAt, Is.EqualTo(UpdatedAt));
             });
         }
 
@@ -64,10 +64,10 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(4, vanityNameServers.Count);
+                Assert.That(vanityNameServers.Count, Is.EqualTo(4));
 
-                Assert.AreEqual(Method.PUT, client.HttpMethodUsed());
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.PUT));
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -79,11 +79,11 @@ namespace dnsimple_test.Services
             var client = new MockDnsimpleClient(DisableVanityNameServersFixture);
             client.VanityNameServers.DisableVanityNameServers(accountId,
                 domain);
-            
+
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(Method.DELETE, client.HttpMethodUsed());
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.DELETE));
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
     }

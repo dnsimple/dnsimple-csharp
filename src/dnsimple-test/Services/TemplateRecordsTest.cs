@@ -50,15 +50,15 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(296, record.Id);
-                Assert.AreEqual(268, record.TemplateId);
-                Assert.IsEmpty(record.Name);
-                Assert.AreEqual("192.168.1.1", record.Content);
-                Assert.AreEqual(3600, record.Ttl);
-                Assert.IsNull(record.Priority);
-                Assert.AreEqual("A", record.Type);
-                Assert.AreEqual(CreatedAt, record.CreatedAt);
-                Assert.AreEqual(UpdatedAt, record.UpdatedAt);
+                Assert.That(record.Id, Is.EqualTo(296));
+                Assert.That(record.TemplateId, Is.EqualTo(268));
+                Assert.That(record.Name, Is.Empty);
+                Assert.That(record.Content, Is.EqualTo("192.168.1.1"));
+                Assert.That(record.Ttl, Is.EqualTo(3600));
+                Assert.That(record.Priority, Is.Null);
+                Assert.That(record.Type, Is.EqualTo("A"));
+                Assert.That(record.CreatedAt, Is.EqualTo(CreatedAt));
+                Assert.That(record.UpdatedAt, Is.EqualTo(UpdatedAt));
             });
         }
 
@@ -75,10 +75,9 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(records.Pagination.TotalEntries,
-                    records.Data.Count);
+                Assert.That(records.Data.Count, Is.EqualTo(records.Pagination.TotalEntries));
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -90,18 +89,18 @@ namespace dnsimple_test.Services
         {
             var client = new MockDnsimpleClient(ListTemplateRecordsFixture);
             var options = new ListTemplateRecordsOptions
+            {
+                Pagination = new Pagination
                 {
-                    Pagination = new Pagination
-                    {
-                        PerPage = 42,
-                        Page = 7
-                    }
-                }.SortById(Order.asc).SortByName(Order.desc)
+                    PerPage = 42,
+                    Page = 7
+                }
+            }.SortById(Order.asc).SortByName(Order.desc)
                 .SortByContent(Order.asc).SortByType(Order.desc);
 
             client.Templates.ListTemplateRecords(accountId, template, options);
 
-            Assert.AreEqual(expectedUrl, client.RequestSentTo());
+            Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
         }
 
         [Test]
@@ -125,16 +124,16 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(300, record.Id);
-                Assert.AreEqual(268, record.TemplateId);
-                Assert.AreEqual(templateRecord.Name, record.Name);
-                Assert.AreEqual(templateRecord.Type, record.Type);
-                Assert.AreEqual(templateRecord.Content, record.Content);
-                Assert.AreEqual(templateRecord.Ttl, record.Ttl);
-                Assert.AreEqual(templateRecord.Priority, record.Priority);
+                Assert.That(record.Id, Is.EqualTo(300));
+                Assert.That(record.TemplateId, Is.EqualTo(268));
+                Assert.That(record.Name, Is.EqualTo(templateRecord.Name));
+                Assert.That(record.Type, Is.EqualTo(templateRecord.Type));
+                Assert.That(record.Content, Is.EqualTo(templateRecord.Content));
+                Assert.That(record.Ttl, Is.EqualTo(templateRecord.Ttl));
+                Assert.That(record.Priority, Is.EqualTo(templateRecord.Priority));
 
-                Assert.AreEqual(Method.POST, client.HttpMethodUsed());
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.POST));
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -150,10 +149,10 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(recordId, record.Id);
-                Assert.AreEqual(268, record.TemplateId);
+                Assert.That(record.Id, Is.EqualTo(recordId));
+                Assert.That(record.TemplateId, Is.EqualTo(268));
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -169,8 +168,8 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(Method.DELETE, client.HttpMethodUsed());
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.DELETE));
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
     }

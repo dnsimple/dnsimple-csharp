@@ -25,10 +25,10 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(1, services.Data.Count);
-                Assert.AreEqual(30, services.Pagination.PerPage);
+                Assert.That(services.Data.Count, Is.EqualTo(1));
+                Assert.That(services.Pagination.PerPage, Is.EqualTo(30));
 
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -45,8 +45,8 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(Method.POST, client.HttpMethodUsed());
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.POST));
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
 
@@ -59,11 +59,11 @@ namespace dnsimple_test.Services
         {
             var client = new MockDnsimpleClient(UnapplyServiceFixture);
             client.Services.UnapplyService(accountId, domain, service);
-            
+
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(Method.DELETE, client.HttpMethodUsed());
-                Assert.AreEqual(expectedUrl, client.RequestSentTo());
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.DELETE));
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
     }
