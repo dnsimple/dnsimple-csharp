@@ -4,9 +4,11 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
 ## main
 
+## 0.17.0
+
 ENHANCEMENTS:
 
-- NEW: Added `Secondary`, `LastTransferredAt`, `Active` to `Zone` (dnsimple/dnsimple-csharp)
+- NEW: Added `Secondary`, `LastTransferredAt`, `Active` to `Zone` (dnsimple/dnsimple-csharp#138)
 
 ## 0.16.0
 
