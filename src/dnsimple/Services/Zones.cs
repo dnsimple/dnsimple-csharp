@@ -121,6 +121,9 @@ namespace dnsimple.Services
         public long AccountId { get; set; }
         public string Name { get; set; }
         public bool Reverse { get; set; }
+        public bool Secondary { get; set; }
+        public Nullable<DateTime> LastTransferredAt { get; set; }
+        public bool Active { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }

@@ -56,6 +56,9 @@ namespace dnsimple_test.Services
                 Assert.That(zones.First().AccountId, Is.EqualTo(1010));
                 Assert.That(zones.First().Name, Is.EqualTo("example-alpha.com"));
                 Assert.That(zones.First().Reverse, Is.False);
+                Assert.That(zones.First().Secondary, Is.False);
+                Assert.That(zones.First().LastTransferredAt, Is.Null);
+                Assert.That(zones.First().Active, Is.True);
                 Assert.That(zones.First().CreatedAt, Is.EqualTo(CreatedAt));
                 Assert.That(zones.First().UpdatedAt, Is.EqualTo(UpdatedAt));
             });
@@ -126,6 +129,9 @@ namespace dnsimple_test.Services
                 Assert.That(zone.AccountId, Is.EqualTo(accountId));
                 Assert.That(zone.Name, Is.EqualTo(zoneName));
                 Assert.That(zone.Reverse, Is.False);
+                Assert.That(zone.Secondary, Is.False);
+                Assert.That(zone.LastTransferredAt, Is.Null);
+                Assert.That(zone.Active, Is.True);
                 Assert.That(zone.CreatedAt, Is.EqualTo(CreatedAt));
                 Assert.That(zone.UpdatedAt, Is.EqualTo(UpdatedAt));
 
