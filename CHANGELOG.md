@@ -4,8 +4,6 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
 ## main
 
-## 0.17.0 (Unreleased)
-
 FEATURES:
 
 - NEW: Added `Dnsimple.Registrar.CheckRegistrantChange` to retrieves the requirements of a registrant change. (#140)
@@ -13,6 +11,12 @@ FEATURES:
 - NEW: Added `Dnsimple.Registrar.CreateRegistrantChange` to start registrant change. (#140)
 - NEW: Added `Dnsimple.Registrar.ListRegistrantChanges` to lists the registrant changes for a domain. (#140)
 - NEW: Added `Dnsimple.Registrar.DeleteRegistrantChange` to cancel an ongoing registrant change from the account. (#140)
+
+## 0.17.0
+
+ENHANCEMENTS:
+
+- NEW: Added `Secondary`, `LastTransferredAt`, `Active` to `Zone` (dnsimple/dnsimple-csharp#138)
 
 ## 0.16.0
 
