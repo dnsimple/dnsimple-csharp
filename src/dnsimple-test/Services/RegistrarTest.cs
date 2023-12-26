@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Net;
 using dnsimple;
+using dnsimple.Services.ListOptions;
 using dnsimple.Services;
 using NUnit.Framework;
 
@@ -52,6 +54,24 @@ namespace dnsimple_test.Services
 
         private const string AuthorizeTransferOutFixture =
             "authorizeDomainTransferOut/success.http";
+
+        private const string CheckRegistrantChangeFixture =
+            "checkRegistrantChange/success.http";
+
+        private const string GetRegistrantChangeFixture =
+            "getRegistrantChange/success.http";
+
+        private const string ListRegistrantChangeFixture =
+            "listRegistrantChanges/success.http";
+
+        private const string CreateRegistrantChangeFixture =
+            "createRegistrantChange/success.http";
+
+        private const string DeleteRegistrantChangeFixture =
+            "deleteRegistrantChange/success.http";
+
+        private const string DeleteRegistrantChangeAsyncFixture =
+            "deleteRegistrantChange/success_async.http";
 
         private DateTime CreatedAt { get; } = DateTime.ParseExact(
             "2016-12-09T19:35:31Z", "yyyy-MM-ddTHH:mm:ssZ",
@@ -128,6 +148,184 @@ namespace dnsimple_test.Services
             });
         }
 
+        [Test]
+        [TestCase(1010, "example.com",
+            "https://api.sandbox.dnsimple.com/v2/1010/registrar/registrant_changes/check")]
+        public void CheckRegistrantChange(long accountId, string domainId, string expectedUrl)
+        {
+            var client = new MockDnsimpleClient(CheckRegistrantChangeFixture);
+            var checkInput = new CheckRegistrantChangeInput
+            {
+                DomainId = domainId,
+                ContactId = 101
+            };
+            var check = client.Registrar.CheckRegistrantChange(accountId, checkInput)
+                .Data;
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(check.ContactId, Is.EqualTo(101));
+                Assert.That(check.DomainId, Is.EqualTo(101));
+                Assert.That(check.ExtendedAttributes, Is.InstanceOf<List<TldExtendedAttribute>>());
+                Assert.That(check.RegistryOwnerChange, Is.EqualTo(true));
+
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
+            });
+        }
+
+        [Test]
+        [TestCase(1010, 101,
+        "https://api.sandbox.dnsimple.com/v2/1010/registrar/registrant_changes/101")]
+        public void GetRegistrantChange(long accountId, long registrantChangeId, string expectedUrl)
+        {
+            var client = new MockDnsimpleClient(GetRegistrantChangeFixture);
+            var registrantChange = client.Registrar.GetRegistrantChange(accountId, registrantChangeId)
+                .Data;
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(registrantChange.Id, Is.EqualTo(101));
+                Assert.That(registrantChange.AccountId, Is.EqualTo(101));
+                Assert.That(registrantChange.ContactId, Is.EqualTo(101));
+                Assert.That(registrantChange.DomainId, Is.EqualTo(101));
+                Assert.That(registrantChange.State, Is.EqualTo("new"));
+                Assert.That(registrantChange.ExtendedAttributes, Is.InstanceOf<Dictionary<string, string>>());
+                Assert.That(registrantChange.RegistryOwnerChange, Is.EqualTo(true));
+                Assert.That(registrantChange.IrtLockLiftedBy, Is.EqualTo(null));
+                Assert.That(registrantChange.CreatedAt, Is.EqualTo(CreatedAt));
+                Assert.That(registrantChange.UpdatedAt, Is.EqualTo(UpdatedAt));
+
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
+            });
+        }
+
+
+        [Test]
+        [TestCase(1010, "example.com",
+        "https://api.sandbox.dnsimple.com/v2/1010/registrar/registrant_changes")]
+        public void CreateRegistrantChange(long accountId, object domainId, string expectedUrl)
+        {
+            var client = new MockDnsimpleClient(CreateRegistrantChangeFixture);
+            var createInput = new CreateRegistrantChangeInput
+            {
+                DomainId = domainId,
+                ContactId = 101,
+                ExtendedAttributes = new Dictionary<string, string>
+                {
+                    { "x-foo", "bar" }
+                }
+            };
+            var check = client.Registrar.CreateRegistrantChange(accountId, createInput)
+                .Data;
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(check.Id, Is.EqualTo(101));
+                Assert.That(check.AccountId, Is.EqualTo(101));
+                Assert.That(check.ContactId, Is.EqualTo(101));
+                Assert.That(check.DomainId, Is.EqualTo(101));
+                Assert.That(check.State, Is.EqualTo("new"));
+                Assert.That(check.ExtendedAttributes, Is.InstanceOf<Dictionary<string, string>>());
+                Assert.That(check.RegistryOwnerChange, Is.EqualTo(true));
+                Assert.That(check.IrtLockLiftedBy, Is.EqualTo(null));
+                Assert.That(check.CreatedAt, Is.EqualTo(CreatedAt));
+                Assert.That(check.UpdatedAt, Is.EqualTo(UpdatedAt));
+
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
+            });
+        }
+
+        [Test]
+        [TestCase(1010,
+        "https://api.sandbox.dnsimple.com/v2/1010/registrar/registrant_changes")]
+        public void ListRegistrantChange(long accountId, string expectedUrl)
+        {
+            var client = new MockDnsimpleClient(ListRegistrantChangeFixture);
+            var registrantChanges = client.Registrar.ListRegistrantChanges(accountId)
+                .Data;
+
+            var registrantChange = registrantChanges.First();
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(registrantChange.Id, Is.EqualTo(101));
+                Assert.That(registrantChange.AccountId, Is.EqualTo(101));
+                Assert.That(registrantChange.ContactId, Is.EqualTo(101));
+                Assert.That(registrantChange.DomainId, Is.EqualTo(101));
+                Assert.That(registrantChange.State, Is.EqualTo("new"));
+                Assert.That(registrantChange.ExtendedAttributes, Is.InstanceOf<Dictionary<string, string>>());
+                Assert.That(registrantChange.RegistryOwnerChange, Is.EqualTo(true));
+                Assert.That(registrantChange.IrtLockLiftedBy, Is.EqualTo(null));
+
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
+            });
+        }
+
+        [Test]
+        [TestCase(1010,
+        "https://api.sandbox.dnsimple.com/v2/1010/registrar/registrant_changes?sort=id:asc&per_page=42&page=7")]
+        public void ListRegistrantChangesWithSortingAndFiltering(long accountId, string expectedUrl)
+        {
+            var client = new MockDnsimpleClient(ListRegistrantChangeFixture);
+            var options = new RegistrantChangesListOptions
+            {
+                Pagination = new Pagination
+                {
+                    PerPage = 42,
+                    Page = 7
+                }
+
+            }.SortById(Order.asc);
+
+            client.Registrar.ListRegistrantChanges(accountId, options);
+
+            Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
+        }
+
+
+        [Test]
+        [TestCase(1010, 101,
+        "https://api.sandbox.dnsimple.com/v2/1010/registrar/registrant_changes/101")]
+        public void DeleteRegistrantChange(long accountId, long registrantChangeId, string expectedUrl)
+        {
+            var client = new MockDnsimpleClient(DeleteRegistrantChangeFixture);
+            var response = client.Registrar.DeleteRegistrantChange(accountId, registrantChangeId);
+            var data = response.Data;
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(response.IsEmpty, Is.EqualTo(true));
+                // data is an empty RegistrantChange object
+                Assert.That(data.Id, Is.EqualTo(0));
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
+            });
+        }
+
+
+        [Test]
+        [TestCase(1010, 101,
+        "https://api.sandbox.dnsimple.com/v2/1010/registrar/registrant_changes/101")]
+        public void DeleteRegistrantChangeAsync(long accountId, long registrantChangeId, string expectedUrl)
+        {
+            var client = new MockDnsimpleClient(DeleteRegistrantChangeAsyncFixture);
+            var response = client.Registrar.DeleteRegistrantChange(accountId, registrantChangeId);
+            var registrantChange = response.Data;
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(response.IsEmpty, Is.EqualTo(false));
+                Assert.That(registrantChange.Id, Is.EqualTo(101));
+                Assert.That(registrantChange.AccountId, Is.EqualTo(101));
+                Assert.That(registrantChange.ContactId, Is.EqualTo(101));
+                Assert.That(registrantChange.DomainId, Is.EqualTo(101));
+                Assert.That(registrantChange.State, Is.EqualTo("cancelling"));
+                Assert.That(registrantChange.ExtendedAttributes, Is.InstanceOf<Dictionary<string, string>>());
+                Assert.That(registrantChange.RegistryOwnerChange, Is.EqualTo(true));
+                Assert.That(registrantChange.IrtLockLiftedBy, Is.EqualTo(null));
+
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
+            });
+        }
 
         [Test]
         [TestCase(1010, "ruby.codes",

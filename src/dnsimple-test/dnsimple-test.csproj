@@ -434,6 +434,30 @@
     <Content Include="fixtures\v2\api\whoami\success.http">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="fixtures\v2\api\checkRegistrantChange\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\checkRegistrantChange\error-contactnotfound.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\checkRegistrantChange\error-domainnotfound.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\getRegistrantChange\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\createRegistrantChange\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\listRegistrantChanges\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\deleteRegistrantChange\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\deleteRegistrantChange\success_async.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="fixtures\v2\webhooks\account.billing_settings_update\example.http">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -25,7 +26,7 @@ namespace dnsimple_test
         private string JsonPartFrom(string fixture)
         {
             Fixture = fixture;
-            LoadFixture(); 
+            LoadFixture();
             var lastLine = GetLines(true).Last();
             return IsValidJson(lastLine) ? lastLine : "";
         }
@@ -54,7 +55,7 @@ namespace dnsimple_test
             return LoadFixture().Split(new[] { "\r\n", "\r", "\n" },
                 removeEmptyLines ? StringSplitOptions.RemoveEmptyEntries : StringSplitOptions.None);
         }
-        
+
 
         private string LoadFixture()
         {
@@ -70,16 +71,22 @@ namespace dnsimple_test
 
             foreach (var line in GetLines())
             {
-                if(String.IsNullOrEmpty(line))
+                if (String.IsNullOrEmpty(line))
                     break;
                 if (line.Contains(':'))
                 {
                     var header = line.Split(':');
-                    headers.Add(new Parameter(header[0], header[1], ParameterType.HttpHeader)); 
+                    headers.Add(new Parameter(header[0], header[1], ParameterType.HttpHeader));
                 }
             }
 
             return headers;
+        }
+
+        public HttpStatusCode ExtractStatusCode()
+        {
+            return (HttpStatusCode)Enum.Parse(typeof(HttpStatusCode),
+                GetLines().First().Split(' ')[1]);
         }
     }
 }

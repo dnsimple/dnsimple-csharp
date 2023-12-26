@@ -214,6 +214,22 @@ namespace dnsimple.Services
             return $"{ContactsPath(accountId)}/{contactId}";
         }
 
+        public static string CheckRegistrantChangePath(long accountId)
+        {
+            return $"{accountId}/registrar/registrant_changes/check";
+        }
+
+        public static string RegistrantChangePath(long accountId,
+            long registrantChangeId)
+        {
+            return $"{accountId}/registrar/registrant_changes/{registrantChangeId}";
+        }
+
+        public static string RegistrantChangesPath(long accountId)
+        {
+            return $"{accountId}/registrar/registrant_changes";
+        }
+
         public static string ServicesPath()
         {
             return "/services";

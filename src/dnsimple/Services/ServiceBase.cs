@@ -60,7 +60,7 @@ namespace dnsimple.Services
 
         private string ExtractValueFromHeader(string headerName)
         {
-            return (string) Headers.Where(header =>
+            return (string)Headers.Where(header =>
                     header.Name != null && header.Name.Equals(headerName))
                 .First().Value;
         }
@@ -91,6 +91,35 @@ namespace dnsimple.Services
         public SimpleResponse(IRestResponse response) : base(response)
         {
             Data = JsonTools<T>.DeserializeObject("data", JObject.Parse(response.Content));
+        }
+    }
+
+    /// <summary>
+    /// Represents a response from a call to the DNSimple API containing a
+    /// single object or an empty response (204 No Content).
+    /// </summary>
+    /// <typeparam name="T">The Data object type contained in the response</typeparam>
+    public class SimpleResponseOrEmpty<T> : Response
+    {
+        /// <summary>
+        /// Represents the <c>struct</c> containing the data.
+        /// </summary>
+        public T Data { get; protected set; }
+
+        public bool IsEmpty { get; protected set; }
+
+        public SimpleResponseOrEmpty(IRestResponse response) : base(response)
+        {
+            if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+            {
+                Data = default(T);
+                IsEmpty = true;
+            }
+            else
+            {
+                Data = JsonTools<T>.DeserializeObject("data", JObject.Parse(response.Content));
+                IsEmpty = false;
+            }
         }
     }
 
