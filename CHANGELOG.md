@@ -12,6 +12,10 @@ FEATURES:
 - NEW: Added `Dnsimple.Registrar.ListRegistrantChanges` to lists the registrant changes for a domain. (#140)
 - NEW: Added `Dnsimple.Registrar.DeleteRegistrantChange` to cancel an ongoing registrant change from the account. (#140)
 
+- NEW: Added `Dnsimple.Registrar.EnableDomainTransferLock` to enable the domain transfer lock for a domain. ()
+- NEW: Added `Dnsimple.Registrar.DisableDomainTransferLock` to disable the domain transfer lock for a domain. ()
+- NEW: Added `Dnsimple.Registrar.GetDomainTransferLock` to get the domain transfer lock status for a domain. ()
+
 ## 0.17.0
 
 ENHANCEMENTS:

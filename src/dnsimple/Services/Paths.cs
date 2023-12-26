@@ -6,7 +6,7 @@ namespace dnsimple.Services
         {
             return $"/{accountId}/billing/charges";
         }
-        
+
         public static string CollaboratorsPath(long accountId,
             string domainIdentifier)
         {
@@ -298,6 +298,11 @@ namespace dnsimple.Services
         public static string AutoRenewalPath(long accountId, string domain)
         {
             return $"{RegistrarPath(accountId, domain)}/auto_renewal";
+        }
+
+        public static string TransferLockPath(long accountId, string domain)
+        {
+            return $"{RegistrarPath(accountId, domain)}/transfer_lock";
         }
 
         public static string VanityDelegationPath(long accountId, string domain)
