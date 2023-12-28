@@ -164,6 +164,15 @@
     <Content Include="fixtures\v2\api\enableVanityNameServers\success.http">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="fixtures\v2\api\enableDomainTransferLock\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\disableDomainTransferLock\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fixtures\v2\api\getDomainTransferLock\success.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="fixtures\v2\api\enableWhoisPrivacy\created.http">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
