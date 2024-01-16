@@ -3,17 +3,26 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <Authors>DNSimple</Authors>
-    <Copyright>2022</Copyright>
+    <Copyright>2024</Copyright>
     <Description>The DNSimple API client for the .NET platform.</Description>
     <PackageId>DNSimple</PackageId>
     <PackageLicenseUrl>https://github.com/dnsimple/dnsimple-csharp/blob/main/LICENSE.txt</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dnsimple/dnsimple-csharp</PackageProjectUrl>
     <PackageReleaseNotes>
-      ENHANCEMENTS:
-      - NEW: Added `Secondary`, `LastTransferredAt`, `Active` to `Zone` (dnsimple/dnsimple-csharp#138)
+      FEATURES:
+
+      - NEW: Added `Dnsimple.Registrar.CheckRegistrantChange` to retrieves the requirements of a registrant change. (#140)
+      - NEW: Added `Dnsimple.Registrar.GetRegistrantChange` to retrieves the details of an existing registrant change. (#140)
+      - NEW: Added `Dnsimple.Registrar.CreateRegistrantChange` to start registrant change. (#140)
+      - NEW: Added `Dnsimple.Registrar.ListRegistrantChanges` to lists the registrant changes for a domain. (#140)
+      - NEW: Added `Dnsimple.Registrar.DeleteRegistrantChange` to cancel an ongoing registrant change from the account. (#140)
+
+      - NEW: Added `Dnsimple.Registrar.EnableDomainTransferLock` to enable the domain transfer lock for a domain. (#142)
+      - NEW: Added `Dnsimple.Registrar.DisableDomainTransferLock` to disable the domain transfer lock for a domain. (#142)
+      - NEW: Added `Dnsimple.Registrar.GetDomainTransferLock` to get the domain transfer lock status for a domain. (#142)
     </PackageReleaseNotes>
     <PackageTags>dnsimple dns api domains</PackageTags>
-    <PackageVersion>0.17.0</PackageVersion>
+    <PackageVersion>0.18.0</PackageVersion>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 

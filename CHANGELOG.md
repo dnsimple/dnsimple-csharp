@@ -4,6 +4,8 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
 ## main
 
+## 0.18.0
+
 FEATURES:
 
 - NEW: Added `Dnsimple.Registrar.CheckRegistrantChange` to retrieves the requirements of a registrant change. (#140)
