@@ -9,20 +9,12 @@
     <PackageLicenseUrl>https://github.com/dnsimple/dnsimple-csharp/blob/main/LICENSE.txt</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dnsimple/dnsimple-csharp</PackageProjectUrl>
     <PackageReleaseNotes>
-      FEATURES:
-
-      - NEW: Added `Dnsimple.Registrar.CheckRegistrantChange` to retrieves the requirements of a registrant change. (#140)
-      - NEW: Added `Dnsimple.Registrar.GetRegistrantChange` to retrieves the details of an existing registrant change. (#140)
-      - NEW: Added `Dnsimple.Registrar.CreateRegistrantChange` to start registrant change. (#140)
-      - NEW: Added `Dnsimple.Registrar.ListRegistrantChanges` to lists the registrant changes for a domain. (#140)
-      - NEW: Added `Dnsimple.Registrar.DeleteRegistrantChange` to cancel an ongoing registrant change from the account. (#140)
-
-      - NEW: Added `Dnsimple.Registrar.EnableDomainTransferLock` to enable the domain transfer lock for a domain. (#142)
-      - NEW: Added `Dnsimple.Registrar.DisableDomainTransferLock` to disable the domain transfer lock for a domain. (#142)
-      - NEW: Added `Dnsimple.Registrar.GetDomainTransferLock` to get the domain transfer lock status for a domain. (#142)
+      - HOUSEKEEPING: Bump nunit from 4.0.1 to 4.1.0 (#147)
+      - HOUSEKEEPING: Bump NUnit.Analyzers from 3.10.0 to 4.0.1 (#146)
+      - HOUSEKEEPING: Bump Microsoft.NET.Test.Sdk from 17.8.0 to 17.9.0 (#145)
     </PackageReleaseNotes>
     <PackageTags>dnsimple dns api domains</PackageTags>
-    <PackageVersion>0.18.0</PackageVersion>
+    <PackageVersion>0.18.1</PackageVersion>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 

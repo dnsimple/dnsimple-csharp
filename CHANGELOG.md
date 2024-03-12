@@ -4,6 +4,12 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
 ## main
 
+## 0.18.1
+
+- HOUSEKEEPING: Bump nunit from 4.0.1 to 4.1.0 (#147)
+- HOUSEKEEPING: Bump NUnit.Analyzers from 3.10.0 to 4.0.1 (#146)
+- HOUSEKEEPING: Bump Microsoft.NET.Test.Sdk from 17.8.0 to 17.9.0 (#145)
+
 ## 0.18.0
 
 FEATURES:
