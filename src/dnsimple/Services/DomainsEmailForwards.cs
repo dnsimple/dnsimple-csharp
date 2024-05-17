@@ -107,7 +107,6 @@ namespace dnsimple.Services
                 AliasName = value;
             }
         }
-        public string AliasEmail { get; set; }
 
         public string DestinationEmail { get; set; }
 
