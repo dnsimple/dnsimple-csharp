@@ -54,6 +54,8 @@ namespace dnsimple_test.Services
                 Assert.That(emailForwards.First().DomainId, Is.EqualTo(235146));
                 Assert.That(emailForwards.First().From, Is.EqualTo(".*@a-domain.com"));
                 Assert.That(emailForwards.First().To, Is.EqualTo("jane.smith@example.com"));
+                Assert.That(emailForwards.First().AliasEmail, Is.EqualTo(".*@a-domain.com"));
+                Assert.That(emailForwards.First().DestinationEmail, Is.EqualTo("jane.smith@example.com"));
                 Assert.That(emailForwards.First().CreatedAt, Is.EqualTo(CreatedAt));
                 Assert.That(emailForwards.First().UpdatedAt, Is.EqualTo(UpdatedAt));
             });
