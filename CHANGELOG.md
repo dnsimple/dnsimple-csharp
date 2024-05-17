@@ -4,6 +4,9 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
 ## main
 
+- NEW: Added `AliasEmail` to `EmailForward`
+- CHANGED: Deprecated `From` and `To` fields in `EmailForward`
+
 ## 0.18.1
 
 - HOUSEKEEPING: Bump nunit from 4.0.1 to 4.1.0 (#147)
