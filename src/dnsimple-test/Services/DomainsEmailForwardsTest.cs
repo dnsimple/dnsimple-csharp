@@ -27,11 +27,11 @@ namespace dnsimple_test.Services
             "deleteEmailForward/success.http";
 
         private DateTime CreatedAt { get; } = DateTime.ParseExact(
-            "2016-02-04T13:59:29Z", "yyyy-MM-ddTHH:mm:ssZ",
+            "2017-05-25T19:23:16Z", "yyyy-MM-ddTHH:mm:ssZ",
             CultureInfo.CurrentCulture);
 
         private DateTime UpdatedAt { get; } = DateTime.ParseExact(
-            "2016-02-04T13:59:29Z", "yyyy-MM-ddTHH:mm:ssZ",
+            "2017-05-25T19:23:16Z", "yyyy-MM-ddTHH:mm:ssZ",
             CultureInfo.CurrentCulture);
 
         [SetUp]
@@ -49,9 +49,9 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.That(emailForwards.Count, Is.EqualTo(2));
-                Assert.That(emailForwards.First().Id, Is.EqualTo(17702));
-                Assert.That(emailForwards.First().DomainId, Is.EqualTo(228963));
+                Assert.That(emailForwards.Count, Is.EqualTo(1));
+                Assert.That(emailForwards.First().Id, Is.EqualTo(24809));
+                Assert.That(emailForwards.First().DomainId, Is.EqualTo(235146));
                 Assert.That(emailForwards.First().From, Is.EqualTo(".*@a-domain.com"));
                 Assert.That(emailForwards.First().To, Is.EqualTo("jane.smith@example.com"));
                 Assert.That(emailForwards.First().CreatedAt, Is.EqualTo(CreatedAt));
@@ -73,7 +73,7 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.That(emailForwards.Data.Count, Is.EqualTo(2));
+                Assert.That(emailForwards.Data.Count, Is.EqualTo(1));
                 Assert.That(emailForwards.Pagination.CurrentPage, Is.EqualTo(1));
 
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
@@ -98,7 +98,7 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.That(emailForwards.Data.Count, Is.EqualTo(2));
+                Assert.That(emailForwards.Data.Count, Is.EqualTo(1));
                 Assert.That(emailForwards.Pagination.CurrentPage, Is.EqualTo(1));
 
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
