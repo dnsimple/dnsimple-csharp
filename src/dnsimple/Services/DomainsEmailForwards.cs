@@ -93,6 +93,7 @@ namespace dnsimple.Services
 
         public string AliasName { get; set; }
 
+        [Obsolete("Deprecated, use AliasEmail or AliasName instead")]
         public string From
         {
             get
@@ -107,9 +108,11 @@ namespace dnsimple.Services
                 AliasName = value;
             }
         }
+        public string AliasEmail { get; set; }
 
         public string DestinationEmail { get; set; }
 
+        [Obsolete("Deprecated, use DestinationEmail instead")]
         public string To
         {
             get
