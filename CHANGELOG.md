@@ -4,8 +4,12 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
 ## main
 
+- CHANGED: Bumped `dotnet` to `9.0`
 - NEW: Added `AliasEmail` to `EmailForward`
 - CHANGED: Deprecated `From` and `To` fields in `EmailForward`
+- CHANGED: `DomainCollaborators` have been deprecated and will be removed in the next major version. Please use our Domain Access Control feature.
+- HOUSEKEEPING: Bump Microsoft.NET.Test.Sdk from 17.9.0 to 17.10.0 (#152)
+- HOUSEKEEPING: Bump NUnit.Analyzers from 4.0.1 to 4.4.0 (#153)
 
 ## 0.18.1
 
