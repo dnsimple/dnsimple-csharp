@@ -4,6 +4,8 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
 ## main
 
+## 0.19.0
+
 - CHANGED: Bumped `dotnet` to `9.0`
 - NEW: Added `AliasEmail` to `EmailForward`
 - CHANGED: Deprecated `From` and `To` fields in `EmailForward`
