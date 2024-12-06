@@ -18,7 +18,7 @@ jobs:
         uses: lewagon/wait-on-check-action@v1.3.4
         with:
           ref: 'refs/heads/main'
-          running-workflow-name: 'Publish Client'
+          running-workflow-name: Publish Client ${{ matrix.dotnet-version }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           wait-interval: 10
           allowed-conclusions: success
