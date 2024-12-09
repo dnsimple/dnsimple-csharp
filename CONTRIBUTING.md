@@ -13,13 +13,15 @@ cd dnsimple-csharp
 
 ### 2. Install dependencies
 
-This project includes an ASDF `.tool-versions` file to set up the runtime:
+- .NET Core SDK
 
-```shell
-asdf install
-```
+    From [https://dotnet.microsoft.com/download/](https://dotnet.microsoft.com/download/)
 
-Additional dependencies will be installed when [running the test suite](#testing).
+    You can either use to install the .NET Core SDK
+        - Installers
+        - Binaries
+        - [Scripts](https://dotnet.microsoft.com/download/dotnet/scripts)
+        - Install [Visual Studio](https://visualstudio.microsoft.com/)
 
 ### 3. Build and test
 
