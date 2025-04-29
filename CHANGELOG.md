@@ -4,6 +4,15 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
 ## main
 
+## 0.19.1
+
+- HOUSEKEEPING: Bump NUnit3TestAdapter from 4.5.0 to 5.0.0 (#165)
+- HOUSEKEEPING: Bump Microsoft.NET.Test.Sdk and Newtonsoft.Json (#164)
+- HOUSEKEEPING: Bump NUnit.Analyzers from 4.4.0 to 4.6.0 (#163)
+- HOUSEKEEPING: Bump nosborn/github-action-markdown-cli from 3.3.0 to 3.4.0 (#162)
+- HOUSEKEEPING: Bump Moq from 4.20.70 to 4.20.72 (#160)
+- HOUSEKEEPING: Bump nunit from 4.1.0 to 4.3.2 (#156)
+
 ## 0.19.0
 
 - CHANGED: Bumped `dotnet` to `9.0`

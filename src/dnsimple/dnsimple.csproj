@@ -9,15 +9,15 @@
     <PackageLicenseUrl>https://github.com/dnsimple/dnsimple-csharp/blob/main/LICENSE.txt</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dnsimple/dnsimple-csharp</PackageProjectUrl>
     <PackageReleaseNotes>
-      - CHANGED: Bumped `dotnet` to `9.0`
-      - NEW: Added `AliasEmail` to `EmailForward`
-      - CHANGED: Deprecated `From` and `To` fields in `EmailForward`
-      - CHANGED: `DomainCollaborators` have been deprecated and will be removed in the next major version. Please use our Domain Access Control feature.
-      - HOUSEKEEPING: Bump Microsoft.NET.Test.Sdk from 17.9.0 to 17.10.0 (#152)
-      - HOUSEKEEPING: Bump NUnit.Analyzers from 4.0.1 to 4.4.0 (#153)
+      - HOUSEKEEPING: Bump NUnit3TestAdapter from 4.5.0 to 5.0.0 (#165)
+      - HOUSEKEEPING: Bump Microsoft.NET.Test.Sdk and Newtonsoft.Json (#164)
+      - HOUSEKEEPING: Bump NUnit.Analyzers from 4.4.0 to 4.6.0 (#163)
+      - HOUSEKEEPING: Bump nosborn/github-action-markdown-cli from 3.3.0 to 3.4.0 (#162)
+      - HOUSEKEEPING: Bump Moq from 4.20.70 to 4.20.72 (#160)
+      - HOUSEKEEPING: Bump nunit from 4.1.0 to 4.3.2 (#156)
     </PackageReleaseNotes>
     <PackageTags>dnsimple dns api domains</PackageTags>
-    <PackageVersion>0.19.0</PackageVersion>
+    <PackageVersion>0.19.1</PackageVersion>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
