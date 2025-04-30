@@ -4,6 +4,8 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
 ## main
 
+## 0.19.1
+
 - HOUSEKEEPING: Bump NUnit3TestAdapter from 4.5.0 to 5.0.0 (#165)
 - HOUSEKEEPING: Bump Microsoft.NET.Test.Sdk and Newtonsoft.Json (#164)
 - HOUSEKEEPING: Bump NUnit.Analyzers from 4.4.0 to 4.6.0 (#163)
