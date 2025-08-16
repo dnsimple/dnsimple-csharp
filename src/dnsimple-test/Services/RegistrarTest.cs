@@ -192,8 +192,8 @@ namespace dnsimple_test.Services
                 Assert.That(registrantChange.ExtendedAttributes, Is.InstanceOf<Dictionary<string, string>>());
                 Assert.That(registrantChange.RegistryOwnerChange, Is.EqualTo(true));
                 Assert.That(registrantChange.IrtLockLiftedBy, Is.EqualTo(null));
-                Assert.That(registrantChange.CreatedAt, Is.EqualTo(Convert.ToDateTime("2017-02-04 01:43:22")));
-                Assert.That(registrantChange.UpdatedAt, Is.EqualTo(Convert.ToDateTime("2017-02-04 01:43:22")));
+                Assert.That(registrantChange.CreatedAt, Is.EqualTo(Convert.ToDateTime("2017-02-03T17:43:22Z")));
+                Assert.That(registrantChange.UpdatedAt, Is.EqualTo(Convert.ToDateTime("2017-02-03T17:43:22Z")));
 
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
@@ -381,8 +381,8 @@ namespace dnsimple_test.Services
                 Assert.That(domain.State, Is.EqualTo("registering"));
                 Assert.That(domain.AutoRenew, Is.False);
                 Assert.That(domain.WhoisPrivacy, Is.False);
-                Assert.That(domain.CreatedAt, Is.EqualTo(Convert.ToDateTime("2023-01-28 01:44:32")));
-                Assert.That(domain.UpdatedAt, Is.EqualTo(Convert.ToDateTime("2023-01-28 01:44:40")));
+                Assert.That(domain.CreatedAt, Is.EqualTo(Convert.ToDateTime("2023-01-27T17:44:32Z")));
+                Assert.That(domain.UpdatedAt, Is.EqualTo(Convert.ToDateTime("2023-01-27T17:44:40Z")));
 
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
