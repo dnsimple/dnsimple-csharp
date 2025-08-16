@@ -53,7 +53,7 @@ namespace dnsimple_test.Services
             {
                 Assert.That(lastAccount.Id, Is.EqualTo(456));
                 Assert.That(lastAccount.Email, Is.EqualTo("ops@company.com"));
-                Assert.That(lastAccount.PlanIdentifier, Is.EqualTo("dnsimple-professional"));
+                Assert.That(lastAccount.PlanIdentifier, Is.EqualTo("teams-v1-monthly"));
 
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });

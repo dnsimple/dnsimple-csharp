@@ -29,7 +29,7 @@ namespace dnsimple_test.Services
             {
                 Assert.That(account.Id, Is.EqualTo(1));
                 Assert.That(account.Email, Is.EqualTo("example-account@example.com"));
-                Assert.That(account.PlanIdentifier, Is.EqualTo("dnsimple-professional"));
+                Assert.That(account.PlanIdentifier, Is.EqualTo("teams-v1-monthly"));
                 Assert.That(account.CreatedAt, Is.EqualTo(CreatedAt));
                 Assert.That(account.UpdatedAt, Is.EqualTo(UpdatedAt));
 
