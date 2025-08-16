@@ -266,8 +266,8 @@ namespace dnsimple_test.Services
                 Assert.That(zone.AccountId, Is.EqualTo(1010));
                 Assert.That(zone.Name, Is.EqualTo("example.com"));
                 Assert.That(zone.Reverse, Is.False);
-                Assert.That(zone.CreatedAt, Is.EqualTo(CreatedAt));
-                Assert.That(zone.UpdatedAt, Is.EqualTo(UpdatedAt));
+                Assert.That(zone.CreatedAt, Is.EqualTo(Convert.ToDateTime("2022-09-28 12:45:24")));
+                Assert.That(zone.UpdatedAt, Is.EqualTo(Convert.ToDateTime("2023-07-06 19:19:48")));
 
                 Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.PUT));
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
@@ -288,8 +288,8 @@ namespace dnsimple_test.Services
                 Assert.That(zone.AccountId, Is.EqualTo(1010));
                 Assert.That(zone.Name, Is.EqualTo("example.com"));
                 Assert.That(zone.Reverse, Is.False);
-                Assert.That(zone.CreatedAt, Is.EqualTo(CreatedAt));
-                Assert.That(zone.UpdatedAt, Is.EqualTo(UpdatedAt));
+                Assert.That(zone.CreatedAt, Is.EqualTo(Convert.ToDateTime("2022-09-28 12:45:24")));
+                Assert.That(zone.UpdatedAt, Is.EqualTo(Convert.ToDateTime("2023-08-08 12:19:52")));
 
                 Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.DELETE));
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
