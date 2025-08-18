@@ -23,12 +23,6 @@
     <Content Include="fixtures\v2\api\accounts\success-user.http">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="fixtures\v2\api\addCollaborator\invite-success.http">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="fixtures\v2\api\addCollaborator\success.http">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="fixtures\v2\api\appliedServices\success.http">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -275,9 +269,6 @@
     <Content Include="fixtures\v2\api\listCharges\fail-403.http">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="fixtures\v2\api\listCollaborators\success.http">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="fixtures\v2\api\listContacts\success.http">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -318,9 +309,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="fixtures\v2\api\notfound-certificate.http">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="fixtures\v2\api\notfound-collaborator.http">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="fixtures\v2\api\notfound-contact.http">
@@ -381,9 +369,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="fixtures\v2\api\rejectPush\success.http">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="fixtures\v2\api\removeCollaborator\success.http">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="fixtures\v2\api\renewDomain\error-tooearly.http">
@@ -470,9 +455,6 @@
     <Content Include="fixtures\v2\webhooks\account.billing_settings_update\example.http">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="fixtures\v2\webhooks\account.remove_user\example.http">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="fixtures\v2\webhooks\account.update\example.http">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -480,12 +462,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="fixtures\v2\webhooks\account.user_invite\example.http">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="fixtures\v2\webhooks\account_invitation.accept\example.http">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="fixtures\v2\webhooks\account_invitation.create\example.http">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="fixtures\v2\webhooks\certificate.issue\example.http">
