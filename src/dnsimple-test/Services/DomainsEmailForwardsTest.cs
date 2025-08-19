@@ -52,8 +52,6 @@ namespace dnsimple_test.Services
                 Assert.That(emailForwards.Count, Is.EqualTo(1));
                 Assert.That(emailForwards.First().Id, Is.EqualTo(24809));
                 Assert.That(emailForwards.First().DomainId, Is.EqualTo(235146));
-                Assert.That(emailForwards.First().From, Is.EqualTo(".*@a-domain.com"));
-                Assert.That(emailForwards.First().To, Is.EqualTo("jane.smith@example.com"));
                 Assert.That(emailForwards.First().AliasEmail, Is.EqualTo(".*@a-domain.com"));
                 Assert.That(emailForwards.First().DestinationEmail, Is.EqualTo("jane.smith@example.com"));
                 Assert.That(emailForwards.First().Active, Is.True);
@@ -131,14 +129,9 @@ namespace dnsimple_test.Services
             {
                 Assert.That(created.Data.Id, Is.EqualTo(41872));
                 Assert.That(created.Data.DomainId, Is.EqualTo(235146));
-                Assert.That(created.Data.AliasName, Is.EqualTo(record.AliasName));
+                Assert.That(created.Data.AliasEmail, Is.EqualTo("example@dnsimple.xyz"));
                 Assert.That(created.Data.DestinationEmail, Is.EqualTo(record.DestinationEmail));
                 Assert.That(created.Data.Active, Is.True);
-
-                // Deprecated
-                Assert.That(created.Data.From, Is.EqualTo(record.From));
-                Assert.That(created.Data.To, Is.EqualTo(record.To));
-
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
