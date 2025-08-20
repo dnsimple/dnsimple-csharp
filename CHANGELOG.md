@@ -4,6 +4,17 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
 ## main
 
+## 0.20.0
+
+- HOUSEKEEPING: Bump Microsoft.NET.Test.Sdk from 17.13.0 to 17.14.1 (#174)
+- HOUSEKEEPING: Bump NUnit.Analyzers from 4.7.0 to 4.10.0 (#175)
+- HOUSEKEEPING: Bump NUnit from 4.3.2 to 4.4.0 (#176)
+- HOUSEKEEPING: Bump NUnit3TestAdapter from 5.0.0 to 5.1.0 (#172)
+- CHANGE: Remove from and to from EmailForward model (#185)
+- HOUSEKEEPING: chore: sync test fixtures as of 2025-08-19 03:48:16 (#184)
+- CHANGE: Add active attribute to EmailForward model(#183)
+- CHANGE: Remove domain collaborators (#182)
+
 ## 0.19.1
 
 - HOUSEKEEPING: Bump NUnit3TestAdapter from 4.5.0 to 5.0.0 (#165)
