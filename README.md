@@ -5,6 +5,11 @@ A C# client for the [DNSimple API v2](https://developer.dnsimple.com/v2/).
 [![Build Status](https://github.com/dnsimple/dnsimple-csharp/actions/workflows/ci.yml/badge.svg)](https://github.com/dnsimple/dnsimple-csharp/actions/workflows/ci.yml)
 [![NuGet version](https://badge.fury.io/nu/dnsimple.svg)](https://badge.fury.io/nu/dnsimple)
 
+## Requirements
+
+- .NET 6.0+
+- An activated DNSimple account
+
 ## Installation
 
 Where `<version>` denotes the version of the client you want to install.
@@ -74,7 +79,9 @@ var domainId = client.Domains.ListDomains(accountId).Data.First().Id;
 var domain = client.Domains.GetDomain(accountId, domainId).Data;
 ```
 
-## Sandbox Environment
+## Configuration
+
+### Sandbox Environment
 
 We highly recommend testing against our [sandbox environment](https://developer.dnsimple.com/sandbox/) before using our production environment.
 This will allow you to avoid real purchases, live charges on your credit card, and reduce the chance of your running up against rate limits.
@@ -92,7 +99,7 @@ client.AddCredentials(credentials);
 
 You will need to ensure that you are using an access token created in the sandbox environment. Production tokens will *not* work in the sandbox environment.
 
-## Setting a custom `User-Agent` header
+### Setting a custom `User-Agent` header
 
 You can customize the `User-Agent` header for the calls made to the DNSimple API:
 
