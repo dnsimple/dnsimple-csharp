@@ -105,6 +105,14 @@ The value you provide will be prepended to the default `User-Agent` the client u
 
 We recommend to customize the user agent. If you are building a library or integration on top of the official client, customizing the client will help us to understand what is this client used for, and allow to contribute back or get in touch.
 
+## Contributing
+
+Contributions are welcome! Please feel free to submit issues and pull requests. See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for details.
+
 ## License
 
 Copyright (c) 2025 DNSimple Corporation. This is Free Software distributed under the MIT license.

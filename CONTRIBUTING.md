@@ -27,6 +27,10 @@ cd dnsimple-csharp
 
 [Run the test suite](#testing) to check everything is working as expected and to install the project specific dependencies (the first time you'll run the script it will install all the dependencies for you).
 
+## Changelog
+
+We follow the [Common Changelog](https://common-changelog.org/) format for changelog entries.
+
 ## Testing
 
 Submit unit tests for your changes. You can test your changes on your machine by running:
