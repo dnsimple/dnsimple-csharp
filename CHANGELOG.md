@@ -4,7 +4,7 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
 ## main
 
-## 0.20.0
+## 0.20.0 - 2025-08-20
 
 - HOUSEKEEPING: Bump Microsoft.NET.Test.Sdk from 17.13.0 to 17.14.1 (#174)
 - HOUSEKEEPING: Bump NUnit.Analyzers from 4.7.0 to 4.10.0 (#175)
@@ -15,7 +15,7 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 - CHANGE: Add active attribute to EmailForward model(#183)
 - CHANGE: Remove domain collaborators (#182)
 
-## 0.19.1
+## 0.19.1 - 2025-04-30
 
 - HOUSEKEEPING: Bump NUnit3TestAdapter from 4.5.0 to 5.0.0 (#165)
 - HOUSEKEEPING: Bump Microsoft.NET.Test.Sdk and Newtonsoft.Json (#164)
@@ -24,7 +24,7 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 - HOUSEKEEPING: Bump Moq from 4.20.70 to 4.20.72 (#160)
 - HOUSEKEEPING: Bump nunit from 4.1.0 to 4.3.2 (#156)
 
-## 0.19.0
+## 0.19.0 - 2024-12-06
 
 - CHANGED: Bumped `dotnet` to `9.0`
 - NEW: Added `AliasEmail` to `EmailForward`
@@ -33,13 +33,13 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 - HOUSEKEEPING: Bump Microsoft.NET.Test.Sdk from 17.9.0 to 17.10.0 (#152)
 - HOUSEKEEPING: Bump NUnit.Analyzers from 4.0.1 to 4.4.0 (#153)
 
-## 0.18.1
+## 0.18.1 - 2024-03-12
 
 - HOUSEKEEPING: Bump nunit from 4.0.1 to 4.1.0 (#147)
 - HOUSEKEEPING: Bump NUnit.Analyzers from 3.10.0 to 4.0.1 (#146)
 - HOUSEKEEPING: Bump Microsoft.NET.Test.Sdk from 17.8.0 to 17.9.0 (#145)
 
-## 0.18.0
+## 0.18.0 - 2024-01-16
 
 FEATURES:
 
@@ -53,19 +53,19 @@ FEATURES:
 - NEW: Added `Dnsimple.Registrar.DisableDomainTransferLock` to disable the domain transfer lock for a domain. (#142)
 - NEW: Added `Dnsimple.Registrar.GetDomainTransferLock` to get the domain transfer lock status for a domain. (#142)
 
-## 0.17.0
+## 0.17.0 - 2023-12-12
 
 ENHANCEMENTS:
 
 - NEW: Added `Secondary`, `LastTransferredAt`, `Active` to `Zone` (dnsimple/dnsimple-csharp#138)
 
-## 0.16.0
+## 0.16.0 - 2023-12-06
 
 FEATURES:
 
 - NEW: Added `Dnsimple.Billing.ListCharges` to list billing charges for an account. (dnsimple/dnsimple-csharp#133)
 
-## 0.15.0
+## 0.15.0 - 2023-08-10
 
 FEATURES:
 
@@ -77,37 +77,37 @@ IMPROVEMENTS:
 - `EmailForward` `From` is deprecated. Please use `AliasName` instead for creating email forwards. (dnsimple/dnsimple-csharp#128)
 - `EmailForward` `To` is deprecated. Please use `DestinationEmail` instead for creating email forwards. (dnsimple/dnsimple-csharp#128)
 
-## 0.14.0
+## 0.14.0 - 2023-03-03
 
 - NEW: Adds getDomainRenewal and getDomainRegistration API endpoints (dnsimple/dnsimple-csharp#113)
 - NEW: Support for issuing RSA certificates via the `signing_algorithm` param (dnsimple/dnsimple-developer#459)
 
-## 0.13.6
+## 0.13.6 - 2022-09-20
 
 - CHANGED: Deprecate Certificate's `contact_id` (dnsimple/dnsimple-csharp#85)
 - CHANGED: Add getter for attribute errors in `DnsimpleValidationException` (dnsimple/dnsimple-csharp#96)
 
-## 0.13.5
+## 0.13.5 - 2022-02-15
 
 - FIXED: `Registrar.ChangeDomainDelegation` not serialising delegation list properly
 
-## 0.13.1
+## 0.13.1 - 2022-02-10
 
 - CHANGED: Bumped up dependency versions.
 
-## 0.13.0
+## 0.13.0 - 2021-11-04
 
 - CHANGED: Added support for DS record key-data interface (dnsimple/dnsimple-chsarp#58)
 
-## 0.12.0
+## 0.12.0 - 2021-05-19
 
 - CHANGED: Removed deprecated `Registrar.GetDomainPremiumPrices`
 
-## 0.11.0
+## 0.11.0 - 2021-04-22
 
 - NEW: Added `Registrar.GetDomainPrices` to retrieve whether a domain is premium and the prices to register, transfer, and renew. (dnsimple/dnsimple-csharp#46)
 
-## 0.10.0
+## 0.10.0 - 2021-04-01
 
 - FIXED: Adds missing CDNSKEY & CDS record types (#32). (dnsimple/dnsimple-csharp#32)
 - FIXED: Avoids setting `UserAgent` on `ChangeBaseUrlTo` if Client is provided. (dnsimple/dnsimple-csharp#22)
@@ -116,6 +116,6 @@ IMPROVEMENTS:
 - CHANGED: `Certificate.ExpiresOn` has been replaced by `Certificate.ExpiresAt`. (dnsimple/dnsimple-csharp#14)
 - CHANGED: `Domain.ExpiresOn` has been replaced by `Domain.ExpiresAt`. (dnsimple/dnsimple-csharp#11)
 
-## 0.9.0
+## 0.9.0 - 2020-06-18
 
 Initial non-development release that supports API v2.
