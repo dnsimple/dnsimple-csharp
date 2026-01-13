@@ -61,7 +61,7 @@ namespace dnsimple.Services
         private string ExtractValueFromHeader(string headerName)
         {
             return (string)Headers.Where(header =>
-                    header.Name != null && header.Name.Equals(headerName))
+                    header.Name != null && header.Name.Equals(headerName, System.StringComparison.OrdinalIgnoreCase))
                 .First().Value;
         }
     }
