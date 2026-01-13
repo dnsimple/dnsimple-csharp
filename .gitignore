@@ -1,10 +1,12 @@
-/.idea/
-/.vscode/
-/bin/
-/packages/
-/tools/
-/src/dnsimple/bin/
-/src/dnsimple/obj/
-/src/dnsimple-test/bin/
-/src/dnsimple-test/obj/
-/out
+# Local configs
+.claude/
+.vscode/
+.tool-versions
+
+# Local files
+packages/
+src/dnsimple/bin/
+src/dnsimple/obj/
+src/dnsimple-test/bin/
+src/dnsimple-test/obj/
+tools/
