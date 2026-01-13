@@ -230,9 +230,6 @@
     <Content Include="fixtures\v2\api\getWebhook\success.http">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="fixtures\v2\api\getWhoisPrivacy\success.http">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="fixtures\v2\api\getZoneFile\success.http">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -378,15 +375,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="fixtures\v2\api\getDomainRenewal\success.http">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="fixtures\v2\api\renewWhoisPrivacy\success.http">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="fixtures\v2\api\renewWhoisPrivacy\whois-privacy-duplicated-order.http">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="fixtures\v2\api\renewWhoisPrivacy\whois-privacy-not-found.http">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="fixtures\v2\api\response.http">

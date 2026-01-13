@@ -4,6 +4,11 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
 ## main
 
+### Removed
+
+- Removed deprecated `GetWhoisPrivacy` (dnsimple/dnsimple-developer#919)
+- Removed deprecated `RenewWhoisPrivacy` (dnsimple/dnsimple-developer#919)
+
 ## 0.20.0 - 2025-08-20
 
 ### Changed

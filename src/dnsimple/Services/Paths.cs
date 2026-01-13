@@ -315,11 +315,6 @@ namespace dnsimple.Services
             return $"{RegistrarPath(accountId, domain)}/delegation";
         }
 
-        public static string WhoisRenewalPath(long accountId, string domain)
-        {
-            return $"{WhoisPrivacyPath(accountId, domain)}/renewals";
-        }
-
         public static string WhoisPrivacyPath(long accountId, string domain)
         {
             return $"{RegistrarPath(accountId, domain)}/whois_privacy";
