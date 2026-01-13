@@ -2,8 +2,6 @@
 
 ## Getting Started
 
-### 1. Clone the repository
-
 Clone the repository and move into it:
 
 ```shell
@@ -11,21 +9,12 @@ git clone git@github.com:dnsimple/dnsimple-csharp.git
 cd dnsimple-csharp
 ```
 
-### 2. Install dependencies
+Install the .NET Core SDK from [https://dotnet.microsoft.com/download/](https://dotnet.microsoft.com/download/). You can use any of the following methods:
 
-- .NET Core SDK
-
-    From [https://dotnet.microsoft.com/download/](https://dotnet.microsoft.com/download/)
-
-    You can either use to install the .NET Core SDK
-        - Installers
-        - Binaries
-        - [Scripts](https://dotnet.microsoft.com/download/dotnet/scripts)
-        - Install [Visual Studio](https://visualstudio.microsoft.com/)
-
-### 3. Build and test
-
-[Run the test suite](#testing) to check everything is working as expected and to install the project specific dependencies (the first time you'll run the script it will install all the dependencies for you).
+- Installers
+- Binaries
+- [Scripts](https://dotnet.microsoft.com/download/dotnet/scripts)
+- [Visual Studio](https://visualstudio.microsoft.com/)
 
 ## Changelog
 
