@@ -15,8 +15,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  markdownlint-cli:
-    name: Lint markdown
+  markdown-lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -28,7 +27,8 @@ jobs:
           config_file: ".markdownlint.yaml"
 
   test:
-    needs: [markdownlint-cli]
+    needs:
+      - markdown-lint
     runs-on: ubuntu-latest
     name: .NET ${{ matrix.dotnet-version }}
     strategy:
