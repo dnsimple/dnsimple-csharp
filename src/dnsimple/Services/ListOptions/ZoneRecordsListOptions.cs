@@ -34,9 +34,9 @@ namespace dnsimple.Services.ListOptions
         /// </summary>
         /// <param name="type">The record type we want to filter by</param>
         /// <returns>The instance of the <c>ZoneRecordsListOptions</c></returns>
-        public ZoneRecordsListOptions FilterByType(ZoneRecordType type)
+        public ZoneRecordsListOptions FilterByType(string type)
         {
-            AddFilter(new Filter { Field = "type", Value = type.ToString() });
+            AddFilter(new Filter { Field = "type", Value = type });
             return this;
         }
 

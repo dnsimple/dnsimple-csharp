@@ -74,7 +74,7 @@ namespace dnsimple_test.Services
                     record.Content, Is.EqualTo("ns1.dnsimple.com admin.dnsimple.com 1458642070 86400 7200 604800 300"));
                 Assert.That(record.Ttl, Is.EqualTo(3600));
                 Assert.That(record.Priority, Is.Null);
-                Assert.That(record.Type, Is.EqualTo(ZoneRecordType.SOA));
+                Assert.That(record.Type, Is.EqualTo("SOA"));
                 Assert.That(record.Regions, Contains.Item("global"));
                 Assert.That(record.SystemRecord, Is.True);
                 Assert.That(record.CreatedAt, Is.EqualTo(CreatedAt));
@@ -124,7 +124,7 @@ namespace dnsimple_test.Services
                 }
             }.FilterByName("example")
                 .FilterByExactName("boom")
-                .FilterByType(ZoneRecordType.SOA)
+                .FilterByType("SOA")
                 .SortById(Order.asc)
                 .SortByName(Order.desc)
                 .SortByContent(Order.asc)
@@ -148,7 +148,7 @@ namespace dnsimple_test.Services
             var record = new ZoneRecord
             {
                 Name = name,
-                Type = ZoneRecordType.A,
+                Type = "A",
                 Content = "127.0.0.1",
                 Ttl = 600,
             };
@@ -164,7 +164,7 @@ namespace dnsimple_test.Services
                 Assert.That(created.Name, Is.EqualTo(name));
                 Assert.That(created.Content, Is.EqualTo("127.0.0.1"));
                 Assert.That(created.Ttl, Is.EqualTo(600));
-                Assert.That(created.Type, Is.EqualTo(ZoneRecordType.A));
+                Assert.That(created.Type, Is.EqualTo("A"));
                 Assert.That(created.Regions, Contains.Item("global"));
 
                 Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.POST));
@@ -191,7 +191,7 @@ namespace dnsimple_test.Services
                 Assert.That(record.Content, Is.EqualTo("mxa.example.com"));
                 Assert.That(record.Ttl, Is.EqualTo(600));
                 Assert.That(record.Priority, Is.EqualTo(10));
-                Assert.That(record.Type, Is.EqualTo(ZoneRecordType.MX));
+                Assert.That(record.Type, Is.EqualTo("MX"));
                 Assert.That(record.Regions, Contains.Item("SV1"));
                 Assert.That(record.Regions, Contains.Item("IAD"));
                 Assert.That(record.SystemRecord, Is.False);
@@ -229,7 +229,7 @@ namespace dnsimple_test.Services
                 Assert.That(record.Content, Is.EqualTo("mxb.example.com"));
                 Assert.That(record.Ttl, Is.EqualTo(3600));
                 Assert.That(record.Priority, Is.EqualTo(20));
-                Assert.That(record.Type, Is.EqualTo(ZoneRecordType.MX));
+                Assert.That(record.Type, Is.EqualTo("MX"));
                 Assert.That(record.Regions, Contains.Item("global"));
                 Assert.That(record.SystemRecord, Is.False);
 
@@ -339,7 +339,7 @@ namespace dnsimple_test.Services
                 }
             }.FilterByName("example")
                 .FilterByExactName("boom")
-                .FilterByType(ZoneRecordType.SOA)
+                .FilterByType("SOA")
                 .SortById(Order.asc)
                 .SortByName(Order.desc)
                 .SortByContent(Order.asc)
