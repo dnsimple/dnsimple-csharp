@@ -4,6 +4,10 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
 ## main
 
+### Changed
+
+- Handle HTTP response headers case-insensitively to support Rack 3.0 lowercase headers
+
 ## 0.20.0 - 2025-08-20
 
 ### Changed
