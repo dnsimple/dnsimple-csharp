@@ -9,17 +9,10 @@
     <PackageLicenseUrl>https://github.com/dnsimple/dnsimple-csharp/blob/main/LICENSE.txt</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dnsimple/dnsimple-csharp</PackageProjectUrl>
     <PackageReleaseNotes>
-      - HOUSEKEEPING: Bump Microsoft.NET.Test.Sdk from 17.13.0 to 17.14.1 (#174)
-      - HOUSEKEEPING: Bump NUnit.Analyzers from 4.7.0 to 4.10.0 (#175)
-      - HOUSEKEEPING: Bump NUnit from 4.3.2 to 4.4.0 (#176)
-      - HOUSEKEEPING: Bump NUnit3TestAdapter from 5.0.0 to 5.1.0 (#172)
-      - CHANGE: Remove from and to from EmailForward model (#185)
-      - HOUSEKEEPING: chore: sync test fixtures as of 2025-08-19 03:48:16 (#184)
-      - CHANGE: Add active attribute to EmailForward model(#183)
-      - CHANGE: Remove domain collaborators (#182)
+      - CHANGE: Handle HTTP response headers case-insensitively to support Rack 3.0 lowercase headers
     </PackageReleaseNotes>
     <PackageTags>dnsimple dns api domains</PackageTags>
-    <PackageVersion>0.20.0</PackageVersion>
+    <PackageVersion>0.20.1</PackageVersion>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
