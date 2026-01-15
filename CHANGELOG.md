@@ -9,6 +9,12 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 - Removed deprecated `GetWhoisPrivacy` (dnsimple/dnsimple-developer#919)
 - Removed deprecated `RenewWhoisPrivacy` (dnsimple/dnsimple-developer#919)
 
+## 0.21.0 - 2026-01-15
+
+### Changed
+
+- Handle HTTP response headers case-insensitively to support Rack 3.0 lowercase headers
+
 ## 0.20.0 - 2025-08-20
 
 ### Changed
