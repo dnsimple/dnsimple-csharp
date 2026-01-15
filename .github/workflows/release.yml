@@ -22,7 +22,9 @@ jobs:
         with:
           dotnet-version: '9.0.x'
       - name: Set VERSION variable from tag
-        run: echo "VERSION=${{ inputs.tag }}" | sed 's/^v//' >> $GITHUB_ENV
+        run: echo "VERSION=${TAG#v}" >> $GITHUB_ENV
+        env:
+          TAG: ${{ inputs.tag }}
       - name: Pack
         run: dotnet pack -c Release -o out
       - name: Publish to NuGet
