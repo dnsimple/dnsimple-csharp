@@ -4,8 +4,13 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/).
 
 ## main
 
+### Changed
+
+- `ZoneRecord.Type` and `FilterByType()` changed from enum to `string`
+
 ### Removed
 
+- Removed `ZoneRecordType` enumeration
 - Removed deprecated `GetWhoisPrivacy` (dnsimple/dnsimple-developer#919)
 - Removed deprecated `RenewWhoisPrivacy` (dnsimple/dnsimple-developer#919)
 

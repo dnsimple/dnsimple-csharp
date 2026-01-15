@@ -126,34 +126,6 @@ namespace dnsimple.Services
     }
 
     /// <summary>
-    /// Represents a zone record type.
-    /// </summary>
-    public enum ZoneRecordType
-    {
-        A,
-        AAAA,
-        ALIAS,
-        CAA,
-        CDNSKEY,
-        CDS,
-        CNAME,
-        DNSKEY,
-        DS,
-        HINFO,
-        MX,
-        NAPTR,
-        NS,
-        POOL,
-        PTR,
-        SOA,
-        SPF,
-        SRV,
-        SSHFP,
-        TXT,
-        URL
-    }
-
-    /// <summary>
     /// Represents a Region.
     ///
     /// Zone Record Regions lets you select geographical regions where you want
@@ -185,7 +157,7 @@ namespace dnsimple.Services
         public string Content { get; set; }
         public long Ttl { get; set; }
         public long? Priority { get; set; }
-        public ZoneRecordType Type { get; set; }
+        public string Type { get; set; }
         public List<string> Regions { get; set; }
         public bool SystemRecord { get; set; }
         public DateTime CreatedAt { get; set; }
@@ -211,7 +183,7 @@ namespace dnsimple.Services
         internal ZoneRecordToSend(ZoneRecord record)
         {
             Name = record.Name;
-            Type = record.Type.ToString();
+            Type = record.Type;
             Content = record.Content;
             Ttl = record.Ttl;
             Priority = record.Priority;
