@@ -9,10 +9,14 @@
     <PackageLicenseUrl>https://github.com/dnsimple/dnsimple-csharp/blob/main/LICENSE.txt</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dnsimple/dnsimple-csharp</PackageProjectUrl>
     <PackageReleaseNotes>
-      - CHANGE: Handle HTTP response headers case-insensitively to support Rack 3.0 lowercase headers
+      - First major stable version (1.0.0)
+      - CHANGE: ZoneRecord.Type and FilterByType() changed from enum to string
+      - REMOVED: ZoneRecordType enumeration
+      - REMOVED: Deprecated GetWhoisPrivacy
+      - REMOVED: Deprecated RenewWhoisPrivacy
     </PackageReleaseNotes>
     <PackageTags>dnsimple dns api domains</PackageTags>
-    <PackageVersion>0.21.0</PackageVersion>
+    <PackageVersion>1.0.0</PackageVersion>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
