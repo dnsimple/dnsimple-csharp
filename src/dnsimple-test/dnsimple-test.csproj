@@ -566,7 +566,7 @@
     </PackageReference>
     <PackageReference Include="NUnit3TestAdapter" Version="6.1.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
-    <PackageReference Include="RestSharp" Version="106.15.0" />
+    <PackageReference Include="RestSharp" Version="113.1.0" />
   </ItemGroup>
 
   <ItemGroup>
