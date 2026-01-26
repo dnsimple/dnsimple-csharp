@@ -2,12 +2,9 @@
 name: Release
 
 on:
-  workflow_dispatch:
-    inputs:
-      tag:
-        description: "Tag to release (e.g., v1.0.0)"
-        required: true
-        type: string
+  push:
+    tags:
+      - v*.*.*
 
 jobs:
   publish:
@@ -15,16 +12,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-        with:
-          ref: ${{ inputs.tag }}
       - name: Setup dotnet
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: "9.0.x"
-      - name: Set VERSION variable from tag
-        run: echo "VERSION=${TAG#v}" >> $GITHUB_ENV
-        env:
-          TAG: ${{ inputs.tag }}
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --no-restore
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
       - name: Pack
         run: dotnet pack -c Release -o out
       - name: Publish to NuGet

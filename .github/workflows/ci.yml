@@ -4,9 +4,7 @@ name: CI
 on:
   push:
     branches:
-      - '**'
-    tags:
-      - v*.*.*
+      - "**"
   pull_request:
   workflow_dispatch:
 
@@ -49,13 +47,3 @@ jobs:
         run: dotnet build --no-restore
       - name: Test
         run: dotnet test --no-build --verbosity normal
-
-  release:
-    needs: test
-    if: startsWith(github.ref, 'refs/tags/v')
-    runs-on: ubuntu-latest
-    steps:
-      - name: Trigger release workflow
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh workflow run release.yml -R ${{ github.repository }} -f tag=${{ github.ref_name }}
