@@ -203,6 +203,9 @@
     <Content Include="fixtures\v2\api\getDomain\success.http">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="fixtures\v2\api\getDomainsResearchStatus\success-unavailable.http">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="fixtures\v2\api\getEmailForward\success.http">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
