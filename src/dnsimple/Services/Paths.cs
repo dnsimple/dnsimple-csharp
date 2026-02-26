@@ -30,6 +30,11 @@ namespace dnsimple.Services
             return $"/{accountId}/domains";
         }
 
+        public static string DomainsResearchStatusPath(long accountId)
+        {
+            return $"/{accountId}/domains/research/status";
+        }
+
         public static string CertificatesPath(long accountId, string domainName)
         {
             return $"{DomainPath(accountId, domainName)}/certificates";
