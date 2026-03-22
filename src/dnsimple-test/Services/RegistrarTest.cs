@@ -118,6 +118,7 @@ namespace dnsimple_test.Services
                 Assert.That(prices.RegistrationPrice, Is.EqualTo(20.0));
                 Assert.That(prices.RenewalPrice, Is.EqualTo(20.0));
                 Assert.That(prices.TransferPrice, Is.EqualTo(20.0));
+                Assert.That(prices.TrusteeServicePrice, Is.EqualTo(20.0));
 
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
@@ -355,6 +356,7 @@ namespace dnsimple_test.Services
                 Assert.That(registeredDomain.State, Is.EqualTo("new"));
                 Assert.That(registeredDomain.AutoRenew, Is.False);
                 Assert.That(registeredDomain.WhoisPrivacy, Is.False);
+                Assert.That(registeredDomain.TrusteeService, Is.False);
                 Assert.That(registeredDomain.CreatedAt, Is.EqualTo(CreatedAt));
                 Assert.That(registeredDomain.UpdatedAt, Is.EqualTo(UpdatedAt));
 
@@ -381,6 +383,7 @@ namespace dnsimple_test.Services
                 Assert.That(domain.State, Is.EqualTo("registering"));
                 Assert.That(domain.AutoRenew, Is.False);
                 Assert.That(domain.WhoisPrivacy, Is.False);
+                Assert.That(domain.TrusteeService, Is.False);
                 Assert.That(domain.CreatedAt, Is.EqualTo(Convert.ToDateTime("2023-01-27T17:44:32Z")));
                 Assert.That(domain.UpdatedAt, Is.EqualTo(Convert.ToDateTime("2023-01-27T17:44:40Z")));
 

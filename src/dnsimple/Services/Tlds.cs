@@ -92,6 +92,8 @@ namespace dnsimple.Services
         public string Tld { get; set; }
         public long TldType { get; set; }
         public bool? WhoisPrivacy { get; set; }
+        public bool? TrusteeServiceEnabled { get; set; }
+        public bool? TrusteeServiceRequired { get; set; }
         public bool? AutoRenewOnly { get; set; }
         public bool? Idn { get; set; }
         public long MinimumRegistration { get; set; }

@@ -96,6 +96,7 @@ namespace dnsimple.Services
         public string State { get; set; }
         public bool? AutoRenew { get; set; }
         public bool? PrivateWhois { get; set; }
+        public bool? TrusteeService { get; set; }
         public DateTime? ExpiresAt { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
