@@ -37,6 +37,8 @@ namespace dnsimple_test.Services
                 Assert.That(tlds.First().Tld, Is.EqualTo("ac"));
                 Assert.That(tlds.First().TldType, Is.EqualTo(2));
                 Assert.That(tlds.First().WhoisPrivacy, Is.False);
+                Assert.That(tlds.First().TrusteeServiceEnabled, Is.False);
+                Assert.That(tlds.First().TrusteeServiceRequired, Is.False);
                 Assert.That(tlds.First().AutoRenewOnly, Is.True);
                 Assert.That(tlds.First().Idn, Is.False);
                 Assert.That(tlds.First().MinimumRegistration, Is.EqualTo(1));
@@ -97,6 +99,8 @@ namespace dnsimple_test.Services
                 Assert.That(tld.Tld, Is.EqualTo("com"));
                 Assert.That(tld.TldType, Is.EqualTo(1));
                 Assert.That(tld.WhoisPrivacy, Is.True);
+                Assert.That(tld.TrusteeServiceEnabled, Is.False);
+                Assert.That(tld.TrusteeServiceRequired, Is.False);
                 Assert.That(tld.AutoRenewOnly, Is.False);
                 Assert.That(tld.Idn, Is.True);
                 Assert.That(tld.MinimumRegistration, Is.EqualTo(1));

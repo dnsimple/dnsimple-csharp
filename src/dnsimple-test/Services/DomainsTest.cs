@@ -106,6 +106,7 @@ namespace dnsimple_test.Services
                 Assert.That(domain.State, Is.EqualTo("registered"));
                 Assert.That(domain.AutoRenew, Is.False);
                 Assert.That(domain.PrivateWhois, Is.False);
+                Assert.That(domain.TrusteeService, Is.False);
                 Assert.That(domain.ExpiresAt, Is.EqualTo(Convert.ToDateTime("2021-06-05T02:15:00Z")));
                 Assert.That(domain.CreatedAt, Is.EqualTo(Convert.ToDateTime("2020-06-04T19:15:14Z")));
                 Assert.That(domain.UpdatedAt, Is.EqualTo(Convert.ToDateTime("2020-06-04T19:15:21Z")));
