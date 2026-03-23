@@ -374,7 +374,7 @@ namespace dnsimple.Services
         public float RegistrationPrice { get; set; }
         public float RenewalPrice { get; set; }
         public float TransferPrice { get; set; }
-        public float TrusteeServicePrice { get; set; }
+        public float? TrusteeServicePrice { get; set; }
     }
 
 
