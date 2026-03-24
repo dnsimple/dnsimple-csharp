@@ -9,6 +9,7 @@
     <PackageLicenseUrl>https://github.com/dnsimple/dnsimple-csharp/blob/main/LICENSE.txt</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dnsimple/dnsimple-csharp</PackageProjectUrl>
     <PackageReleaseNotes>
+      - CHANGE: Fix nullable trustee_service_price deserialization in DomainPrices
       - ADDED: Support for trustee service
       - ADDED: GetDomainResearchStatus
       - First major stable version (1.0.0)
@@ -18,7 +19,7 @@
       - REMOVED: Deprecated RenewWhoisPrivacy
     </PackageReleaseNotes>
     <PackageTags>dnsimple dns api domains</PackageTags>
-    <PackageVersion>1.2.0</PackageVersion>
+    <PackageVersion>1.2.1</PackageVersion>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 

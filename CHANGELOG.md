@@ -2,6 +2,12 @@
 
 This project uses [Semantic Versioning 2.0.0](http://semver.org/), the format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## 1.2.1 - 2026-03-24
+
+### Change
+
+- Fix nullable trustee_service_price deserialization in DomainPrices. (#229)
+
 ## 1.2.0 - 2026-03-23
 
 ### Added
