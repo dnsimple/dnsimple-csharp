@@ -6,6 +6,7 @@ using System.Net;
 using dnsimple;
 using dnsimple.Services.ListOptions;
 using dnsimple.Services;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 
 namespace dnsimple_test.Services
@@ -146,6 +147,24 @@ namespace dnsimple_test.Services
                     });
 
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
+            });
+        }
+
+        [Test]
+        public void DomainPricesWithNullTrusteeServicePrice()
+        {
+            var json = JObject.Parse(
+                "{\"data\":{\"domain\":\"nominal.mx\",\"premium\":false,\"registration_price\":16.0,\"renewal_price\":16.0,\"transfer_price\":16.0,\"restore_price\":80.0,\"trustee_service_price\":null}}");
+            var prices = JsonTools<DomainPrices>.DeserializeObject("data", json);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(prices.Domain, Is.EqualTo("nominal.mx"));
+                Assert.That(prices.Premium, Is.EqualTo(false));
+                Assert.That(prices.RegistrationPrice, Is.EqualTo(16.0));
+                Assert.That(prices.RenewalPrice, Is.EqualTo(16.0));
+                Assert.That(prices.TransferPrice, Is.EqualTo(16.0));
+                Assert.That(prices.TrusteeServicePrice, Is.Null);
             });
         }
 
