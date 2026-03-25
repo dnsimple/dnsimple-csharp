@@ -4,7 +4,7 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/), the format is
 
 ## 1.2.1 - 2026-03-24
 
-### Change
+### Fixed
 
 - Fix nullable trustee_service_price deserialization in DomainPrices. (#229)
 
@@ -19,8 +19,6 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/), the format is
 ### Added
 
 - Added `GetDomainResearchStatus` to research a domain for availability and registration status. (#217)
-
-## main
 
 ## 1.0.0 - 2026-01-22
 
