@@ -12,18 +12,39 @@ namespace dnsimple.Services
     public partial class DomainsService
     {
         /// <summary>
-        /// Initiates a pust of a domain to another DNSimple account.
+        /// Initiates a push of a domain to another DNSimple account using a domain push identifier.
+        /// </summary>
+        /// <param name="accountId">The account ID</param>
+        /// <param name="domainIdentifier">The domain name or ID</param>
+        /// <param name="newDomainPushIdentifier">The domain push identifier of the target account.</param>
+        /// <returns>The newly created push.</returns>
+        /// <see>https://developer.dnsimple.com/v2/domains/pushes/#initiateDomainPush</see>
+        public SimpleResponse<Push> InitiatePushWithIdentifier(long accountId, string domainIdentifier, string newDomainPushIdentifier)
+        {
+            if(string.IsNullOrEmpty(newDomainPushIdentifier))
+                throw new ArgumentException("Domain push identifier cannot be null or empty");
+
+            var builder = BuildRequestForPath(InitiatePushPath(accountId, domainIdentifier));
+            builder.Method(Method.POST);
+            builder.AddJsonPayload(PushPayload("new_domain_push_identifier", newDomainPushIdentifier));
+
+            return new SimpleResponse<Push>(Execute(builder.Request));
+        }
+
+        /// <summary>
+        /// Initiates a push of a domain to another DNSimple account.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or ID</param>
         /// <param name="email">The email address of the target DNSimple account.</param>
         /// <returns>The newly created push.</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/pushes/#initiateDomainPush</see>
+        [Obsolete("Use InitiatePushWithIdentifier instead")]
         public SimpleResponse<Push> InitiatePush(long accountId, string domainIdentifier, string email)
         {
             if(string.IsNullOrEmpty(email))
                 throw new ArgumentException("Email cannot be null or empty");
-            
+
             var builder = BuildRequestForPath(InitiatePushPath(accountId, domainIdentifier));
             builder.Method(Method.POST);
             builder.AddJsonPayload(PushPayload("new_account_email", email));

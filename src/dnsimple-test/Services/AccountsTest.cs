@@ -27,6 +27,7 @@ namespace dnsimple_test.Services
             {
                 Assert.That(accountsData.Data.First().Id, Is.EqualTo(123));
                 Assert.That(accountsData.Data.First().Email, Is.EqualTo("john@example.com"));
+                Assert.That(accountsData.Data.First().Name, Is.EqualTo("John"));
                 Assert.That(accountsData.Data.First().PlanIdentifier, Is.EqualTo("dnsimple-personal"));
             });
         }

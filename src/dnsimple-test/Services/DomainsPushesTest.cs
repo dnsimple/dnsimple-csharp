@@ -58,6 +58,23 @@ namespace dnsimple_test.Services
         }
 
         [Test]
+        [TestCase(1010, "100", "https://api.sandbox.dnsimple.com/v2/1010/domains/100/pushes")]
+        public void InitiatePushWithIdentifier(long accountId, string domainIdentifier, string expectedUrl)
+        {
+            var client = new MockDnsimpleClient(InitiatePushFixture);
+            var push = client.Domains.InitiatePushWithIdentifier(accountId, domainIdentifier,
+                "abc123");
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(push.Data.Id, Is.EqualTo(1));
+                Assert.That(push.Data.AccountId, Is.EqualTo(2020));
+
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
+            });
+        }
+
+        [Test]
         [TestCase(1010, "https://api.sandbox.dnsimple.com/v2/1010/pushes")]
         [TestCase(1010, "https://api.sandbox.dnsimple.com/v2/1010/pushes")]
         public void ListPushes(long accountId, string expectedUrl)
