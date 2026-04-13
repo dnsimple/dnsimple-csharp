@@ -12,21 +12,21 @@ namespace dnsimple.Services
     public partial class DomainsService
     {
         /// <summary>
-        /// Initiates a push of a domain to another DNSimple account using a domain push identifier.
+        /// Initiates a push of a domain to another DNSimple account using an account identifier.
         /// </summary>
         /// <param name="accountId">The account ID</param>
         /// <param name="domainIdentifier">The domain name or ID</param>
-        /// <param name="newDomainPushIdentifier">The domain push identifier of the target account.</param>
+        /// <param name="newAccountIdentifier">The account identifier of the target account.</param>
         /// <returns>The newly created push.</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/pushes/#initiateDomainPush</see>
-        public SimpleResponse<Push> InitiatePushWithIdentifier(long accountId, string domainIdentifier, string newDomainPushIdentifier)
+        public SimpleResponse<Push> InitiatePushWithIdentifier(long accountId, string domainIdentifier, string newAccountIdentifier)
         {
-            if(string.IsNullOrEmpty(newDomainPushIdentifier))
-                throw new ArgumentException("Domain push identifier cannot be null or empty");
+            if(string.IsNullOrEmpty(newAccountIdentifier))
+                throw new ArgumentException("Account identifier cannot be null or empty");
 
             var builder = BuildRequestForPath(InitiatePushPath(accountId, domainIdentifier));
             builder.Method(Method.POST);
-            builder.AddJsonPayload(PushPayload("new_domain_push_identifier", newDomainPushIdentifier));
+            builder.AddJsonPayload(PushPayload("new_account_identifier", newAccountIdentifier));
 
             return new SimpleResponse<Push>(Execute(builder.Request));
         }
