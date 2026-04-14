@@ -357,6 +357,7 @@ namespace dnsimple.Services
         public string State { get; set; }
         public bool AutoRenew { get; set; }
         public bool WhoisPrivacy { get; set; }
+        public bool TrusteeService { get; set; }
         public string StatusDescription { get; set; }
 
         public DateTime CreatedAt { get; set; }
@@ -416,6 +417,7 @@ namespace dnsimple.Services
 
         public bool AutoRenew { get; set; }
         public bool WhoisPrivacy { get; set; }
+        public bool? TrusteeService { get; set; }
 
         public string AuthCode { get; set; }
         public string PremiumPrice { get; set; }
