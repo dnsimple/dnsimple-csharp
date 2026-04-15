@@ -9,17 +9,13 @@
     <PackageLicenseUrl>https://github.com/dnsimple/dnsimple-csharp/blob/main/LICENSE.txt</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dnsimple/dnsimple-csharp</PackageProjectUrl>
     <PackageReleaseNotes>
-      - CHANGE: Fix nullable trustee_service_price deserialization in DomainPrices
-      - ADDED: Support for trustee service
-      - ADDED: GetDomainResearchStatus
-      - First major stable version (1.0.0)
-      - CHANGE: ZoneRecord.Type and FilterByType() changed from enum to string
-      - REMOVED: ZoneRecordType enumeration
-      - REMOVED: Deprecated GetWhoisPrivacy
-      - REMOVED: Deprecated RenewWhoisPrivacy
+      - ADDED: InitiatePushWithIdentifier to initiate domain pushes using an account identifier
+      - ADDED: Name to Account
+      - ADDED: Support for trustee service in domain transfers
+      - DEPRECATED: InitiatePush. Use InitiatePushWithIdentifier instead
     </PackageReleaseNotes>
     <PackageTags>dnsimple dns api domains</PackageTags>
-    <PackageVersion>1.2.1</PackageVersion>
+    <PackageVersion>1.3.0</PackageVersion>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 

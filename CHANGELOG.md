@@ -2,16 +2,17 @@
 
 This project uses [Semantic Versioning 2.0.0](http://semver.org/), the format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## Unreleased
+## 1.3.0 - 2026-04-15
 
 ### Added
 
-- Added `InitiatePushWithIdentifier` to initiate domain pushes using an account identifier.
-- Added `Name` to `Account`.
+- Added `InitiatePushWithIdentifier` to initiate domain pushes using an account identifier. (#230)
+- Added `Name` to `Account`. (#230)
+- Added support for trustee service in domain transfers. (#233)
 
 ### Deprecated
 
-- Deprecated `InitiatePush`. Use `InitiatePushWithIdentifier` instead.
+- Deprecated `InitiatePush`. Use `InitiatePushWithIdentifier` instead. (#230)
 
 ## 1.2.1 - 2026-03-24
 
