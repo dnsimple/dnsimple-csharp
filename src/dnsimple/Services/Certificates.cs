@@ -187,8 +187,6 @@ namespace dnsimple.Services
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public struct LetsencryptCertificateAttributes
     {
-        [ObsoleteAttribute("ContactId is deprecated and its value is ignored and will be removed in the next major version.")]
-        public long? ContactId { get; set; }
         public bool AutoRenew { get; set; }
         public string Name { get; set; }
         public List<string> AlternateNames { get; set; }
@@ -203,8 +201,6 @@ namespace dnsimple.Services
     {
         public long Id { get; set; }
         public long DomainId { get; set; }
-        [ObsoleteAttribute("ContactId is deprecated and its value is ignored and will be removed in the next major version.")]
-        public long ContactId { get; set; }
         public string CommonName { get; set; }
         public long Years { get; set; }
         public string Csr { get; set; }
