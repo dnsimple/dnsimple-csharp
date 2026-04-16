@@ -7,7 +7,7 @@ A C# client for the [DNSimple API v2](https://developer.dnsimple.com/v2/).
 
 ## Requirements
 
-- .NET 6.0+
+- .NET 9.0+
 - An activated DNSimple account
 
 ## Installation
