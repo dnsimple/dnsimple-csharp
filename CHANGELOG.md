@@ -4,6 +4,10 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/), the format is
 
 ## main
 
+### Changed
+
+- **BREAKING**: Upgraded `RestSharp` from 106.15.0 to 114.0.0. RestSharp underwent a major architectural rewrite in v107 (switch to `HttpClient`, removal of `IRestClient`/`IRestRequest`/`IRestResponse` interfaces, immutable client options, PascalCase `Method` enum, removal of `JsonObject`). While the public DNSimple client surface is unchanged, consumers that interact with `Response.Headers` (now `IReadOnlyCollection<HeaderParameter>`) or extend/implement RestSharp types directly may need to update their code. (#235)
+
 ### Removed
 
 - **BREAKING**: Removed the deprecated `ContactId` field from the `Certificate` struct and from `LetsencryptCertificateAttributes`. The field was deprecated on 2022-05-17 and is no longer required for certificate operations.
