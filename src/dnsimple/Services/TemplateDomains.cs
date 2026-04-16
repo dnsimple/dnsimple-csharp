@@ -15,7 +15,7 @@ namespace dnsimple.Services
         public EmptyResponse ApplyTemplate(long accountId, string domainIdentifier, string templateIdentifier)
         {
             var builder = BuildRequestForPath(TemplateDomainPath(accountId, domainIdentifier, templateIdentifier));
-            builder.Method(Method.POST);
+            builder.Method(Method.Post);
 
             return new EmptyResponse(Execute(builder.Request));
         }

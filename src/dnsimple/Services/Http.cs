@@ -10,22 +10,19 @@ namespace dnsimple.Services
     public class HttpService
     {
         private readonly RequestBuilder _builder;
-        private IRestClient RestClient { get; }
+        private RestClientWrapper ClientWrapper { get; }
 
         protected HttpService() {}
 
         /// <summary>
         /// Constructs the HTTP service by passing an instance of a
-        /// <c>RestClient</c> and <c>RequestBuilder</c> objects.
+        /// <c>RestClientWrapper</c> and <c>RequestBuilder</c> objects.
         /// </summary>
-        /// <param name="restClient">RestClient instance to be used.</param>
+        /// <param name="clientWrapper">RestClientWrapper instance to be used.</param>
         /// <param name="builder">RequestBuilder instance to be used.</param>
-        /// 
-        /// <see cref="IRestClient"/>
-        /// <see cref="RequestBuilder"/>
-        public HttpService(IRestClient restClient, RequestBuilder builder)
+        public HttpService(RestClientWrapper clientWrapper, RequestBuilder builder)
         {
-            RestClient = restClient;
+            ClientWrapper = clientWrapper;
             _builder = builder;
         }
 
@@ -37,7 +34,7 @@ namespace dnsimple.Services
         ///     var builder = new RequestBuilder("/whoami");
         /// </code>
         /// </example>
-        /// 
+        ///
         /// <param name="path">Path to the resource</param>
         /// <returns><c>RequestBuilder</c> instance.</returns>
         public virtual RequestBuilder RequestBuilder(string path)
@@ -51,31 +48,29 @@ namespace dnsimple.Services
         /// Executes the request passed (GET, POST, etc.)
         /// </summary>
         /// <remarks>
-        /// The <c>RestRequest</c> instance will have been build with a
+        /// The <c>RestRequest</c> instance will have been built with a
         /// <c>RequestBuilder</c> and contains all the information
         /// (headers and parameters) needed to successfully issue the
         /// request to the server.
         /// </remarks>
         /// <param name="request"><c>RestRequest</c></param>
         /// <returns>
-        /// A <c>JToken</c> object representing the JSON payload returned
-        /// by the API call.
+        /// The <c>RestResponse</c> returned by the API call.
         /// </returns>
-        /// <see cref="JToken"/>
-        public virtual IRestResponse Execute(IRestRequest request)
+        public virtual RestResponse Execute(RestRequest request)
         {
-            var response = RestClient.Execute(request);
+            var response = ClientWrapper.RestClient.Execute(request);
 
             if (!response.IsSuccessful) HandleExceptions(response);
 
             return response;
         }
 
-        private static void HandleExceptions(IRestResponse restResponse)
+        internal static void HandleExceptions(RestResponse restResponse)
         {
             var error = JObject.Parse(restResponse.Content);
             var message = error["message"]?.ToString();
-            
+
             switch (restResponse.StatusCode)
             {
                 case HttpStatusCode.BadRequest:

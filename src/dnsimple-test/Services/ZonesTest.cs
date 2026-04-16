@@ -269,7 +269,7 @@ namespace dnsimple_test.Services
                 Assert.That(zone.CreatedAt, Is.EqualTo(Convert.ToDateTime("2022-09-28T04:45:24Z")));
                 Assert.That(zone.UpdatedAt, Is.EqualTo(Convert.ToDateTime("2023-07-06T11:19:48Z")));
 
-                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.PUT));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.Put));
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
@@ -291,7 +291,7 @@ namespace dnsimple_test.Services
                 Assert.That(zone.CreatedAt, Is.EqualTo(Convert.ToDateTime("2022-09-28T04:45:24Z")));
                 Assert.That(zone.UpdatedAt, Is.EqualTo(Convert.ToDateTime("2023-08-08T04:19:52Z")));
 
-                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.DELETE));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.Delete));
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }

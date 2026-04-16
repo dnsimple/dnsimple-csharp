@@ -99,7 +99,7 @@ namespace dnsimple_test.Services
                 Assert.That(newDelegation.Data, Is.EqualTo(delegation));
 
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
-                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.PUT));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.Put));
             });
         }
 
@@ -130,7 +130,7 @@ namespace dnsimple_test.Services
                 Assert.That(vanityDelegation.First().UpdatedAt, Is.EqualTo(UpdatedAt));
 
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
-                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.PUT));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.Put));
             });
         }
 
@@ -150,7 +150,7 @@ namespace dnsimple_test.Services
                 });
 
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
-                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.DELETE));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.Delete));
             });
         }
     }

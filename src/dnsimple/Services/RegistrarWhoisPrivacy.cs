@@ -31,7 +31,7 @@ namespace dnsimple.Services
         public SimpleResponse<WhoisPrivacy> EnableWhoisPrivacy(long accountId, string domain)
         {
             var builder = BuildRequestForPath(WhoisPrivacyPath(accountId, domain));
-            builder.Method(Method.PUT);
+            builder.Method(Method.Put);
 
             return new SimpleResponse<WhoisPrivacy>(Execute(builder.Request));
         }
@@ -46,7 +46,7 @@ namespace dnsimple.Services
         public SimpleResponse<WhoisPrivacy> DisableWhoisPrivacy(long accountId, string domain)
         {
             var builder = BuildRequestForPath(WhoisPrivacyPath(accountId, domain));
-            builder.Method(Method.DELETE);
+            builder.Method(Method.Delete);
 
             return new SimpleResponse<WhoisPrivacy>(Execute(builder.Request));
         }

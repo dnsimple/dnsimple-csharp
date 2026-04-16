@@ -29,7 +29,7 @@ namespace dnsimple.Services
         public ListResponse<VanityNameServer> EnableVanityNameServers(long accountId, string domain)
         {
             var builder = BuildRequestForPath(VanityNameServersPath(accountId, domain));
-            builder.Method(Method.PUT);
+            builder.Method(Method.Put);
 
             return new ListResponse<VanityNameServer>(Execute(builder.Request));
         }
@@ -42,7 +42,7 @@ namespace dnsimple.Services
         public EmptyResponse DisableVanityNameServers(long accountId, string domain)
         {
             var builder = BuildRequestForPath(VanityNameServersPath(accountId, domain));
-            builder.Method(Method.DELETE);
+            builder.Method(Method.Delete);
 
             return new EmptyResponse(Execute(builder.Request));
         }

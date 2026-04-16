@@ -92,7 +92,7 @@ namespace dnsimple.Services
         public SimpleResponse<CertificatePurchase> PurchaseLetsEncryptCertificate(long accountId, string domainIdentifier, LetsencryptCertificateAttributes attributes)
         {
             var builder = BuildRequestForPath(PurchaseLetsEncryptCertificatePath(accountId, domainIdentifier));
-            builder.Method(Method.POST);
+            builder.Method(Method.Post);
             builder.AddJsonPayload(attributes);
 
             return new SimpleResponse<CertificatePurchase>(Execute(builder.Request));
@@ -110,7 +110,7 @@ namespace dnsimple.Services
         public SimpleResponse<Certificate> IssueLetsEncryptCertificate(long accountId, string domainIdentifier, long certificateId)
         {
             var builder = BuildRequestForPath(IssueLetsEncryptCertificatePath(accountId, domainIdentifier, certificateId));
-            builder.Method(Method.POST);
+            builder.Method(Method.Post);
 
             return new SimpleResponse<Certificate>(Execute(builder.Request));
         }
@@ -128,7 +128,7 @@ namespace dnsimple.Services
         public SimpleResponse<CertificateRenewal> PurchaseLetsEncryptCertificateRenewal(long accountId, string domainIdentifier, long certificateId, LetsencryptCertificateAttributes attributes)
         {
             var builder = BuildRequestForPath(LetsEncryptCertificateRenewalPath(accountId, domainIdentifier, certificateId));
-            builder.Method(Method.POST);
+            builder.Method(Method.Post);
             builder.AddJsonPayload(attributes);
 
             return new SimpleResponse<CertificateRenewal>(Execute(builder.Request));
@@ -145,7 +145,7 @@ namespace dnsimple.Services
         public SimpleResponse<Certificate> IssueLetsEncryptCertificateRenewal(long accountId, string domainIdentifier, long certificateId, long certificateRenewalId)
         {
             var builder = BuildRequestForPath(IssueLetsEncryptCertificateRenewalPath(accountId, domainIdentifier, certificateId, certificateRenewalId));
-            builder.Method(Method.POST);
+            builder.Method(Method.Post);
 
             return new SimpleResponse<Certificate>(Execute(builder.Request));
         }

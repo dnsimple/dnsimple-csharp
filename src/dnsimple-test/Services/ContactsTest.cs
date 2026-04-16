@@ -142,7 +142,7 @@ namespace dnsimple_test.Services
                 Assert.That(created.Email, Is.EqualTo(contact.Email));
 
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
-                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.POST));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.Post));
             });
         }
 
@@ -215,7 +215,7 @@ namespace dnsimple_test.Services
                 Assert.That(updated.AccountId, Is.EqualTo(accountId));
 
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
-                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.PATCH));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.Patch));
             });
         }
 
@@ -233,7 +233,7 @@ namespace dnsimple_test.Services
                 });
 
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
-                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.DELETE));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.Delete));
             });
         }
 

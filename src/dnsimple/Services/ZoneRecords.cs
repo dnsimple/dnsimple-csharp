@@ -45,7 +45,7 @@ namespace dnsimple.Services
         public SimpleResponse<ZoneRecord> CreateZoneRecord(long accountId, string zoneId, ZoneRecord input)
         {
             var builder = BuildRequestForPath(ZoneRecordsPath(accountId, zoneId));
-            builder.Method(Method.POST);
+            builder.Method(Method.Post);
             builder.AddJsonPayload(PrepareRecord(input));
 
             return new SimpleResponse<ZoneRecord>(Execute(builder.Request));
@@ -87,7 +87,7 @@ namespace dnsimple.Services
         public SimpleResponse<ZoneRecord> UpdateZoneRecord(long accountId, string zoneId, long recordId, ZoneRecord record)
         {
             var builder = BuildRequestForPath(ZoneRecordPath(accountId, zoneId, recordId));
-            builder.Method(Method.PATCH);
+            builder.Method(Method.Patch);
             builder.AddJsonPayload(record);
 
             return new SimpleResponse<ZoneRecord>(Execute(builder.Request));
@@ -103,7 +103,7 @@ namespace dnsimple.Services
         public EmptyResponse DeleteZoneRecord(long accountId, string zoneId, long recordId)
         {
             var builder = BuildRequestForPath(ZoneRecordPath(accountId, zoneId, recordId));
-            builder.Method(Method.DELETE);
+            builder.Method(Method.Delete);
 
             return new EmptyResponse(Execute(builder.Request));
         }

@@ -346,7 +346,7 @@ namespace dnsimple_test.Services
                 Assert.That(certificateOrdered.CreatedAt, Is.EqualTo(Convert.ToDateTime("2020-06-18T18:54:17Z")));
                 Assert.That(certificateOrdered.UpdatedAt, Is.EqualTo(Convert.ToDateTime("2020-06-18T18:54:17Z")));
 
-                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.POST));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.Post));
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
@@ -375,7 +375,7 @@ namespace dnsimple_test.Services
                 Assert.That(certificate.AlternateNames, Is.Empty);
                 Assert.That(certificate.AuthorityIdentifier, Is.EqualTo("letsencrypt"));
 
-                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.POST));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.Post));
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
@@ -407,7 +407,7 @@ namespace dnsimple_test.Services
                 Assert.That(renewalPurchased.CreatedAt, Is.EqualTo(Convert.ToDateTime("2020-06-18T19:56:20Z")));
                 Assert.That(renewalPurchased.UpdatedAt, Is.EqualTo(Convert.ToDateTime("2020-06-18T19:56:20Z")));
 
-                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.POST));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.Post));
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
@@ -440,7 +440,7 @@ namespace dnsimple_test.Services
                 Assert.That(renewalIssued.AlternateNames, Is.Empty);
                 Assert.That(renewalIssued.AuthorityIdentifier, Is.EqualTo("letsencrypt"));
 
-                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.POST));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.Post));
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }

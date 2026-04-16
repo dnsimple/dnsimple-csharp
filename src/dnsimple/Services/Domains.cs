@@ -58,7 +58,7 @@ namespace dnsimple.Services
         public SimpleResponse<Domain> CreateDomain(long accountId, Domain domain)
         {
             var builder = BuildRequestForPath(DomainsPath(accountId));
-            builder.Method(Method.POST);
+            builder.Method(Method.Post);
             builder.AddJsonPayload(domain);
 
             return new SimpleResponse<Domain>(Execute(builder.Request));
@@ -74,7 +74,7 @@ namespace dnsimple.Services
         public EmptyResponse DeleteDomain(long accountId, string domainIdentifier)
         {
             var builder = BuildRequestForPath(DeleteDomainPath(accountId, domainIdentifier));
-            builder.Method(Method.DELETE);
+            builder.Method(Method.Delete);
 
             return new EmptyResponse(Execute(builder.Request));
         }

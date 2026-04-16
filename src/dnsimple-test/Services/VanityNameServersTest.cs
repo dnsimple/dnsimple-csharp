@@ -66,7 +66,7 @@ namespace dnsimple_test.Services
             {
                 Assert.That(vanityNameServers.Count, Is.EqualTo(4));
 
-                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.PUT));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.Put));
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
@@ -82,7 +82,7 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.DELETE));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.Delete));
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }

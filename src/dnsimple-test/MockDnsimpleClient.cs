@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using dnsimple;
 using dnsimple.Services;
 using Newtonsoft.Json.Linq;
 using RestSharp;
-using RestSharp.Extensions;
 using ICredentials = dnsimple.ICredentials;
 
 namespace dnsimple_test
@@ -82,7 +82,7 @@ namespace dnsimple_test
 
         public string RequestSentTo()
         {
-            return ((MockHttpService)Http).RequestUrlSent.UrlDecode();
+            return Uri.UnescapeDataString(((MockHttpService)Http).RequestUrlSent);
         }
 
         public Method HttpMethodUsed()
@@ -118,14 +118,16 @@ namespace dnsimple_test
             return new RequestBuilder(path);
         }
 
-        public override IRestResponse Execute(IRestRequest request)
+        public override RestResponse Execute(RestRequest request)
         {
-            RequestUrlSent = new RestClient($"{_baseUrl}/v2/").BuildUri(request).ToString();
+            using var client = new RestClient(new Uri($"{_baseUrl}/v2/"));
+            RequestUrlSent = client.BuildUri(request).ToString();
             MethodSent = request.Method;
             try
             {
-                PayloadSent = (string)request.Parameters.Find(x =>
-                    x.ContentType.Equals("application/json")).Value;
+                var bodyParameter = request.Parameters
+                    .FirstOrDefault(p => p.Type == ParameterType.RequestBody);
+                PayloadSent = bodyParameter?.Value?.ToString();
             }
             catch (Exception)
             {
@@ -156,14 +158,16 @@ namespace dnsimple_test
 
     public class MockResponse : RestResponse
     {
-        public MockResponse(FixtureLoader loader)
+        public MockResponse(FixtureLoader loader) : base(new RestRequest())
         {
             StatusCode = loader.ExtractStatusCode();
             Content = loader.ExtractJsonPayload();
             Headers = loader.ExtractHeaders();
+            IsSuccessStatusCode = (int)StatusCode >= 200 && (int)StatusCode < 300;
+            ResponseStatus = ResponseStatus.Completed;
         }
 
-        public void SetHeaders(List<Parameter> headers)
+        public void SetHeaders(List<HeaderParameter> headers)
         {
             Headers = headers;
         }

@@ -30,7 +30,7 @@ namespace dnsimple.Services
         public EmptyResponse ApplyService(long accountId, string domainIdentifier, string serviceIdentifier)
         {
             var builder = BuildRequestForPath(ApplyServicePath(accountId, domainIdentifier, serviceIdentifier));
-            builder.Method(Method.POST);
+            builder.Method(Method.Post);
 
             return new EmptyResponse(Execute(builder.Request));
         }
@@ -45,7 +45,7 @@ namespace dnsimple.Services
         public EmptyResponse UnapplyService(long accountId, string domainIdentifier, string serviceIdentifier)
         {
             var builder = BuildRequestForPath(ApplyServicePath(accountId, domainIdentifier, serviceIdentifier));
-            builder.Method(Method.DELETE);
+            builder.Method(Method.Delete);
             
             return new EmptyResponse(Execute(builder.Request));
         }

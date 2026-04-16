@@ -39,7 +39,7 @@ namespace dnsimple.Services
         public SimpleResponse<TemplateRecord> CreateTemplateRecord(long accountId, string template, TemplateRecord payload)
         {
             var builder = BuildRequestForPath(TemplateRecordsPath(accountId, template));
-            builder.Method(Method.POST);
+            builder.Method(Method.Post);
             builder.AddJsonPayload(payload);
 
             return new SimpleResponse<TemplateRecord>(Execute(builder.Request));
@@ -70,7 +70,7 @@ namespace dnsimple.Services
         public EmptyResponse DeleteTemplateRecord(long accountId, string template, long recordId)
         {
             var builder = BuildRequestForPath(TemplateRecordPath(accountId, template, recordId));
-            builder.Method(Method.DELETE);
+            builder.Method(Method.Delete);
 
             return new EmptyResponse(Execute(builder.Request));
         }

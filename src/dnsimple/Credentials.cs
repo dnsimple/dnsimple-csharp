@@ -1,3 +1,4 @@
+using System.Text;
 using dnsimple.Services;
 using RestSharp.Authenticators;
 
@@ -12,7 +13,7 @@ namespace dnsimple
     /// </summary>
     public interface ICredentials
     {
-        AuthenticatorBase Authenticator { get; }
+        IAuthenticator Authenticator { get; }
     }
 
     /// <summary>
@@ -23,10 +24,10 @@ namespace dnsimple
     /// </code>
     public readonly struct BasicHttpCredentials : ICredentials
     {
-        public AuthenticatorBase Authenticator { get; }
+        public IAuthenticator Authenticator { get; }
 
         public BasicHttpCredentials(string name, string password) =>
-            Authenticator = new HttpBasicAuthenticator(name, password);
+            Authenticator = new HttpBasicAuthenticator(name, password, Encoding.UTF8);
     }
 
     /// <summary>
@@ -38,9 +39,9 @@ namespace dnsimple
     /// <seealso cref="OAuth2Service"/>
     public readonly struct OAuth2Credentials : ICredentials
     {
-        public AuthenticatorBase Authenticator { get; }
+        public IAuthenticator Authenticator { get; }
 
         public OAuth2Credentials(string token) =>
-            Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(token, "Bearer");
+            Authenticator = new RestSharp.Authenticators.OAuth2.OAuth2AuthorizationRequestHeaderAuthenticator(token, "Bearer");
     }
 }

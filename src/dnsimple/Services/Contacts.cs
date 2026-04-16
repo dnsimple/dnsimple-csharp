@@ -49,7 +49,7 @@ namespace dnsimple.Services
         public SimpleResponse<Contact> CreateContact(long accountId, Contact contact)
         {
             var builder = BuildRequestForPath(ContactsPath(accountId));
-            builder.Method(Method.POST);
+            builder.Method(Method.Post);
             builder.AddJsonPayload(contact);
 
             return new SimpleResponse<Contact>(Execute(builder.Request));
@@ -82,7 +82,7 @@ namespace dnsimple.Services
         public SimpleResponse<Contact> UpdateContact(long accountId, long contactId, Contact contact)
         {
             var builder = BuildRequestForPath(ContactPath(accountId, contactId));
-            builder.Method(Method.PATCH);
+            builder.Method(Method.Patch);
             builder.AddJsonPayload(new UpdateContact(contact));
 
             return new SimpleResponse<Contact>(Execute(builder.Request));
@@ -97,7 +97,7 @@ namespace dnsimple.Services
         public EmptyResponse DeleteContact(long accountId, long contactId)
         {
             var builder = BuildRequestForPath(ContactPath(accountId, contactId));
-            builder.Method(Method.DELETE);
+            builder.Method(Method.Delete);
 
             return new EmptyResponse(Execute(builder.Request));
         }

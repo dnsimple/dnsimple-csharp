@@ -58,7 +58,7 @@ namespace dnsimple.Services
         public SimpleResponse<DomainRegistration> RegisterDomain(long accountId, string domainName, DomainRegistrationInput domain)
         {
             var builder = BuildRequestForPath(RegisterDomainPath(accountId, domainName));
-            builder.Method(Method.POST);
+            builder.Method(Method.Post);
             builder.AddJsonPayload(domain);
 
             return new SimpleResponse<DomainRegistration>(Execute(builder.Request));
@@ -96,7 +96,7 @@ namespace dnsimple.Services
                 throw new DnsimpleException("Please provide an AuthCode");
             }
             var builder = BuildRequestForPath(TransferDomainPath(accountId, domainName));
-            builder.Method(Method.POST);
+            builder.Method(Method.Post);
             builder.AddJsonPayload(transferInput);
 
             return new SimpleResponse<DomainTransfer>(Execute(builder.Request));
@@ -127,7 +127,7 @@ namespace dnsimple.Services
         public SimpleResponse<RegistrantChangeCheck> CheckRegistrantChange(long accountId, CheckRegistrantChangeInput input)
         {
             var builder = BuildRequestForPath(CheckRegistrantChangePath(accountId));
-            builder.Method(Method.POST);
+            builder.Method(Method.Post);
             builder.AddJsonPayload(input);
 
             return new SimpleResponse<RegistrantChangeCheck>(Execute(builder.Request));
@@ -155,7 +155,7 @@ namespace dnsimple.Services
         public SimpleResponse<RegistrantChange> CreateRegistrantChange(long accountId, CreateRegistrantChangeInput input)
         {
             var builder = BuildRequestForPath(RegistrantChangesPath(accountId));
-            builder.Method(Method.POST);
+            builder.Method(Method.Post);
             builder.AddJsonPayload(input);
 
             return new SimpleResponse<RegistrantChange>(Execute(builder.Request));
@@ -187,7 +187,7 @@ namespace dnsimple.Services
         public SimpleResponseOrEmpty<RegistrantChange> DeleteRegistrantChange(long accountId, long registrantChangeId)
         {
             var builder = BuildRequestForPath(RegistrantChangePath(accountId, registrantChangeId));
-            builder.Method(Method.DELETE);
+            builder.Method(Method.Delete);
 
             return new SimpleResponseOrEmpty<RegistrantChange>(Execute(builder.Request));
         }
@@ -204,7 +204,7 @@ namespace dnsimple.Services
         public SimpleResponse<DomainTransfer> CancelDomainTransfer(long accountId, string domainName, long domainTransferId)
         {
             var builder = BuildRequestForPath(DomainTransferPath(accountId, domainName, domainTransferId));
-            builder.Method(Method.DELETE);
+            builder.Method(Method.Delete);
 
             return new SimpleResponse<DomainTransfer>(Execute(builder.Request));
         }
@@ -220,7 +220,7 @@ namespace dnsimple.Services
         public SimpleResponse<DomainRenewal> RenewDomain(long accountId, string domainName, DomainRenewalInput input)
         {
             var builder = BuildRequestForPath(RenewDomainPath(accountId, domainName));
-            builder.Method(Method.POST);
+            builder.Method(Method.Post);
             builder.AddJsonPayload(input);
 
             return new SimpleResponse<DomainRenewal>(Execute(builder.Request));
@@ -251,7 +251,7 @@ namespace dnsimple.Services
         public EmptyResponse TransferDomainOut(long accountId, string domainName)
         {
             var builder = BuildRequestForPath(DomainTransferOutPath(accountId, domainName));
-            builder.Method(Method.POST);
+            builder.Method(Method.Post);
 
             return new EmptyResponse(Execute(builder.Request));
         }

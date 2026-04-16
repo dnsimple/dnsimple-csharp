@@ -15,8 +15,10 @@ namespace dnsimple_test.Services
         private static void SetupMockHttpService(Mock<HttpService> http,
             IMock<RestResponse> mockRestResponse)
         {
-            var response = new RestResponse();
-            response.Content = mockRestResponse.Object.Content;
+            var response = new RestResponse(new RestRequest())
+            {
+                Content = mockRestResponse.Object.Content,
+            };
             http.Setup(mock =>
                     mock.RequestBuilder(It.IsAny<string>()))
                 .Returns(new RequestBuilder(""));
@@ -31,8 +33,8 @@ namespace dnsimple_test.Services
         [Test]
         public void ExchangeAuthorizationForToken()
         {
-            var http = new Mock<HttpService>(new RestClient(), new RequestBuilder());
-            var mockRestResponse = new Mock<RestResponse>();
+            var http = new Mock<HttpService>(new RestClientWrapper(), new RequestBuilder());
+            var mockRestResponse = new Mock<RestResponse>(new RestRequest());
             var oauthService = new OAuth2Service(http.Object);
 
             mockRestResponse.Object.Content =

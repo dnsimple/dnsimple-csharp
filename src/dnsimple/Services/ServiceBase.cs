@@ -24,7 +24,7 @@ namespace dnsimple.Services
             return Client.Http.RequestBuilder(path);
         }
 
-        protected IRestResponse Execute(RestRequest request)
+        protected RestResponse Execute(RestRequest request)
         {
             return Client.Http.Execute(request);
         }
@@ -45,12 +45,12 @@ namespace dnsimple.Services
 
     public abstract class Response
     {
-        public readonly IList<Parameter> Headers;
+        public readonly IReadOnlyCollection<HeaderParameter> Headers;
         public readonly int RateLimit;
         public readonly int RateLimitRemaining;
         public readonly int RateLimitReset;
 
-        public Response(IRestResponse response)
+        public Response(RestResponse response)
         {
             Headers = response.Headers;
             RateLimit = int.Parse(ExtractValueFromHeader("X-RateLimit-Limit"));
@@ -60,9 +60,9 @@ namespace dnsimple.Services
 
         private string ExtractValueFromHeader(string headerName)
         {
-            return (string)Headers.Where(header =>
+            return Headers.First(header =>
                     header.Name != null && header.Name.Equals(headerName, System.StringComparison.OrdinalIgnoreCase))
-                .First().Value;
+                .Value?.ToString();
         }
     }
 
@@ -72,7 +72,7 @@ namespace dnsimple.Services
     /// </summary>
     public class EmptyResponse : Response
     {
-        public EmptyResponse(IRestResponse response) : base(response)
+        public EmptyResponse(RestResponse response) : base(response)
         {
         }
     }
@@ -88,7 +88,7 @@ namespace dnsimple.Services
         /// </summary>
         public T Data { get; protected set; }
 
-        public SimpleResponse(IRestResponse response) : base(response)
+        public SimpleResponse(RestResponse response) : base(response)
         {
             Data = JsonTools<T>.DeserializeObject("data", JObject.Parse(response.Content));
         }
@@ -108,7 +108,7 @@ namespace dnsimple.Services
 
         public bool IsEmpty { get; protected set; }
 
-        public SimpleResponseOrEmpty(IRestResponse response) : base(response)
+        public SimpleResponseOrEmpty(RestResponse response) : base(response)
         {
             if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
             {
@@ -136,7 +136,7 @@ namespace dnsimple.Services
         /// </summary>
         public List<T> Data { get; }
 
-        public ListResponse(IRestResponse response) : base(response)
+        public ListResponse(RestResponse response) : base(response)
         {
             Data = JsonTools<T>.DeserializeList(JObject.Parse(response.Content));
         }
@@ -161,7 +161,7 @@ namespace dnsimple.Services
         /// <see cref="Pagination"/>
         public Pagination Pagination { get; }
 
-        public PaginatedResponse(IRestResponse response) : base(response)
+        public PaginatedResponse(RestResponse response) : base(response)
         {
             var json = JObject.Parse(response.Content);
 

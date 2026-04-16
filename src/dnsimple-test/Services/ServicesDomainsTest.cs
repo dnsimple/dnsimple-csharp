@@ -45,7 +45,7 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.POST));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.Post));
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
@@ -62,7 +62,7 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.DELETE));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.Delete));
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }

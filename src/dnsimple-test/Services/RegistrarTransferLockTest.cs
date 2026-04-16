@@ -29,7 +29,7 @@ namespace dnsimple_test.Services
         Assert.That(transferLockStatus.Enabled, Is.True);
 
         Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
-        Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.POST));
+        Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.Post));
       });
     }
 
@@ -46,7 +46,7 @@ namespace dnsimple_test.Services
         Assert.That(transferLockStatus.Enabled, Is.False);
 
         Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
-        Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.DELETE));
+        Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.Delete));
       });
     }
 
@@ -62,7 +62,7 @@ namespace dnsimple_test.Services
         Assert.That(transferLockStatus.Enabled, Is.True);
 
         Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
-        Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.GET));
+        Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.Get));
       });
     }
   }

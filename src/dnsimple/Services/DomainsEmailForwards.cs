@@ -42,7 +42,7 @@ namespace dnsimple.Services
         public SimpleResponse<EmailForward> CreateEmailForward(long accountId, string domainIdentifier, EmailForward record)
         {
             var builder = BuildRequestForPath(EmailForwardsPath(accountId, domainIdentifier));
-            builder.Method(Method.POST);
+            builder.Method(Method.Post);
             builder.AddJsonPayload(record);
 
             if (record.DestinationEmail.Trim().Equals("") || record.AliasName.Trim().Equals(""))
@@ -76,7 +76,7 @@ namespace dnsimple.Services
         public EmptyResponse DeleteEmailForward(long accountId, string domainIdentifier, int emailForwardId)
         {
             var builder = BuildRequestForPath(EmailForwardPath(accountId, domainIdentifier, emailForwardId));
-            builder.Method(Method.DELETE);
+            builder.Method(Method.Delete);
 
             return new EmptyResponse(Execute(builder.Request));
         }

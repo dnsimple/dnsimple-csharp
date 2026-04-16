@@ -25,7 +25,7 @@ namespace dnsimple.Services
                 throw new ArgumentException("Account identifier cannot be null or empty");
 
             var builder = BuildRequestForPath(InitiatePushPath(accountId, domainIdentifier));
-            builder.Method(Method.POST);
+            builder.Method(Method.Post);
             builder.AddJsonPayload(PushPayload("new_account_identifier", newAccountIdentifier));
 
             return new SimpleResponse<Push>(Execute(builder.Request));
@@ -46,7 +46,7 @@ namespace dnsimple.Services
                 throw new ArgumentException("Email cannot be null or empty");
 
             var builder = BuildRequestForPath(InitiatePushPath(accountId, domainIdentifier));
-            builder.Method(Method.POST);
+            builder.Method(Method.Post);
             builder.AddJsonPayload(PushPayload("new_account_email", email));
 
             return new SimpleResponse<Push>(Execute(builder.Request));
@@ -77,7 +77,7 @@ namespace dnsimple.Services
         public EmptyResponse AcceptPush(long accountId, long pushId, long contactId)
         {
             var builder = BuildRequestForPath(PushPath(accountId, pushId));
-            builder.Method(Method.POST);
+            builder.Method(Method.Post);
             builder.AddJsonPayload(PushPayload("contact_id", contactId.ToString()));
 
             return new EmptyResponse(Execute(builder.Request));
@@ -92,18 +92,14 @@ namespace dnsimple.Services
         public EmptyResponse RejectPush(int accountId, int pushId)
         {
             var builder = BuildRequestForPath(PushPath(accountId, pushId));
-            builder.Method(Method.DELETE);
+            builder.Method(Method.Delete);
 
             return new EmptyResponse(Execute(builder.Request));
         }
 
-        private static JsonObject PushPayload(string key, string value)
+        private static Dictionary<string, object> PushPayload(string key, string value)
         {
-            var payload = new JsonObject
-            {
-                new KeyValuePair<string, object>(key, value)
-            };
-            return payload;
+            return new Dictionary<string, object> { { key, value } };
         }
     }
 
