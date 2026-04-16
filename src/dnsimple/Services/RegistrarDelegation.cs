@@ -37,7 +37,7 @@ namespace dnsimple.Services
         public DelegationResponse ChangeDomainDelegation(long accountId, string domain, IList<string> delegation)
         {
             var builder = BuildRequestForPath(DelegationPath(accountId, domain));
-            builder.Method(Method.PUT);
+            builder.Method(Method.Put);
             builder.AddJsonPayloadRaw(delegation);
 
             return new DelegationResponse(Execute(builder.Request));
@@ -54,7 +54,7 @@ namespace dnsimple.Services
         public ListResponse<VanityDelegation> ChangeDomainDelegationToVanity(long accountId, string domain, List<string> delegation)
         {
             var builder = BuildRequestForPath(VanityDelegationPath(accountId, domain));
-            builder.Method(Method.PUT);
+            builder.Method(Method.Put);
             builder.AddJsonPayloadRaw(delegation);
 
             return new ListResponse<VanityDelegation>(Execute(builder.Request));
@@ -69,7 +69,7 @@ namespace dnsimple.Services
         public EmptyResponse ChangeDomainDelegationFromVanity(long accountId, string domain)
         {
             var builder = BuildRequestForPath(VanityDelegationPath(accountId, domain));
-            builder.Method(Method.DELETE);
+            builder.Method(Method.Delete);
 
             return new EmptyResponse(Execute(builder.Request));
         }
@@ -84,7 +84,7 @@ namespace dnsimple.Services
 
         public DelegationResponse(JToken json) => Data = JsonTools<string>.DeserializeList(json);
 
-        public DelegationResponse(IRestResponse response) => Data = JsonTools<string>.DeserializeList(
+        public DelegationResponse(RestResponse response) => Data = JsonTools<string>.DeserializeList(
             JObject.Parse(response.Content)
             );
     }

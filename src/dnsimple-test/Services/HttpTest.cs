@@ -5,7 +5,6 @@ using System.Net;
 using dnsimple;
 using dnsimple.Services;
 using dnsimple.Services.ListOptions;
-using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
@@ -19,31 +18,23 @@ namespace dnsimple_test.Services
         [Test]
         public void ReturnsARequestBuilder()
         {
-            var http = new HttpService(new RestClient(), new RequestBuilder());
+            var http = new HttpService(new RestClientWrapper(), new RequestBuilder());
             Assert.That(http.RequestBuilder(""), Is.InstanceOf<RequestBuilder>());
-
         }
 
         [Test]
         public void InvalidRequest()
         {
-            var client = new Mock<IRestClient>();
-            var response = new Mock<IRestResponse>();
-            var request = new Mock<IRestRequest>();
-            var http = new HttpService(client.Object, new RequestBuilder());
-
-            response.SetupProperty(mock => mock.StatusCode,
-                HttpStatusCode.Unauthorized);
-            response.Setup(mock => mock.IsSuccessful).Returns(false);
-            response.Setup(mock => mock.Content)
-                .Returns("{\"message\": \"Authentication failed\"}");
-
-            client.Setup(mock => mock.Execute(request.Object))
-                .Returns(response.Object);
+            var response = new RestResponse(new RestRequest())
+            {
+                StatusCode = HttpStatusCode.Unauthorized,
+                Content = "{\"message\": \"Authentication failed\"}",
+                ResponseStatus = ResponseStatus.Completed,
+            };
 
             Assert.Throws(Is.TypeOf<AuthenticationException>()
                     .And.Message.EqualTo("Authentication failed"),
-                delegate { http.Execute(request.Object); });
+                delegate { HttpService.HandleExceptions(response); });
         }
 
         [Test]
@@ -144,7 +135,7 @@ namespace dnsimple_test.Services
         [Test]
         public void Resets()
         {
-            _builder.Method(Method.HEAD);
+            _builder.Method(Method.Head);
 
             Assert.That(_builder.Reset().Request, Is.Null);
         }
@@ -152,10 +143,10 @@ namespace dnsimple_test.Services
         [Test]
         public void SetsTheMethod()
         {
-            _builder.Method(Method.POST);
+            _builder.Method(Method.Post);
             var request = _builder.Request;
 
-            Assert.That(request.Method, Is.EqualTo(Method.POST));
+            Assert.That(request.Method, Is.EqualTo(Method.Post));
         }
 
         [Test]

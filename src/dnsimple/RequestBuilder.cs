@@ -12,7 +12,7 @@ namespace dnsimple
     public class RequestBuilder
     {
         /// <summary>
-        /// Represents the <c>RestRequest</c> we will be issuing. 
+        /// Represents the <c>RestRequest</c> we will be issuing.
         /// </summary>
         public RestRequest Request { get; private set; }
 
@@ -32,14 +32,14 @@ namespace dnsimple
         ///         var builder = new RequestBuilder("/whoami");
         ///     </code>
         /// </example>
-        public RequestBuilder(string path) => 
+        public RequestBuilder(string path) =>
             AddPath(path);
-        
+
         /// <summary>
         /// Adds headers to the request.
         /// </summary>
         /// <param name="headers">The headers we want to add to the request.</param>
-        public void AddHeaders(Collection<KeyValuePair<string, string>> headers) => 
+        public void AddHeaders(Collection<KeyValuePair<string, string>> headers) =>
             Request.AddHeaders(headers);
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace dnsimple
                 AddParameter(parameter);
             }
         }
-        
+
         /// <summary>
         /// Adds a parameter to the request.
         /// </summary>
@@ -66,28 +66,28 @@ namespace dnsimple
                 Request.AddParameter(parameter.Key, parameter.Value);
             }
         }
-        
+
         /// <summary>
         /// Adds a JSON payload to the body of the request.
         /// </summary>
         /// <param name="payload">The object to be serialized and send in the
         /// body of the request.</param>
         public void AddJsonPayload(object payload)
-            => Request.AddJsonBody(JsonConvert.SerializeObject(payload));
-        
+            => Request.AddStringBody(JsonConvert.SerializeObject(payload), DataFormat.Json);
+
         /// <summary>
         /// Adds a JSON payload to the body of the request.
         /// </summary>
         /// <param name="payload">The object to be send in the body of the request.</param>
         public void AddJsonPayloadRaw(object payload)
-            => Request.AddJsonBody(payload);       
+            => Request.AddJsonBody(payload);
 
         /// <summary>
         /// Sets the HTTP method to be used.
         /// </summary>
         /// <param name="method"></param>
         /// <see cref="RestSharp.Method"/>
-        public void Method(Method method) => 
+        public void Method(Method method) =>
             Request.Method = method;
 
         /// <summary>
@@ -101,8 +101,10 @@ namespace dnsimple
         ///         builder.AddPath("/whoami");
         ///     </code>
         /// </example>
-        public void AddPath(string path) => 
-            Request = new RestRequest(path, DataFormat.Json);
+        public void AddPath(string path)
+        {
+            Request = new RestRequest(path) { RequestFormat = DataFormat.Json };
+        }
 
         /// <summary>
         /// Resets the <c>RequestBuilder</c> emptying the <c>Request</c> contained.

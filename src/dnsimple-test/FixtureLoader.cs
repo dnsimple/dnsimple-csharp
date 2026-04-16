@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using Castle.Core.Internal;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
@@ -65,9 +64,9 @@ namespace dnsimple_test
             return File.ReadAllText(path);
         }
 
-        public List<Parameter> ExtractHeaders()
+        public List<HeaderParameter> ExtractHeaders()
         {
-            var headers = new List<Parameter>();
+            var headers = new List<HeaderParameter>();
 
             foreach (var line in GetLines())
             {
@@ -76,7 +75,7 @@ namespace dnsimple_test
                 if (line.Contains(':'))
                 {
                     var header = line.Split(':');
-                    headers.Add(new Parameter(header[0], header[1], ParameterType.HttpHeader));
+                    headers.Add(new HeaderParameter(header[0], header[1]));
                 }
             }
 

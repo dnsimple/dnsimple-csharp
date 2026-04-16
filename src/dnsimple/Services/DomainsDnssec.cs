@@ -38,7 +38,7 @@ namespace dnsimple.Services
         public SimpleResponse<DnssecStatus> EnableDnssec(long accountId, string domainIdentifier)
         {
             var builder = BuildRequestForPath(DnssecPath(accountId, domainIdentifier));
-            builder.Method(Method.POST);
+            builder.Method(Method.Post);
 
             return new SimpleResponse<DnssecStatus>(Execute(builder.Request));
         }
@@ -58,7 +58,7 @@ namespace dnsimple.Services
         public EmptyResponse DisableDnssec(long accountId, string domainIdentifier)
         {
             var builder = BuildRequestForPath(DnssecPath(accountId,domainIdentifier));
-            builder.Method(Method.DELETE);
+            builder.Method(Method.Delete);
 
             return new EmptyResponse(Execute(builder.Request));
         }

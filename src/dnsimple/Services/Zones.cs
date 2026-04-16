@@ -89,7 +89,7 @@ namespace dnsimple.Services
         public SimpleResponse<Zone> ActivateDns(long accountId, string zoneName)
         {
             var builder = BuildRequestForPath(ZoneResolutionPath(accountId, zoneName));
-            builder.Method(Method.PUT);
+            builder.Method(Method.Put);
 
             return new SimpleResponse<Zone>(Execute(builder.Request));
         }
@@ -104,7 +104,7 @@ namespace dnsimple.Services
         public SimpleResponse<Zone> DeactivateDns(long accountId, string zoneName)
         {
             var builder = BuildRequestForPath(ZoneResolutionPath(accountId, zoneName));
-            builder.Method(Method.DELETE);
+            builder.Method(Method.Delete);
 
             return new SimpleResponse<Zone>(Execute(builder.Request));
         }

@@ -167,7 +167,7 @@ namespace dnsimple_test.Services
                 Assert.That(created.Type, Is.EqualTo("A"));
                 Assert.That(created.Regions, Contains.Item("global"));
 
-                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.POST));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.Post));
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
@@ -196,7 +196,7 @@ namespace dnsimple_test.Services
                 Assert.That(record.Regions, Contains.Item("IAD"));
                 Assert.That(record.SystemRecord, Is.False);
 
-                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.GET));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.Get));
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }
@@ -234,7 +234,7 @@ namespace dnsimple_test.Services
                 Assert.That(record.SystemRecord, Is.False);
 
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
-                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.PATCH));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.Patch));
             });
         }
 
@@ -253,7 +253,7 @@ namespace dnsimple_test.Services
                     client.Zones.DeleteZoneRecord(accountId, zoneId, recordId);
                 });
 
-                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.DELETE));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.Delete));
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
         }

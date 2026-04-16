@@ -46,7 +46,7 @@ namespace dnsimple.Services
         public SimpleResponse<Template> CreateTemplate(long accountId, Template template)
         {
             var builder = BuildRequestForPath(TemplatesPath(accountId));
-            builder.Method(Method.POST);
+            builder.Method(Method.Post);
             builder.AddJsonPayload(template);
 
             return new SimpleResponse<Template>(Execute(builder.Request));
@@ -78,7 +78,7 @@ namespace dnsimple.Services
         public SimpleResponse<Template> UpdateTemplate(long accountId, string templateIdentifier, Template payload)
         {
             var builder = BuildRequestForPath(TemplatePath(accountId, templateIdentifier));
-            builder.Method(Method.PATCH);
+            builder.Method(Method.Patch);
             builder.AddJsonPayload(payload);
 
             return new SimpleResponse<Template>(Execute(builder.Request));
@@ -93,7 +93,7 @@ namespace dnsimple.Services
         public EmptyResponse DeleteTemplate(long accountId, string templateIdentifier)
         {
             var builder = BuildRequestForPath(TemplatePath(accountId, templateIdentifier));
-            builder.Method(Method.DELETE);
+            builder.Method(Method.Delete);
 
             return new EmptyResponse(Execute(builder.Request));
         }

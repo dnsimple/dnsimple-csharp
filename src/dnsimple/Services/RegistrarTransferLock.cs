@@ -20,7 +20,7 @@ namespace dnsimple.Services
     public SimpleResponse<TransferLockStatus> EnableDomainTransferLock(long accountId, string domain)
     {
       var builder = BuildRequestForPath(TransferLockPath(accountId, domain));
-      builder.Method(Method.POST);
+      builder.Method(Method.Post);
 
       return new SimpleResponse<TransferLockStatus>(Execute(builder.Request));
     }
@@ -35,7 +35,7 @@ namespace dnsimple.Services
     public SimpleResponse<TransferLockStatus> DisableDomainTransferLock(long accountId, string domain)
     {
       var builder = BuildRequestForPath(TransferLockPath(accountId, domain));
-      builder.Method(Method.DELETE);
+      builder.Method(Method.Delete);
 
       return new SimpleResponse<TransferLockStatus>(Execute(builder.Request));
     }

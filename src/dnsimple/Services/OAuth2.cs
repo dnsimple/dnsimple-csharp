@@ -59,7 +59,7 @@ namespace dnsimple.Services
         private RestRequest BuildRequest(string path, IReadOnlyDictionary<OAuthParams, string> arguments)
         {
             var builder = Http.RequestBuilder(path);
-            builder.Method(Method.POST);
+            builder.Method(Method.Post);
             builder.AddHeaders(Headers());
             builder.AddParameters(PostParameters(arguments));
             return builder.Request;

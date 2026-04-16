@@ -1,4 +1,6 @@
+using System;
 using RestSharp;
+using RestSharp.Authenticators;
 
 namespace dnsimple
 {
@@ -8,21 +10,26 @@ namespace dnsimple
     /// <see cref="RestSharp.RestClient"/>
     public class RestClientWrapper
     {
+        private RestClient _restClient;
+        private IAuthenticator _authenticator;
+        private Uri _baseUrl;
+        private string _userAgent;
+
         /// <summary>
         /// The instance of the <c>RestSharp.RestClient</c>.
         /// </summary>
         /// <see cref="RestSharp.RestClient"/>
-        public RestClient RestClient { get; }
+        public virtual RestClient RestClient => _restClient ??= Build();
 
         /// <summary>
         /// Constructs a new <c>RestClientWrapper</c>
         /// </summary>
-        public RestClientWrapper() : this(new RestClient())
+        public RestClientWrapper()
         {
         }
 
         /// <summary>
-        /// Adds an <c>Authenticator</c> to the <c>RestSharp.RestClient</c>.
+        /// Adds an <c>Authenticator</c> to the underlying <c>RestClient</c>.
         /// </summary>
         /// <remarks>
         /// Authenticators are used to interact with the DNSimple API. They can
@@ -31,10 +38,33 @@ namespace dnsimple
         /// <param name="credentials">The credentials containing the authenticator to be used</param>
         /// <see cref="ICredentials"/>
         /// <see cref="RestSharp.Authenticators.IAuthenticator"/>
-        public virtual void AddAuthenticator(ICredentials credentials) => 
-            RestClient.Authenticator = credentials.Authenticator;
+        public virtual void AddAuthenticator(ICredentials credentials)
+        {
+            _authenticator = credentials.Authenticator;
+            _restClient = null;
+        }
 
-        private RestClientWrapper(RestClient restClient) => 
-            RestClient = restClient;
+        internal void SetBaseUrl(Uri baseUrl)
+        {
+            _baseUrl = baseUrl;
+            _restClient = null;
+        }
+
+        internal void SetUserAgent(string userAgent)
+        {
+            _userAgent = userAgent;
+            _restClient = null;
+        }
+
+        private RestClient Build()
+        {
+            var options = new RestClientOptions
+            {
+                Authenticator = _authenticator,
+                UserAgent = _userAgent,
+            };
+            if (_baseUrl != null) options.BaseUrl = _baseUrl;
+            return new RestClient(options);
+        }
     }
 }

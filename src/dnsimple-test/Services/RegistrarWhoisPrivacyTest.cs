@@ -32,7 +32,7 @@ namespace dnsimple_test.Services
                 Assert.That(privacy.Enabled, Is.True);
 
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
-                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.PUT));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.Put));
             });
         }
 
@@ -51,7 +51,7 @@ namespace dnsimple_test.Services
                 Assert.That(privacy.Enabled, Is.Null);
 
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
-                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.PUT));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.Put));
             });
         }
 
@@ -70,7 +70,7 @@ namespace dnsimple_test.Services
                 Assert.That(privacy.Enabled, Is.False);
 
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
-                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.DELETE));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.Delete));
             });
         }
     }

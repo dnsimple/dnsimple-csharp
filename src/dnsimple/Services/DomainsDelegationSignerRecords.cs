@@ -39,7 +39,7 @@ namespace dnsimple.Services
         public SimpleResponse<DelegationSignerRecord> CreateDelegationSignerRecord(long accountId, string domainIdentifier, DelegationSignerRecord record)
         {
             var builder = BuildRequestForPath(DsRecordsPath(accountId, domainIdentifier));
-            builder.Method(Method.POST);
+            builder.Method(Method.Post);
             builder.AddJsonPayload(record);
 
             if (record.Algorithm.Trim().Equals(""))
@@ -73,7 +73,7 @@ namespace dnsimple.Services
         public EmptyResponse DeleteDelegationSignerRecord(long accountId, string domainIdentifier, int recordId)
         {
             var builder = BuildRequestForPath(DsRecordPath(accountId, domainIdentifier, recordId));
-            builder.Method(Method.DELETE);
+            builder.Method(Method.Delete);
 
             return new EmptyResponse(Execute(builder.Request));
         }

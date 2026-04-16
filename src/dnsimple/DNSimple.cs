@@ -342,7 +342,7 @@ namespace dnsimple
         public void ChangeBaseUrlTo(string baseUrl)
         {
             BaseUrl = baseUrl;
-            RestClientWrapper.RestClient.BaseUrl = new Uri(VersionedBaseUrl());
+            RestClientWrapper.SetBaseUrl(new Uri(VersionedBaseUrl()));
         }
 
         /// <summary>
@@ -374,7 +374,7 @@ namespace dnsimple
         public void SetUserAgent(string customUserAgent)
         {
             UserAgent = $"{customUserAgent} {DefaultUserAgent}";
-            RestClientWrapper.RestClient.UserAgent = UserAgent;
+            RestClientWrapper.SetUserAgent(UserAgent);
         }
 
         /// <summary>
@@ -385,8 +385,7 @@ namespace dnsimple
         /// <see cref="RestClient"/>
         private void InitializeRestClient()
         {
-            RestClientWrapper.RestClient.BaseUrl = new Uri(VersionedBaseUrl());
-            RestClientWrapper.RestClient.UseJson();
+            RestClientWrapper.SetBaseUrl(new Uri(VersionedBaseUrl()));
         }
 
         /// <summary>
@@ -398,7 +397,7 @@ namespace dnsimple
         /// <see cref="OAuth2Service"/>
         private void InitializeServices()
         {
-            Http = new HttpService(RestClientWrapper.RestClient, new RequestBuilder());
+            Http = new HttpService(RestClientWrapper, new RequestBuilder());
             Accounts = new AccountsService(this);
             Certificates = new CertificatesService(this);
             Contacts = new ContactsService(this);

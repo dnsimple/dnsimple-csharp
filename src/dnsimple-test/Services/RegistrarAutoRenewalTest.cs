@@ -27,7 +27,7 @@ namespace dnsimple_test.Services
                     client.Registrar.EnableDomainAutoRenewal(accountId, domain);
                 });
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
-                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.PUT));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.Put));
             });
         }
 
@@ -45,7 +45,7 @@ namespace dnsimple_test.Services
                     client.Registrar.DisableDomainAutoRenewal(accountId, domain);
                 });
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
-                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.DELETE));
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.Delete));
             });
         }
     }

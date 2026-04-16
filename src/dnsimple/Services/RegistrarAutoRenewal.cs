@@ -15,7 +15,7 @@ namespace dnsimple.Services
         /// <see>https://developer.dnsimple.com/v2/registrar/auto-renewal/#enableDomainAutoRenewal</see>
         public EmptyResponse EnableDomainAutoRenewal(long accountId, string domain)
         {
-            return DomainAutoRenewal(accountId, domain, Method.PUT);
+            return DomainAutoRenewal(accountId, domain, Method.Put);
         }
         
         /// <summary>
@@ -26,7 +26,7 @@ namespace dnsimple.Services
         /// <see>https://developer.dnsimple.com/v2/registrar/auto-renewal/#disableDomainAutoRenewal</see>
         public EmptyResponse DisableDomainAutoRenewal(long accountId, string domain)
         {
-            return DomainAutoRenewal(accountId, domain, Method.DELETE);
+            return DomainAutoRenewal(accountId, domain, Method.Delete);
         }
 
         private EmptyResponse DomainAutoRenewal(long accountId, string domain, Method method)

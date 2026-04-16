@@ -45,7 +45,7 @@ namespace dnsimple.Services
         public SimpleResponse<Webhook> CreateWebhook(long accountId, Webhook webhook)
         {
             var builder = BuildRequestForPath(WebhooksPath(accountId));
-            builder.Method(Method.POST);
+            builder.Method(Method.Post);
             builder.AddJsonPayload(webhook);
 
             return new SimpleResponse<Webhook>(Execute(builder.Request));
@@ -73,7 +73,7 @@ namespace dnsimple.Services
         public EmptyResponse DeleteWebhook(long accountId, long webhookId)
         {
             var builder = BuildRequestForPath(WebhookPath(accountId, webhookId));
-            builder.Method(Method.DELETE);
+            builder.Method(Method.Delete);
 
             return new EmptyResponse(Execute(builder.Request));
         }
