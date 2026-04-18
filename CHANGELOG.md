@@ -7,6 +7,7 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/), the format is
 ### Changed
 
 - **BREAKING**: Upgraded `RestSharp` from 106.15.0 to 114.0.0. RestSharp underwent a major architectural rewrite in v107 (switch to `HttpClient`, removal of `IRestClient`/`IRestRequest`/`IRestResponse` interfaces, immutable client options, PascalCase `Method` enum, removal of `JsonObject`). While the public DNSimple client surface is unchanged, consumers that interact with `Response.Headers` (now `IReadOnlyCollection<HeaderParameter>`) or extend/implement RestSharp types directly may need to update their code. (#235)
+- Updated the `listCharges` test fixture to include a certificate purchase entry demonstrating that `ProductReference` is a string even when it represents a numeric ID. (#238)
 
 ### Removed
 
