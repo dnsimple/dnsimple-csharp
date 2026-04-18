@@ -41,7 +41,7 @@ namespace dnsimple_test.Services
 
             Assert.Multiple(() =>
             {
-                Assert.That(charges.Count, Is.EqualTo(3));
+                Assert.That(charges.Count, Is.EqualTo(4));
                 Assert.That(charges.First().TotalAmount, Is.EqualTo(14.50m));
                 Assert.That(charges.First().BalanceAmount, Is.EqualTo(0.00m));
                 Assert.That(charges.First().Reference, Is.EqualTo("1-2"));
@@ -50,6 +50,9 @@ namespace dnsimple_test.Services
                 Assert.That(charges.First().Items.First().Amount, Is.EqualTo(14.50m));
                 Assert.That(charges.First().Items.First().ProductId, Is.EqualTo(1));
                 Assert.That(charges.First().Items.First().ProductType, Is.EqualTo("domain-registration"));
+                Assert.That(charges.Last().Reference, Is.EqualTo("5-2"));
+                Assert.That(charges.Last().Items.First().ProductType, Is.EqualTo("certificate-purchase"));
+                Assert.That(charges.Last().Items.First().ProductReference, Is.EqualTo("42"));
             });
         }
 
