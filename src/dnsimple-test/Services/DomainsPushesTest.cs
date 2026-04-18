@@ -25,6 +25,7 @@ namespace dnsimple_test.Services
         [TestCase(1010, "example.com", "https://api.sandbox.dnsimple.com/v2/1010/domains/example.com/pushes")]
         public void InitiatePush(long accountId, string domainIdentifier, string expectedUrl)
         {
+            #pragma warning disable 618
             var client = new MockDnsimpleClient(InitiatePushFixture);
             var push = client.Domains.InitiatePush(accountId, domainIdentifier,
                 "admin@target-account.test");
@@ -47,6 +48,7 @@ namespace dnsimple_test.Services
         [TestCase(null)]
         public void InitiatePushValidationFail(string email)
         {
+            #pragma warning disable 618
             var client = new MockDnsimpleClient(InitiatePushFixture);
 
             Assert.Throws(Is.TypeOf<ArgumentException>().And.Message.EqualTo("Email cannot be null or empty"),
