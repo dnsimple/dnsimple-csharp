@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6.0.0
+        uses: actions/checkout@v6.0.2
       - name: Sync fixtures
         id: sync
         run: |
@@ -20,7 +20,7 @@ jobs:
           rsync -a --delete "$TMP_DIR/dnsimple-developer-main/fixtures/v2/" src/dnsimple-test/fixtures/v2/
           echo "now=$(date +'%Y-%m-%d %H:%M:%S')" >> "$GITHUB_OUTPUT"
       - name: Create PR with synced fixtures
-        uses: peter-evans/create-pull-request@v8.0.0
+        uses: peter-evans/create-pull-request@v8.1.1
         with:
           sign-commits: true
           add-paths: src/dnsimple-test/fixtures/v2/
