@@ -322,7 +322,7 @@ namespace dnsimple.Services
         public string State { get; set; }
         public bool AutoRenew { get; set; }
         public bool WhoisPrivacy { get; set; }
-        public bool TrusteeService { get; set; }
+        public bool Trustee { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }
@@ -357,7 +357,7 @@ namespace dnsimple.Services
         public string State { get; set; }
         public bool AutoRenew { get; set; }
         public bool WhoisPrivacy { get; set; }
-        public bool TrusteeService { get; set; }
+        public bool Trustee { get; set; }
         public string StatusDescription { get; set; }
 
         public DateTime CreatedAt { get; set; }
@@ -375,7 +375,7 @@ namespace dnsimple.Services
         public float RegistrationPrice { get; set; }
         public float RenewalPrice { get; set; }
         public float TransferPrice { get; set; }
-        public float? TrusteeServicePrice { get; set; }
+        public float? TrusteePrice { get; set; }
     }
 
 
@@ -390,7 +390,7 @@ namespace dnsimple.Services
         public long RegistrantId { get; set; }
 
         public bool WhoisPrivacy { get; set; }
-        public bool? TrusteeService { get; set; }
+        public bool? Trustee { get; set; }
         public bool AutoRenew { get; set; }
         public string PremiumPrice { get; set; }
         public List<TldExtendedAttribute> ExtendedAttributes { get; set; }
@@ -417,7 +417,7 @@ namespace dnsimple.Services
 
         public bool AutoRenew { get; set; }
         public bool WhoisPrivacy { get; set; }
-        public bool? TrusteeService { get; set; }
+        public bool? Trustee { get; set; }
 
         public string AuthCode { get; set; }
         public string PremiumPrice { get; set; }
