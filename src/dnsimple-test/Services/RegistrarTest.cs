@@ -119,7 +119,7 @@ namespace dnsimple_test.Services
                 Assert.That(prices.RegistrationPrice, Is.EqualTo(20.0));
                 Assert.That(prices.RenewalPrice, Is.EqualTo(20.0));
                 Assert.That(prices.TransferPrice, Is.EqualTo(20.0));
-                Assert.That(prices.TrusteeServicePrice, Is.EqualTo(20.0));
+                Assert.That(prices.TrusteePrice, Is.EqualTo(20.0));
 
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
@@ -151,10 +151,10 @@ namespace dnsimple_test.Services
         }
 
         [Test]
-        public void DomainPricesWithNullTrusteeServicePrice()
+        public void DomainPricesWithNullTrusteePrice()
         {
             var json = JObject.Parse(
-                "{\"data\":{\"domain\":\"nominal.mx\",\"premium\":false,\"registration_price\":16.0,\"renewal_price\":16.0,\"transfer_price\":16.0,\"restore_price\":80.0,\"trustee_service_price\":null}}");
+                "{\"data\":{\"domain\":\"nominal.mx\",\"premium\":false,\"registration_price\":16.0,\"renewal_price\":16.0,\"transfer_price\":16.0,\"restore_price\":80.0,\"trustee_price\":null}}");
             var prices = JsonTools<DomainPrices>.DeserializeObject("data", json);
 
             Assert.Multiple(() =>
@@ -164,7 +164,7 @@ namespace dnsimple_test.Services
                 Assert.That(prices.RegistrationPrice, Is.EqualTo(16.0));
                 Assert.That(prices.RenewalPrice, Is.EqualTo(16.0));
                 Assert.That(prices.TransferPrice, Is.EqualTo(16.0));
-                Assert.That(prices.TrusteeServicePrice, Is.Null);
+                Assert.That(prices.TrusteePrice, Is.Null);
             });
         }
 
@@ -375,7 +375,7 @@ namespace dnsimple_test.Services
                 Assert.That(registeredDomain.State, Is.EqualTo("new"));
                 Assert.That(registeredDomain.AutoRenew, Is.False);
                 Assert.That(registeredDomain.WhoisPrivacy, Is.False);
-                Assert.That(registeredDomain.TrusteeService, Is.False);
+                Assert.That(registeredDomain.Trustee, Is.False);
                 Assert.That(registeredDomain.CreatedAt, Is.EqualTo(CreatedAt));
                 Assert.That(registeredDomain.UpdatedAt, Is.EqualTo(UpdatedAt));
 
@@ -402,7 +402,7 @@ namespace dnsimple_test.Services
                 Assert.That(domain.State, Is.EqualTo("registering"));
                 Assert.That(domain.AutoRenew, Is.False);
                 Assert.That(domain.WhoisPrivacy, Is.False);
-                Assert.That(domain.TrusteeService, Is.False);
+                Assert.That(domain.Trustee, Is.False);
                 Assert.That(domain.CreatedAt, Is.EqualTo(Convert.ToDateTime("2023-01-27T17:44:32Z")));
                 Assert.That(domain.UpdatedAt, Is.EqualTo(Convert.ToDateTime("2023-01-27T17:44:40Z")));
 
@@ -477,7 +477,7 @@ namespace dnsimple_test.Services
                 Assert.That(domain.State, Is.EqualTo("transferring"));
                 Assert.That(domain.AutoRenew, Is.False);
                 Assert.That(domain.WhoisPrivacy, Is.False);
-                Assert.That(domain.TrusteeService, Is.False);
+                Assert.That(domain.Trustee, Is.False);
 
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
             });
@@ -613,7 +613,7 @@ namespace dnsimple_test.Services
                 Assert.That(domainTransfer.State, Is.EqualTo("cancelled"));
                 Assert.That(domainTransfer.AutoRenew, Is.False);
                 Assert.That(domainTransfer.WhoisPrivacy, Is.False);
-                Assert.That(domainTransfer.TrusteeService, Is.False);
+                Assert.That(domainTransfer.Trustee, Is.False);
                 Assert.That(domainTransfer.StatusDescription, Is.EqualTo("Canceled by customer"));
                 Assert.That(domainTransfer.CreatedAt, Is.EqualTo(Convert.ToDateTime("2020-06-05T18:08:00Z")));
                 Assert.That(domainTransfer.UpdatedAt, Is.EqualTo(Convert.ToDateTime("2020-06-05T18:10:01Z")));
@@ -635,7 +635,7 @@ namespace dnsimple_test.Services
                 Assert.That(domainTransfer.State, Is.EqualTo("transferring"));
                 Assert.That(domainTransfer.AutoRenew, Is.False);
                 Assert.That(domainTransfer.WhoisPrivacy, Is.False);
-                Assert.That(domainTransfer.TrusteeService, Is.False);
+                Assert.That(domainTransfer.Trustee, Is.False);
                 Assert.That(domainTransfer.StatusDescription, Is.Null);
                 Assert.That(domainTransfer.CreatedAt, Is.EqualTo(Convert.ToDateTime("2020-06-05T18:08:00Z")));
                 Assert.That(domainTransfer.UpdatedAt, Is.EqualTo(Convert.ToDateTime("2020-06-05T18:08:04Z")));
