@@ -2,16 +2,18 @@
 
 This project uses [Semantic Versioning 2.0.0](http://semver.org/), the format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## main
+## 2.0.0 - 2026-05-05
 
 ### Changed
 
+- **BREAKING**: Renamed `TrusteeService` to `Trustee` in `Domain`, `DomainRegistration`, `DomainTransfer`, `RegisterDomainInput`, and `TransferDomainInput`. (#242)
+- **BREAKING**: Renamed `TrusteeServicePrice` to `TrusteePrice` in `DomainPrice`. (#242)
 - **BREAKING**: Upgraded `RestSharp` from 106.15.0 to 114.0.0. RestSharp underwent a major architectural rewrite in v107 (switch to `HttpClient`, removal of `IRestClient`/`IRestRequest`/`IRestResponse` interfaces, immutable client options, PascalCase `Method` enum, removal of `JsonObject`). While the public DNSimple client surface is unchanged, consumers that interact with `Response.Headers` (now `IReadOnlyCollection<HeaderParameter>`) or extend/implement RestSharp types directly may need to update their code. (#235)
 - Updated the `listCharges` test fixture to include a certificate purchase entry demonstrating that `ProductReference` is a string even when it represents a numeric ID. (#238)
 
 ### Removed
 
-- **BREAKING**: Removed the deprecated `ContactId` field from the `Certificate` struct and from `LetsencryptCertificateAttributes`. The field was deprecated on 2022-05-17 and is no longer required for certificate operations.
+- **BREAKING**: Removed the deprecated `ContactId` field from the `Certificate` struct and from `LetsencryptCertificateAttributes`. The field was deprecated on 2022-05-17 and is no longer required for certificate operations. (#236)
 
 ## 1.3.0 - 2026-04-15
 
