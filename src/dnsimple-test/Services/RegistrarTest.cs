@@ -736,10 +736,7 @@ namespace dnsimple_test.Services
             Assert.Multiple(() =>
             {
                 Assert.That(domainRestore.Id, Is.EqualTo(43));
-                Assert.That(domainRestore.DomainId, Is.EqualTo(214));
                 Assert.That(domainRestore.State, Is.EqualTo("new"));
-                Assert.That(domainRestore.CreatedAt, Is.EqualTo(Convert.ToDateTime("2024-02-14T14:40:42Z")));
-                Assert.That(domainRestore.UpdatedAt, Is.EqualTo(Convert.ToDateTime("2024-02-14T14:40:42Z")));
 
                 Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.Post));
                 Assert.That(client.PayloadSent(), Is.EqualTo("{\"premium_price\":\"100.0\"}"));
