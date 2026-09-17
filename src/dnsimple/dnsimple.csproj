@@ -9,13 +9,10 @@
     <PackageLicenseUrl>https://github.com/dnsimple/dnsimple-csharp/blob/main/LICENSE.txt</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dnsimple/dnsimple-csharp</PackageProjectUrl>
     <PackageReleaseNotes>
-      - BREAKING: Renamed TrusteeService to Trustee in Domain, DomainRegistration, DomainTransfer, RegisterDomainInput, and TransferDomainInput
-      - BREAKING: Renamed TrusteeServicePrice to TrusteePrice in DomainPrice
-      - BREAKING: Upgraded RestSharp from 106.15.0 to 114.0.0
-      - BREAKING: Removed deprecated ContactId from Certificate and LetsencryptCertificateAttributes
+      - DEPRECATED: ParentId in ZoneRecord
     </PackageReleaseNotes>
     <PackageTags>dnsimple dns api domains</PackageTags>
-    <PackageVersion>2.0.0</PackageVersion>
+    <PackageVersion>2.1.0</PackageVersion>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
