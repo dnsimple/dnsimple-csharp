@@ -243,6 +243,39 @@ namespace dnsimple.Services
         }
 
         /// <summary>
+        /// Restores a domain.
+        /// </summary>
+        /// <param name="accountId">The account ID</param>
+        /// <param name="domainName">The domain name</param>
+        /// <param name="input">The domain restore request</param>
+        /// <returns>The domain restore</returns>
+        /// <see>https://developer.dnsimple.com/v2/registrar/#restoreDomain</see>
+        public SimpleResponse<DomainRestore> RestoreDomain(long accountId, string domainName, DomainRestoreInput input)
+        {
+            var builder = BuildRequestForPath(RestoreDomainPath(accountId, domainName));
+            builder.Method(Method.Post);
+            builder.AddJsonPayload(input);
+
+            return new SimpleResponse<DomainRestore>(Execute(builder.Request));
+        }
+
+        /// <summary>
+        /// Retrieves the details of an existing domain restore.
+        /// </summary>
+        /// <param name="accountId">The account ID</param>
+        /// <param name="domainName">The domain name</param>
+        /// <param name="domainRestoreId">The domain restore Id</param>
+        /// <returns>The domain restore</returns>
+        /// <see cref="DomainRestore"/>
+        /// <see>https://developer.dnsimple.com/v2/registrar/#getDomainRestore</see>
+        public SimpleResponse<DomainRestore> GetDomainRestore(long accountId, string domainName, long domainRestoreId)
+        {
+            var builder = BuildRequestForPath(DomainRestorePath(accountId, domainName, domainRestoreId));
+
+            return new SimpleResponse<DomainRestore>(Execute(builder.Request));
+        }
+
+        /// <summary>
         /// Prepares a domain for transferring out.
         /// </summary>
         /// <param name="accountId">The account ID</param>
@@ -342,6 +375,19 @@ namespace dnsimple.Services
     }
 
     /// <summary>
+    /// Represents a domain restore.
+    /// </summary>
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    public struct DomainRestore
+    {
+        public long Id { get; set; }
+        public long DomainId { get; set; }
+        public string State { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+    }
+
+    /// <summary>
     /// Represents a domain transfer.
     /// </summary>
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy),
@@ -403,6 +449,15 @@ namespace dnsimple.Services
     public struct DomainRenewalInput
     {
         public long Period { get; set; }
+        public string PremiumPrice { get; set; }
+    }
+
+    /// <summary>
+    /// Represents the data sent to restore a domain.
+    /// </summary>
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    public struct DomainRestoreInput
+    {
         public string PremiumPrice { get; set; }
     }
 

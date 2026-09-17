@@ -8,6 +8,7 @@ using dnsimple.Services.ListOptions;
 using dnsimple.Services;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
+using RestSharp;
 
 namespace dnsimple_test.Services
 {
@@ -52,6 +53,10 @@ namespace dnsimple_test.Services
 
         private const string RenewDomainTooEarlyFixture =
             "renewDomain/error-tooearly.http";
+
+        private const string RestoreDomainFixture = "restoreDomain/success.http";
+
+        private const string GetDomainRestoreFixture = "getDomainRestore/success.http";
 
         private const string AuthorizeTransferOutFixture =
             "authorizeDomainTransferOut/success.http";
@@ -711,6 +716,57 @@ namespace dnsimple_test.Services
                     client.Registrar.RenewDomain(accountId, domainName,
                         renewal);
                 });
+        }
+
+        [Test]
+        [TestCase(1010, "example.com",
+            "https://api.sandbox.dnsimple.com/v2/1010/registrar/domains/example.com/restores")]
+        public void RestoreDomain(long accountId, string domainName,
+            string expectedUrl)
+        {
+            var client = new MockDnsimpleClient(RestoreDomainFixture);
+            var restore = new DomainRestoreInput
+            {
+                PremiumPrice = "100.0"
+            };
+
+            var domainRestore = client.Registrar
+                .RestoreDomain(accountId, domainName, restore).Data;
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(domainRestore.Id, Is.EqualTo(43));
+                Assert.That(domainRestore.DomainId, Is.EqualTo(214));
+                Assert.That(domainRestore.State, Is.EqualTo("new"));
+                Assert.That(domainRestore.CreatedAt, Is.EqualTo(Convert.ToDateTime("2024-02-14T14:40:42Z")));
+                Assert.That(domainRestore.UpdatedAt, Is.EqualTo(Convert.ToDateTime("2024-02-14T14:40:42Z")));
+
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.Post));
+                Assert.That(client.PayloadSent(), Is.EqualTo("{\"premium_price\":\"100.0\"}"));
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
+            });
+        }
+
+        [Test]
+        [TestCase(1010, "bingo.pizza", 1,
+            "https://api.sandbox.dnsimple.com/v2/1010/registrar/domains/bingo.pizza/restores/1")]
+        public void GetDomainRestore(long accountId, string domainName, long domainRestoreId,
+            string expectedUrl)
+        {
+            var client = new MockDnsimpleClient(GetDomainRestoreFixture);
+            var domainRestore = client.Registrar.GetDomainRestore(accountId, domainName, domainRestoreId).Data;
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(domainRestore.Id, Is.EqualTo(43));
+                Assert.That(domainRestore.DomainId, Is.EqualTo(214));
+                Assert.That(domainRestore.State, Is.EqualTo("new"));
+                Assert.That(domainRestore.CreatedAt, Is.EqualTo(Convert.ToDateTime("2024-02-14T14:40:42Z")));
+                Assert.That(domainRestore.UpdatedAt, Is.EqualTo(Convert.ToDateTime("2024-02-14T14:40:42Z")));
+
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.Get));
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
+            });
         }
 
         [Test]

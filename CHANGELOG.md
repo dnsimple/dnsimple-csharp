@@ -4,6 +4,10 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/), the format is
 
 ## Unreleased
 
+### Added
+
+- Added `RestoreDomain` and `GetDomainRestore` to restore a domain and to retrieve a domain restore.
+
 ### Housekeeping
 
 - Copy all HTTP test fixtures to the test output directory with a glob. (#265)
