@@ -152,6 +152,7 @@ namespace dnsimple.Services
     {
         public long Id { get; set; }
         public string ZoneId { get; set; }
+        [Obsolete("ParentId is deprecated, its value is always null, and it will be removed in the next major version.")]
         public long? ParentId { get; set; }
         public string Name { get; set; }
         public string Content { get; set; }

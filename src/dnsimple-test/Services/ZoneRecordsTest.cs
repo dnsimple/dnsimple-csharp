@@ -68,7 +68,9 @@ namespace dnsimple_test.Services
             {
                 Assert.That(record.Id, Is.EqualTo(1));
                 Assert.That(record.ZoneId, Is.EqualTo("example.com"));
+                #pragma warning disable 618
                 Assert.That(record.ParentId, Is.Null);
+                #pragma warning restore 618
                 Assert.That(record.Name, Is.EqualTo(""));
                 Assert.That(
                     record.Content, Is.EqualTo("ns1.dnsimple.com admin.dnsimple.com 1458642070 86400 7200 604800 300"));
@@ -186,7 +188,9 @@ namespace dnsimple_test.Services
             {
                 Assert.That(record.Id, Is.EqualTo(recordId));
                 Assert.That(record.ZoneId, Is.EqualTo(zoneId));
+                #pragma warning disable 618
                 Assert.That(record.ParentId, Is.Null);
+                #pragma warning restore 618
                 Assert.That(record.Name, Is.Empty);
                 Assert.That(record.Content, Is.EqualTo("mxa.example.com"));
                 Assert.That(record.Ttl, Is.EqualTo(600));
@@ -224,7 +228,9 @@ namespace dnsimple_test.Services
             {
                 Assert.That(record.Id, Is.EqualTo(recordId));
                 Assert.That(record.ZoneId, Is.EqualTo(zoneId));
+                #pragma warning disable 618
                 Assert.That(record.ParentId, Is.Null);
+                #pragma warning restore 618
                 Assert.That(record.Name, Is.Empty);
                 Assert.That(record.Content, Is.EqualTo("mxb.example.com"));
                 Assert.That(record.Ttl, Is.EqualTo(3600));
