@@ -20,6 +20,8 @@ This document describes the steps to release a new version of DNSimple/C#.
    - **MINOR** version for backwards-compatible functionality additions
    - **PATCH** version for backwards-compatible bug fixes
 
+   Check the `## Unreleased` section in `CHANGELOG.md` for entries tagged `(requires major version)`. Any such entry requires a **MAJOR** version, whatever the other entries are. Raising the minimum supported .NET version is always a breaking change, so its changelog entry must carry this tag.
+
 2. **Run tests** and confirm they pass
 
    ```shell
@@ -35,7 +37,7 @@ This document describes the steps to release a new version of DNSimple/C#.
 
 4. **Update the changelog** with the new version
 
-   Finalize the `## main` section in `CHANGELOG.md` assigning the version.
+   Finalize the `## Unreleased` section in `CHANGELOG.md` assigning the version.
 
 5. **Commit the new version**
 
