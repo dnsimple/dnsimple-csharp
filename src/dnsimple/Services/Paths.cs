@@ -19,6 +19,11 @@ namespace dnsimple.Services
             return $"{DomainsPath(accountId)}/{domainIdentifier}";
         }
 
+        public static string DnsAnalyticsPath(long accountId)
+        {
+            return $"/{accountId}/dns_analytics";
+        }
+
         public static string DomainPath(long accountId,
             string domainIdentifier)
         {
