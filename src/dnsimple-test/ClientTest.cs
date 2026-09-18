@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using dnsimple;
 using dnsimple.Services;
 using Moq;
@@ -28,6 +31,22 @@ namespace dnsimple_test
         public void HasHttpService()
         {
             Assert.That(_client.Http, Is.InstanceOf<HttpService>());
+        }
+
+        [Test]
+        public void HasBillingService()
+        {
+            Assert.That(_client.Billing, Is.InstanceOf<BillingService>());
+        }
+
+        private static IEnumerable<PropertyInfo> ServiceProperties() =>
+            typeof(IClient).GetProperties()
+                .Where(property => property.PropertyType.Name.EndsWith("Service"));
+
+        [TestCaseSource(nameof(ServiceProperties))]
+        public void InitializesEveryService(PropertyInfo property)
+        {
+            Assert.That(property.GetValue(_client), Is.InstanceOf(property.PropertyType));
         }
 
         [Test]

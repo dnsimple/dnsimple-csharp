@@ -399,6 +399,7 @@ namespace dnsimple
         {
             Http = new HttpService(RestClientWrapper, new RequestBuilder());
             Accounts = new AccountsService(this);
+            Billing = new BillingService(this);
             Certificates = new CertificatesService(this);
             Contacts = new ContactsService(this);
             Domains = new DomainsService(this);
