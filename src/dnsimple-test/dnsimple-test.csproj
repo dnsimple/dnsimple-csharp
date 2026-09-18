@@ -12,9 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="fixtures\**\*.http">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Update="fixtures\**\*.http" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>
