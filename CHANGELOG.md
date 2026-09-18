@@ -11,7 +11,7 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/), the format is
 
 ### Fixed
 
-- Fixed `Client.Billing` being null on a new `Client`.
+- Fixed `Client.Billing` being null on a new `Client`. (#268)
 
 ### Housekeeping
 
