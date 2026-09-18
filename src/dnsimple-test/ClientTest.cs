@@ -33,12 +33,6 @@ namespace dnsimple_test
             Assert.That(_client.Http, Is.InstanceOf<HttpService>());
         }
 
-        [Test]
-        public void HasBillingService()
-        {
-            Assert.That(_client.Billing, Is.InstanceOf<BillingService>());
-        }
-
         private static IEnumerable<PropertyInfo> ServiceProperties() =>
             typeof(IClient).GetProperties()
                 .Where(property => property.PropertyType.Name.EndsWith("Service"));
