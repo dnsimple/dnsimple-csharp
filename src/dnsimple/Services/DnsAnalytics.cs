@@ -68,9 +68,10 @@ namespace dnsimple.Services
             var headers = JsonTools<List<string>>.DeserializeObject("data.headers", json);
             var rows = JsonTools<List<JArray>>.DeserializeObject("data.rows", json);
 
-            Data = rows.Select(row =>
-                new JObject(headers.Select((header, index) =>
-                    new JProperty(header, row[index]))).ToObject<DnsAnalytics>()).ToList();
+            var records = new JArray(rows.Select(row =>
+                new JObject(headers.Select((header, index) => new JProperty(header, row[index])))));
+
+            Data = JsonTools<DnsAnalytics>.DeserializeList(new JObject { ["data"] = records });
             Pagination = Pagination.From(json);
             Query = JsonTools<DnsAnalyticsQuery>.DeserializeObject("query", json);
         }
