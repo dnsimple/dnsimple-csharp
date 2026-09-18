@@ -11,7 +11,7 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/), the format is
 
 ### Changed
 
-- Enabled nullable reference types in the library. The public API now carries nullability annotations, for example `Client.UserAgent` is `string?`. Nullable warnings fail the build. (#270)
+- **BREAKING**: Enabled nullable reference types in the library. The public API now carries nullability annotations, for example `Client.UserAgent` is `string?`. Nullable warnings fail the build. (#270)
 - `RequestBuilder.Reset()` now sets `Request` to an empty request instead of null. (#270)
 
 ### Fixed
