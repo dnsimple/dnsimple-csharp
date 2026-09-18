@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <Content Include="fixtures\**\*.http">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
