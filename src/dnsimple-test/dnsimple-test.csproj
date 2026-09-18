@@ -12,9 +12,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="fixtures\**\*.http">
+    <None Update="fixtures\**\*.http">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
