@@ -33,7 +33,7 @@ namespace dnsimple_test
         [TestCaseSource(nameof(ServiceProperties))]
         public void InitializesEveryService(PropertyInfo property)
         {
-            Assert.That(property.GetValue(_client), Is.InstanceOf(property.PropertyType));
+            Assert.That(property.GetValue(_client), Is.Not.Null);
         }
 
         [Test]
