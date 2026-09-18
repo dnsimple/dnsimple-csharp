@@ -20,6 +20,7 @@ namespace dnsimple_test
         public BillingService Billing { get; }
         public CertificatesService Certificates { get; }
         public ContactsService Contacts { get; }
+        public DnsAnalyticsService DnsAnalytics { get; }
         public DomainsService Domains { get; }
         public HttpService Http { get; }
         public IdentityService Identity { get; }
@@ -42,6 +43,7 @@ namespace dnsimple_test
             Billing = new BillingService(this);
             Certificates = new CertificatesService(this);
             Contacts = new ContactsService(this);
+            DnsAnalytics = new DnsAnalyticsService(this);
             Domains = new DomainsService(this);
             Http = new MockHttpService("v2", Fixture, BaseUrl);
             Identity = new IdentityService(this);

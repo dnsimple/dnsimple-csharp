@@ -90,6 +90,13 @@ namespace dnsimple
         CertificatesService Certificates { get; }
 
         /// <summary>
+        /// Instance of the <c>DnsAnalyticsService</c>
+        /// </summary>
+        /// <see cref="DnsAnalyticsService"/>
+        /// <see>https://developer.dnsimple.com/v2/dns-analytics/</see>
+        DnsAnalyticsService DnsAnalytics { get; }
+
+        /// <summary>
         /// Instance of the <c>DomainsService</c>
         /// <see cref="DomainsService"/>
         /// <see>https://developer.dnsimple.com/v2/domains/</see>
@@ -276,6 +283,9 @@ namespace dnsimple
         /// <inheritdoc />
         public ContactsService Contacts { get; private set; }
 
+        /// <inheritdoc />
+        public DnsAnalyticsService DnsAnalytics { get; private set; }
+
         /// <inheritdoc/>
         public DomainsService Domains { get; private set; }
 
@@ -401,6 +411,7 @@ namespace dnsimple
             Accounts = new AccountsService(this);
             Certificates = new CertificatesService(this);
             Contacts = new ContactsService(this);
+            DnsAnalytics = new DnsAnalyticsService(this);
             Domains = new DomainsService(this);
             Identity = new IdentityService(this);
             OAuth = new OAuth2Service(Http);
