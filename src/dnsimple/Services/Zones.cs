@@ -28,7 +28,7 @@ namespace dnsimple.Services
         /// <returns>A <c>ZonesResponse</c> containing a list of zones for
         /// the account.</returns>
         /// <see>https://developer.dnsimple.com/v2/zones/#listZones</see>
-        public PaginatedResponse<Zone> ListZones(long accountId, ZonesListOptions options = null)
+        public PaginatedResponse<Zone> ListZones(long accountId, ZonesListOptions? options = null)
         {
             var builder = BuildRequestForPath(ZonesPath(accountId));
             AddListOptionsToRequest(options, ref builder);

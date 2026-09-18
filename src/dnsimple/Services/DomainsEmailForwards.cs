@@ -20,7 +20,7 @@ namespace dnsimple.Services
         /// <param name="options">Options passed to the list (sorting, pagination)</param>
         /// <returns>A list of all email forwards for the domain</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/email-forwards/#listEmailForwards</see>
-        public PaginatedResponse<EmailForward> ListEmailForwards(long accountId, string domainIdentifier, DomainEmailForwardsListOptions options = null)
+        public PaginatedResponse<EmailForward> ListEmailForwards(long accountId, string domainIdentifier, DomainEmailForwardsListOptions? options = null)
         {
             var builder =
                 BuildRequestForPath(EmailForwardsPath(accountId,

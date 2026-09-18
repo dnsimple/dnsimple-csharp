@@ -137,7 +137,13 @@ namespace dnsimple_test.Services
         {
             _builder.Method(Method.Head);
 
-            Assert.That(_builder.Reset().Request, Is.Null);
+            var request = _builder.Reset().Request;
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(request.Resource, Is.Empty);
+                Assert.That(request.Method, Is.EqualTo(Method.Get));
+            });
         }
 
         [Test]

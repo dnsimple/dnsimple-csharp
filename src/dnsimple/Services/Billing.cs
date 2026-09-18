@@ -24,7 +24,7 @@ namespace dnsimple.Services
         /// <param name="options">Options passed to the list (filtering, pagination, and sorting)</param>
         /// <returns>A <c>ChargesResponse</c> containing a list of charges for the
         /// account.</returns>
-        public PaginatedResponse<Charge> ListCharges(long accountId, ListChargesOptions options = null)
+        public PaginatedResponse<Charge> ListCharges(long accountId, ListChargesOptions? options = null)
         {
             var builder = BuildRequestForPath(ChargesPath(accountId));
             AddListOptionsToRequest(options, ref builder);

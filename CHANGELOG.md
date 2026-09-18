@@ -9,9 +9,15 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/), the format is
 - Added `RestoreDomain` and `GetDomainRestore` to restore a domain and to retrieve a domain restore. (#264)
 - Added `BatchChangeZoneRecords` to create, update, and delete records in a zone in one atomic request. (#266)
 
+### Changed
+
+- Enabled nullable reference types in the library. The public API now carries nullability annotations, for example `Client.UserAgent` is `string?`. Nullable warnings fail the build.
+- `RequestBuilder.Reset()` now sets `Request` to an empty request instead of null.
+
 ### Fixed
 
 - Fixed `Client.Billing` being null on a new `Client`. (#268)
+- Fixed `UpdateContact` not sending the `PostalCode` of the contact.
 
 ### Housekeeping
 

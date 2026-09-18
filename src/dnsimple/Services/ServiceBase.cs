@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using dnsimple.Services.ListOptions;
@@ -30,7 +31,7 @@ namespace dnsimple.Services
         }
 
         protected static void AddListOptionsToRequest(
-            ListOptions.ListOptions options,
+            ListOptions.ListOptions? options,
             ref RequestBuilder requestBuilder)
         {
             if (options == null) return;
@@ -52,7 +53,7 @@ namespace dnsimple.Services
 
         public Response(RestResponse response)
         {
-            Headers = response.Headers;
+            Headers = response.Headers ?? Array.Empty<HeaderParameter>();
             RateLimit = int.Parse(ExtractValueFromHeader("X-RateLimit-Limit"));
             RateLimitRemaining = int.Parse(ExtractValueFromHeader("X-RateLimit-Remaining"));
             RateLimitReset = int.Parse(ExtractValueFromHeader("X-RateLimit-Reset"));
@@ -62,7 +63,7 @@ namespace dnsimple.Services
         {
             return Headers.First(header =>
                     header.Name != null && header.Name.Equals(headerName, System.StringComparison.OrdinalIgnoreCase))
-                .Value?.ToString();
+                .Value?.ToString() ?? string.Empty;
         }
     }
 
@@ -86,11 +87,11 @@ namespace dnsimple.Services
         /// <summary>
         /// Represents the <c>struct</c> containing the data.
         /// </summary>
-        public T Data { get; protected set; }
+        public T? Data { get; protected set; }
 
         public SimpleResponse(RestResponse response) : base(response)
         {
-            Data = JsonTools<T>.DeserializeObject("data", JObject.Parse(response.Content));
+            Data = JsonTools<T>.DeserializeObject("data", response.ParseContent());
         }
     }
 
@@ -104,7 +105,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Represents the <c>struct</c> containing the data.
         /// </summary>
-        public T Data { get; protected set; }
+        public T? Data { get; protected set; }
 
         public bool IsEmpty { get; protected set; }
 
@@ -117,7 +118,7 @@ namespace dnsimple.Services
             }
             else
             {
-                Data = JsonTools<T>.DeserializeObject("data", JObject.Parse(response.Content));
+                Data = JsonTools<T>.DeserializeObject("data", response.ParseContent());
                 IsEmpty = false;
             }
         }
@@ -138,7 +139,7 @@ namespace dnsimple.Services
 
         public ListResponse(RestResponse response) : base(response)
         {
-            Data = JsonTools<T>.DeserializeList(JObject.Parse(response.Content));
+            Data = JsonTools<T>.DeserializeList(response.ParseContent());
         }
     }
 
@@ -163,10 +164,16 @@ namespace dnsimple.Services
 
         public PaginatedResponse(RestResponse response) : base(response)
         {
-            var json = JObject.Parse(response.Content);
+            var json = response.ParseContent();
 
             Data = JsonTools<T>.DeserializeList(json);
             Pagination = Pagination.From(json);
         }
+    }
+
+    internal static class RestResponseExtensions
+    {
+        internal static JObject ParseContent(this RestResponse response) =>
+            JObject.Parse(response.Content ?? throw new DnsimpleException("The response has no body."));
     }
 }

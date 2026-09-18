@@ -19,9 +19,8 @@ namespace dnsimple
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public RequestBuilder()
-        {
-        }
+        public RequestBuilder() =>
+            Request = NewRequest(string.Empty);
 
         /// <summary>
         /// Builds a new <c>RequestBuilder</c> for the URI (endpoint).
@@ -33,7 +32,7 @@ namespace dnsimple
         ///     </code>
         /// </example>
         public RequestBuilder(string path) =>
-            AddPath(path);
+            Request = NewRequest(path);
 
         /// <summary>
         /// Adds headers to the request.
@@ -103,17 +102,20 @@ namespace dnsimple
         /// </example>
         public void AddPath(string path)
         {
-            Request = new RestRequest(path) { RequestFormat = DataFormat.Json };
+            Request = NewRequest(path);
         }
 
         /// <summary>
-        /// Resets the <c>RequestBuilder</c> emptying the <c>Request</c> contained.
+        /// Resets the <c>RequestBuilder</c> to an empty <c>Request</c>.
         /// </summary>
         /// <returns>The instance of the <c>RequestBuilder</c></returns>
         public RequestBuilder Reset()
         {
-            Request = null;
+            Request = NewRequest(string.Empty);
             return this;
         }
+
+        private static RestRequest NewRequest(string path) =>
+            new RestRequest(path) { RequestFormat = DataFormat.Json };
     }
 }

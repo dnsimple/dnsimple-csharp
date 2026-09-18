@@ -60,7 +60,7 @@ namespace dnsimple.Services.ListOptions
 
         public virtual List<KeyValuePair<string, string>> UnpackFilters()
         {
-            return null;
+            return new List<KeyValuePair<string, string>>();
         }
 
         /// <summary>
@@ -203,7 +203,8 @@ namespace dnsimple.Services.ListOptions
         /// <see cref="JToken"/>
         public static Pagination From(JToken json)
         {
-            return json.SelectToken("pagination").ToObject<Pagination>();
+            return json.SelectToken("pagination")?.ToObject<Pagination>()
+                ?? throw new DnsimpleException("The response has no pagination.");
         }
        
         public bool IsDefault()

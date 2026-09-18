@@ -169,7 +169,7 @@ namespace dnsimple.Services
         /// <param name="options" cref="RegistrantChangesListOptions">Options passed to the list (sorting and
         /// pagination).</param>
         /// <returns>A list of all the registrant changes for the account <c>RegistrantChange</c></returns>
-        public PaginatedResponse<RegistrantChange> ListRegistrantChanges(long accountId, RegistrantChangesListOptions options = null)
+        public PaginatedResponse<RegistrantChange> ListRegistrantChanges(long accountId, RegistrantChangesListOptions? options = null)
         {
             var builder = BuildRequestForPath(RegistrantChangesPath(accountId));
             AddListOptionsToRequest(options, ref builder);
