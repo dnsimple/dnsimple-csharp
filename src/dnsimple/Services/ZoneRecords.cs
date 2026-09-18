@@ -115,7 +115,7 @@ namespace dnsimple.Services
         /// <param name="zoneId">The zone name</param>
         /// <param name="input">The record changes to apply</param>
         /// <returns>The created and updated records, and the IDs of the deleted records</returns>
-        /// <see cref="BatchChangeZoneRecordsInput"/>
+        /// <see cref="BatchChangeZoneRecordsResult"/>
         /// <see>https://developer.dnsimple.com/v2/zones/records/#batchChangeZoneRecords</see>
         public SimpleResponse<BatchChangeZoneRecordsResult> BatchChangeZoneRecords(long accountId, string zoneId, BatchChangeZoneRecordsInput input)
         {
@@ -191,7 +191,7 @@ namespace dnsimple.Services
     {
         public List<BatchCreateZoneRecordInput> Creates { get; set; }
         public List<BatchUpdateZoneRecordInput> Updates { get; set; }
-        public List<BatchDeleteZoneRecordInput> Deletes { get; set; }
+        public List<ZoneRecordId> Deletes { get; set; }
     }
 
     /// <summary>
@@ -229,10 +229,10 @@ namespace dnsimple.Services
     }
 
     /// <summary>
-    /// Represents a record to delete in a batch change.
+    /// Represents the ID of a zone record in a batch change.
     /// </summary>
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public struct BatchDeleteZoneRecordInput
+    public struct ZoneRecordId
     {
         public long Id { get; set; }
     }
@@ -245,16 +245,7 @@ namespace dnsimple.Services
     {
         public List<ZoneRecord> Creates { get; set; }
         public List<ZoneRecord> Updates { get; set; }
-        public List<BatchDeletedZoneRecord> Deletes { get; set; }
-    }
-
-    /// <summary>
-    /// Represents a record deleted in a batch change.
-    /// </summary>
-    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public struct BatchDeletedZoneRecord
-    {
-        public long Id { get; set; }
+        public List<ZoneRecordId> Deletes { get; set; }
     }
 
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy), ItemNullValueHandling = NullValueHandling.Ignore)]

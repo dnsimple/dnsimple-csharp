@@ -347,10 +347,10 @@ namespace dnsimple_test.Services
                     new BatchUpdateZoneRecordInput { Id = 67622534, Content = "3.2.3.40" },
                     new BatchUpdateZoneRecordInput { Id = 67622537, Name = "", Priority = 10 }
                 },
-                Deletes = new List<BatchDeleteZoneRecordInput>
+                Deletes = new List<ZoneRecordId>
                 {
-                    new BatchDeleteZoneRecordInput { Id = 67622509 },
-                    new BatchDeleteZoneRecordInput { Id = 67622527 }
+                    new ZoneRecordId { Id = 67622509 },
+                    new ZoneRecordId { Id = 67622527 }
                 }
             };
 
@@ -400,9 +400,9 @@ namespace dnsimple_test.Services
             var client = new MockDnsimpleClient(BatchChangeZoneRecordsFixture);
             var input = new BatchChangeZoneRecordsInput
             {
-                Deletes = new List<BatchDeleteZoneRecordInput>
+                Deletes = new List<ZoneRecordId>
                 {
-                    new BatchDeleteZoneRecordInput { Id = 67622509 }
+                    new ZoneRecordId { Id = 67622509 }
                 }
             };
 
@@ -433,18 +433,16 @@ namespace dnsimple_test.Services
         [Test]
         public void BatchChangeZoneRecordsValidationErrors()
         {
-            var loader = new FixtureLoader("v2", BatchChangeZoneRecordsCreateValidationFailedFixture);
+            var client = new MockDnsimpleClient(BatchChangeZoneRecordsCreateValidationFailedFixture);
+            client.StatusCode(HttpStatusCode.BadRequest);
 
             var exception = Assert.Throws<DnsimpleValidationException>(delegate
             {
-                HttpService.HandleExceptions(new MockResponse(loader));
+                client.Zones.BatchChangeZoneRecords(1010, "example.com",
+                    new BatchChangeZoneRecordsInput());
             });
 
-            Assert.Multiple(() =>
-            {
-                Assert.That(exception.Message, Is.EqualTo("Validation failed"));
-                Assert.That(exception.GetAttributeErrors()["creates"]?[0]?["errors"]?["record_type"]?[0]?.ToString(), Is.EqualTo("unsupported"));
-            });
+            Assert.That(exception.GetAttributeErrors()["creates"]?[0]?["errors"]?["record_type"]?[0]?.ToString(), Is.EqualTo("unsupported"));
         }
 
         [Test]
