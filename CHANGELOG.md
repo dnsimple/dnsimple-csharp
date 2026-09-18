@@ -16,6 +16,7 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/), the format is
 ### Housekeeping
 
 - Copy all HTTP test fixtures to the test output directory with a glob. (#265)
+- Assign the `Client` services in the constructor as get-only properties. (#269)
 
 ## 2.1.0 - 2026-09-17
 
