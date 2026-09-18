@@ -109,6 +109,24 @@ namespace dnsimple.Services
         }
 
         /// <summary>
+        /// Creates, updates, and deletes records in a zone in one atomic request.
+        /// </summary>
+        /// <param name="accountId">The account ID</param>
+        /// <param name="zoneId">The zone name</param>
+        /// <param name="input">The record changes to apply</param>
+        /// <returns>The created and updated records, and the IDs of the deleted records</returns>
+        /// <see cref="BatchChangeZoneRecordsInput"/>
+        /// <see>https://developer.dnsimple.com/v2/zones/records/#batchChangeZoneRecords</see>
+        public SimpleResponse<BatchChangeZoneRecordsResult> BatchChangeZoneRecords(long accountId, string zoneId, BatchChangeZoneRecordsInput input)
+        {
+            var builder = BuildRequestForPath(ZoneRecordsBatchPath(accountId, zoneId));
+            builder.Method(Method.Post);
+            builder.AddJsonPayload(input);
+
+            return new SimpleResponse<BatchChangeZoneRecordsResult>(Execute(builder.Request));
+        }
+
+        /// <summary>
         /// Checks if a zone change is fully distributed to all our name servers across the globe.
         /// </summary>
         /// <remarks>This feature is not available for testing in our Sandbox environment.</remarks>
@@ -163,6 +181,80 @@ namespace dnsimple.Services
         public bool SystemRecord { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+    }
+
+    /// <summary>
+    /// Represents the data sent to batch change the records in a zone.
+    /// </summary>
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy), ItemNullValueHandling = NullValueHandling.Ignore)]
+    public struct BatchChangeZoneRecordsInput
+    {
+        public List<BatchCreateZoneRecordInput> Creates { get; set; }
+        public List<BatchUpdateZoneRecordInput> Updates { get; set; }
+        public List<BatchDeleteZoneRecordInput> Deletes { get; set; }
+    }
+
+    /// <summary>
+    /// Represents a record to create in a batch change.
+    /// </summary>
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy), ItemNullValueHandling = NullValueHandling.Ignore)]
+    public struct BatchCreateZoneRecordInput
+    {
+        [JsonProperty(Required = Required.Always)]
+        public string Name { get; set; }
+
+        [JsonProperty(Required = Required.Always)]
+        public string Type { get; set; }
+
+        [JsonProperty(Required = Required.Always)]
+        public string Content { get; set; }
+
+        public long? Ttl { get; set; }
+        public long? Priority { get; set; }
+        public List<string> Regions { get; set; }
+    }
+
+    /// <summary>
+    /// Represents a record to update in a batch change.
+    /// </summary>
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy), ItemNullValueHandling = NullValueHandling.Ignore)]
+    public struct BatchUpdateZoneRecordInput
+    {
+        public long Id { get; set; }
+        public string Name { get; set; }
+        public string Content { get; set; }
+        public long? Ttl { get; set; }
+        public long? Priority { get; set; }
+        public List<string> Regions { get; set; }
+    }
+
+    /// <summary>
+    /// Represents a record to delete in a batch change.
+    /// </summary>
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    public struct BatchDeleteZoneRecordInput
+    {
+        public long Id { get; set; }
+    }
+
+    /// <summary>
+    /// Represents the result of a batch change of the records in a zone.
+    /// </summary>
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    public struct BatchChangeZoneRecordsResult
+    {
+        public List<ZoneRecord> Creates { get; set; }
+        public List<ZoneRecord> Updates { get; set; }
+        public List<BatchDeletedZoneRecord> Deletes { get; set; }
+    }
+
+    /// <summary>
+    /// Represents a record deleted in a batch change.
+    /// </summary>
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    public struct BatchDeletedZoneRecord
+    {
+        public long Id { get; set; }
     }
 
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy), ItemNullValueHandling = NullValueHandling.Ignore)]

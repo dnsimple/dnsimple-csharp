@@ -43,6 +43,15 @@ namespace dnsimple_test.Services
         private const string CheckZoneRecordDistributionFailureFixture =
             "checkZoneRecordDistribution/failure.http";
 
+        private const string BatchChangeZoneRecordsFixture =
+            "batchChangeZoneRecords/success.http";
+        private const string BatchChangeZoneRecordsCreateValidationFailedFixture =
+            "batchChangeZoneRecords/error_400_create_validation_failed.http";
+        private const string BatchChangeZoneRecordsUpdateValidationFailedFixture =
+            "batchChangeZoneRecords/error_400_update_validation_failed.http";
+        private const string BatchChangeZoneRecordsDeleteValidationFailedFixture =
+            "batchChangeZoneRecords/error_400_delete_validation_failed.http";
+
         private DateTime CreatedAt { get; } = DateTime.ParseExact(
             "2016-03-22T10:20:53Z", "yyyy-MM-ddTHH:mm:ssZ",
             CultureInfo.CurrentCulture);
@@ -317,6 +326,125 @@ namespace dnsimple_test.Services
                     client.Zones.CheckRecordDistribution(accountId, zoneId,
                         recordId);
                 });
+        }
+
+        [Test]
+        [TestCase(1010, "example.com",
+            "https://api.sandbox.dnsimple.com/v2/1010/zones/example.com/batch")]
+        public void BatchChangeZoneRecords(long accountId, string zoneId,
+            string expectedUrl)
+        {
+            var client = new MockDnsimpleClient(BatchChangeZoneRecordsFixture);
+            var input = new BatchChangeZoneRecordsInput
+            {
+                Creates = new List<BatchCreateZoneRecordInput>
+                {
+                    new BatchCreateZoneRecordInput { Name = "ab", Type = "A", Content = "3.2.3.4" },
+                    new BatchCreateZoneRecordInput { Name = "ab", Type = "A", Content = "4.2.3.4", Ttl = 3600, Regions = new List<string> { "global" } }
+                },
+                Updates = new List<BatchUpdateZoneRecordInput>
+                {
+                    new BatchUpdateZoneRecordInput { Id = 67622534, Content = "3.2.3.40" },
+                    new BatchUpdateZoneRecordInput { Id = 67622537, Name = "", Priority = 10 }
+                },
+                Deletes = new List<BatchDeleteZoneRecordInput>
+                {
+                    new BatchDeleteZoneRecordInput { Id = 67622509 },
+                    new BatchDeleteZoneRecordInput { Id = 67622527 }
+                }
+            };
+
+            var result = client.Zones.BatchChangeZoneRecords(accountId, zoneId, input).Data;
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(result.Creates.Count, Is.EqualTo(2));
+                Assert.That(result.Creates[0].Id, Is.EqualTo(67623409));
+                Assert.That(result.Creates[0].ZoneId, Is.EqualTo("example.com"));
+                Assert.That(result.Creates[0].Name, Is.EqualTo("ab"));
+                Assert.That(result.Creates[0].Content, Is.EqualTo("3.2.3.4"));
+                Assert.That(result.Creates[0].Ttl, Is.EqualTo(3600));
+                Assert.That(result.Creates[0].Priority, Is.Null);
+                Assert.That(result.Creates[0].Type, Is.EqualTo("A"));
+                Assert.That(result.Creates[0].Regions, Contains.Item("global"));
+                Assert.That(result.Creates[0].SystemRecord, Is.False);
+                Assert.That(result.Creates[1].Id, Is.EqualTo(67623410));
+                Assert.That(result.Creates[1].Content, Is.EqualTo("4.2.3.4"));
+
+                Assert.That(result.Updates.Count, Is.EqualTo(2));
+                Assert.That(result.Updates[0].Id, Is.EqualTo(67622534));
+                Assert.That(result.Updates[0].Name, Is.EqualTo("update1-1757049890"));
+                Assert.That(result.Updates[0].Content, Is.EqualTo("3.2.3.40"));
+                Assert.That(result.Updates[1].Id, Is.EqualTo(67622537));
+                Assert.That(result.Updates[1].Name, Is.EqualTo("update2-1757049890"));
+                Assert.That(result.Updates[1].Content, Is.EqualTo("5.2.3.40"));
+
+                Assert.That(result.Deletes.Select(record => record.Id), Is.EqualTo(new long[] { 67622509, 67622527 }));
+
+                Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.Post));
+                Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
+                Assert.That(client.PayloadSent(), Is.EqualTo(
+                    "{\"creates\":[" +
+                    "{\"name\":\"ab\",\"type\":\"A\",\"content\":\"3.2.3.4\"}," +
+                    "{\"name\":\"ab\",\"type\":\"A\",\"content\":\"4.2.3.4\",\"ttl\":3600,\"regions\":[\"global\"]}]," +
+                    "\"updates\":[" +
+                    "{\"id\":67622534,\"content\":\"3.2.3.40\"}," +
+                    "{\"id\":67622537,\"name\":\"\",\"priority\":10}]," +
+                    "\"deletes\":[{\"id\":67622509},{\"id\":67622527}]}"));
+            });
+        }
+
+        [Test]
+        public void BatchChangeZoneRecordsOmitsAbsentOperations()
+        {
+            var client = new MockDnsimpleClient(BatchChangeZoneRecordsFixture);
+            var input = new BatchChangeZoneRecordsInput
+            {
+                Deletes = new List<BatchDeleteZoneRecordInput>
+                {
+                    new BatchDeleteZoneRecordInput { Id = 67622509 }
+                }
+            };
+
+            client.Zones.BatchChangeZoneRecords(1010, "example.com", input);
+
+            Assert.That(client.PayloadSent(), Is.EqualTo("{\"deletes\":[{\"id\":67622509}]}"));
+        }
+
+        [Test]
+        [TestCase(BatchChangeZoneRecordsCreateValidationFailedFixture)]
+        [TestCase(BatchChangeZoneRecordsUpdateValidationFailedFixture)]
+        [TestCase(BatchChangeZoneRecordsDeleteValidationFailedFixture)]
+        public void BatchChangeZoneRecordsValidationFailed(string fixture)
+        {
+            var client = new MockDnsimpleClient(fixture);
+            client.StatusCode(HttpStatusCode.BadRequest);
+
+            Assert.Throws(
+                Is.TypeOf<DnsimpleValidationException>().And.Message
+                    .EqualTo("Validation failed"),
+                delegate
+                {
+                    client.Zones.BatchChangeZoneRecords(1010, "example.com",
+                        new BatchChangeZoneRecordsInput());
+                });
+        }
+
+        [Test]
+        public void BatchChangeZoneRecordsValidationErrors()
+        {
+            var loader = new FixtureLoader("v2", BatchChangeZoneRecordsCreateValidationFailedFixture);
+
+            var exception = Assert.Throws<DnsimpleValidationException>(delegate
+            {
+                HttpService.HandleExceptions(new MockResponse(loader));
+            });
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(exception.Message, Is.EqualTo("Validation failed"));
+                Assert.That(exception.GetAttributeErrors()["creates"]?[0]?["errors"]?["record_type"]?[0]?.ToString(), Is.EqualTo("unsupported"));
+            });
         }
 
         [Test]
