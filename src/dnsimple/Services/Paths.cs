@@ -353,6 +353,11 @@ namespace dnsimple.Services
             return $"{ZonePath(accountId, zoneId)}/records";
         }
 
+        public static string ZoneRecordsBatchPath(long accountId, string zoneId)
+        {
+            return $"{ZonePath(accountId, zoneId)}/batch";
+        }
+
         public static string ZoneDistributionPath(long accountId,
             string zoneName)
         {
