@@ -53,7 +53,7 @@ namespace dnsimple.Services
         public AccessToken ExchangeAuthorizationForToken(Dictionary<OAuthParams, string> arguments)
         {
             var request = BuildRequest("/oauth/access_token", arguments);
-            return JObject.Parse(Http.Execute(request).Content).ToObject<AccessToken>();
+            return Http.Execute(request).ParseContent().ToObject<AccessToken>();
         }
 
         private RestRequest BuildRequest(string path, IReadOnlyDictionary<OAuthParams, string> arguments)

@@ -23,7 +23,7 @@ namespace dnsimple.Services
         /// <param name="options">Options passed to the list (sorting and
         ///  pagination)</param>
         /// <see>https://developer.dnsimple.com/v2/tlds/#listTlds</see>
-        public PaginatedResponse<TldData> ListTlds(TldListOptions options = null)
+        public PaginatedResponse<TldData> ListTlds(TldListOptions? options = null)
         {
             var builder = BuildRequestForPath(TldsPath());
             AddListOptionsToRequest(options, ref builder);

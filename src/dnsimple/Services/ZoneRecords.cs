@@ -23,7 +23,7 @@ namespace dnsimple.Services
         /// records for the zone.</returns>
         /// <see cref="ZoneRecordsListOptions"/>
         /// <see>https://developer.dnsimple.com/v2/zones/records/#listZoneRecords</see>
-        public PaginatedResponse<ZoneRecord> ListZoneRecords(long accountId, string zoneId, ZoneRecordsListOptions options = null)
+        public PaginatedResponse<ZoneRecord> ListZoneRecords(long accountId, string zoneId, ZoneRecordsListOptions? options = null)
         {
             var builder = BuildRequestForPath(ZoneRecordsPath(accountId, zoneId));
 
@@ -262,7 +262,7 @@ namespace dnsimple.Services
 
         public long Ttl { get; set; }
         public long? Priority { get; set; }
-        public List<string> Regions { get; set; }
+        public List<string>? Regions { get; set; }
 
         internal ZoneRecordToSend(ZoneRecord record)
         {

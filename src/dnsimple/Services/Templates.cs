@@ -27,7 +27,7 @@ namespace dnsimple.Services
         /// pagination).</param>
         /// <returns>A list of templates for the account</returns>
         /// <see>https://developer.dnsimple.com/v2/templates/#listTemplates</see>
-        public PaginatedResponse<Template> ListTemplates(long accountId, ListTemplatesOptions options = null)
+        public PaginatedResponse<Template> ListTemplates(long accountId, ListTemplatesOptions? options = null)
         {
             var builder = BuildRequestForPath(TemplatesPath(accountId));
 

@@ -21,7 +21,8 @@ namespace dnsimple.Services
         public static List<T> DeserializeList(JToken json)
         {
             return ExtractList(json).Select(item =>
-                item.ToObject<T>(Serializer())).ToList();
+                item.ToObject<T>(Serializer())
+                    ?? throw new DnsimpleException("The response has a null item in 'data'.")).ToList();
         }
 
         /// <summary>
@@ -33,7 +34,14 @@ namespace dnsimple.Services
         /// <see cref="JToken"/>
         public static T DeserializeObject(string path, JToken json)
         {
-            return json.SelectToken(path).ToObject<T>(Serializer());
+            return SelectRequired(json, path).ToObject<T>(Serializer())
+                ?? throw new DnsimpleException($"The response has a null '{path}' member.");
+        }
+
+        private static JToken SelectRequired(JToken json, string path)
+        {
+            return json.SelectToken(path)
+                ?? throw new DnsimpleException($"The response has no '{path}' member.");
         }
 
         private static JsonSerializer Serializer()
@@ -48,7 +56,7 @@ namespace dnsimple.Services
 
         private static IEnumerable<JToken> ExtractList(JToken json)
         {
-            return JArray.FromObject(json["data"]).ToList();
+            return JArray.FromObject(SelectRequired(json, "data")).ToList();
         }
     }
 }

@@ -53,7 +53,7 @@ namespace dnsimple
         /// </summary>
         string Version { get; }
 
-        string UserAgent { get; }
+        string? UserAgent { get; }
 
         /// <summary>
         /// Instance of the <c>HttpService</c>
@@ -253,7 +253,7 @@ namespace dnsimple
         /// </summary>
         public string Version { get; } = "v2";
 
-        public string UserAgent { get; private set; }
+        public string? UserAgent { get; private set; }
 
         /// <summary>
         /// Instance of the <c>RestClientWrapper</c>

@@ -12,7 +12,7 @@ namespace dnsimple.Services
         private readonly RequestBuilder _builder;
         private RestClientWrapper ClientWrapper { get; }
 
-        protected HttpService() {}
+        protected HttpService() : this(new RestClientWrapper(), new RequestBuilder()) {}
 
         /// <summary>
         /// Constructs the HTTP service by passing an instance of a
@@ -39,7 +39,6 @@ namespace dnsimple.Services
         /// <returns><c>RequestBuilder</c> instance.</returns>
         public virtual RequestBuilder RequestBuilder(string path)
         {
-            _builder.Reset();
             _builder.AddPath(path);
             return _builder;
         }
@@ -68,8 +67,8 @@ namespace dnsimple.Services
 
         internal static void HandleExceptions(RestResponse restResponse)
         {
-            var error = JObject.Parse(restResponse.Content);
-            var message = error["message"]?.ToString();
+            var error = restResponse.Content is { } content ? JObject.Parse(content) : new JObject();
+            var message = error["message"]?.ToString() ?? restResponse.ErrorMessage;
 
             switch (restResponse.StatusCode)
             {

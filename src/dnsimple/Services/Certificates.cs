@@ -26,7 +26,7 @@ namespace dnsimple.Services
         ///  pagination)</param>
         /// <returns>A <c>CertificatesResponse</c> containing a list of zones for the
         /// account.</returns>
-        public PaginatedResponse<Certificate> ListCertificates(long accountId, string domainIdentifier, CertificatesListOptions options = null)
+        public PaginatedResponse<Certificate> ListCertificates(long accountId, string domainIdentifier, CertificatesListOptions? options = null)
         {
             var builder = BuildRequestForPath(CertificatesPath(accountId, domainIdentifier));
             AddListOptionsToRequest(options, ref builder);
