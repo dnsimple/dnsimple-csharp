@@ -9,6 +9,10 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/), the format is
 - Added `RestoreDomain` and `GetDomainRestore` to restore a domain and to retrieve a domain restore. (#264)
 - Added `BatchChangeZoneRecords` to create, update, and delete records in a zone in one atomic request. (#266)
 
+### Fixed
+
+- Fixed `Client.Billing` being null on a new `Client`. (#268)
+
 ### Housekeeping
 
 - Copy all HTTP test fixtures to the test output directory with a glob. (#265)
