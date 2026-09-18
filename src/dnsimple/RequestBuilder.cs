@@ -19,8 +19,9 @@ namespace dnsimple
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public RequestBuilder() =>
-            Request = NewRequest(string.Empty);
+        public RequestBuilder() : this(string.Empty)
+        {
+        }
 
         /// <summary>
         /// Builds a new <c>RequestBuilder</c> for the URI (endpoint).
@@ -111,7 +112,7 @@ namespace dnsimple
         /// <returns>The instance of the <c>RequestBuilder</c></returns>
         public RequestBuilder Reset()
         {
-            Request = NewRequest(string.Empty);
+            AddPath(string.Empty);
             return this;
         }
 

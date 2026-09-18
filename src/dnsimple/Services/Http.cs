@@ -39,7 +39,6 @@ namespace dnsimple.Services
         /// <returns><c>RequestBuilder</c> instance.</returns>
         public virtual RequestBuilder RequestBuilder(string path)
         {
-            _builder.Reset();
             _builder.AddPath(path);
             return _builder;
         }

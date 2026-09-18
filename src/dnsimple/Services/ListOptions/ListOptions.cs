@@ -203,8 +203,7 @@ namespace dnsimple.Services.ListOptions
         /// <see cref="JToken"/>
         public static Pagination From(JToken json)
         {
-            return json.SelectToken("pagination")?.ToObject<Pagination>()
-                ?? throw new DnsimpleException("The response has no pagination.");
+            return JsonTools<Pagination>.DeserializeObject("pagination", json);
         }
        
         public bool IsDefault()

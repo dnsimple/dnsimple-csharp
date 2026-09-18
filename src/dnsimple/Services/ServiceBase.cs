@@ -61,9 +61,10 @@ namespace dnsimple.Services
 
         private string ExtractValueFromHeader(string headerName)
         {
-            return Headers.First(header =>
+            return Headers.FirstOrDefault(header =>
                     header.Name != null && header.Name.Equals(headerName, System.StringComparison.OrdinalIgnoreCase))
-                .Value?.ToString() ?? string.Empty;
+                ?.Value?.ToString()
+                ?? throw new DnsimpleException($"The response has no '{headerName}' header.");
         }
     }
 
@@ -87,7 +88,7 @@ namespace dnsimple.Services
         /// <summary>
         /// Represents the <c>struct</c> containing the data.
         /// </summary>
-        public T? Data { get; protected set; }
+        public T Data { get; protected set; }
 
         public SimpleResponse(RestResponse response) : base(response)
         {
