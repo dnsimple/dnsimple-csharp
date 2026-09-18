@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using dnsimple;
-using dnsimple.Services;
 using Moq;
 using NUnit.Framework;
 
@@ -27,12 +26,6 @@ namespace dnsimple_test
             Assert.That(_client.BaseUrl, Is.EqualTo("https://api.sandbox.dnsimple.com"));
         }
 
-        [Test]
-        public void HasHttpService()
-        {
-            Assert.That(_client.Http, Is.InstanceOf<HttpService>());
-        }
-
         private static IEnumerable<PropertyInfo> ServiceProperties() =>
             typeof(IClient).GetProperties()
                 .Where(property => property.PropertyType.Name.EndsWith("Service"));
@@ -44,27 +37,9 @@ namespace dnsimple_test
         }
 
         [Test]
-        public void HasIdentityService()
-        {
-            Assert.That(_client.Identity, Is.InstanceOf<IdentityService>());
-        }
-
-        [Test]
-        public void HasOAuthService()
-        {
-            Assert.That(_client.OAuth, Is.InstanceOf<OAuth2Service>());
-        }
-
-        [Test]
         public void HasVersion()
         {
             Assert.That(_client.Version, Is.EqualTo("v2"));
-        }
-
-        [Test]
-        public void ReturnsInstanceOfTheIdentityService()
-        {
-            Assert.That(_client.Identity, Is.InstanceOf<IdentityService>());
         }
 
         [Test]
