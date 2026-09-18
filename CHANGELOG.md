@@ -10,9 +10,20 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/), the format is
 - Added `BatchChangeZoneRecords` to create, update, and delete records in a zone in one atomic request. (#266)
 - Added `DnsAnalytics.Query` to query DNS Analytics data. The API is in Public Beta. (#267)
 
+### Changed
+
+- **BREAKING**: Enabled nullable reference types in the library. The public API now carries nullability annotations, for example `Client.UserAgent` is `string?`. Nullable warnings fail the build. (#270)
+- **BREAKING**: `RequestBuilder.Reset()` now sets `Request` to an empty request instead of null. (#270)
+
+### Fixed
+
+- Fixed `Client.Billing` being null on a new `Client`. (#268)
+- Fixed `UpdateContact` not sending the `PostalCode` of the contact. (#270)
+
 ### Housekeeping
 
 - Copy all HTTP test fixtures to the test output directory with a glob. (#265)
+- Assign the `Client` services in the constructor as get-only properties. (#269)
 
 ## 2.1.0 - 2026-09-17
 

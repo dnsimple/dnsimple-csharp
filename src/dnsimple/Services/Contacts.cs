@@ -29,7 +29,7 @@ namespace dnsimple.Services
         /// <see cref="ContactsListOptions"/>
         /// <see>https://developer.dnsimple.com/v2/contacts/#listContacts</see>
         public PaginatedResponse<Contact> ListContacts(long accountId,
-            ContactsListOptions options = null)
+            ContactsListOptions? options = null)
         {
             var builder = BuildRequestForPath(ContactsPath(accountId));
 
@@ -184,6 +184,7 @@ namespace dnsimple.Services
             Address2 = contact.Address2;
             City = contact.City;
             StateProvince = contact.StateProvince;
+            PostalCode = contact.PostalCode;
             Country = contact.Country;
         }
     }

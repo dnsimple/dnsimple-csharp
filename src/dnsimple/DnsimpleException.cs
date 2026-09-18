@@ -13,7 +13,7 @@ namespace dnsimple
         /// Constructs and <c>Exception</c> with a message.
         /// </summary>
         /// <param name="message">A human readable message.</param>
-        public DnsimpleException(string message) : base(message)
+        public DnsimpleException(string? message) : base(message)
         {
         }
     }
@@ -25,7 +25,7 @@ namespace dnsimple
     public class NotFoundException : DnsimpleException
     {
         /// <inheritdoc />
-        public NotFoundException(string message) : base(message)
+        public NotFoundException(string? message) : base(message)
         {
         }
     }
@@ -38,7 +38,7 @@ namespace dnsimple
     public class AuthenticationException : DnsimpleException
     {
         /// <inheritdoc />
-        public AuthenticationException(string message) : base(message)
+        public AuthenticationException(string? message) : base(message)
         {
         }
     }
@@ -50,7 +50,8 @@ namespace dnsimple
     {
         public JObject Validation { get; }
 
-        public DnsimpleValidationException(JToken error) : base(error["message"]?.ToString()) => Validation = (JObject)error["errors"];
+        public DnsimpleValidationException(JToken error) : base(error["message"]?.ToString()) =>
+            Validation = error["errors"] as JObject ?? new JObject();
 
         public JObject GetAttributeErrors() => Validation;
     }

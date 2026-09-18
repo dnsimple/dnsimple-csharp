@@ -19,7 +19,7 @@ namespace dnsimple.Services
         /// pagination).</param>
         /// <returns>The list of template records</returns>
         /// <see>https://developer.dnsimple.com/v2/templates/records/#listTemplateRecords</see>
-        public PaginatedResponse<TemplateRecord> ListTemplateRecords(long accountId, string template, ListTemplateRecordsOptions options = null)
+        public PaginatedResponse<TemplateRecord> ListTemplateRecords(long accountId, string template, ListTemplateRecordsOptions? options = null)
         {
             var builder = BuildRequestForPath(TemplateRecordsPath(accountId, template));
             AddListOptionsToRequest(options, ref builder);

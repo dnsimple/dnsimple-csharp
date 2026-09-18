@@ -10,10 +10,10 @@ namespace dnsimple
     /// <see cref="RestSharp.RestClient"/>
     public class RestClientWrapper
     {
-        private RestClient _restClient;
-        private IAuthenticator _authenticator;
-        private Uri _baseUrl;
-        private string _userAgent;
+        private RestClient? _restClient;
+        private IAuthenticator? _authenticator;
+        private Uri? _baseUrl;
+        private string? _userAgent;
 
         /// <summary>
         /// The instance of the <c>RestSharp.RestClient</c>.

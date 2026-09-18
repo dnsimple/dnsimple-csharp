@@ -19,7 +19,7 @@ namespace dnsimple.Services
         /// <param name="options">Options passed to the list (sorting, pagination)</param>
         /// <returns>A list of delegation signer records wrapped in a response</returns>
         /// <see>https://developer.dnsimple.com/v2/domains/dnssec/#listDomainDelegationSignerRecords</see>
-        public PaginatedResponse<DelegationSignerRecord> ListDelegationSignerRecords(long accountId, string domainIdentifier, ListDomainDelegationSignerRecordsOptions options = null)
+        public PaginatedResponse<DelegationSignerRecord> ListDelegationSignerRecords(long accountId, string domainIdentifier, ListDomainDelegationSignerRecordsOptions? options = null)
         {
             var builder = BuildRequestForPath(DsRecordsPath(accountId, domainIdentifier));
             AddListOptionsToRequest(options, ref builder);

@@ -26,7 +26,7 @@ namespace dnsimple.Services
         /// pagination).</param>
         /// <returns>The list of webhooks in the account</returns>
         /// <see>https://developer.dnsimple.com/v2/webhooks/#listWebhooks</see>
-        public ListResponse<Webhook> ListWebhooks(long accountId, ListWebhooksOptions options = null)
+        public ListResponse<Webhook> ListWebhooks(long accountId, ListWebhooksOptions? options = null)
         {
             var builder = BuildRequestForPath(WebhooksPath(accountId));
             AddListOptionsToRequest(options, ref builder);

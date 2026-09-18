@@ -31,7 +31,7 @@ namespace dnsimple.Services
         /// <returns>A <c>DnsAnalyticsResponse</c> containing the DNS
         /// Analytics data for the account.</returns>
         /// <see>https://developer.dnsimple.com/v2/dns-analytics/#queryDnsAnalytics</see>
-        public DnsAnalyticsResponse Query(long accountId, DnsAnalyticsOptions options = null)
+        public DnsAnalyticsResponse Query(long accountId, DnsAnalyticsOptions? options = null)
         {
             var builder = BuildRequestForPath(DnsAnalyticsPath(accountId));
             AddListOptionsToRequest(options, ref builder);
@@ -64,10 +64,11 @@ namespace dnsimple.Services
 
         public DnsAnalyticsResponse(RestResponse response) : base(response)
         {
-            var json = JObject.Parse(response.Content);
-            var headers = json["data"]["headers"].ToObject<List<string>>();
+            var json = response.ParseContent();
+            var headers = JsonTools<List<string>>.DeserializeObject("data.headers", json);
+            var rows = JsonTools<List<JArray>>.DeserializeObject("data.rows", json);
 
-            Data = json["data"]["rows"].Select(row =>
+            Data = rows.Select(row =>
                 new JObject(headers.Select((header, index) =>
                     new JProperty(header, row[index]))).ToObject<DnsAnalytics>()).ToList();
             Pagination = Pagination.From(json);

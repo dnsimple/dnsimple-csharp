@@ -204,7 +204,8 @@ namespace dnsimple_test.Services
             var client = new MockDnsimpleClient(UpdateContactFixture);
             var contact = new Contact
             {
-                Email = "changed@example.com"
+                Email = "changed@example.com",
+                PostalCode = "00200"
             };
 
             var updated = client.Contacts.UpdateContact(accountId, contactId, contact).Data;
@@ -213,6 +214,7 @@ namespace dnsimple_test.Services
             {
                 Assert.That(updated.Id, Is.EqualTo(contactId));
                 Assert.That(updated.AccountId, Is.EqualTo(accountId));
+                Assert.That(client.PayloadSent(), Does.Contain("\"postal_code\":\"00200\""));
 
                 Assert.That(client.RequestSentTo(), Is.EqualTo(expectedUrl));
                 Assert.That(client.HttpMethodUsed(), Is.EqualTo(Method.Patch));

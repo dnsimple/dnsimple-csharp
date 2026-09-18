@@ -38,7 +38,7 @@ namespace dnsimple.Services
         /// <returns>A <c>DomainResponse</c> containing a list of domains.</returns>
         /// <see cref="DomainListOptions"/>
         /// <see>https://developer.dnsimple.com/v2/domains/#listDomains</see>
-        public PaginatedResponse<Domain> ListDomains(long accountId, ListOptionsWithFiltering options = null)
+        public PaginatedResponse<Domain> ListDomains(long accountId, ListOptionsWithFiltering? options = null)
         {
             var builder = BuildRequestForPath(DomainsPath(accountId));
 

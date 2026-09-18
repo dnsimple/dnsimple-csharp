@@ -26,7 +26,7 @@ namespace dnsimple.Services
         /// pagination).</param>
         /// <returns>A list of all the one-click services available</returns>
         /// <see>https://developer.dnsimple.com/v2/services/#listServices</see>
-        public PaginatedResponse<Service> ListServices(ListServicesOptions options = null)
+        public PaginatedResponse<Service> ListServices(ListServicesOptions? options = null)
         {
             var builder = BuildRequestForPath(ServicesPath());
             AddListOptionsToRequest(options, ref builder);

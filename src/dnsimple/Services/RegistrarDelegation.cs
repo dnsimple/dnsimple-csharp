@@ -85,7 +85,7 @@ namespace dnsimple.Services
         public DelegationResponse(JToken json) => Data = JsonTools<string>.DeserializeList(json);
 
         public DelegationResponse(RestResponse response) => Data = JsonTools<string>.DeserializeList(
-            JObject.Parse(response.Content)
+            response.ParseContent()
             );
     }
 
