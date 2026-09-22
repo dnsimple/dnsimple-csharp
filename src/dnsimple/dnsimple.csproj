@@ -9,10 +9,16 @@
     <PackageLicenseUrl>https://github.com/dnsimple/dnsimple-csharp/blob/main/LICENSE.txt</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dnsimple/dnsimple-csharp</PackageProjectUrl>
     <PackageReleaseNotes>
-      - DEPRECATED: ParentId in ZoneRecord
+      - BREAKING: Enabled nullable reference types in the library
+      - BREAKING: RequestBuilder.Reset() now sets Request to an empty request instead of null
+      - Added RestoreDomain and GetDomainRestore
+      - Added BatchChangeZoneRecords
+      - Added DnsAnalytics.Query
+      - Fixed Client.Billing being null on a new Client
+      - Fixed UpdateContact not sending the PostalCode of the contact
     </PackageReleaseNotes>
     <PackageTags>dnsimple dns api domains</PackageTags>
-    <PackageVersion>2.1.0</PackageVersion>
+    <PackageVersion>3.0.0</PackageVersion>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <WarningsAsErrors>nullable</WarningsAsErrors>
